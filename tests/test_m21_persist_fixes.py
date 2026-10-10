@@ -539,3 +539,23 @@ def test_child_exited_handlers_clear_pid():
     t = T()
     Terminal._on_child_exited_restart(t, None, 0)
     assert t.spawned and t.pid is None
+
+
+def test_get_cwd_after_child_exit_is_not_terminators_cwd():
+    """pid cleared on child exit: psutil.Process(None) is *this* process,
+    so get_cwd must not fall through to it (review of m21)."""
+    from terminatorlib.terminal import Terminal
+
+    class V(object):
+        def get_current_directory_uri(self):
+            return None
+
+    class T(object):
+        vte = V()
+        pid = None
+    t = T()
+    assert Terminal.get_cwd(t) is None
+    t._last_session_cwd = '/srv/last'
+    assert Terminal.get_cwd(t) == '/srv/last'
+    t.pid = 2 ** 22 + 12345  # not a live pid
+    assert Terminal.get_cwd(t) == '/srv/last'

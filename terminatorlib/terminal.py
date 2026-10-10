@@ -321,8 +321,16 @@ class Terminal(Gtk.VBox):
             except:
                 pass
         # Fall back to old gtk2 method
+        if self.pid is None:
+            # Child exited (m21 clears the pid) or never spawned:
+            # psutil.Process(None) would report *Terminator's* own cwd.
+            return getattr(self, '_last_session_cwd', None)
         dbg('calling get_pid_cwd')
-        return(get_pid_cwd(self.pid))
+        try:
+            return(get_pid_cwd(self.pid))
+        except Exception as ex:
+            dbg('get_pid_cwd(%s) failed: %s' % (self.pid, ex))
+            return getattr(self, '_last_session_cwd', None)
 
     def close(self):
         """Close ourselves"""
@@ -2766,7 +2774,9 @@ class Terminal(Gtk.VBox):
             layout['title'] = title
         layout['uuid'] = self.uuid
         if save_cwd:
-            layout['directory'] = self.get_cwd()
+            cwd = self.get_cwd()
+            if cwd:
+                layout['directory'] = cwd
         name = 'terminal%d' % count
         count = count + 1
         global_layout[name] = layout
