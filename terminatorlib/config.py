@@ -412,12 +412,23 @@ class Config(object):
     def connect_gsetting_callbacks(self):
         """Get system settings and create callbacks for changes"""
         dbg("GSetting connects for system changes")
-        # Have to preserve these to self, or callbacks don't happen
-        self.gsettings_interface=Gio.Settings.new('org.gnome.desktop.interface')
-        self.gsettings_interface.connect("changed::font-name", self.on_gsettings_change_event)
-        self.gsettings_interface.connect("changed::monospace-font-name", self.on_gsettings_change_event)
-        self.gsettings_wm=Gio.Settings.new('org.gnome.desktop.wm.preferences')
-        self.gsettings_wm.connect("changed::focus-mode", self.on_gsettings_change_event)
+        # Have to preserve these to self, or callbacks don't happen.
+        # Gio.Settings.new() aborts the process (g_error) if the schema is
+        # not installed, so only connect to schemas that exist.
+        source = Gio.SettingsSchemaSource.get_default()
+        def _has_schema(schema_id):
+            return source is not None and source.lookup(schema_id, True) is not None
+        if _has_schema('org.gnome.desktop.interface'):
+            self.gsettings_interface=Gio.Settings.new('org.gnome.desktop.interface')
+            self.gsettings_interface.connect("changed::font-name", self.on_gsettings_change_event)
+            self.gsettings_interface.connect("changed::monospace-font-name", self.on_gsettings_change_event)
+        else:
+            dbg('gsettings schema org.gnome.desktop.interface missing; skipping')
+        if _has_schema('org.gnome.desktop.wm.preferences'):
+            self.gsettings_wm=Gio.Settings.new('org.gnome.desktop.wm.preferences')
+            self.gsettings_wm.connect("changed::focus-mode", self.on_gsettings_change_event)
+        else:
+            dbg('gsettings schema org.gnome.desktop.wm.preferences missing; skipping')
 
     def get_system_prop_font(self):
         """Look up the system font"""
@@ -457,7 +468,7 @@ class Config(object):
         """Look up the system focus setting"""
         if self.system_focus is not None:
             return(self.system_focus)
-        elif 'org.gnome.desktop.interface' not in Gio.Settings.list_schemas():
+        elif 'org.gnome.desktop.wm.preferences' not in Gio.Settings.list_schemas():
             return
         else:
             gsettings=Gio.Settings.new('org.gnome.desktop.wm.preferences')

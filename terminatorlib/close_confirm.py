@@ -257,7 +257,7 @@ def scope_terminals(root_widget):
     return _terminals_under(root_widget)
 
 
-def has_multiple_terms(window):
+def window_has_multiple_terminals(window):
     return len(scope_terminals(window)) > 1
 
 

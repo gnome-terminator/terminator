@@ -170,7 +170,7 @@ class Container(object):
         has_multiple_terms = False
         if maker.isinstance(child, 'Window'):
             try:
-                from .close_confirm import has_multiple_terms as _hmt
+                from .close_confirm import window_has_multiple_terminals as _hmt
                 has_multiple_terms = _hmt(child)
             except Exception:
                 has_multiple_terms = True
