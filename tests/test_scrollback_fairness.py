@@ -120,3 +120,57 @@ def test_clear_all_resets_lru_and_snapshot_state(tmp_path, monkeypatch):
     c.clear_all()
     assert c._visit == {} and c._snap_at == {}
     assert not hasattr(sb.ScrollbackCache, '_rotate_index')
+
+
+def _capture_timeouts(monkeypatch):
+    timers = []
+    monkeypatch.setattr(sb.GLib, 'timeout_add',
+                        lambda ms, fn: timers.append((ms, fn)) or len(timers))
+    monkeypatch.setattr(sb.GLib, 'source_remove', lambda sid: True)
+    return timers
+
+
+def test_rate_limited_snapshot_is_deferred_not_dropped(cache, monkeypatch):
+    t = FakeTerm(); u = str(t.uuid)
+    alt = [False]
+    monkeypatch.setattr(sb, 'in_alt_screen', lambda term: alt[0])
+    timers = _capture_timeouts(monkeypatch)
+    cache._dirty.add(u)
+    assert cache.snapshot_before_command(t, now=10.0) is True
+    cache._dirty.add(u)
+    assert cache.snapshot_before_command(t, now=10.3) is False
+    assert cache.snapshot_before_command(t, now=10.4) is False
+    assert len(timers) == 1 and 690 <= timers[0][0] <= 750   # one, ~0.7s
+    cache.flushed.clear()
+    monkeypatch.setattr(sb.time, 'monotonic', lambda: 11.5)
+    assert timers[0][1]() is False
+    assert cache.flushed == [u]
+
+
+def test_deferred_snapshot_skipped_if_tui_started(cache, monkeypatch):
+    t = FakeTerm(); u = str(t.uuid)
+    alt = [False]
+    monkeypatch.setattr(sb, 'in_alt_screen', lambda term: alt[0])
+    timers = _capture_timeouts(monkeypatch)
+    cache._dirty.add(u)
+    cache.snapshot_before_command(t, now=10.0)
+    cache._dirty.add(u)
+    cache.snapshot_before_command(t, now=10.5)
+    cache.flushed.clear()
+    alt[0] = True
+    monkeypatch.setattr(sb.time, 'monotonic', lambda: 11.5)
+    timers[0][1]()
+    assert cache.flushed == []
+
+
+def test_delete_uuid_cancels_pending_snapshot(cache, monkeypatch):
+    t = FakeTerm(); u = str(t.uuid)
+    monkeypatch.setattr(sb, 'in_alt_screen', lambda term: False)
+    _capture_timeouts(monkeypatch)
+    cache._dirty.add(u)
+    cache.snapshot_before_command(t, now=10.0)
+    cache._dirty.add(u)
+    cache.snapshot_before_command(t, now=10.5)
+    assert u in cache._snap_pending
+    cache.delete_uuid(u)
+    assert u not in cache._snap_pending
