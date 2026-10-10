@@ -4468,7 +4468,7 @@
                             <property name="visible">True</property>
                             <property name="can-focus">True</property>
                             <property name="receives-default">False</property>
-                            <property name="tooltip-text" translatable="yes">The session is saved automatically whenever the layout or a working directory changes. Launching with -l, -e, -x, --working-directory or --no-restore does not restore it.</property>
+                            <property name="tooltip-text" translatable="yes">The session is saved automatically whenever the layout or a working directory changes. Launching with -l, -e, -x, --working-directory, -j or --no-restore does not restore it.</property>
                             <property name="xalign">0</property>
                             <property name="active">True</property>
                             <property name="draw-indicator">True</property>
@@ -4621,7 +4621,7 @@
                             <property name="visible">True</property>
                             <property name="can-focus">True</property>
                             <property name="receives-default">False</property>
-                            <property name="tooltip-text" translatable="yes">Periodically saves the last lines of each terminal as plain text and replays them above the new prompt after a session restore. It is only a cache: colours and the running programs are not restored.</property>
+                            <property name="tooltip-text" translatable="yes">Periodically saves the last lines of each terminal (with colours) and replays them above the new prompt after a session restore. It is only a cache: running programs are not restored.</property>
                             <property name="xalign">0</property>
                             <property name="active">True</property>
                             <property name="draw-indicator">True</property>

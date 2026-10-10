@@ -218,7 +218,7 @@ the tab will also close all terminals within it.')
         c_all.get_children()[0].get_children()[0].get_children()[1].set_label(
                 confirm_button_text)
     
-        primary = Gtk.Label(label=_('<big><b>' + big_label_text + '</b></big>'))
+        primary = Gtk.Label(label='<big><b>' + big_label_text + '</b></big>')
         primary.set_use_markup(True)
         primary.set_alignment(0, 0.5)
 

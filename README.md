@@ -13,6 +13,19 @@ update as shells/programs inside the terminal tell it to. Also on the titlebar
 is a small button that opens the grouping menu. From here you can put terminals
 into groups, which allows you to control multiple terminals simultaneously.
 
+## Fork features (TIIEHenry/terminator)
+
+This fork adds the features below on top of Terminator 2.1.6. All of them are **on by default**. See [CHANGELOG.md](CHANGELOG.md) and `man terminator_config` for details.
+
+| Feature | How to turn it off |
+|---|---|
+| Automatic session save and restore of layout, tabs and working directories, with confirmation before closing running programs | Preferences > Session, `restore_last_session = False`, or `terminator --no-restore` for one launch |
+| Scrollback cache in `~/.cache/terminator/scrollback/`, replayed after a restore | Preferences > Session, `scrollback_cache = False` |
+| Wave-style pane titlebars with menu, maximise and close buttons | Preferences > Global, `titlebar_buttons = False` |
+| Overlay maximise of a single pane (Ctrl+Shift+Return, restore with Shift+Esc, or double-click the titlebar) | Preferences > Global, `pane_overlay_maximise = False` |
+| Stepped per-terminal font scaling (100/90/80%) by reading measure | Preferences > Global, `auto_font_scale = False`, or the titlebar badge |
+| Hide the scrollbar in fullscreen programs (vim, less, htop, tmux) | Preferences > Profiles > Scrolling, `scrollbar_hide_in_alt_screen = False` |
+
 ## New home on GitHub
 
 In April of 2020 we started moving **`Terminator`** to GitHub. A new team wanted to continue the work of the original authors.
