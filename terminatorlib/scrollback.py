@@ -170,7 +170,13 @@ def in_alt_screen(terminal):
     alt = getattr(terminal, 'altscreen', None)
     det = getattr(alt, 'detector', None)
     try:
-        return bool(det is not None and det.active is True)
+        if det is None:
+            return False
+        # active needs evidence of history (scrollbar heuristic); for the
+        # cache, any collapsed+busy episode is enough: a TUI started in a
+        # fresh terminal must not be cached as "history" either.  Deferring
+        # only keeps the previous cache until the screen expands again.
+        return bool(det.active is True or det.episode_start is not None)
     except Exception:
         return False
 

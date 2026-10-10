@@ -79,3 +79,20 @@ def test_in_alt_screen_tolerates_missing_detector():
     b = Bare()
     b.altscreen = None
     assert in_alt_screen(b) is False
+
+
+def test_flush_deferred_for_tui_in_fresh_terminal(cache):
+    """No history yet (active stays False) but a collapsed+busy episode
+    is running: still don't snapshot the TUI screen."""
+    c, screen = cache
+    t = _Term()
+    c._flush_uuid(t, 'u3', sync=True)
+    det = t.altscreen.detector
+    det.update(collapsed=True, busy=True, raw=True, cursor_beyond=False)
+    assert det.active is False and det.episode_start is not None
+    screen['text'] = 'VIM SCREEN'
+    c._flush_uuid(t, 'u3', sync=True)
+    assert _read(c, 'u3') == 'history line\n$ vim'
+    det.update(collapsed=False, busy=False)
+    c._flush_uuid(t, 'u3', sync=True)
+    assert _read(c, 'u3') == 'VIM SCREEN'
