@@ -604,7 +604,11 @@ class ScrollbackCache(Borg):
             return False
         try:
             # MUST use vte.feed (display buffer), never Terminal.feed / feed_child
-            vte.feed(body + sep)
+            # VTE 0.80+ feed() requires bytes (str raises TypeError)
+            payload = body + sep
+            if isinstance(payload, str):
+                payload = payload.encode('utf-8')
+            vte.feed(payload)
         except Exception as ex:
             dbg('vte.feed restore failed: %s' % ex)
             return False
@@ -620,6 +624,8 @@ class ScrollbackCache(Borg):
             return
         payload = '\r\n\x1b[90m' + cleaned + '\x1b[0m\r\n'
         try:
+            if isinstance(payload, str):
+                payload = payload.encode('utf-8')
             vte.feed(payload)
         except Exception as ex:
             dbg('feed_notice failed: %s' % ex)

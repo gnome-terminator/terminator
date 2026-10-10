@@ -94,3 +94,56 @@ def test_request_close_uses_logical_parent():
     import terminatorlib.close_confirm as cc
     src = inspect.getsource(cc.request_close_terminal)
     assert 'logical_parent' in src
+
+
+def test_restore_into_encodes_bytes_for_vte_feed(state_home, monkeypatch):
+    """VTE 0.80 feed() rejects str; restore_into must encode UTF-8."""
+    from terminatorlib.session import SessionManager
+    from terminatorlib.scrollback import ScrollbackCache
+    import terminatorlib.scrollback as sbmod
+
+    sm = SessionManager()
+    sm.acquire_lock()
+
+    class Opt(object):
+        pass
+    o = Opt()
+    o.layout_from_default = True
+    o.layout = 'default'
+    o.command = o.execute = o.working_directory = o.configjson = None
+    sm.set_owner_from_options(o)
+    sm.restored_this_run = True
+
+    cache = ScrollbackCache()
+    monkeypatch.setattr(cache, '_cfg', lambda key, default=None: {
+        'scrollback_cache': True,
+        'scrollback_cache_lines': 2000,
+        'scrollback_cache_max_kb': 512,
+        'scrollback_cache_interval_s': 20,
+        'scrollback_cache_total_mb': 20,
+        'scrollback_cache_ttl_days': 7,
+    }.get(key, default))
+    cache.start()
+
+    uid = '12345678-1234-5678-1234-567812345678'
+    path = cache.path_for(uid)
+    assert path
+    with open(path, 'w', encoding='utf-8') as fh:
+        fh.write('hello scrollback\nline2\n')
+
+    fed = []
+
+    class FakeVte(object):
+        def feed(self, data):
+            fed.append(data)
+            if not isinstance(data, (bytes, bytearray)):
+                raise TypeError('Must be number, not str')
+
+    class FakeTerm(object):
+        uuid = uid
+        vte = FakeVte()
+
+    assert cache.restore_into(FakeTerm()) is True
+    assert fed and isinstance(fed[0], (bytes, bytearray))
+    assert b'hello scrollback' in fed[0]
+    cache.stop(join_timeout=0.2)

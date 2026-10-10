@@ -1850,7 +1850,7 @@ class Terminal(Gtk.VBox):
                 args += ['-c', command]
 
         if shell is None:
-            self.vte.feed(_('Unable to find a shell'))
+            self.vte.feed(_('Unable to find a shell').encode('utf-8'))
             return -1
 
         try:
@@ -1904,7 +1904,7 @@ class Terminal(Gtk.VBox):
         self.titlebar.update()
 
         if self.pid == -1:
-            self.vte.feed(_('Unable to start shell:') + shell)
+            self.vte.feed((_('Unable to start shell:') + shell).encode('utf-8'))
             return -1
 
     def prepare_url(self, urlmatch):

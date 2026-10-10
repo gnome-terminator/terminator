@@ -74,6 +74,9 @@ class Window(Container, Gtk.Window):
 
     def __init__(self):
         """Class initialiser"""
+        # Must be set before register_callbacks/apply_config: those can
+        # trigger Terminator.reconfigure → get_child(), which reads _overlay.
+        self._overlay = None  # module D OverlayController (lazy)
         self.terminator = Terminator()
         self.terminator.register_window(self)
 
@@ -114,7 +117,6 @@ class Window(Container, Gtk.Window):
         self.apply_icon(icon_to_apply)
         self.pending_set_rough_geometry_hint = False
         self.hidefunc = self.hide
-        self._overlay = None  # module D OverlayController (lazy)
 
     def do_get_property(self, prop):
         """Handle gobject getting a property"""
@@ -625,7 +627,7 @@ class Window(Container, Gtk.Window):
     def add(self, widget, metadata=None):
         """Add a widget to the window by way of Gtk.Window.add()"""
         maker = Factory()
-        if self._overlay is not None and self._overlay.is_active():
+        if getattr(self, '_overlay', None) is not None and self._overlay.is_active():
             # Layout mutations while maximised: operate on the layout root
             # under the temporary Overlay (should be rare; callers restore).
             overlay = self._overlay.data['overlay']
@@ -672,7 +674,7 @@ class Window(Container, Gtk.Window):
 
     def remove(self, widget):
         """Remove our child widget by way of Gtk.Window.remove()"""
-        if self._overlay is not None and self._overlay.is_active():
+        if getattr(self, '_overlay', None) is not None and self._overlay.is_active():
             overlay = self._overlay.data['overlay']
             main = self._overlay.main()
             if widget is main:
@@ -696,7 +698,7 @@ class Window(Container, Gtk.Window):
         """Return the layout root. While overlay-maximised the real Gtk child
         is a temporary Overlay — callers must still see the paned/notebook."""
         child = Gtk.Window.get_child(self)
-        if self._overlay is not None and self._overlay.is_active():
+        if getattr(self, '_overlay', None) is not None and self._overlay.is_active():
             main = self._overlay.main()
             if main is not None:
                 return main
