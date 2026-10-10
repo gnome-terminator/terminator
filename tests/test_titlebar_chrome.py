@@ -130,7 +130,7 @@ def test_titlebar_double_click_toggles(titlebar, monkeypatch):
         titlebar, FakeEvent(1, Gdk.EventType._2BUTTON_PRESS)) is True
     assert titlebar.terminal.maximised == 1
     monkeypatch.setattr(titlebar, '_pane_maximise_state',
-                        lambda: (object(), True, False))
+                        lambda multiple=None: (object(), True, False))
     titlebar.label.emit('double-clicked')
     assert titlebar.terminal.unzoomed == 1
 
@@ -185,7 +185,7 @@ def test_maximise_button_insensitive_outside_window(titlebar):
 
 def test_maximise_icon_follows_state_only(titlebar, monkeypatch):
     monkeypatch.setattr(titlebar, '_pane_maximise_state',
-                        lambda: (object(), True, False))
+                        lambda multiple=None: (object(), True, False))
     titlebar.refresh_maximise_state()
     assert titlebar.btn_max.get_sensitive()
     assert 'restore' in titlebar.btn_max.get_image().get_icon_name()[0]

@@ -38,6 +38,16 @@ def _button_fg_provider(color):
 
 # pylint: disable-msg=R0904
 # pylint: disable-msg=W0613
+# m26 (round2-ux P2-5): text glyphs used when no icon can be rendered
+_BUTTON_FALLBACK_TEXT = {
+    'gear': '\u2699',      # ⚙
+    'maximise': '\u2922',  # ⤢
+    'restore': '\u2921',   # ⤡
+    'close': '\u2715',     # ✕
+}
+_ICON_LOADABLE = {}
+
+
 class Titlebar(Gtk.EventBox):
     """Class implementing the Titlebar widget"""
 
@@ -69,10 +79,17 @@ class Titlebar(Gtk.EventBox):
     _maximise_icon_state = None
 
     # Width thresholds (px) for progressively collapsing optional parts.
-    # Order: size text -> group name -> scale badge. Buttons never collapse.
+    # Order: size text -> group name -> scale badge -> gear -> maximise.
+    # m26 (round2-ux P2-3): the title keeps at least TITLE_MIN_CHARS
+    # before buttons do; gear and maximise stay reachable through the
+    # context menu, double-click and their shortcuts.  Close never hides.
     COLLAPSE_SIZETEXT_PX = 320
-    COLLAPSE_GROUP_PX = 240
-    COLLAPSE_BADGE_PX = 180
+    COLLAPSE_GROUP_PX = 280
+    COLLAPSE_BADGE_PX = 240
+    COLLAPSE_GEAR_PX = 200
+    COLLAPSE_MAX_PX = 150
+    TITLE_MIN_CHARS = 6
+    _show_buttons = True
 
     __gsignals__ = {
             'clicked': (GObject.SignalFlags.RUN_LAST, None, ()),
@@ -129,12 +146,17 @@ class Titlebar(Gtk.EventBox):
 
         viewport = Gtk.Viewport(hscroll_policy='natural')
         viewport.add(self.label)
+        self._title_viewport = viewport
+        self._apply_title_min_width()
 
         self.termicon = Gtk.Image()
-        self.termicon.set_from_icon_name(
-            self._icon_name('utilities-terminal-symbolic',
-                            'utilities-terminal', 'terminal'),
-            Gtk.IconSize.MENU)
+        _termicon = self._loadable_icon('utilities-terminal-symbolic',
+                                        'utilities-terminal', 'terminal')
+        if _termicon is not None:
+            self.termicon.set_from_icon_name(_termicon, Gtk.IconSize.MENU)
+        else:
+            # nothing renderable: no image-missing placeholder
+            self.termicon.set_no_show_all(True)
 
         # Right-hand buttons (Wave style): [badge] gear  maximise  close
         self.btn_close = self._make_button(
@@ -396,15 +418,49 @@ class Titlebar(Gtk.EventBox):
     @staticmethod
     def _icon_name(*names):
         """Return the first icon name the current theme provides"""
+        return Titlebar._loadable_icon(*names) or names[0]
+
+    @staticmethod
+    def _loadable_icon(*names):
+        """First icon name the theme has AND can actually render, or None.
+
+        m26 (round2-ux P2-5): has_icon() is True for symbolic SVG icons
+        even without the gdk-pixbuf SVG loader (minimal installs), which
+        then render as image-missing.  Results are cached per name."""
         try:
             theme = Gtk.IconTheme.get_default()
         except Exception:
             theme = None
-        if theme is not None:
-            for name in names:
+        if theme is None:
+            return None
+        for name in names:
+            ok = _ICON_LOADABLE.get(name)
+            if ok is None:
+                ok = False
                 if theme.has_icon(name):
-                    return name
-        return names[0]
+                    try:
+                        ok = theme.load_icon(name, 16, 0) is not None
+                    except Exception as ex:
+                        dbg('icon %s not loadable: %s' % (name, ex))
+                        ok = False
+                _ICON_LOADABLE[name] = ok
+            if ok:
+                return name
+        return None
+
+    def _set_button_glyph(self, btn, icon_names, fallback_text):
+        """Icon if one can be rendered, else a short text glyph."""
+        name = self._loadable_icon(*icon_names)
+        if name is not None:
+            image = btn.get_image()
+            if image is None:
+                image = Gtk.Image()
+                btn.set_image(image)
+            image.set_from_icon_name(name, Gtk.IconSize.MENU)
+            btn.set_always_show_image(True)
+        else:
+            btn.set_label(fallback_text)
+            btn.get_style_context().add_class('titlebar-btn-text')
 
     def _set_button_fg(self, color):
         """Icon colour of ⚙/maximise/✕ and the badge follows title fg."""
@@ -433,11 +489,8 @@ class Titlebar(Gtk.EventBox):
         btn.set_relief(Gtk.ReliefStyle.NONE)
         btn.set_focus_on_click(False)
         btn.set_can_focus(True)
-        image = Gtk.Image()
-        image.set_from_icon_name(self._icon_name(*icon_names),
-                                 Gtk.IconSize.MENU)
-        btn.set_image(image)
-        btn.set_always_show_image(True)
+        self._set_button_glyph(btn, icon_names,
+                               _BUTTON_FALLBACK_TEXT.get(action, '?'))
         context = btn.get_style_context()
         for klass in classes:
             context.add_class(klass)
@@ -537,23 +590,45 @@ class Titlebar(Gtk.EventBox):
             else:
                 context.remove_class(klass)
 
+        self._show_buttons = show_buttons
         for btn in (self.btn_gear, self.btn_max, self.btn_close):
             btn.set_no_show_all(not show_buttons)
             if show_buttons:
                 btn.show()
             else:
                 btn.hide()
+        self._apply_collapse()
         self._update_button_tooltips()
         self.refresh_maximise_state()
 
-    def _accel_label(self, action):
-        """Human readable accelerator for a keybinding action, or ''"""
+    def _accel_label(self, *actions):
+        """Human readable accelerator for the first of `actions` that has a
+        working shortcut, or ''.
+
+        m26 (round2-ux P2-4): built from the resolved key lookup, so a
+        default shortcut that lost to a user binding of another action is
+        not advertised."""
+        for action in actions:
+            label = self._accel_label_one(action)
+            if label:
+                return label
+        return ''
+
+    def _accel_label_one(self, action):
         try:
             value = self.config['keybindings'][action]
         except Exception:
             return ''
         if isinstance(value, (list, tuple)):
             value = value[0] if value else ''
+        kb = getattr(self.terminator, 'keybindings', None)
+        if kb is not None and hasattr(kb, 'resolved_bindings') and \
+                getattr(kb, 'keys', None):
+            try:
+                resolved = kb.resolved_bindings(action)
+                value = resolved[0] if resolved else ''
+            except Exception:
+                pass
         if not value:
             return ''
         try:
@@ -588,8 +663,12 @@ class Titlebar(Gtk.EventBox):
 
     # ---- Pane maximise state (driven by Window 'pane-maximise-changed') --
 
-    def _pane_maximise_state(self):
-        """Return (window, restorable, multiple) for our terminal"""
+    def _pane_maximise_state(self, multiple=None):
+        """Return (window, restorable, multiple) for our terminal.
+
+        multiple: precomputed Window.has_multiple_terms() (m26 P2-1: the
+        caller refreshing every titlebar of a window walks the tree once
+        instead of once per titlebar)."""
         win = self.get_toplevel()
         if win is None or not hasattr(win, 'has_multiple_terms'):
             return (None, False, False)
@@ -604,32 +683,34 @@ class Titlebar(Gtk.EventBox):
                 restorable = zoom_data.get('widget') is self.terminal
         except Exception as ex:
             dbg('pane maximise state failed: %s' % ex)
-        try:
-            multiple = bool(win.has_multiple_terms())
-        except Exception:
-            multiple = False
-        return (win, restorable, multiple)
+        if multiple is None:
+            try:
+                multiple = bool(win.has_multiple_terms())
+            except Exception:
+                multiple = False
+        return (win, restorable, bool(multiple))
 
-    def refresh_maximise_state(self, *_args):
+    def refresh_maximise_state(self, *_args, multiple=None):
         """Update maximise button icon, tooltip and sensitivity.
         Never called optimistically from the click handler: the state is
         only trusted after the Window says it changed."""
         if self.btn_max is None:
             return
-        _win, restorable, multiple = self._pane_maximise_state()
+        _win, restorable, multiple = self._pane_maximise_state(multiple)
         self.btn_max.set_sensitive(restorable or multiple)
         if self._maximise_icon_state == restorable:
             return
         self._maximise_icon_state = restorable
-        accel = self._accel_label('toggle_zoom')
+        accel = self._accel_label('maximise', 'toggle_zoom')
         if restorable:
-            icon = self._icon_name('view-restore-symbolic', 'view-restore')
+            icons = ('view-restore-symbolic', 'view-restore')
+            glyph = _BUTTON_FALLBACK_TEXT['restore']
             name = _('Restore pane')
         else:
-            icon = self._icon_name('view-fullscreen-symbolic',
-                                   'view-fullscreen')
+            icons = ('view-fullscreen-symbolic', 'view-fullscreen')
+            glyph = _BUTTON_FALLBACK_TEXT['maximise']
             name = _('Maximize pane')
-        self.btn_max.get_image().set_from_icon_name(icon, Gtk.IconSize.MENU)
+        self._set_button_glyph(self.btn_max, icons, glyph)
         self._set_button_text(self.btn_max, name, self._with_accel(name, accel))
 
     def _disconnect_window_signal(self):
@@ -708,7 +789,24 @@ class Titlebar(Gtk.EventBox):
 
     # ---- Narrow-width collapsing -----------------------------------------
 
+    def _apply_title_min_width(self):
+        """Reserve ~TITLE_MIN_CHARS characters for the title."""
+        viewport = getattr(self, '_title_viewport', None)
+        if viewport is None:
+            return
+        try:
+            metrics = self.get_pango_context().get_metrics(None, None)
+            char_w = metrics.get_approximate_char_width() / Pango.SCALE
+        except Exception:
+            char_w = 8
+        viewport.set_size_request(
+            int(round(max(4, char_w) * self.TITLE_MIN_CHARS)), -1)
+
     def _collapse_level_for(self, width):
+        if width < self.COLLAPSE_MAX_PX:
+            return 5
+        if width < self.COLLAPSE_GEAR_PX:
+            return 4
         if width < self.COLLAPSE_BADGE_PX:
             return 3
         if width < self.COLLAPSE_GROUP_PX:
@@ -745,6 +843,10 @@ class Titlebar(Gtk.EventBox):
             self.scale_badge.show()
         else:
             self.scale_badge.hide()
+        if self._show_buttons:
+            for btn, hide_at in ((self.btn_gear, 4), (self.btn_max, 5)):
+                if btn is not None:
+                    btn.set_visible(level < hide_at)
 
     def on_edit_done(self, widget):
         """Re-emit an edit-done signal from an EditableLabel"""

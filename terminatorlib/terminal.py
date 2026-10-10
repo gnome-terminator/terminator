@@ -1185,7 +1185,34 @@ class Terminal(Gtk.VBox):
 
     def get_window_title(self):
         """Return the window title"""
-        return self.vte.get_window_title() or str(self.command)
+        title = self.vte.get_window_title()
+        if title:
+            return title
+        if self.command:
+            return str(self.command)
+        return self._fallback_title()
+
+    def _fallback_title(self):
+        """m26 (round2-ux P2-6): the shell set no title and there is no
+        custom command: show the shell's name (e.g. 'bash') rather than the
+        literal 'None' (upstream str(None)), else the cwd's basename."""
+        from .altscreen import process_name
+        name = None
+        pid = getattr(self, 'pid', None)
+        if pid:
+            name = process_name(pid)
+        if not name:
+            shell = os.environ.get('SHELL') or ''
+            name = os.path.basename(shell) if shell else None
+        if name:
+            return name.lstrip('-')
+        try:
+            cwd = self.get_cwd()
+        except Exception:
+            cwd = None
+        if cwd:
+            return os.path.basename(cwd.rstrip(os.sep)) or cwd
+        return 'Terminal'
 
     def on_group_button_press(self, widget, event):
         """Handler for the group button"""
@@ -1430,11 +1457,33 @@ class Terminal(Gtk.VBox):
             terminals = list(window.get_visible_terminals())
         except Exception:
             return
+        # m26 (round2-ux P2-1): one tree walk per refresh, not one per
+        # titlebar (was O(N^2) on every focus change: ~33 ms at 64 panes).
+        multiple = len(terminals) > 1
+        try:
+            sig = (tuple(id(t) for t in terminals), bool(window.is_zoomed()),
+                   bool(getattr(window, 'is_overlay_maximised',
+                                lambda: False)()),
+                   id((getattr(window, 'zoom_data', None) or {}).get('widget')))
+        except Exception:
+            sig = None
+        if sig is not None and \
+                getattr(window, '_titlebar_max_sig', None) == sig:
+            # Plain focus move: nothing structural changed, every button
+            # is already right.
+            return
+        try:
+            window._titlebar_max_sig = sig
+        except Exception:
+            pass
         for term in terminals:
             titlebar = getattr(term, 'titlebar', None)
             if titlebar is not None and hasattr(titlebar,
                                                 'refresh_maximise_state'):
-                titlebar.refresh_maximise_state()
+                try:
+                    titlebar.refresh_maximise_state(multiple=multiple)
+                except TypeError:
+                    titlebar.refresh_maximise_state()
 
     def do_readonly_toggle(self):
         self.vte.props.input_enabled = not self.vte.props.input_enabled
@@ -2340,9 +2389,20 @@ class Terminal(Gtk.VBox):
         cols0, rows0 = cols_rows_from_base(w, h, *self._base_cell)
         if cols0 <= 0 or rows0 <= 0:
             return
-        new = select_font_tier(
-            cols0, rows0, self._font_tier, tiers,
-            min_cols, min_rows, hyst, ideal)
+        if avail is not None:
+            pane = avail
+        else:
+            try:
+                pane = (self.get_allocated_width(),
+                        self.get_allocated_height())
+            except Exception:
+                pane = (w, h)
+        if self._auto_font_keeps_full_size(*pane):
+            new = 0
+        else:
+            new = select_font_tier(
+                cols0, rows0, self._font_tier, tiers,
+                min_cols, min_rows, hyst, ideal)
         if new == self._font_tier and not force:
             self.refresh_badge()
             return
@@ -2350,6 +2410,35 @@ class Terminal(Gtk.VBox):
             self.schedule_auto_font_scale()
             return
         self.apply_tier(new, reason='update', toast=not force)
+
+    def _auto_font_page_size(self):
+        """(w, h) of the area this pane shares: the current tab page or the
+        window content (the direct child of the Notebook / Window above
+        us).  (0, 0) when unknown."""
+        node = self
+        parent = self.get_parent()
+        while parent is not None:
+            kind = type(parent).__name__
+            if kind in ('Notebook', 'Window') or isinstance(parent, Gtk.Window):
+                break
+            node = parent
+            parent = parent.get_parent()
+        if parent is None:
+            return (0, 0)   # not in a window yet
+        try:
+            return node.get_allocated_width(), node.get_allocated_height()
+        except Exception:
+            return (0, 0)
+
+    def _auto_font_keeps_full_size(self, pane_w, pane_h):
+        """m26 P1-3: panes taking >= ~45% of their page (any 2-pane split)
+        stay at 100% whatever the reading measure says."""
+        from .autofont import keeps_full_size
+        try:
+            page_w, page_h = self._auto_font_page_size()
+        except Exception:
+            return False
+        return keeps_full_size(pane_w, pane_h, page_w, page_h)
 
     def apply_tier(self, index, reason='', toast=True):
         """Apply a tier index to VTE and refresh the badge."""
@@ -2467,6 +2556,8 @@ class Terminal(Gtk.VBox):
         cols0, rows0 = cols_rows_from_base(w, h, *self._base_cell)
         if cols0 <= 0 or rows0 <= 0:
             return tiers[self._font_tier] if self._font_tier < len(tiers) else 1.0
+        if self._auto_font_keeps_full_size(w, h):
+            return tiers[0]
         idx = select_font_tier(
             cols0, rows0, self._font_tier, tiers,
             min_cols, min_rows, hyst, ideal)
@@ -3006,6 +3097,13 @@ class Terminal(Gtk.VBox):
         """Mark session dirty if the shell's cwd changed since last probe."""
         try:
             if self.pid is None:
+                return False
+            # m26 (round2-ux P2-2): a fullscreen TUI (top, vim, ...) has the
+            # shell waiting in the background: its cwd cannot change, and
+            # the TUI's redraws would probe every 800 ms for nothing.  The
+            # first contents change after the TUI exits probes again.
+            alt = getattr(self, 'altscreen', None)
+            if alt is not None and getattr(alt.detector, 'active', False):
                 return False
             cwd = get_pid_cwd(self.pid)
         except Exception:

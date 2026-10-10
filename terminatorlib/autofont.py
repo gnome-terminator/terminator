@@ -84,6 +84,38 @@ def select_font_tier(cols0, rows0, cur_index, tiers,
     return cur
 
 
+# m26 (round2-ux P1-3): a pane that takes at least this share of its
+# window / tab page area never shrinks.  Any 2-pane split (side by side or
+# stacked, ~49% each after the handle) keeps 100%; 2x2 grids and 3+ way
+# splits (<=~33% / 25%) still step down by the reading measure.
+KEEP_FULL_SIZE_SHARE = 0.45
+
+
+def keeps_full_size(pane_w, pane_h, page_w, page_h,
+                    share=KEEP_FULL_SIZE_SHARE):
+    """True when the pane is big enough relative to its page to stay 100%.
+
+    >>> keeps_full_size(329, 438, 658, 438)   # side by side
+    True
+    >>> keeps_full_size(658, 216, 658, 438)   # stacked
+    True
+    >>> keeps_full_size(329, 216, 658, 438)   # 2x2
+    False
+    >>> keeps_full_size(100, 100, 0, 0)       # page unknown
+    False
+    """
+    try:
+        pane_w, pane_h = float(pane_w), float(pane_h)
+        page_w, page_h = float(page_w), float(page_h)
+    except (TypeError, ValueError):
+        return False
+    if min(pane_w, pane_h, page_w, page_h) <= 0:
+        return False
+    # Allocation rounding/handles: clamp, a pane can't exceed its page
+    ratio = min(1.0, (pane_w * pane_h) / (page_w * page_h))
+    return ratio >= float(share)
+
+
 def tier_label(scale):
     """Human-readable percent label for a scale factor."""
     return '%d%%' % int(round(float(scale) * 100))

@@ -13,14 +13,16 @@ from terminatorlib.prefseditor import scrollback_cache_info_text  # noqa: E402
 
 
 def test_info_text_values():
-    t = scrollback_cache_info_text('/c', 2, 2048, 7, 20)
+    t = scrollback_cache_info_text('/c', 2, 2048, 7, 20, 512)
     assert '7 days' in t and '20 MiB' in t and '2 KiB' in t
-    assert '0 = off' in t and 'scrollback_cache_max_kb' in t
+    assert '0 = off' in t and '(512 KiB)' in t
+    # m26: no raw config keys in the UI
+    assert '_' not in t.replace('/c', '')
 
 
 def test_info_text_zero_is_off():
     t = scrollback_cache_info_text('/c', 0, 0, 0, 0)
-    assert 'ttl_days = 0' in t and 'total_mb = 0' in t
+    assert 'age pruning off' in t and 'total size cap off' in t
     assert '0 days' not in t and '0 MiB' not in t
 
 

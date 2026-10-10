@@ -305,7 +305,10 @@ Default value: \fB[]\fP
 If set to True, each terminal independently steps its VTE font scale
 down when its available columns/rows at the base font fall below the
 reading\-measure thresholds. Tiers are discrete (never continuous) and
-never exceed 100%.
+never exceed 100%. A terminal that takes at least 45% of its window or
+tab area (for example either pane of a two\-pane split, side by side or
+stacked) always stays at 100%; smaller panes of 2x2 grids and three\-way
+or larger splits step down.
 .br
 Default value: \fBTrue\fP
 .RE
@@ -347,7 +350,7 @@ Minimum comfortable row count. Width is checked first; a terminal only
 steps down for height when it has fewer rows than this at the current
 tier. 0 disables the height check.
 .br
-Default value: \fB10\fP
+Default value: \fB8\fP
 .RE
 .sp
 \fBauto_font_scale_hysteresis\fP = \fIfloat\fP

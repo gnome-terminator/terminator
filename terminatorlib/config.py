@@ -122,7 +122,7 @@ DEFAULTS = {
             'auto_font_scale_tiers' : ['1.0', '0.9', '0.8'],
             'reading_measure_min_cols': 60,
             'reading_measure_ideal_cols': 0,
-            'auto_font_scale_min_rows': 10,
+            'auto_font_scale_min_rows': 8,
             'auto_font_scale_hysteresis': 0.08,
             'auto_font_scale_delay_ms': 150,
             'always_split_with_profile': False,

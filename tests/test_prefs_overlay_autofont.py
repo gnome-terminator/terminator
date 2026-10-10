@@ -81,7 +81,7 @@ def test_page_lookup_by_name(xdg):
     get = pe.builder.get_object
     nb = get('notebook1')
     assert nb.get_nth_page(nb.get_current_page()) is get('vbox124')
-    assert pe.resolve_page('session') == nb.page_num(get('session_page_box'))
+    assert pe.resolve_page('session') == nb.page_num(get('session_page_scroller'))
     assert pe.resolve_page(2) == 2
     assert pe.resolve_page('no-such-page') == 0
     pe.window.destroy()

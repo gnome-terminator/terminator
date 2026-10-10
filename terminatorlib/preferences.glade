@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Generated with glade 3.38.2 -->
 <interface>
-  <requires lib="gtk+" version="3.10"/>
+  <requires lib="gtk+" version="3.22"/>
   <object class="GtkListStore" id="AskBeforeCloseListStore">
     <columns>
       <!-- column-name askwhenclose -->
@@ -494,6 +494,18 @@
             <property name="visible">True</property>
             <property name="can-focus">True</property>
             <child>
+              <object class="GtkScrolledWindow" id="global_page_scroller">
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="hscrollbar-policy">never</property>
+                <property name="propagate-natural-width">True</property>
+                <property name="propagate-natural-height">True</property>
+                <child>
+                  <object class="GtkViewport" id="global_page_viewport">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="shadow-type">none</property>
+                    <child>
               <object class="GtkBox" id="vbox5">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
@@ -1362,7 +1374,7 @@
                               </packing>
                             </child>
                             <child>
-                              <!-- n-columns=2 n-rows=8 -->
+                              <!-- n-columns=2 n-rows=5 -->
                               <object class="GtkGrid" id="grid4">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
@@ -1468,239 +1480,7 @@
                                     <property name="width">2</property>
                                   </packing>
                                 </child>
-                                <child>
-                                  <object class="GtkCheckButton" id="titlebar_buttons_checkbutton">
-                                    <property name="label" translatable="yes">Show buttons in terminal title bars</property>
-                                    <property name="visible">True</property>
-                                    <property name="can-focus">True</property>
-                                    <property name="receives-default">False</property>
-                                    <property name="xalign">0</property>
-                                    <property name="draw-indicator">True</property>
-                                    <property name="tooltip-text" translatable="yes">Settings, maximise and close buttons on each pane title bar (right-click menu stays available)</property>
-                                    <signal name="toggled" handler="on_titlebar_buttons_checkbutton_toggled" swapped="no"/>
-                                  </object>
-                                  <packing>
-                                    <property name="left-attach">0</property>
-                                    <property name="top-attach">5</property>
-                                    <property name="width">2</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkLabel" id="titlebar_density_label">
-                                    <property name="visible">True</property>
-                                    <property name="can-focus">False</property>
-                                    <property name="label" translatable="yes">Title bar density:</property>
-                                    <property name="xalign">0</property>
-                                  </object>
-                                  <packing>
-                                    <property name="left-attach">0</property>
-                                    <property name="top-attach">6</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkComboBoxText" id="titlebar_density_combo">
-                                    <property name="visible">True</property>
-                                    <property name="can-focus">False</property>
-                                    <property name="hexpand">True</property>
-                                    <property name="active-id">standard</property>
-                                    <items>
-                                      <item id="standard" translatable="yes">Standard</item>
-                                      <item id="compact" translatable="yes">Compact</item>
-                                    </items>
-                                    <signal name="changed" handler="on_titlebar_density_combo_changed" swapped="no"/>
-                                  </object>
-                                  <packing>
-                                    <property name="left-attach">1</property>
-                                    <property name="top-attach">6</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkLabel" id="pane_accent_color_label">
-                                    <property name="visible">True</property>
-                                    <property name="can-focus">False</property>
-                                    <property name="label" translatable="yes">Focused pane accent colour:</property>
-                                    <property name="xalign">0</property>
-                                  </object>
-                                  <packing>
-                                    <property name="left-attach">0</property>
-                                    <property name="top-attach">7</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkColorButton" id="pane_accent_colorbutton">
-                                    <property name="visible">True</property>
-                                    <property name="can-focus">True</property>
-                                    <property name="receives-default">True</property>
-                                    <property name="halign">start</property>
-                                    <property name="title" translatable="yes">Focused pane accent colour</property>
-                                    <property name="rgba">rgb(63,185,80)</property>
-                                    <signal name="color-set" handler="on_pane_accent_colorbutton_color_set" swapped="no"/>
-                                  </object>
-                                  <packing>
-                                    <property name="left-attach">1</property>
-                                    <property name="top-attach">7</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkCheckButton" id="pane_overlay_maximise_checkbutton">
-                                    <property name="label" translatable="yes">Maximise panes as an overlay (animated)</property>
-                                    <property name="visible">True</property>
-                                    <property name="can-focus">True</property>
-                                    <property name="receives-default">False</property>
-                                    <property name="xalign">0</property>
-                                    <property name="draw-indicator">True</property>
-                                    <property name="tooltip-text" translatable="yes">Maximise one pane over the others inside the window; off uses the classic zoom</property>
-                                    <signal name="toggled" handler="on_pane_overlay_maximise_checkbutton_toggled" swapped="no"/>
-                                  </object>
-                                  <packing>
-                                    <property name="left-attach">0</property>
-                                    <property name="top-attach">8</property>
-                                    <property name="width">2</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkLabel" id="reduce_motion_label">
-                                    <property name="visible">True</property>
-                                    <property name="can-focus">False</property>
-                                    <property name="label" translatable="yes">Reduce motion:</property>
-                                    <property name="xalign">0</property>
-                                  </object>
-                                  <packing>
-                                    <property name="left-attach">0</property>
-                                    <property name="top-attach">9</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkComboBoxText" id="reduce_motion_combo">
-                                    <property name="visible">True</property>
-                                    <property name="can-focus">False</property>
-                                    <property name="hexpand">True</property>
-                                    <property name="active-id">system</property>
-                                    <items>
-                                      <item id="system" translatable="yes">Follow system</item>
-                                      <item id="on" translatable="yes">On (no zoom animation)</item>
-                                      <item id="off" translatable="yes">Off</item>
-                                    </items>
-                                    <signal name="changed" handler="on_reduce_motion_combo_changed" swapped="no"/>
-                                  </object>
-                                  <packing>
-                                    <property name="left-attach">1</property>
-                                    <property name="top-attach">9</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkLabel" id="pane_anim_expand_label">
-                                    <property name="visible">True</property>
-                                    <property name="can-focus">False</property>
-                                    <property name="label" translatable="yes">Maximise animation (ms):</property>
-                                    <property name="xalign">0</property>
-                                  </object>
-                                  <packing>
-                                    <property name="left-attach">0</property>
-                                    <property name="top-attach">10</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkSpinButton" id="pane_anim_expand_spinbutton">
-                                    <property name="visible">True</property>
-                                    <property name="can-focus">True</property>
-                                    <property name="halign">start</property>
-                                    <property name="adjustment">PaneAnimExpandAdjustment</property>
-                                    <property name="numeric">True</property>
-                                    <signal name="value-changed" handler="on_pane_anim_expand_spinbutton_value_changed" swapped="no"/>
-                                  </object>
-                                  <packing>
-                                    <property name="left-attach">1</property>
-                                    <property name="top-attach">10</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkLabel" id="pane_anim_restore_label">
-                                    <property name="visible">True</property>
-                                    <property name="can-focus">False</property>
-                                    <property name="label" translatable="yes">Restore animation (ms):</property>
-                                    <property name="xalign">0</property>
-                                  </object>
-                                  <packing>
-                                    <property name="left-attach">0</property>
-                                    <property name="top-attach">11</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkSpinButton" id="pane_anim_restore_spinbutton">
-                                    <property name="visible">True</property>
-                                    <property name="can-focus">True</property>
-                                    <property name="halign">start</property>
-                                    <property name="adjustment">PaneAnimRestoreAdjustment</property>
-                                    <property name="numeric">True</property>
-                                    <signal name="value-changed" handler="on_pane_anim_restore_spinbutton_value_changed" swapped="no"/>
-                                  </object>
-                                  <packing>
-                                    <property name="left-attach">1</property>
-                                    <property name="top-attach">11</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkCheckButton" id="auto_font_scale_checkbutton">
-                                    <property name="label" translatable="yes">Automatically shrink font in small panes</property>
-                                    <property name="visible">True</property>
-                                    <property name="can-focus">True</property>
-                                    <property name="receives-default">False</property>
-                                    <property name="xalign">0</property>
-                                    <property name="draw-indicator">True</property>
-                                    <property name="tooltip-text" translatable="yes">Each terminal steps its font down (100% / 90% / 80%) when it has fewer columns or rows than the reading measure</property>
-                                    <signal name="toggled" handler="on_auto_font_scale_checkbutton_toggled" swapped="no"/>
-                                  </object>
-                                  <packing>
-                                    <property name="left-attach">0</property>
-                                    <property name="top-attach">12</property>
-                                    <property name="width">2</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkCheckButton" id="auto_font_scale_badge_checkbutton">
-                                    <property name="label" translatable="yes">Show font scale badge in title bar</property>
-                                    <property name="visible">True</property>
-                                    <property name="can-focus">True</property>
-                                    <property name="receives-default">False</property>
-                                    <property name="xalign">0</property>
-                                    <property name="draw-indicator">True</property>
-                                    <property name="tooltip-text" translatable="yes">Show a percent badge when a pane is scaled below 100% or locked</property>
-                                    <signal name="toggled" handler="on_auto_font_scale_badge_checkbutton_toggled" swapped="no"/>
-                                  </object>
-                                  <packing>
-                                    <property name="left-attach">0</property>
-                                    <property name="top-attach">13</property>
-                                    <property name="width">2</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkLabel" id="reading_measure_label">
-                                    <property name="visible">True</property>
-                                    <property name="can-focus">False</property>
-                                    <property name="label" translatable="yes">Reading measure (min columns):</property>
-                                    <property name="xalign">0</property>
-                                  </object>
-                                  <packing>
-                                    <property name="left-attach">0</property>
-                                    <property name="top-attach">14</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkSpinButton" id="reading_measure_spinbutton">
-                                    <property name="visible">True</property>
-                                    <property name="can-focus">True</property>
-                                    <property name="halign">start</property>
-                                    <property name="adjustment">ReadingMeasureMinColsAdjustment</property>
-                                    <property name="numeric">True</property>
-                                    <signal name="value-changed" handler="on_reading_measure_spinbutton_value_changed" swapped="no"/>
-                                  </object>
-                                  <packing>
-                                    <property name="left-attach">1</property>
-                                    <property name="top-attach">14</property>
-                                  </packing>
-                                </child>
-                              </object>
+                                </object>
                               <packing>
                                 <property name="expand">True</property>
                                 <property name="fill">True</property>
@@ -1724,6 +1504,10 @@
                   </packing>
                 </child>
               </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
             </child>
             <child type="tab">
               <object class="GtkLabel" id="label1">
@@ -1732,6 +1516,400 @@
                 <property name="label" translatable="yes">Global</property>
               </object>
               <packing>
+                <property name="tab-fill">False</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkScrolledWindow" id="panes_page_scroller">
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="hscrollbar-policy">never</property>
+                <property name="propagate-natural-width">True</property>
+                <property name="propagate-natural-height">True</property>
+                <child>
+                  <object class="GtkViewport" id="panes_page_viewport">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="shadow-type">none</property>
+                    <child>
+              <object class="GtkBox" id="panes_page_box">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="border-width">18</property>
+                <property name="orientation">vertical</property>
+                <property name="spacing">18</property>
+                <child>
+                  <object class="GtkBox" id="panes_title_box">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="orientation">vertical</property>
+                    <child>
+                      <object class="GtkLabel" id="panes_title_label">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="label" translatable="yes">&lt;b&gt;Title bars&lt;/b&gt;</property>
+                        <property name="use-markup">True</property>
+                        <property name="xalign">0</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkGrid" id="panes_title_grid">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="margin-start">12</property>
+                        <property name="margin-top">6</property>
+                        <property name="row-spacing">8</property>
+                        <property name="column-spacing">12</property>
+                        <child>
+                          <object class="GtkCheckButton" id="titlebar_buttons_checkbutton">
+                            <property name="label" translatable="yes">Show buttons in terminal title bars</property>
+                            <property name="visible">True</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">False</property>
+                            <property name="xalign">0</property>
+                            <property name="draw-indicator">True</property>
+                            <property name="tooltip-text" translatable="yes">Settings, maximise and close buttons on each pane title bar (right-click menu stays available)</property>
+                            <signal name="toggled" handler="on_titlebar_buttons_checkbutton_toggled" swapped="no"/>
+                          </object>
+                          <packing>
+                            <property name="left-attach">0</property>
+                            <property name="top-attach">0</property>
+                            <property name="width">2</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="titlebar_density_label">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="label" translatable="yes">Title bar density:</property>
+                            <property name="xalign">0</property>
+                          </object>
+                          <packing>
+                            <property name="left-attach">0</property>
+                            <property name="top-attach">1</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkComboBoxText" id="titlebar_density_combo">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="hexpand">True</property>
+                            <property name="active-id">standard</property>
+                            <items>
+                              <item id="standard" translatable="yes">Standard</item>
+                              <item id="compact" translatable="yes">Compact</item>
+                            </items>
+                            <signal name="changed" handler="on_titlebar_density_combo_changed" swapped="no"/>
+                          </object>
+                          <packing>
+                            <property name="left-attach">1</property>
+                            <property name="top-attach">1</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="pane_accent_color_label">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="label" translatable="yes">Focused pane accent colour:</property>
+                            <property name="xalign">0</property>
+                          </object>
+                          <packing>
+                            <property name="left-attach">0</property>
+                            <property name="top-attach">2</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkColorButton" id="pane_accent_colorbutton">
+                            <property name="visible">True</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">True</property>
+                            <property name="halign">start</property>
+                            <property name="title" translatable="yes">Focused pane accent colour</property>
+                            <property name="rgba">rgb(63,185,80)</property>
+                            <signal name="color-set" handler="on_pane_accent_colorbutton_color_set" swapped="no"/>
+                          </object>
+                          <packing>
+                            <property name="left-attach">1</property>
+                            <property name="top-attach">2</property>
+                          </packing>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkBox" id="panes_max_box">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="orientation">vertical</property>
+                    <child>
+                      <object class="GtkLabel" id="panes_max_label">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="label" translatable="yes">&lt;b&gt;Maximise&lt;/b&gt;</property>
+                        <property name="use-markup">True</property>
+                        <property name="xalign">0</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkGrid" id="panes_max_grid">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="margin-start">12</property>
+                        <property name="margin-top">6</property>
+                        <property name="row-spacing">8</property>
+                        <property name="column-spacing">12</property>
+                        <child>
+                          <object class="GtkCheckButton" id="pane_overlay_maximise_checkbutton">
+                            <property name="label" translatable="yes">Maximise panes as an overlay (animated)</property>
+                            <property name="visible">True</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">False</property>
+                            <property name="xalign">0</property>
+                            <property name="draw-indicator">True</property>
+                            <property name="tooltip-text" translatable="yes">Maximise one pane over the others inside the window; off uses the classic zoom</property>
+                            <signal name="toggled" handler="on_pane_overlay_maximise_checkbutton_toggled" swapped="no"/>
+                          </object>
+                          <packing>
+                            <property name="left-attach">0</property>
+                            <property name="top-attach">0</property>
+                            <property name="width">2</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="reduce_motion_label">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="label" translatable="yes">Reduce motion:</property>
+                            <property name="xalign">0</property>
+                          </object>
+                          <packing>
+                            <property name="left-attach">0</property>
+                            <property name="top-attach">1</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkComboBoxText" id="reduce_motion_combo">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="hexpand">True</property>
+                            <property name="active-id">system</property>
+                            <items>
+                              <item id="system" translatable="yes">Follow system</item>
+                              <item id="on" translatable="yes">On (no zoom animation)</item>
+                              <item id="off" translatable="yes">Off</item>
+                            </items>
+                            <signal name="changed" handler="on_reduce_motion_combo_changed" swapped="no"/>
+                          </object>
+                          <packing>
+                            <property name="left-attach">1</property>
+                            <property name="top-attach">1</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="pane_anim_expand_label">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="label" translatable="yes">Maximise animation (ms):</property>
+                            <property name="xalign">0</property>
+                          </object>
+                          <packing>
+                            <property name="left-attach">0</property>
+                            <property name="top-attach">2</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkSpinButton" id="pane_anim_expand_spinbutton">
+                            <property name="visible">True</property>
+                            <property name="can-focus">True</property>
+                            <property name="halign">start</property>
+                            <property name="adjustment">PaneAnimExpandAdjustment</property>
+                            <property name="numeric">True</property>
+                            <signal name="value-changed" handler="on_pane_anim_expand_spinbutton_value_changed" swapped="no"/>
+                          </object>
+                          <packing>
+                            <property name="left-attach">1</property>
+                            <property name="top-attach">2</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="pane_anim_restore_label">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="label" translatable="yes">Restore animation (ms):</property>
+                            <property name="xalign">0</property>
+                          </object>
+                          <packing>
+                            <property name="left-attach">0</property>
+                            <property name="top-attach">3</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkSpinButton" id="pane_anim_restore_spinbutton">
+                            <property name="visible">True</property>
+                            <property name="can-focus">True</property>
+                            <property name="halign">start</property>
+                            <property name="adjustment">PaneAnimRestoreAdjustment</property>
+                            <property name="numeric">True</property>
+                            <signal name="value-changed" handler="on_pane_anim_restore_spinbutton_value_changed" swapped="no"/>
+                          </object>
+                          <packing>
+                            <property name="left-attach">1</property>
+                            <property name="top-attach">3</property>
+                          </packing>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkBox" id="panes_font_box">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="orientation">vertical</property>
+                    <child>
+                      <object class="GtkLabel" id="panes_font_label">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="label" translatable="yes">&lt;b&gt;Font scaling&lt;/b&gt;</property>
+                        <property name="use-markup">True</property>
+                        <property name="xalign">0</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkGrid" id="panes_font_grid">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="margin-start">12</property>
+                        <property name="margin-top">6</property>
+                        <property name="row-spacing">8</property>
+                        <property name="column-spacing">12</property>
+                        <child>
+                          <object class="GtkCheckButton" id="auto_font_scale_checkbutton">
+                            <property name="label" translatable="yes">Automatically shrink font in small panes</property>
+                            <property name="visible">True</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">False</property>
+                            <property name="xalign">0</property>
+                            <property name="draw-indicator">True</property>
+                            <property name="tooltip-text" translatable="yes">Each terminal steps its font down (100% / 90% / 80%) when it has fewer columns or rows than the reading measure</property>
+                            <signal name="toggled" handler="on_auto_font_scale_checkbutton_toggled" swapped="no"/>
+                          </object>
+                          <packing>
+                            <property name="left-attach">0</property>
+                            <property name="top-attach">0</property>
+                            <property name="width">2</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkCheckButton" id="auto_font_scale_badge_checkbutton">
+                            <property name="label" translatable="yes">Show font scale badge in title bar</property>
+                            <property name="visible">True</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">False</property>
+                            <property name="xalign">0</property>
+                            <property name="draw-indicator">True</property>
+                            <property name="tooltip-text" translatable="yes">Show a percent badge when a pane is scaled below 100% or locked</property>
+                            <signal name="toggled" handler="on_auto_font_scale_badge_checkbutton_toggled" swapped="no"/>
+                          </object>
+                          <packing>
+                            <property name="left-attach">0</property>
+                            <property name="top-attach">1</property>
+                            <property name="width">2</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="reading_measure_label">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="label" translatable="yes">Reading measure (min columns):</property>
+                            <property name="xalign">0</property>
+                          </object>
+                          <packing>
+                            <property name="left-attach">0</property>
+                            <property name="top-attach">2</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkSpinButton" id="reading_measure_spinbutton">
+                            <property name="visible">True</property>
+                            <property name="can-focus">True</property>
+                            <property name="halign">start</property>
+                            <property name="adjustment">ReadingMeasureMinColsAdjustment</property>
+                            <property name="numeric">True</property>
+                            <signal name="value-changed" handler="on_reading_measure_spinbutton_value_changed" swapped="no"/>
+                          </object>
+                          <packing>
+                            <property name="left-attach">1</property>
+                            <property name="top-attach">2</property>
+                          </packing>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">2</property>
+                  </packing>
+                </child>
+              </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child type="tab">
+              <object class="GtkLabel" id="panes_tab_label">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="label" translatable="yes">Panes</property>
+              </object>
+              <packing>
+                <property name="position">1</property>
                 <property name="tab-fill">False</property>
               </packing>
             </child>
@@ -4124,7 +4302,7 @@
                 </child>
               </object>
               <packing>
-                <property name="position">1</property>
+                <property name="position">2</property>
               </packing>
             </child>
             <child type="tab">
@@ -4134,7 +4312,7 @@
                 <property name="label" translatable="yes">Profiles</property>
               </object>
               <packing>
-                <property name="position">1</property>
+                <property name="position">2</property>
                 <property name="tab-fill">False</property>
               </packing>
             </child>
@@ -4414,7 +4592,7 @@
                 </child>
               </object>
               <packing>
-                <property name="position">2</property>
+                <property name="position">3</property>
               </packing>
             </child>
             <child type="tab">
@@ -4424,11 +4602,23 @@
                 <property name="label" translatable="yes">Layouts</property>
               </object>
               <packing>
-                <property name="position">2</property>
+                <property name="position">3</property>
                 <property name="tab-fill">False</property>
               </packing>
             </child>
             <child>
+              <object class="GtkScrolledWindow" id="session_page_scroller">
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="hscrollbar-policy">never</property>
+                <property name="propagate-natural-width">True</property>
+                <property name="propagate-natural-height">True</property>
+                <child>
+                  <object class="GtkViewport" id="session_page_viewport">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="shadow-type">none</property>
+                    <child>
               <object class="GtkBox" id="session_page_box">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
@@ -4694,8 +4884,12 @@
                   </packing>
                 </child>
               </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
               <packing>
-                <property name="position">3</property>
+                <property name="position">4</property>
               </packing>
             </child>
             <child type="tab">
@@ -4705,7 +4899,7 @@
                 <property name="label" translatable="yes">Session</property>
               </object>
               <packing>
-                <property name="position">3</property>
+                <property name="position">4</property>
                 <property name="tab-fill">False</property>
               </packing>
             </child>
@@ -4792,7 +4986,7 @@
                 </child>
               </object>
               <packing>
-                <property name="position">4</property>
+                <property name="position">5</property>
               </packing>
             </child>
             <child type="tab">
@@ -4802,7 +4996,7 @@
                 <property name="label" translatable="yes">Keybindings</property>
               </object>
               <packing>
-                <property name="position">4</property>
+                <property name="position">5</property>
                 <property name="tab-fill">False</property>
               </packing>
             </child>
@@ -4871,7 +5065,7 @@
                 </child>
               </object>
               <packing>
-                <property name="position">5</property>
+                <property name="position">6</property>
               </packing>
             </child>
             <child type="tab">
@@ -4881,7 +5075,7 @@
                 <property name="label" translatable="yes">Plugins</property>
               </object>
               <packing>
-                <property name="position">5</property>
+                <property name="position">6</property>
                 <property name="tab-fill">False</property>
               </packing>
             </child>
@@ -4967,7 +5161,7 @@
                           <object class="GtkLabel" id="about_version_label">
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
-                            <property name="label" translatable="yes">Version: 2.1.6</property>
+                            <property name="label">Version: 2.1.6+fork.1</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -5053,7 +5247,7 @@ Much of the behavior of Terminator is based on GNOME Terminal, and we are adding
                 </child>
               </object>
               <packing>
-                <property name="position">6</property>
+                <property name="position">7</property>
               </packing>
             </child>
             <child type="tab">
@@ -5063,7 +5257,7 @@ Much of the behavior of Terminator is based on GNOME Terminal, and we are adding
                 <property name="label" translatable="yes">About</property>
               </object>
               <packing>
-                <property name="position">6</property>
+                <property name="position">7</property>
                 <property name="tab-fill">False</property>
               </packing>
             </child>
@@ -5097,7 +5291,7 @@ Much of the behavior of Terminator is based on GNOME Terminal, and we are adding
             </child>
             <child>
               <object class="GtkButton" id="restoreconfigbutton">
-                <property name="label">Discard Changes</property>
+                <property name="label" translatable="yes">Discard Changes</property>
                 <property name="use-action-appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
