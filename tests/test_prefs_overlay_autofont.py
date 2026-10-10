@@ -50,7 +50,7 @@ def test_defaults_and_round_trip(xdg):
     assert int(get('pane_anim_restore_spinbutton').get_value()) == 160
     assert get('auto_font_scale_checkbutton').get_active() is True
     assert get('auto_font_scale_badge_checkbutton').get_active() is True
-    assert int(get('reading_measure_spinbutton').get_value()) == 45
+    assert int(get('reading_measure_spinbutton').get_value()) == 60
 
     get('pane_overlay_maximise_checkbutton').set_active(False)
     assert cfg['pane_overlay_maximise'] is False

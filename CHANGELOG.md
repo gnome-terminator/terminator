@@ -24,7 +24,7 @@ The five new features below are **on by default**. Each one can be turned off in
   - New shortcut **Shift+Escape** (`restore_maximised`) restores the pane. It only acts while a pane is maximised.
   - Config keys: `pane_overlay_maximise`, `pane_animation_expand_ms`, `pane_animation_restore_ms`, `reduce_motion`.
 - **Automatic per-terminal font scaling.**
-  - Small panes step down through 100% / 90% / 80% based on a 45-column reading measure (width first, then a minimum of 8 rows). A pane taking at least 45% of its window or tab (either pane of any two-pane split) always stays at 100%.
+  - Small panes step down through 100% / 90% / 80% based on a 60-column reading measure (width first, then a minimum of 8 rows). A pane taking at least 45% of its window or tab (either pane of any two-pane split) always stays at 100%.
   - A titlebar badge shows the current scale and lets you lock the font size for a terminal.
   - Config keys: `auto_font_scale*`, `reading_measure_*`.
 - **Hide the scrollbar in fullscreen programs.** While a program uses the alternate screen (vim, less, htop, tmux) the scrollbar is hidden. Config key: `scrollbar_hide_in_alt_screen`.

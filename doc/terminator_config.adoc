@@ -226,7 +226,7 @@ Default value: *['1.0', '0.9', '0.8']*
 *reading_measure_min_cols* = _integer_::
 Minimum comfortable reading width in terminal cells (CJK glyphs count
 as 2). Terminals narrower than this at the current tier step down. +
-Default value: *45*
+Default value: *60*
 
 *reading_measure_ideal_cols* = _integer_::
 Optional ideal column count used as an upscale target. 0 disables. +

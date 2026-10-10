@@ -20,7 +20,7 @@ from terminatorlib.autofont import (
 )
 
 TIERS = [1.0, 0.9, 0.8]
-MIN_C = 45
+MIN_C = 60
 MIN_R = 8
 H = 0.08
 
@@ -59,8 +59,8 @@ def test_cols_rows_from_base():
     assert cols_rows_from_base(-1, 600, 10, 20) == (0, 0)
 
 
-# --- example table (m26 defaults: MIN_C=45 MIN_R=8 h=0.08) ---
-# UP needs >= 49 cols / >= 9 rows. Width (reading measure) is primary; rows
+# --- example table (m26 defaults: MIN_C=60 MIN_R=8 h=0.08) ---
+# UP needs >= 65 cols / >= 9 rows. Width (reading measure) is primary; rows
 # only matter for tiny panes. (Any 2-pane split is additionally pinned to
 # 100% by keeps_full_size(), see below.)
 
@@ -69,16 +69,15 @@ def test_cols_rows_from_base():
     (160, 24, 0, 0),   # vertical split → 100%
     (79, 50, 0, 0),    # horizontal split → 100%
     (79, 24, 0, 0),    # 2x2 on a wide window → 100%
-    (52, 50, 0, 0),    # 3-way horizontal on 160 cols → 100%
-    (40, 15, 0, 2),    # 3x3 grid, cols fail → 80%
+    (52, 50, 0, 2),    # 3-way horizontal → 80%
+    (40, 15, 0, 2),    # 3x3 grid, cols fail → 80% (floor)
     (163, 17, 0, 0),   # 2 panes stacked on 1000x700 → stays 100%
     (163, 8, 0, 0),    # 8 rows is still enough
     (163, 7, 0, 2),    # very short pane (<8 rows even at 0.9) → 80%
-    (44, 50, 0, 1),    # 44 cols → 90% gives 48
-    (40, 50, 0, 2),    # 40 cols → 90% gives 44 < 45 → 80%
-    (47, 50, 1, 1),    # 47 cols while at 90%: hysteresis blocks up → 90%
-    (49, 50, 1, 0),    # 49 cols → 100%
-    (60, 50, 2, 0),    # merge back from 80% → step up to 100%
+    (59, 50, 0, 1),    # 59 cols → 90%
+    (62, 50, 1, 1),    # 62 cols while at 90%: hysteresis blocks up → 90%
+    (65, 50, 1, 0),    # 65 cols → 100%
+    (79, 50, 2, 0),    # merge back from 80% → step up to 100%
 ])
 def test_select_examples(cols0, rows0, cur, expected):
     assert _pick(cols0, rows0, cur) == expected

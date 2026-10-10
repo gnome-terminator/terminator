@@ -361,15 +361,9 @@ def s8_corrupt_session(app):
 SCENARIOS = [
     ('1-session-roundtrip', s1_session_roundtrip, {}),
     ('2-multiwindow', s2_multiwindow_close_order, {}),
-    # KNOWN BUG (xfail): when windows close because their last shell exits
-    # (instead of Ctrl+Shift+Q / WM close) the D5 10s multi-window close
-    # buffer is bypassed: the first window's removal triggers a normal save
-    # of the remaining window only (log: "mark_dirty(window.remove)"), so the
-    # session keeps 1 window.  Being fixed in a separate slot; when it lands
-    # this scenario reports XPASS and the run fails until the marker is removed.
-    ('2b-multiwindow-exit', lambda app: s2_multiwindow_close_order(app, 'exit'),
-     {'xfail': 'shell-exit window close bypasses D5 multi-window buffer '
-               '(session keeps only the last window)'}),
+    # m26: windows closed by their last shell exiting are buffered (D5)
+    # like Ctrl+Shift+Q-closed ones (Container._session_before_last_close).
+    ('2b-multiwindow-exit', lambda app: s2_multiwindow_close_order(app, 'exit'), {}),
     ('3-close-confirm', s3_close_confirm, {}),
     ('4-overlay-maximise', s4_overlay_maximise, {'light': True}),
     ('5-autofont', s5_autofont, {}),
