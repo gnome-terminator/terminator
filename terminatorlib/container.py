@@ -325,8 +325,13 @@ the tab will also close all terminals within it.')
         if hasattr(self, 'get_size'):
             layout['size'] = self.get_size()
 
-        if hasattr(self, 'title'):
-            layout['title'] = self.title.text
+        # Only a user-forced window title is part of the layout; the dynamic
+        # (focused-terminal) title would otherwise be re-applied with
+        # force_title() on load and pin the window title forever.
+        title = getattr(self, 'title', None)
+        if title is not None and getattr(title, 'forced', False) \
+                and getattr(title, 'text', None):
+            layout['title'] = title.text
 
         if mytype == 'Notebook':
             labels = []

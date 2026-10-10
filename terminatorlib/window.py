@@ -278,11 +278,15 @@ class Window(Container, Gtk.Window):
         outside any terminal (overlay frame, notebook tabs) or None keeps the
         previous owner."""
         title = getattr(self, 'title', None)
-        if title is None or widget is None:
+        if title is None:
             return
-        terminal = terminal_for_widget(widget)
+        terminal = terminal_for_widget(widget) if widget is not None else None
         if terminal is not None:
             title.focus_changed(terminal)
+        else:
+            # Focus widget unset (e.g. owner removed/detached to another
+            # window): hand ownership on if the owner has left us.
+            title.revalidate()
 
     def on_focus_in(self, window, event):
         """Focus has entered the window"""
@@ -1602,6 +1606,13 @@ class WindowTitle(object):
                 self.owner = None
                 self.focus_changed(new)
 
+    def revalidate(self):
+        """If the owner no longer lives in our window (closed, detached to
+        another window), take the title from the fallback owner."""
+        if self._destroyed or self.owner is None or self._owns(self.owner):
+            return
+        self.terminal_removed(self.owner)
+
     # -- title updates --------------------------------------------------
     def set_title(self, widget, text):
         """Title change request. widget is the emitting Terminal, or None
@@ -1609,7 +1620,9 @@ class WindowTitle(object):
         if self._destroyed:
             return
         if widget is None:
-            # Programmatic: apply now.
+            # Programmatic: apply now (a forced title still wins).
+            if self.forced:
+                return
             self.text = text
             self._cancel()
             self.update()

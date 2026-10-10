@@ -291,3 +291,68 @@ def test_config_defaults_present():
     from terminatorlib.config import DEFAULTS
     assert DEFAULTS['global_config']['window_title_mode'] == 'focused'
     assert DEFAULTS['global_config']['window_title_fixed'] == 'Terminator'
+
+
+# -- review follow-ups -------------------------------------------------------
+
+def test_programmatic_title_does_not_override_forced_title():
+    window, clock, wt = make()
+    wt.force_title('pinned')
+    wt.set_title(None, 'plugin text')
+    clock.fire()
+    assert window.get_title() == 'pinned'
+
+
+def test_focus_unset_after_owner_detached_hands_title_on():
+    """Owner detached to another window: Gtk unsets the focus widget
+    (set-focus None) and revalidate() must move the title to the fallback."""
+    window, clock, wt = make()
+    a, b = FakeTerminal(window, 'a'), FakeTerminal(window, 'b')
+    wt.focus_changed(a)
+    clock.fire()
+    a.window = object()               # now lives in another toplevel
+    window.focus = b.vte
+    wt.revalidate()
+    clock.fire()
+    assert wt.owner is b
+    assert window.get_title() == 'b'
+
+
+def test_revalidate_keeps_live_owner():
+    window, clock, wt = make()
+    a, b = FakeTerminal(window, 'a'), FakeTerminal(window, 'b')
+    wt.focus_changed(a)
+    clock.fire()
+    window.focus = b.vte
+    wt.revalidate()
+    assert wt.owner is a
+    assert not wt.pending()
+
+
+def _real_window():
+    from terminatorlib.factory import Factory
+    return Factory().make('Window')
+
+
+def _window_layout(window):
+    layout = {}
+    window.describe_layout(0, 'root', layout, 0)
+    return layout['child0']
+
+
+def test_layout_omits_dynamic_window_title():
+    """Saving a layout must not store the terminal-driven title, otherwise
+    create_layout() force_title()s it and pins the window title forever."""
+    window = _real_window()
+    try:
+        window.title.text = 'vim notes.txt'
+        window.title.forced = False
+        assert 'title' not in _window_layout(window)
+        window.title.force_title('My Project')
+        assert _window_layout(window)['title'] == 'My Project'
+        window.title.force_title(None)
+        assert 'title' not in _window_layout(window)
+    finally:
+        window.title.destroy()
+        window.terminator.deregister_window(window)
+        window.isDestroyed = True
