@@ -1,6 +1,6 @@
-"""M36: the left-hand terminal/grouping icon of pane title bars is hidden
-by default (titlebar_show_icon=False); grouping stays reachable and the
-broadcast state gets a text indication."""
+"""M36: the extra terminal icon is hidden by default
+(titlebar_show_icon=False). The grouping icon stays, with the pane title
+to its right. Grouping stays reachable from that icon and from the menu."""
 import os
 import sys
 import time
@@ -49,6 +49,38 @@ class _Other(object):
     group = None
 
 
+def test_pane_title_sits_right_of_the_grouping_icon():
+    tb = _tb(titlebar_show_icon=False)
+    tb.set_terminal_title(None, 'clarence@AILinux: ~/Projects')
+    tb.update(tb.terminal)
+    assert tb.groupicon.get_visible() is True
+    assert 'clarence@AILinux: ~/Projects' in tb.label.get_text()
+    hbox = tb.get_children()[0]
+    children = hbox.get_children()
+    assert children.index(tb.ebox) < children.index(tb._title_viewport)
+    # CSS, not the ignored modify_* calls, carries the title colour
+    assert getattr(tb.label._label, '_tb_css', None) is not None
+    assert getattr(tb, '_tb_css', None) is not None
+
+
+def test_title_buttons_match_the_close_mark():
+    tb = _tb(titlebar_show_icon=False)
+
+    def ink(name):
+        return tb._icon_ink_span(name) * tb._button_icon_scale(name)
+
+    gear = ink('emblem-system-symbolic')
+    full = ink('view-fullscreen-symbolic')
+    close = ink('window-close-symbolic')
+    target = tb._aligned_ink_px()
+    assert abs(gear - target) < 0.6
+    assert abs(full - target) < 0.6
+    assert abs(close - target) < 0.6
+    assert close <= tb._button_box_px()
+    assert tb.btn_gear.get_image()._tb_css is not None
+    assert tb.btn_close.get_image()._tb_css is not None
+
+
 def test_config_default_is_false():
     assert _config.DEFAULTS['global_config']['titlebar_show_icon'] is False
 
@@ -56,15 +88,15 @@ def test_config_default_is_false():
 def test_icons_hidden_by_default():
     tb = _tb(titlebar_show_icon=False)
     assert tb.termicon.get_visible() is False
-    assert tb.groupicon.get_visible() is False
-    # no dangling separator when nothing is left of the title
-    assert tb._group_sep.get_visible() is False
+    # grouping icon stays; the pane title is packed to its right
+    assert tb.groupicon.get_visible() is True
+    assert tb._group_sep.get_visible() is True
 
 
-def test_missing_key_means_hidden():
+def test_missing_key_means_terminal_icon_hidden():
     from terminatorlib.titlebar import Titlebar
-    tb = Titlebar(FakeTerminal(make_config()))  # FakeConfig without the key -> default hidden
-    assert tb.groupicon.get_visible() is False
+    tb = Titlebar(FakeTerminal(make_config()))  # FakeConfig without the key
+    assert tb.groupicon.get_visible() is True
     assert tb.termicon.get_visible() is False
 
 
@@ -76,19 +108,19 @@ def test_icons_shown_when_enabled_and_toggle_live():
     assert tb._group_sep.get_visible() is True
     tb.config['titlebar_show_icon'] = False
     tb.apply_chrome_config()
-    assert tb.groupicon.get_visible() is False
+    assert tb.groupicon.get_visible() is True
     assert tb.termicon.get_visible() is False
     tb.config['titlebar_show_icon'] = True
     tb.apply_chrome_config()
     assert tb.groupicon.get_visible() is True
 
 
-def test_update_does_not_resurrect_icon():
+def test_update_keeps_the_grouping_icon():
     tb = _tb(titlebar_show_icon=False)
     tb.update(tb.terminal)  # active terminal path sets an icon name
-    assert tb.groupicon.get_visible() is False
+    assert tb.groupicon.get_visible() is True
     tb.update(_Other())
-    assert tb.groupicon.get_visible() is False
+    assert tb.groupicon.get_visible() is True
 
 
 def _set_groupsend(monkeypatch, tb, mode):
@@ -96,17 +128,17 @@ def _set_groupsend(monkeypatch, tb, mode):
                         tb.terminator.groupsend_type[mode])
 
 
-def test_broadcast_text_on_sender_when_icon_hidden(monkeypatch):
+def test_broadcast_text_stays_off_while_the_icon_shows(monkeypatch):
     tb = _tb(titlebar_show_icon=False)
     _set_groupsend(monkeypatch, tb, 'all')
     tb.update(tb.terminal)
-    assert tb.broadcastlabel.get_text() == 'Broadcast: all'
-    assert tb.broadcastlabel.get_visible() is True
+    assert tb.groupicon.get_visible() is True
+    assert tb.broadcastlabel.get_visible() is False
     assert tb._group_sep.get_visible() is True
     _set_groupsend(monkeypatch, tb, 'off')
     tb.update(tb.terminal)
     assert tb.broadcastlabel.get_visible() is False
-    assert tb._group_sep.get_visible() is False
+    assert tb._group_sep.get_visible() is True
 
 
 def test_group_broadcast_text_needs_a_group(monkeypatch):
@@ -116,16 +148,8 @@ def test_group_broadcast_text_needs_a_group(monkeypatch):
     assert tb.broadcastlabel.get_visible() is False
     tb.terminal.group = 'g1'
     tb.update(tb.terminal)
-    assert tb.broadcastlabel.get_text() == 'Broadcast: group'
-    assert tb.broadcastlabel.get_visible() is True
-
-
-def test_broadcast_label_tooltip(monkeypatch):
-    tb = _tb(titlebar_show_icon=False)
-    _set_groupsend(monkeypatch, tb, 'all')
-    tb.update(tb.terminal)
-    assert tb.broadcastlabel.get_visible() is True
-    assert tb.broadcastlabel.get_tooltip_text() == 'Click for the grouping menu'
+    assert tb.broadcastlabel.get_visible() is False
+    assert tb.groupicon.get_visible() is True
 
 
 def test_receiver_gets_no_broadcast_text(monkeypatch):
@@ -148,7 +172,8 @@ def test_group_name_still_shown_and_separator(monkeypatch):
     assert tb.grouplabel.get_visible() is True
     assert tb._group_sep.get_visible() is True
     tb.set_group_label(None)
-    assert tb._group_sep.get_visible() is False
+    # the grouping icon is still there, so the separator stays
+    assert tb._group_sep.get_visible() is True
 
 
 def test_narrow_collapse_hides_broadcast_and_group(monkeypatch):
@@ -169,7 +194,7 @@ def test_narrow_collapse_hides_broadcast_and_group(monkeypatch):
     assert tb.btn_close.get_visible() is True
     tb._collapse_level = 0
     tb._apply_collapse()
-    assert tb.broadcastlabel.get_visible() is True
+    assert tb.broadcastlabel.get_visible() is False
     assert tb.grouplabel.get_visible() is True
 
 
@@ -234,7 +259,7 @@ def test_real_terminal_icons_hidden_and_menu_has_grouping(win, monkeypatch):
     try:
         cfg['titlebar_show_icon'] = False
         term.titlebar.apply_chrome_config()
-        assert term.titlebar.groupicon.get_visible() is False
+        assert term.titlebar.groupicon.get_visible() is True
         assert term.titlebar.termicon.get_visible() is False
         assert cfg['show_titlebar'] is True
         assert 'Grouping' in _menu_labels(monkeypatch, term)

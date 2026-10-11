@@ -342,8 +342,32 @@ def show_process_close_dialog(parent_window, terminals, procs):
     return response
 
 
+def no_process_close_result(ask_mode):
+    """How to close when nothing but shells (and ignored helpers) is running.
+
+    ``'accept'`` closes with no dialog. ``'legacy'`` is only for
+    ``ask_before_closing = always``, which still uses the old prompt.
+    """
+    if ask_mode == 'always':
+        return 'legacy'
+    return 'accept'
+
+
+def _ask_before_closing():
+    try:
+        from .config import Config
+        return Config()['ask_before_closing']
+    except Exception:
+        return 'multiple_terminals'
+
+
 def construct_confirm_close_with_processes(container, window, child):
-    """Process-first confirmation used by Container.construct_confirm_close."""
+    """Decide the close dialog by which processes are still running.
+
+    A program other than the shell asks, and names that program.
+    Several idle shells do not. ``ask_before_closing = always`` still
+    asks when every terminal is only a shell. ``never`` asks for neither.
+    """
     from gi.repository import Gtk
     from .factory import Factory
 
@@ -357,8 +381,9 @@ def construct_confirm_close_with_processes(container, window, child):
     if need:
         return show_process_close_dialog(window, terminals, procs)
 
-    # Fall through: caller continues with ask_before_closing
-    return None  # sentinel: no process dialog; use legacy path
+    if no_process_close_result(_ask_before_closing()) == 'accept':
+        return Gtk.ResponseType.ACCEPT
+    return None
 
 
 def request_close_terminal(terminal):

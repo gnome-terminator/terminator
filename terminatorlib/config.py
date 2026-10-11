@@ -84,15 +84,15 @@ DEFAULTS = {
         'global_config':   {
             'dbus'                  : True,
             'focus'                 : 'click',
-            'handle_size'           : -1,
+            'handle_size'           : 1,
             'geometry_hinting'      : False,
             'window_state'          : 'normal',
             'borderless'            : False,
             'extra_styling'         : True,
-            'tab_position'          : 'top',
+            'tab_position'          : 'left',
             'broadcast_default'     : 'group',
             'close_button_on_tab'   : True,
-            'scroll_tabbar'         : False,
+            'scroll_tabbar'         : True,
             'homogeneous_tabbar'    : True,
             'hide_from_taskbar'     : False,
             'always_on_top'         : False,
@@ -134,7 +134,10 @@ DEFAULTS = {
             'clear_select_on_copy'  : False,
             'cell_width'            : 1.0,
             'cell_height'           : 1.0,
-            'case_sensitive'        : True,
+            'case_sensitive'        : False,
+            'search_whole_word'     : False,
+            'search_regex'          : False,
+            'search_wrap'           : True,
             'invert_search'         : False,
             'link_single_click'     : False,
             'title_at_bottom'       : False,
@@ -146,7 +149,10 @@ DEFAULTS = {
             'detachable_tabs'       : True,
 
             'new_tab_after_current_tab': False,
-            'window_decoration_style': 'auto',
+            # light: white header bar (traffic-light buttons stay the
+            # theme's light set). auto follows the terminal background,
+            # which turns the header dark on the deep-teal profile.
+            'window_decoration_style': 'light',
 
             # Scrollback text cache (module B) — defaults ON
             'scrollback_cache'            : True,
@@ -258,7 +264,7 @@ DEFAULTS = {
                 'visible_bell'          : False,
                 'urgent_bell'           : False,
                 'icon_bell'             : True,
-                'background_color'      : '#000000',
+                'background_color'      : '#163841',
                 'background_darkness'   : 0.5,
                 'background_type'       : 'solid',
                 'background_image'      : '',
@@ -277,7 +283,7 @@ DEFAULTS = {
                 'term'                  : 'xterm-256color',
                 'colorterm'             : 'truecolor',
                 'font'                  : 'Mono 10',
-                'foreground_color'      : '#aaaaaa',
+                'foreground_color'      : '#c6d3d5',
                 'show_titlebar'         : True,
                 'scrollbar_position'    : "right",
                 'scrollbar_hide_in_alt_screen': True,
@@ -287,7 +293,7 @@ DEFAULTS = {
                 'scrollback_infinite'   : False,
                 'disable_mousewheel_zoom': False,
                 'exit_action'           : 'close',
-                'palette'               : '#2e3436:#cc0000:#4e9a06:#c4a000:\
+                'palette'               : '#000000:#cc0000:#4e9a06:#c4a000:\
 #3465a4:#75507b:#06989a:#d3d7cf:#555753:#ef2929:#8ae234:#fce94f:\
 #729fcf:#ad7fa8:#34e2e2:#eeeeec',
                 'word_chars'            : '-,./?%&#:_',
@@ -307,15 +313,15 @@ DEFAULTS = {
                 'http_proxy'            : '',
                 # Titlebar
                 'title_hide_sizetext'     : False,
-                # Wave-style: dark, subtle bars. Focus cue is the
-                # pane_accent_color border plus a brighter title; the
-                # receive (group/broadcast) colour stays distinct.
-                'title_transmit_fg_color' : '#e6edf3',
-                'title_transmit_bg_color' : '#21262d',
+                # White bars, same as the window header. The focus ring
+                # uses this background; the receive (group/broadcast)
+                # colour stays distinct.
+                'title_transmit_fg_color' : '#1d1d1f',
+                'title_transmit_bg_color' : '#ffffff',
                 'title_receive_fg_color'  : '#ffffff',
                 'title_receive_bg_color'  : '#0076c9',
-                'title_inactive_fg_color' : '#8b949e',
-                'title_inactive_bg_color' : '#161b22',
+                'title_inactive_fg_color' : '#6e6e73',
+                'title_inactive_bg_color' : '#ffffff',
                 'title_use_system_font'   : True,
                 'title_font'              : 'Sans 9'
             },

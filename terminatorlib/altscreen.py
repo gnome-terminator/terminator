@@ -42,7 +42,9 @@ Consequences:
 * ``ping``/``make`` in a fresh or just-cleared terminal  -> untouched
   (canonical mode), so no hide/show flap when output starts scrolling
 * a TUI in a brand-new terminal with nothing above the prompt -> untouched
-  (the scrollbar shows a full slider; there is nothing to scroll)
+  by this detector (there is nothing to scroll).  The terminal itself hides
+  the scrollbar whenever the buffer fits the window; see
+  ``scrollbar_should_show``
 * programs that only enable mouse tracking (no alternate screen) never
   collapse the adjustment and are never affected
 * ``procps`` top draws on the normal screen, so it is (correctly) ignored
@@ -122,6 +124,41 @@ def adjustment_collapsed(lower, upper, page_size):
     if page_size <= 0:
         return False
     return (upper - lower) <= page_size + 0.5
+
+
+def adjustment_scrollable(lower, upper, page_size):
+    """True when the scrollbar can actually move.
+
+    A zero page size means the widget has not been allocated yet, so the
+    bar stays hidden instead of flashing a full slider.
+    """
+    if page_size <= 0:
+        return False
+    return (upper - lower) > page_size + 0.5
+
+
+def scrollbar_should_show(position, scrollable, forced=None,
+                          alt_auto_hidden=False, user_override=False):
+    """Whether the scrollbar widget should be visible.
+
+    ``left`` / ``right`` pack the bar on that side, but it is drawn only
+    while the buffer is taller than the window.  ``hidden`` / ``disabled``
+    never draw it.  ``forced`` is a manual toggle for this terminal
+    (True show, False hide) and sticks until the caller clears it.
+    Returns None when a fullscreen-program override owns the widget and
+    the caller must leave it alone.
+    """
+    if user_override:
+        return None
+    if forced is False:
+        return False
+    if position in ('disabled', 'hidden') and forced is not True:
+        return False
+    if alt_auto_hidden and not scrollable:
+        return False
+    if forced is True or scrollable:
+        return True
+    return False
 
 
 def foreground_busy(pty_fd, child_pid, is_shell=is_shell_pid):
@@ -428,7 +465,12 @@ class AltScreenScrollbar(object):
         elif not hide and self.auto_hidden:
             self.auto_hidden = False
             self.hidden_width = 0
-            if position not in ('disabled', 'hidden'):
+            # Terminal.sync_scrollbar shows the bar only when the restored
+            # buffer is actually taller than the window.
+            sync = getattr(self.terminal, 'sync_scrollbar', None)
+            if sync is not None:
+                sync()
+            elif position not in ('disabled', 'hidden'):
                 sb.show()
             dbg('altscreen: scrollbar visible=%s' % sb.get_visible())
 

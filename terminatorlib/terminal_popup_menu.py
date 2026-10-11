@@ -90,6 +90,27 @@ class TerminalPopupMenu(object):
         from .close_confirm import request_close_terminal
         request_close_terminal(self.terminal)
 
+    def wants_chrome_menu(self, anchor, skip_link_check):
+        """Pane-management items belong on the titlebar and the gear.
+
+        The VTE menu stays short while a titlebar is visible. With the
+        titlebar hidden there is nowhere else to put those items, so the
+        VTE menu keeps them."""
+        on_titlebar = bool(skip_link_check or anchor is not None)
+        try:
+            titlebar_on = bool(self.config['show_titlebar'])
+        except Exception:
+            titlebar_on = True
+        # A lone pane hides its titlebar even when the setting is on.
+        # The VTE menu then has to carry the items that lived on it.
+        bar = getattr(self.terminal, 'titlebar', None)
+        if bar is not None and hasattr(bar, 'get_visible'):
+            try:
+                titlebar_on = bool(bar.get_visible())
+            except Exception:
+                pass
+        return on_titlebar or not titlebar_on
+
     def show(self, widget, event=None, anchor=None, skip_link_check=False):
         """Display the context menu.
         anchor: if given, attach the menu below this widget (titlebar gear).
@@ -104,6 +125,7 @@ class TerminalPopupMenu(object):
         time = None
 
         self.config.set_profile(terminal.get_profile())
+        chrome = self.wants_chrome_menu(anchor, skip_link_check)
 
         if event and skip_link_check:
             button = event.button
@@ -202,32 +224,29 @@ class TerminalPopupMenu(object):
 
         menu.append(Gtk.SeparatorMenuItem())
 
-        item = self.menu_item(Gtk.ImageMenuItem, 'edit_window_title',
-                                                 _('Set _Window Title'))
-        item.connect('activate', lambda x: terminal.key_edit_window_title())
-        menu.append(item)
-
-        # D15: double-click on the titlebar now toggles maximise, so title
-        # editing lives here (and on the edit_terminal_title keybinding).
-        item = self.menu_item(Gtk.MenuItem, 'edit_terminal_title',
-                                            _('Edit _Title'))
-        item.connect('activate', lambda x: terminal.key_edit_terminal_title())
-        menu.append(item)
-
-        if not terminal.is_zoomed():
-            item = self.menu_item(Gtk.ImageMenuItem, 'split_auto',
-                                                     _('Split _Auto'))
-            """
-            image = Gtk.Image()
-            image.set_from_icon_name(APP_NAME + '_auto', Gtk.IconSize.MENU)
-            item.set_image(image)
-            if hasattr(item, 'set_always_show_image'):
-                item.set_always_show_image(True)
-            """
-            item.connect('activate', lambda x: terminal.emit('split-auto',
-                self.terminal.get_cwd()))
+        # Titles, auto-split, detach and the settings block are titlebar
+        # and gear items. The VTE menu keeps copy/paste, H/V split, tab,
+        # close and maximise.
+        if chrome:
+            item = self.menu_item(Gtk.ImageMenuItem, 'edit_window_title',
+                                                     _('Set _Window Title'))
+            item.connect('activate', lambda x: terminal.key_edit_window_title())
             menu.append(item)
 
+            # D15: double-click on the titlebar now toggles maximise, so title
+            # editing lives here (and on the edit_terminal_title keybinding).
+            item = self.menu_item(Gtk.MenuItem, 'edit_terminal_title',
+                                                _('Edit _Title'))
+            item.connect('activate', lambda x: terminal.key_edit_terminal_title())
+            menu.append(item)
+
+        if not terminal.is_zoomed():
+            if chrome:
+                item = self.menu_item(Gtk.ImageMenuItem, 'split_auto',
+                                                         _('Split _Auto'))
+                item.connect('activate', lambda x: terminal.emit('split-auto',
+                    self.terminal.get_cwd()))
+                menu.append(item)
 
             item = self.menu_item(Gtk.ImageMenuItem, 'split_horiz',
                                                      _('Split H_orizontally'))
@@ -256,13 +275,13 @@ class TerminalPopupMenu(object):
                 terminal))
             menu.append(item)
 
-            if self.terminator.debug_address is not None:
+            if chrome and self.terminator.debug_address is not None:
                 item = Gtk.MenuItem.new_with_mnemonic(_('Open _Debug Tab'))
                 item.connect('activate', lambda x:
                         terminal.emit('tab-new', True, terminal))
                 menu.append(item)
 
-            if isinstance(terminal.get_toplevel().get_child(), Gtk.Notebook):
+            if chrome and isinstance(terminal.get_toplevel().get_child(), Gtk.Notebook):
                 item = self.menu_item(Gtk.MenuItem, 'detach_tab',
                                                     _('Detach Ta_b'))
                 item.connect('activate', lambda x:
@@ -284,10 +303,11 @@ class TerminalPopupMenu(object):
             sensitive = bool(hasattr(window, 'has_multiple_terms') and
                              window.has_multiple_terms())
 
-            item = Gtk.MenuItem.new_with_mnemonic(_('_Zoom terminal'))
-            item.connect('activate', terminal.zoom)
-            item.set_sensitive(sensitive)
-            menu.append(item)
+            if chrome:
+                item = Gtk.MenuItem.new_with_mnemonic(_('_Zoom terminal'))
+                item.connect('activate', terminal.zoom)
+                item.set_sensitive(sensitive)
+                menu.append(item)
 
             item = Gtk.MenuItem.new_with_mnemonic(_('Ma_ximize pane'))
             item.connect('activate', terminal.maximise)
@@ -303,10 +323,10 @@ class TerminalPopupMenu(object):
             menu.append(Gtk.SeparatorMenuItem())
 
         # m36: the grouping icon is hidden by default (titlebar_show_icon),
-        # so the menu carries the Grouping submenu whenever that icon is
-        # not there to click.
-        if self.config['show_titlebar'] == False or \
-                not self.config['titlebar_show_icon']:
+        # so Grouping lives on the titlebar / gear menu. A hidden titlebar
+        # makes the VTE menu the chrome menu, and Grouping stays there.
+        if chrome and (self.config['show_titlebar'] == False or
+                       not self.config['titlebar_show_icon']):
             item = Gtk.MenuItem.new_with_mnemonic(_('Grouping'))
             submenu = self.terminal.populate_group_menu()
             submenu.show_all()
@@ -320,26 +340,68 @@ class TerminalPopupMenu(object):
             menu.append(item)
             menu.append(Gtk.SeparatorMenuItem())
 
-        item = self.menu_item(Gtk.CheckMenuItem, 'toggle_readonly', _('_Read only'))
-        item.set_active(not(terminal.vte.get_input_enabled()))
-        item.connect('toggled', lambda x: terminal.do_readonly_toggle())
-        menu.append(item)
-
-        self.add_font_lock_item(menu)
-
-        item = self.menu_item(Gtk.CheckMenuItem, 'toggle_scrollbar',
-                                                   _('Show _scrollbar'))
-        item.set_active(terminal.scrollbar.get_property('visible'))
-        item.connect('toggled', lambda x: terminal.do_scrollbar_toggle())
-        menu.append(item)
-
-        if hasattr(Gtk, 'Builder'):  # VERIFY FOR GTK3: is this ever false?
-            item = self.menu_item(Gtk.MenuItem, 'preferences',
-                                                _('_Preferences'))
-            item.connect('activate', lambda x: PrefsEditor(self.terminal))
+        if chrome:
+            item = self.menu_item(Gtk.CheckMenuItem, 'toggle_readonly', _('_Read only'))
+            item.set_active(not(terminal.vte.get_input_enabled()))
+            item.connect('toggled', lambda x: terminal.do_readonly_toggle())
             menu.append(item)
 
-        # Theme presets: (label, background, foreground)
+            self.add_font_lock_item(menu)
+
+            item = self.menu_item(Gtk.CheckMenuItem, 'toggle_scrollbar',
+                                                       _('Show _scrollbar'))
+            item.set_active(terminal.scrollbar.get_property('visible'))
+            item.connect('toggled', lambda x: terminal.do_scrollbar_toggle())
+            menu.append(item)
+
+            if hasattr(Gtk, 'Builder'):  # VERIFY FOR GTK3: is this ever false?
+                item = self.menu_item(Gtk.MenuItem, 'preferences',
+                                                    _('_Preferences'))
+                item.connect('activate', lambda x: PrefsEditor(self.terminal))
+                menu.append(item)
+
+        if chrome:
+            self._append_appearance_items(menu, terminal)
+
+        try:
+            menuitems = []
+            registry = plugin.PluginRegistry()
+            registry.load_plugins()
+            plugins = registry.get_plugins_by_capability('terminal_menu')
+            for menuplugin in plugins:
+                menuplugin.callback(menuitems, menu, terminal)
+
+            if len(menuitems) > 0:
+                menu.append(Gtk.SeparatorMenuItem())
+
+            for menuitem in menuitems:
+                menu.append(menuitem)
+        except Exception as ex:
+            err('TerminalPopupMenu::show: %s' % ex)
+
+        # A section that did not run still leaves its separator. Drop a
+        # divider that would sit under the last item with nothing after it.
+        children = menu.get_children()
+        while children and isinstance(children[-1], Gtk.SeparatorMenuItem):
+            menu.remove(children[-1])
+            children = menu.get_children()
+
+        menu.show_all()
+        popped = False
+        if anchor is not None:
+            try:
+                menu.popup_at_widget(anchor, Gdk.Gravity.SOUTH_EAST,
+                                     Gdk.Gravity.NORTH_EAST, event)
+                popped = True
+            except Exception as ex:
+                err('TerminalPopupMenu::show: popup_at_widget failed: %s' % ex)
+        if not popped:
+            menu.popup_at_pointer(None)
+
+        return(True)
+
+    def _append_appearance_items(self, menu, terminal):
+        """Colors, profiles and layouts. Titlebar and gear only."""
         theme_items = [
             ('Solarized Light', '#eee8d5', '#586e75'),
             ('Solarized Dark', '#002b36', '#839496'),
@@ -355,7 +417,6 @@ class TerminalPopupMenu(object):
             ('Taiwanese Blue', '#005695', '#ffffff'),
             ('Solarized Blue', '#073642', '#93a1a1'),
         ]
-
         item = Gtk.MenuItem.new_with_mnemonic(_('_Colors'))
         submenu = Gtk.Menu()
         item.set_submenu(submenu)
@@ -374,7 +435,6 @@ class TerminalPopupMenu(object):
         submenu.append(custom_item)
 
         profilelist = sorted(self.config.list_profiles(), key=str.lower)
-
         if len(profilelist) > 1:
             item = Gtk.MenuItem.new_with_mnemonic(_('Profiles'))
             submenu = Gtk.Menu()
@@ -382,9 +442,7 @@ class TerminalPopupMenu(object):
             menu.append(item)
 
             current = terminal.get_profile()
-
             group = None
-
             for profile in profilelist:
                 profile_label = profile
                 if profile_label == 'default':
@@ -396,36 +454,6 @@ class TerminalPopupMenu(object):
                 submenu.append(item)
 
         self.add_layout_launcher(menu)
-
-        try:
-            menuitems = []
-            registry = plugin.PluginRegistry()
-            registry.load_plugins()
-            plugins = registry.get_plugins_by_capability('terminal_menu')
-            for menuplugin in plugins:
-                menuplugin.callback(menuitems, menu, terminal)
-
-            if len(menuitems) > 0:
-                menu.append(Gtk.SeparatorMenuItem())
-
-            for menuitem in menuitems:
-                menu.append(menuitem)
-        except Exception as ex:
-            err('TerminalPopupMenu::show: %s' % ex)
-
-        menu.show_all()
-        popped = False
-        if anchor is not None:
-            try:
-                menu.popup_at_widget(anchor, Gdk.Gravity.SOUTH_EAST,
-                                     Gdk.Gravity.NORTH_EAST, event)
-                popped = True
-            except Exception as ex:
-                err('TerminalPopupMenu::show: popup_at_widget failed: %s' % ex)
-        if not popped:
-            menu.popup_at_pointer(None)
-
-        return(True)
 
     def add_font_lock_item(self, menu):
         """'Lock font size for this terminal' (hook for auto font scale, E).

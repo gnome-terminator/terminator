@@ -103,7 +103,8 @@ class PrefsEditor:
                          'solarized_dark': 8,
                          'gruvbox_light': 9,
                          'gruvbox_dark': 10,
-                         'custom': 11}
+                         'deep_teal': 11,
+                         'custom': 12}
     colourschemes = {'grey_on_black': ['#aaaaaa', '#000000'],
                      'black_on_yellow': ['#000000', '#ffffdd'],
                      'black_on_white': ['#000000', '#ffffff'],
@@ -114,7 +115,8 @@ class PrefsEditor:
                      'solarized_light': ['#657b83', '#fdf6e3'],
                      'solarized_dark': ['#839496', '#002b36'],
                      'gruvbox_light': ['#3c3836', '#fbf1c7'],
-                     'gruvbox_dark': ['#ebdbb2', '#282828']}
+                     'gruvbox_dark': ['#ebdbb2', '#282828'],
+                     'deep_teal': ['#c6d3d5', '#163841']}
     palettevalues = {'tango': 0,
                      'linux': 1,
                      'xterm': 2,
@@ -881,7 +883,7 @@ class PrefsEditor:
         if scheme not in self.colorschemevalues:
             if self.config['foreground_color'] in [None, ''] or \
                self.config['background_color'] in [None, '']:
-                scheme = 'grey_on_black'
+                scheme = 'deep_teal'
             else:
                 scheme = 'custom'
         # NOTE: The scheme is set in the GUI widget after the fore/back colours

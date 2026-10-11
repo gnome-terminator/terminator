@@ -46,6 +46,14 @@ _BUTTON_FALLBACK_TEXT = {
     'close': '\u2715',     # ✕
 }
 _ICON_LOADABLE = {}
+# Ink span of a 16px icon. The three titlebar glyphs are scaled to the
+# same ink size inside the original button (24px, or 20px when compact).
+# The close mark is the smallest source, so it is enlarged up to the
+# button and the gear and maximise marks shrink to match it.
+_ICON_INK = {}
+_BUTTON_CANVAS_PX = 16
+_BUTTON_BOX_STANDARD = 24
+_BUTTON_BOX_COMPACT = 20
 
 
 class Titlebar(Gtk.EventBox):
@@ -123,6 +131,10 @@ class Titlebar(Gtk.EventBox):
         self.label.connect('edit-done', self.on_edit_done)
         self.label.connect('double-clicked',
                            lambda *_: self._toggle_pane_maximise())
+        # Title sits immediately to the right of the grouping icon.
+        self.label._label.set_halign(Gtk.Align.START)
+        self.label._label.set_xalign(0.0)
+        self.label._label.set_margin_start(6)
         self.ebox = Gtk.EventBox()
         grouphbox = Gtk.HBox()
         self.grouplabel = Gtk.Label(ellipsize='end')
@@ -148,7 +160,7 @@ class Titlebar(Gtk.EventBox):
             icon_name = 'group'
         elif self.terminator.groupsend == groupsend_type['off']:
             icon_name = 'off'
-        self.set_from_icon_name('_active_broadcast_%s' % icon_name, 
+        self.set_from_icon_name('_active_broadcast_%s' % icon_name,
                 Gtk.IconSize.MENU)
 
         grouphbox.pack_start(self.groupicon, False, True, 2)
@@ -163,6 +175,7 @@ class Titlebar(Gtk.EventBox):
 
         viewport = Gtk.Viewport(hscroll_policy='natural')
         viewport.add(self.label)
+        viewport.set_hexpand(True)
         self._title_viewport = viewport
         self._apply_title_min_width()
 
@@ -259,7 +272,8 @@ class Titlebar(Gtk.EventBox):
                 and self._sizetext_timer is not None
                 and self._collapse_level < 1):
             temp_sizetext_str = " %s" % (self.sizetext)
-        self.label.set_text("%s%s%s" % (temp_heldtext_str, self.termtext, temp_sizetext_str))
+        self.label.set_text("%s%s%s" % (
+            temp_heldtext_str, self.termtext or '', temp_sizetext_str))
 
         if (not self.config['title_use_system_font']) and self.config['title_font']:
             title_font = Pango.FontDescription(self.config['title_font'])
@@ -322,6 +336,9 @@ class Titlebar(Gtk.EventBox):
                     Gdk.color_parse(group_fg))
             self.modify_bg(Gtk.StateType.NORMAL, 
                     Gdk.color_parse(title_bg))
+            # WhiteSur ignores modify_bg/modify_fg, so the bar stayed the
+            # theme's light grey and the light title colour disappeared.
+            self._paint_title(title_fg, title_bg, group_fg, group_bg)
             if not self.get_desired_visibility():
                 if default_bg == True:
                     color = term.get_style_context().get_background_color(Gtk.StateType.NORMAL)  # VERIFY FOR GTK3
@@ -350,9 +367,27 @@ class Titlebar(Gtk.EventBox):
         if self.editing() == True or self.terminal.group:
             dbg('implicit desired visibility')
             return(True)
-        else:
-            dbg('configured visibility: %s' % self.config['show_titlebar'])
-            return(self.config['show_titlebar'])
+        try:
+            configured = bool(self.config['show_titlebar'])
+        except Exception:
+            configured = True
+        if not configured:
+            dbg('configured visibility: False')
+            return False
+        # One pane has nothing to tell apart. The window title already
+        # shows the path, and the focus outline stays off too.
+        return self._split_needs_titlebar()
+
+    def _split_needs_titlebar(self):
+        """True when this window is showing more than one pane."""
+        window = self.get_toplevel()
+        checker = getattr(window, 'has_multiple_terms', None)
+        if not callable(checker):
+            return False
+        try:
+            return bool(checker())
+        except Exception:
+            return True
 
     def set_from_icon_name(self, name, size = Gtk.IconSize.MENU):
         """Set an icon for the group label"""
@@ -362,10 +397,10 @@ class Titlebar(Gtk.EventBox):
             return
 
         self.groupicon.set_from_icon_name(APP_NAME + name, size)
-        if self._show_icon:
-            self.groupicon.show()
-        else:
-            self.groupicon.hide()
+        # This is the layout mark (grid + chevron). The pane title is
+        # packed to its right, so the icon stays even when the extra
+        # terminal icon is hidden.
+        self.groupicon.show()
 
     def _apply_icon_visibility(self):
         """m36: show/hide the terminal and grouping icons"""
@@ -378,7 +413,7 @@ class Titlebar(Gtk.EventBox):
             self.termicon.show()
         else:
             self.termicon.hide()
-        if show and self._icon_name_current:
+        if self._icon_name_current:
             self.groupicon.show()
         else:
             self.groupicon.hide()
@@ -392,7 +427,10 @@ class Titlebar(Gtk.EventBox):
         if label is None:
             return
         text = ''
-        if not self._show_icon:
+        # The grid icon already shows broadcast state. The fallback text
+        # only stands in when that icon is not on screen, otherwise it
+        # would sit between the icon and the pane title.
+        if not self.groupicon.get_visible() and not self._show_icon:
             if icon == '_active_broadcast_all':
                 text = _('Broadcast: all')
             elif icon == '_active_broadcast_group' and \
@@ -433,7 +471,7 @@ class Titlebar(Gtk.EventBox):
                 and not self.config['title_hide_sizetext']
                 and self._collapse_level < 1):
             sizetext = " %s" % self.sizetext
-        self.label.set_text("%s%s%s" % (temp_heldtext_str, self.termtext,
+        self.label.set_text("%s%s%s" % (temp_heldtext_str, self.termtext or '',
                                         sizetext))
 
     def set_terminal_title(self, widget, title):
@@ -523,10 +561,92 @@ class Titlebar(Gtk.EventBox):
                 image = Gtk.Image()
                 btn.set_image(image)
             image.set_from_icon_name(name, Gtk.IconSize.MENU)
+            image._titlebar_icon = name
             btn.set_always_show_image(True)
+            self._align_button_icon(image, name)
         else:
             btn.set_label(fallback_text)
             btn.get_style_context().add_class('titlebar-btn-text')
+
+    def _icon_ink_span(self, name):
+        """Pixel span of the opaque part of a 16px icon, or 0."""
+        span = _ICON_INK.get(name)
+        if span is not None:
+            return span
+        span = 0
+        try:
+            theme = Gtk.IconTheme.get_default()
+            pb = theme.load_icon(name, 16, 0)
+        except Exception:
+            pb = None
+        if pb is not None:
+            width, height = pb.get_width(), pb.get_height()
+            pixels = pb.get_pixels()
+            row = pb.get_rowstride()
+            channels = pb.get_n_channels()
+            minx, miny, maxx, maxy = width, height, -1, -1
+            for y in range(height):
+                for x in range(width):
+                    alpha = pixels[y * row + x * channels + channels - 1]
+                    if alpha > 30:
+                        if x < minx:
+                            minx = x
+                        if y < miny:
+                            miny = y
+                        if x > maxx:
+                            maxx = x
+                        if y > maxy:
+                            maxy = y
+            if maxx >= 0:
+                span = max(maxx - minx + 1, maxy - miny + 1)
+        _ICON_INK[name] = span
+        return span
+
+    def _button_box_px(self):
+        """Button box for the current density. Standard is the original 24px."""
+        try:
+            density = self.config['titlebar_density']
+        except Exception:
+            density = 'standard'
+        if density == 'compact':
+            return _BUTTON_BOX_COMPACT
+        return _BUTTON_BOX_STANDARD
+
+    def _aligned_ink_px(self):
+        """Shared glyph size: the close mark enlarged until it fills the button."""
+        cap = float(self._button_box_px()) / float(_BUTTON_CANVAS_PX)
+        close = self._icon_ink_span('window-close-symbolic')
+        if close <= 0:
+            return 8.0 * cap
+        return close * cap
+
+    def _button_icon_scale(self, name):
+        """Scale that gives this icon the same ink size as the others.
+
+        The result is capped so the scaled 16px canvas still fits the button.
+        """
+        span = self._icon_ink_span(name)
+        if span <= 0:
+            return 1.0
+        cap = float(self._button_box_px()) / float(_BUTTON_CANVAS_PX)
+        scale = self._aligned_ink_px() / float(span)
+        return min(scale, cap)
+
+    def _align_button_icon(self, image, name):
+        """Draw the glyph at the same size as the other titlebar buttons."""
+        scale = self._button_icon_scale(name)
+        self._set_widget_css(
+            image, '* { -gtk-icon-transform: scale(%.3f); }' % scale)
+
+    def _realign_button_icons(self):
+        """Re-apply glyph scales after the button box changes."""
+        for btn in (getattr(self, 'btn_gear', None),
+                    getattr(self, 'btn_max', None),
+                    getattr(self, 'btn_close', None)):
+            image = btn.get_image() if btn is not None else None
+            name = getattr(image, '_titlebar_icon', None)
+            if name:
+                self._align_button_icon(image, name)
 
     def _set_button_fg(self, color):
         """Icon colour of ⚙/maximise/✕ and the badge follows title fg."""
@@ -548,6 +668,55 @@ class Titlebar(Gtk.EventBox):
             ctx.add_provider(provider,
                              Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 1)
         self._btn_fg = color
+
+    def _css_color(self, value):
+        rgba = Gdk.RGBA()
+        if not rgba.parse(str(value)):
+            return None
+        return rgba.to_string()
+
+    def _set_widget_css(self, widget, css):
+        if widget is None:
+            return
+        provider = getattr(widget, '_tb_css', None)
+        if provider is None:
+            provider = Gtk.CssProvider()
+            widget._tb_css = provider
+            widget.get_style_context().add_provider(
+                provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 1)
+        try:
+            provider.load_from_data(css.encode('utf-8'))
+        except Exception as ex:
+            dbg('titlebar color css: %s' % ex)
+
+    def _paint_title(self, title_fg, title_bg, group_fg, group_bg):
+        """Paint the bar and the title with CSS.
+
+        modify_fg / modify_bg are ignored once a theme (WhiteSur) supplies
+        its own background, which left the pane title the same colour as
+        the bar. The title is the label immediately right of the icon.
+        """
+        bg = self._css_color(title_bg)
+        fg = self._css_color(title_fg)
+        gbg = self._css_color(group_bg)
+        gfg = self._css_color(group_fg)
+        # The focus ring reads this so it stays the same colour as the bar.
+        if bg:
+            changed = getattr(self, '_bar_bg', None) != title_bg
+            self._bar_bg = title_bg
+            block = '* { background-color: %s; }' % bg
+            self._set_widget_css(self, block)
+            self._set_widget_css(getattr(self, '_title_viewport', None), block)
+            redraw = getattr(getattr(self, 'terminal', None), 'queue_draw', None)
+            if changed and callable(redraw):
+                redraw()
+        if fg:
+            label = getattr(self.label, '_label', None)
+            self._set_widget_css(label, '* { color: %s; }' % fg)
+        if gbg:
+            self._set_widget_css(self.ebox, '* { background-color: %s; }' % gbg)
+        if gfg:
+            self._set_widget_css(self.grouplabel, '* { color: %s; }' % gfg)
 
     def _make_button(self, icon_names, action, classes):
         """Create a flat titlebar button"""
@@ -655,6 +824,12 @@ class Titlebar(Gtk.EventBox):
                 context.add_class(klass)
             else:
                 context.remove_class(klass)
+        # CSS min-height on this EventBox does not win against the button
+        # row. Request the original height directly.
+        self.set_size_request(
+            -1, _BUTTON_BOX_STANDARD if density == 'standard'
+            else _BUTTON_BOX_COMPACT)
+        self._realign_button_icons()
 
         self._show_buttons = show_buttons
         self._apply_icon_visibility()
@@ -795,8 +970,10 @@ class Titlebar(Gtk.EventBox):
         win = self.get_toplevel()
         if self._win_sig is not None and self._win_sig[0] is win:
             self.refresh_maximise_state()
+            self.update_visibility()
             return
         self._disconnect_window_signal()
+        self.update_visibility()
         if win is not None and hasattr(win, 'is_maximised_pane'):
             try:
                 handler = win.connect('pane-maximise-changed',

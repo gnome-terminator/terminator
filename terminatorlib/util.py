@@ -586,6 +586,78 @@ def get_flatpak_args(args, envv, cwd):
 
 _SOURCE_ICON_PATH_ADDED = False
 
+_ICON_INK_SPAN = {}
+
+
+def icon_ink_span(name, size=16):
+    """Pixel span of the opaque part of an icon, or 0 if it cannot be read."""
+    key = (name, size)
+    cached = _ICON_INK_SPAN.get(key)
+    if cached is not None:
+        return cached
+    span = 0
+    try:
+        pb = Gtk.IconTheme.get_default().load_icon(name, size, 0)
+    except Exception:
+        pb = None
+    if pb is not None:
+        width, height = pb.get_width(), pb.get_height()
+        pixels = pb.get_pixels()
+        row = pb.get_rowstride()
+        channels = pb.get_n_channels()
+        minx, miny, maxx, maxy = width, height, -1, -1
+        for y in range(height):
+            for x in range(width):
+                alpha = pixels[y * row + x * channels + channels - 1]
+                if alpha > 30:
+                    if x < minx:
+                        minx = x
+                    if y < miny:
+                        miny = y
+                    if x > maxx:
+                        maxx = x
+                    if y > maxy:
+                        maxy = y
+        if maxx >= 0:
+            span = max(maxx - minx + 1, maxy - miny + 1)
+    _ICON_INK_SPAN[key] = span
+    return span
+
+
+def icon_scale_for_ink(span, target_px, canvas_px=16, button_px=28):
+    """Scale that makes an icon's ink ``target_px``, without leaving the button."""
+    if span <= 0 or canvas_px <= 0:
+        return 1.0
+    cap = float(button_px) / float(canvas_px)
+    return min(float(target_px) / float(span), cap)
+
+
+def pin_icon_button(button, px):
+    """Keep an icon button at ``px``, instead of the theme stretching it."""
+    button.set_size_request(px, px)
+    css = (
+        '* { min-width: %dpx; min-height: %dpx;'
+        ' padding: 2px; margin: 0; }' % (px, px))
+    provider = Gtk.CssProvider()
+    provider.load_from_data(css.encode('utf-8'))
+    button.get_style_context().add_provider(
+        provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 1)
+
+
+def scale_image_to_ink(image, name, target_px, button_px, canvas_px=16):
+    """Draw ``name`` so its ink matches the other buttons of this size."""
+    scale = icon_scale_for_ink(
+        icon_ink_span(name, canvas_px), target_px, canvas_px, button_px)
+    if abs(scale - 1.0) < 0.04:
+        return scale
+    css = '* { -gtk-icon-transform: scale(%.3f); }' % scale
+    provider = Gtk.CssProvider()
+    provider.load_from_data(css.encode('utf-8'))
+    image.get_style_context().add_provider(
+        provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 1)
+    return scale
+
+
 def add_source_icon_path(icon_theme=None):
     """When running from a source checkout, let the icon theme find
     data/icons (app icon and titlebar receive/broadcast icons).

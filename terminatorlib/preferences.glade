@@ -113,6 +113,9 @@
         <col id="0" translatable="yes">Gruvbox dark</col>
       </row>
       <row>
+        <col id="0" translatable="yes">Deep teal</col>
+      </row>
+      <row>
         <col id="0" translatable="yes">Custom</col>
       </row>
     </data>
@@ -2815,7 +2818,7 @@
                                         <property name="halign">start</property>
                                         <property name="margin-top">3</property>
                                         <property name="model">ColourSchemeListStore</property>
-                                        <property name="active">2</property>
+                                        <property name="active">11</property>
                                         <signal name="changed" handler="on_color_scheme_combobox_changed" swapped="no"/>
                                         <child>
                                           <object class="GtkCellRendererText" id="cellrenderertext6"/>

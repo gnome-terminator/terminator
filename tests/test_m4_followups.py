@@ -161,8 +161,10 @@ def test_toggle_zoom_has_default_binding():
 def test_wave_titlebar_defaults_not_legacy_red():
     from terminatorlib.config import DEFAULTS
     prof = DEFAULTS['profiles']['default']
-    assert prof['title_transmit_bg_color'].lower() != '#c80003'
-    assert prof['title_inactive_bg_color'].lower() != '#c0bebf'
+    assert prof['title_transmit_bg_color'].lower() == '#ffffff'
+    assert prof['title_inactive_bg_color'].lower() == '#ffffff'
+    assert prof['title_transmit_fg_color'].lower() == '#1d1d1f'
+    assert DEFAULTS['global_config']['window_decoration_style'] == 'light'
     # Group/broadcast receive colour stays distinct from both bars
     assert prof['title_receive_bg_color'] not in (
         prof['title_transmit_bg_color'], prof['title_inactive_bg_color'])

@@ -32,6 +32,9 @@ msgstr "打开一个新窗口"
 msgid "Open a new tab"
 msgstr "打开新标签页"
 
+msgid "Show or hide the tab list"
+msgstr "显示或隐藏标签面板"
+
 #: ../remotinator.py:41
 msgid "Split the current terminal horizontally"
 msgstr "横向分割终端"
@@ -306,6 +309,39 @@ msgstr "启动"
 #: ../terminatorlib/notebook.py:764
 msgid "Close Tab"
 msgstr "关闭标签"
+
+msgid "Move Terminal _Left"
+msgstr "左移终端(_L)"
+
+msgid "Move Terminal _Right"
+msgstr "右移终端(_R)"
+
+msgid "_Detach Terminal"
+msgstr "分离终端(_D)"
+
+msgid "_Close Terminal"
+msgstr "关闭终端(_C)"
+
+msgid "Find"
+msgstr "查找"
+
+msgid "_Match case"
+msgstr "区分大小写(_M)"
+
+msgid "Match _entire word"
+msgstr "匹配整个单词(_E)"
+
+msgid "Match as _regular expression"
+msgstr "使用正则表达式匹配(_R)"
+
+msgid "_Wrap around"
+msgstr "回到文档头部继续搜索(_W)"
+
+msgid "Find previous"
+msgstr "查找上一个"
+
+msgid "Find next"
+msgstr "查找下一个"
 
 #: ../terminatorlib/optionparse.py:43
 msgid "Reload terminator configuration"
@@ -671,6 +707,10 @@ msgid "Gruvbox dark"
 msgstr "Gruvbox dark"
 
 #: ../terminatorlib/preferences.glade.h:25
+msgid "Deep teal"
+msgstr "深青"
+
+#: ../terminatorlib/preferences.glade.h:26
 msgid "Custom"
 msgstr "自定义"
 

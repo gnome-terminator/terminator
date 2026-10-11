@@ -345,7 +345,21 @@ class Window(Container, Gtk.Window):
         self._iconified_by_hide = False
         if not self.terminator.doing_layout:
             self.terminator.last_active_window = self.uuid
-        # FIXME: Cause the terminal titlebars to update here
+        # Window focus-out dimmed every pane. Light only the focused one again.
+        term = None
+        try:
+            term = self.terminator.get_focussed_terminal()
+        except Exception:
+            term = None
+        if term is None or term.get_toplevel() is not self:
+            term = getattr(self.terminator, 'last_focused_term', None)
+        if term is not None and term.get_toplevel() is self:
+            if hasattr(term, 'refresh_visible_focus_chrome'):
+                term.refresh_visible_focus_chrome(focused=term)
+            try:
+                self.terminator.focus_changed(term)
+            except Exception:
+                pass
 
     def is_child_notebook(self):
         """Returns True if this Window's child is a Notebook"""
@@ -520,7 +534,229 @@ class Window(Container, Gtk.Window):
 
     def set_borderless(self, value):
         """Set the state of the window border from the supplied value"""
-        self.set_decorated (not value)
+        self._borderless = bool(value)
+        self.set_decorated(not value)
+        if value:
+            self._remove_header_bar()
+        else:
+            self._install_header_bar()
+
+    def _install_header_bar(self):
+        """Client-side title bar, matching GNOME Terminal.
+
+        The drop shadow and rounded corners are not drawn here. Putting a
+        Gtk.HeaderBar on the window switches it to client-side decorations,
+        and the compositor (Mutter on Ubuntu) paints the same shadow it
+        paints around gnome-terminal. A CSS box-shadow on the contents
+        cannot leave the window, so it is not a substitute. Maximised and
+        fullscreen windows have no shadow; that is also the compositor.
+        """
+        if getattr(self, '_header_bar', None) is not None:
+            return
+        if getattr(self, '_borderless', False):
+            return
+        bar = Gtk.HeaderBar()
+        bar.set_show_close_button(True)
+        bar.set_has_subtitle(False)
+        bar.get_style_context().add_class('terminator-header-bar')
+        new_tab = self._header_button(
+            ('view-left-pane-symbolic', 'sidebar-show-symbolic',
+             'view-dual-symbolic'),
+            _('Show or hide the tab list'),
+            self._on_header_tab_panel_toggled, toggle=True)
+        find = self._header_button(
+            ('edit-find-symbolic', 'system-search-symbolic'),
+            _('Find'), self._on_header_find)
+        menu = self._header_button(
+            ('open-menu-symbolic', 'view-more-symbolic'),
+            _('Terminal menu'), self._on_header_menu)
+        # pack_end: first packed sits next to the window buttons.
+        # A slot keeps the 24px button from being stretched to the bar.
+        bar.pack_start(self._header_slot(new_tab))
+        bar.pack_end(self._header_slot(menu))
+        bar.pack_end(self._header_slot(find))
+        self._header_new_tab = new_tab
+        self._header_tab_panel = new_tab
+        self._header_find = find
+        self._header_menu = menu
+        self._header_bar = bar
+        self.set_titlebar(bar)
+        # Gtk.Window.show() does not map a custom titlebar on this GTK.
+        # Without show_all the header stays invisible and the terminal
+        # starts at the top of the window.
+        bar.show_all()
+        try:
+            bar.set_title(self.get_title() or '')
+        except Exception:
+            pass
+        if not getattr(self, '_header_title_bound', False):
+            self.connect('notify::title', self._sync_header_title)
+            self._header_title_bound = True
+
+    def _remove_header_bar(self):
+        if getattr(self, '_header_bar', None) is None:
+            return
+        self.set_titlebar(None)
+        self._header_bar = None
+
+    def _sync_header_title(self, window, _pspec=None):
+        """Copy the window title onto the header bar.
+
+        Gtk.HeaderBar.set_title() writes the window title back, which
+        emits notify::title again. Without this guard that pair never
+        returns and the process spins at startup.
+        """
+        if getattr(self, '_header_title_syncing', False):
+            return
+        bar = getattr(self, '_header_bar', None)
+        if bar is None:
+            return
+        try:
+            title = window.get_title() or ''
+        except Exception:
+            return
+        try:
+            if (bar.get_title() or '') == title:
+                return
+        except Exception:
+            pass
+        self._header_title_syncing = True
+        try:
+            bar.set_title(title)
+        except Exception:
+            pass
+        finally:
+            self._header_title_syncing = False
+
+    def _header_button(self, icon_names, tooltip, callback, toggle=False):
+        btn = Gtk.ToggleButton() if toggle else Gtk.Button()
+        btn.set_relief(Gtk.ReliefStyle.NONE)
+        btn.set_focus_on_click(False)
+        btn.set_can_focus(False)
+        btn.get_style_context().add_class('terminator-header-btn')
+        image = Gtk.Image()
+        theme = Gtk.IconTheme.get_default()
+        for name in icon_names:
+            try:
+                if theme.has_icon(name):
+                    image.set_from_icon_name(name, Gtk.IconSize.MENU)
+                    break
+            except Exception:
+                continue
+        from .util import pin_icon_button
+        pin_icon_button(btn, 24)
+        btn.set_valign(Gtk.Align.CENTER)
+        btn.set_vexpand(False)
+        btn.add(image)
+        btn.set_tooltip_text(tooltip)
+        if toggle:
+            btn.connect('toggled', callback)
+        else:
+            btn.connect('clicked', callback)
+        return btn
+
+    def _header_slot(self, btn):
+        """Box so the header bar does not stretch a 24px button."""
+        slot = Gtk.Box()
+        slot.pack_start(btn, False, False, 0)
+        return slot
+
+    def _header_terminal(self):
+        """The pane the header actions apply to."""
+        term = None
+        try:
+            term = self.get_focussed_terminal()
+        except Exception:
+            term = None
+        if term is None:
+            term = getattr(self.terminator, 'last_focused_term', None)
+            try:
+                if term is not None and term.get_toplevel() is not self:
+                    term = None
+            except Exception:
+                term = None
+        if term is None:
+            try:
+                terms = self.get_terminals()
+            except Exception:
+                terms = []
+            term = terms[0] if terms else None
+        return term
+
+    def _on_header_new_tab(self, _button):
+        self.tab_new(widget=self._header_terminal())
+
+    def _on_header_tab_panel_toggled(self, button):
+        """Show or hide the tab list. The button stays down while it is open."""
+        if getattr(self, '_tab_panel_syncing', False):
+            return
+        self._set_tab_panel_visible(button.get_active())
+
+    def _tab_panel_visible(self):
+        if not self.is_child_notebook():
+            return False
+        try:
+            return bool(self.get_child().get_show_tabs())
+        except Exception:
+            return False
+
+    def _sync_tab_panel_button(self):
+        btn = getattr(self, '_header_tab_panel', None)
+        if btn is None or not hasattr(btn, 'get_active'):
+            return
+        shown = self._tab_panel_visible()
+        if btn.get_active() == shown:
+            return
+        self._tab_panel_syncing = True
+        try:
+            btn.set_active(shown)
+        finally:
+            self._tab_panel_syncing = False
+
+    def _set_tab_panel_visible(self, visible):
+        """Open or close the tab sidebar without changing the saved preference."""
+        visible = bool(visible)
+        if visible and not self.is_child_notebook():
+            try:
+                Factory().make('Notebook', window=self)
+            except Exception as ex:
+                dbg('tab panel: %s' % ex)
+        if not self.is_child_notebook():
+            self._sync_tab_panel_button()
+            return
+        notebook = self.get_child()
+        if visible:
+            pos = 'left'
+            try:
+                pos = self.config['tab_position'] or 'left'
+            except Exception:
+                pos = 'left'
+            if pos == 'hidden':
+                pos = 'left'
+            try:
+                notebook.set_tab_pos(getattr(Gtk.PositionType, pos.upper()))
+            except Exception:
+                notebook.set_tab_pos(Gtk.PositionType.LEFT)
+            notebook.set_show_tabs(True)
+            if hasattr(notebook, '_ensure_tab_add_button'):
+                notebook._ensure_tab_add_button()
+            if hasattr(notebook, '_hide_native_tab_labels'):
+                notebook._hide_native_tab_labels()
+            if hasattr(notebook, '_queue_sidebar_refresh'):
+                notebook._queue_sidebar_refresh()
+        else:
+            notebook.set_show_tabs(False)
+        self._sync_tab_panel_button()
+
+    def _on_header_find(self, _button):
+        term = self._header_terminal()
+        if term is not None and hasattr(term, 'key_search'):
+            term.key_search()
+
+    def _on_header_menu(self, button):
+        term = self._header_terminal()
+        if term is not None and hasattr(term, 'popup_menu'):
+            term.popup_menu(button, anchor=button, skip_link_check=True)
 
     def set_hidden(self, value):
         """Set the visibility of the window from the supplied value"""
@@ -715,6 +951,11 @@ class Window(Container, Gtk.Window):
         #It is important to call present() before show(), otherwise the window
         #won't be brought to front if an another application has the focus.
         #Last note: present() will implicitly call Gtk.Window.show()
+        # which does not map a custom titlebar. Show the header first.
+        bar = getattr(self, '_header_bar', None)
+        if bar is not None:
+            bar.show_all()
+        self._sync_tab_panel_button()
         self.present()
 
         #Window must be shown, then hidden for the hotkeys to be registered

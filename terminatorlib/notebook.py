@@ -2,12 +2,13 @@
 # GPL v2 only
 """notebook.py - classes for the notebook widget"""
 
+import os
 from functools import cmp_to_key
 from gi.repository import GObject
 from gi.repository import Gtk
 from gi.repository import Gdk
-from gi.repository import Gio
 from gi.repository import GLib
+from gi.repository import Pango
 
 from .terminator import Terminator
 from .config import Config
@@ -16,6 +17,189 @@ from .container import Container
 from .editablelabel import EditableLabel
 from .translation import _
 from .util import err, dbg, enumerate_descendants, make_uuid, logical_parent
+
+
+def folder_basename(path):
+    """Directory name used as a tab's default title.
+
+    The home directory is ``~``. Anything else is the last path segment.
+    """
+    if not path:
+        return ''
+    path = os.path.abspath(os.path.expanduser(path))
+    home = os.path.abspath(os.path.expanduser('~'))
+    if path == home:
+        return '~'
+    name = os.path.basename(path.rstrip(os.sep))
+    return name or path
+
+
+def folder_subtitle(path):
+    """Folder path shown under the tab name, with ``~`` for home."""
+    if not path:
+        return ''
+    path = os.path.abspath(os.path.expanduser(path))
+    home = os.path.abspath(os.path.expanduser('~'))
+    if path == home:
+        return '~'
+    prefix = home + os.sep
+    if path.startswith(prefix):
+        return '~' + os.sep + path[len(prefix):]
+    return path
+
+
+def choose_naming_terminal(terminals, focused):
+    """Which pane names the tab. The focused pane wins; else the first."""
+    terms = [term for term in (terminals or []) if term is not None]
+    if focused is not None and focused in terms:
+        return focused
+    if terms:
+        return terms[0]
+    return None
+
+
+def pane_row_title(cwd, fallback=''):
+    """Name of one pane in the sidebar tree. The directory wins."""
+    name = folder_basename(cwd)
+    if name:
+        return name
+    return fallback or ''
+
+
+def sidebar_tree_rows(pages):
+    """Turn tabs into a two-level tree.
+
+    ``pages`` is a list of ``(title, pane_titles)``. A tab with one pane is
+    a single row. A tab with several panes keeps that title as the parent
+    and lists each pane underneath it.
+    """
+    rows = []
+    for page, item in enumerate(pages or []):
+        title = item[0] or ''
+        panes = list(item[1] or [])
+        rows.append({'title': title, 'page': page, 'pane': None, 'depth': 0})
+        if len(panes) >= 2:
+            for index, pane_title in enumerate(panes):
+                rows.append({
+                    'title': pane_title or title,
+                    'page': page,
+                    'pane': index,
+                    'depth': 1,
+                })
+    return rows
+
+
+def tab_nav_sensitive(index, count):
+    """Back and forward in the sidebar. They do not wrap."""
+    if count < 1 or index < 0 or index >= count:
+        return {'back': False, 'forward': False}
+    return {
+        'back': index > 0,
+        'forward': index < count - 1,
+    }
+
+
+def tree_drop_target(rows, x, y, promote_x=36):
+    """Where a dragged tab or child pane lands.
+
+    ``rows`` are ``depth``, ``page``, ``pane``, ``top`` and ``bottom``.
+    A tab row's middle nests the drop inside that tab. Its top and bottom
+    edges insert a tab. A child row reorders panes; dropping it in the
+    left gutter makes it a tab.
+    """
+    if not rows:
+        return ('tab', 0)
+    hit = None
+    for row in rows:
+        if row['top'] <= y < row['bottom']:
+            hit = row
+            break
+    if hit is None:
+        if y < rows[0]['top']:
+            return ('tab', 0)
+        last = rows[-1]
+        if last['depth'] == 1 and x >= promote_x:
+            return ('pane', last['page'], last['pane'] + 1)
+        return ('tab', last['page'] + 1)
+    height = max(1.0, float(hit['bottom'] - hit['top']))
+    rel = (y - hit['top']) / height
+    if hit['depth'] == 0:
+        if rel < 0.25:
+            return ('tab', hit['page'])
+        if rel > 0.75:
+            return ('tab', hit['page'] + 1)
+        return ('into', hit['page'])
+    if x < promote_x:
+        if rel < 0.5:
+            return ('tab', hit['page'])
+        return ('tab', hit['page'] + 1)
+    if rel < 0.5:
+        return ('pane', hit['page'], hit['pane'])
+    return ('pane', hit['page'], hit['pane'] + 1)
+
+
+def tab_drop_index(spans, y):
+    """Where a dragged tab lands.
+
+    ``spans`` is ``(top, bottom)`` for each page, top to bottom. ``y`` is
+    the pointer. The result is an insertion index from 0 through
+    ``len(spans)``: before the first page whose midpoint is below ``y``.
+    """
+    for index, (top, bottom) in enumerate(spans):
+        if y < (top + bottom) / 2.0:
+            return index
+    return len(spans)
+
+
+def reorder_to_index(current, insert_at, count):
+    """``reorder_child`` index for a page that is already in the notebook.
+
+    ``insert_at`` is the slot it would take if it were lifted out first.
+    ``None`` means the page would not move.
+    """
+    if count <= 1 or current < 0 or current >= count:
+        return None
+    if insert_at > current:
+        insert_at -= 1
+    if insert_at < 0:
+        insert_at = 0
+    if insert_at > count - 1:
+        insert_at = count - 1
+    if insert_at == current:
+        return None
+    return insert_at
+
+
+def tab_menu_sensitive(index, count):
+    """Which items of the tab context menu can run.
+
+    Moves do not wrap: the first tab cannot move left, the last cannot
+    move right. Detach needs another tab to leave behind. Close always
+    can.
+    """
+    if count < 1 or index < 0 or index >= count:
+        return {'left': False, 'right': False, 'detach': False,
+                'close': False}
+    return {
+        'left': index > 0,
+        'right': index < count - 1,
+        'detach': count > 1,
+        'close': True,
+    }
+
+
+_TAB_DRAG_PAYLOADS = {}
+
+
+def _tab_dnd_targets():
+    """Drag type shared by every window's tab list. Same application only."""
+    cached = getattr(_tab_dnd_targets, '_cached', None)
+    if cached is None:
+        cached = [Gtk.TargetEntry.new(
+            'application/x-terminator-tab', Gtk.TargetFlags.SAME_APP, 1)]
+        _tab_dnd_targets._cached = cached
+    return cached
+
 
 class Notebook(Container, Gtk.Notebook):
     """Class implementing a Gtk.Notebook container"""
@@ -43,6 +227,8 @@ class Notebook(Container, Gtk.Notebook):
         self.configure()
 
         self.set_can_focus(False)
+        self.get_style_context().add_class('terminator-notebook')
+        self.set_show_border(False)
 
         child = window.get_child()
         window.remove(child)
@@ -72,8 +258,11 @@ class Notebook(Container, Gtk.Notebook):
             self.set_tab_pos(pos)
 
         for tab in range(0, self.get_n_pages()):
-            label = self.get_tab_label(self.get_nth_page(tab))
+            page = self.get_nth_page(tab)
+            label = self.get_tab_label(page)
             label.update_angle()
+            self._pack_tab(page)
+        self._ensure_tab_add_button()
 
 #        style = Gtk.RcStyle()  # FIXME FOR GTK3 how to do it there? actually do we really want to override the theme?
 #        style.xthickness = 0
@@ -108,6 +297,49 @@ class Notebook(Container, Gtk.Notebook):
 
         window.show_all()
         return False
+
+    def page_num_of_label(self, label):
+        """Index of the page whose tab label is `label`, or None."""
+        for i in range(self.get_n_pages()):
+            page = self.get_nth_page(i)
+            if page is not None and self.get_tab_label(page) is label:
+                return i
+        return None
+
+    def move_labeled_tab(self, label, direction):
+        """Move one tab left or right. Does not wrap."""
+        win = getattr(self, 'window', None)
+        if win is not None and getattr(win, 'is_zoomed', lambda: False)():
+            from .zoomguard import leave_zoom
+            leave_zoom(win, reason='window', quiet=False)
+        page = self.page_num_of_label(label)
+        if page is None:
+            return
+        count = self.get_n_pages()
+        if not tab_menu_sensitive(page, count).get(direction):
+            return
+        child = self.get_nth_page(page)
+        new = page - 1 if direction == 'left' else page + 1
+        self.reorder_child(child, new)
+        try:
+            from .session import try_mark_dirty
+            try_mark_dirty('notebook.move_tab')
+        except Exception:
+            pass
+
+    def detach_labeled_tab(self, label):
+        """Tear the tab with this label out into its own window."""
+        page = self.page_num_of_label(label)
+        if page is None:
+            return
+        if not tab_menu_sensitive(page, self.get_n_pages())['detach']:
+            return
+        child = self.get_nth_page(page)
+        win = getattr(self, 'window', None)
+        if win is not None and hasattr(win, 'detach_tab_to_new_window'):
+            win.detach_tab_to_new_window(child)
+        else:
+            self.detach_tab_to_new_window(child)
 
     def on_tab_drag_failed(self, notebook, context, result):
         """Re-allocate after a failed tab drag so the label repaints"""
@@ -206,13 +438,14 @@ class Notebook(Container, Gtk.Notebook):
             sibling.spawn_child()
             if widget.group and self.config['split_to_group']:
                 sibling.set_group(None, widget.group)
-        elif self.config['always_split_with_profile']:
+        elif (self.config['always_split_with_profile'] and
+              hasattr(sibling, 'force_set_profile') and
+              hasattr(widget, 'get_profile')):
             sibling.force_set_profile(None, widget.get_profile())
 
         self.insert_page(container, None, page_num)
         self.set_tab_detachable(container, self.config['detachable_tabs'])
-        self.child_set_property(container, 'tab-expand', True)
-        self.child_set_property(container, 'tab-fill', True)
+        self._pack_tab(container)
         self.set_tab_reorderable(container, True)
         self.set_tab_label(container, label)
         self.show_all()
@@ -231,7 +464,10 @@ class Notebook(Container, Gtk.Notebook):
             Gtk.main_iteration_do(False)
         self.get_toplevel().set_pos_by_ratio = False
 
-        GLib.idle_add(terminal.ensure_visible_and_focussed)
+        if hasattr(terminal, 'ensure_visible_and_focussed'):
+            GLib.idle_add(terminal.ensure_visible_and_focussed)
+        self._hide_native_tab_labels()
+        self._queue_sidebar_refresh()
         try:
             from .session import try_mark_dirty
             try_mark_dirty('notebook.split_axis')
@@ -296,8 +532,7 @@ class Notebook(Container, Gtk.Notebook):
                 self.last_active_term[new_widget] = lat
         else:
             self.insert_page(new_widget, label, page_num)
-            self.child_set_property(new_widget, 'tab-expand', True)
-            self.child_set_property(new_widget, 'tab-fill', True)
+            self._pack_tab(new_widget)
             self.set_tab_reorderable(new_widget, True)
             if hasattr(self, 'last_active_term'):
                 term = getattr(new_widget, 'terminal', None)
@@ -325,6 +560,926 @@ class Notebook(Container, Gtk.Notebook):
         else:
             dbg('don\'t grab the label as it was not customised')
         return metadata
+
+    def _pack_tab(self, widget):
+        """Rows in the left list fill the sidebar; top tabs hug their label."""
+        left = self.get_tab_pos() == Gtk.PositionType.LEFT
+        self.child_set_property(widget, 'tab-expand', False)
+        self.child_set_property(widget, 'tab-fill',
+                                left and getattr(self, '_tab_tree', None) is None)
+
+    def _icon_button(self, icon_names, tooltip, css_class):
+        """Flat icon button used in the tab toolbar."""
+        btn = Gtk.Button()
+        btn.set_relief(Gtk.ReliefStyle.NONE)
+        btn.set_focus_on_click(False)
+        btn.set_can_focus(False)
+        btn.get_style_context().add_class(css_class)
+        image = Gtk.Image()
+        theme = Gtk.IconTheme.get_default()
+        for name in icon_names:
+            try:
+                if theme is not None and theme.has_icon(name):
+                    image.set_from_icon_name(name, Gtk.IconSize.MENU)
+                    break
+            except Exception:
+                continue
+        # Same 24px box as a pane titlebar button. MENU is 16px and
+        # fits without the 20px enlargement that made these too big.
+        from .util import pin_icon_button
+        pin_icon_button(btn, 24)
+        btn.add(image)
+        btn.set_tooltip_text(tooltip)
+        return btn
+
+    def _ensure_tab_add_button(self):
+        """Sidebar toolbar: plus (new tab) on the left, back and forward on the right.
+
+        The header's sidebar icon is the show/hide toggle, so this button
+        stays a plus.
+
+        A top strip keeps a single plus after the chips.
+        """
+        if getattr(self, '_new_tab_btn', None) is not None:
+            return
+        if self.config['tab_position'] == 'hidden':
+            return
+        left = self.config['tab_position'] == 'left'
+        if left:
+            bar = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=2)
+            bar.get_style_context().add_class('terminator-tab-toolbar')
+            bar.set_hexpand(True)
+            # Wide enough that back and forward sit on the right edge.
+            bar.set_size_request(220, -1)
+            new_btn = self._icon_button(
+                ('list-add-symbolic', 'tab-new-symbolic'),
+                _('Open a new tab'), 'terminator-tab-add')
+            prev_btn = self._icon_button(
+                ('go-previous-symbolic', 'pan-start-symbolic'),
+                _('Switch to the previous tab'), 'terminator-tab-nav')
+            next_btn = self._icon_button(
+                ('go-next-symbolic', 'pan-end-symbolic'),
+                _('Switch to the next tab'), 'terminator-tab-nav')
+            new_btn.connect('clicked', lambda *_a: self._on_tab_toolbar('new'))
+            prev_btn.connect('clicked', lambda *_a: self._on_tab_toolbar('back'))
+            next_btn.connect('clicked', lambda *_a: self._on_tab_toolbar('forward'))
+            bar.pack_start(new_btn, False, False, 0)
+            bar.pack_end(next_btn, False, False, 0)
+            bar.pack_end(prev_btn, False, False, 0)
+            side = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=0)
+            side.get_style_context().add_class('terminator-tab-sidebar')
+            side.set_vexpand(True)
+            side.pack_start(bar, False, False, 0)
+            side.pack_start(self._build_tab_tree(), True, True, 0)
+            self._enable_tab_drop(side)
+            side.show_all()
+            self._new_tab_btn = new_btn
+            self._tab_prev_btn = prev_btn
+            self._tab_next_btn = next_btn
+            self._tab_toolbar = bar
+            self.set_action_widget(side, Gtk.PackType.START)
+            self.connect('switch-page', self._on_tab_nav_switch)
+            self.connect('page-added', lambda *_a: self._queue_sidebar_refresh())
+            self.connect('page-removed', lambda *_a: self._queue_sidebar_refresh())
+            self.connect('page-reordered', lambda *_a: self._queue_sidebar_refresh())
+            self._refresh_tab_nav()
+            self._queue_sidebar_refresh()
+            return
+        btn = self._icon_button(
+            ('list-add-symbolic', 'tab-new-symbolic'),
+            _('Open a new tab'), 'terminator-tab-add')
+        btn.connect('clicked', lambda *_a: self.newtab())
+        btn.show_all()
+        self._new_tab_btn = btn
+        self.set_action_widget(btn, Gtk.PackType.END)
+        self.connect('size-allocate', self._place_tab_add_beside_tabs)
+
+    def _on_tab_toolbar(self, which):
+        """New, back and forward in the sidebar. Back and forward do not wrap."""
+        if which == 'new':
+            self.newtab()
+        elif which == 'back':
+            self.prev_page()
+        elif which == 'forward':
+            self.next_page()
+        self._refresh_tab_nav()
+
+    def _on_tab_nav_switch(self, _notebook, _page, page_num):
+        self._refresh_tab_nav(page_num)
+        return False
+
+    def _refresh_tab_nav(self, page_num=None):
+        """Grey out back or forward when that direction has no tab."""
+        prev = getattr(self, '_tab_prev_btn', None)
+        nxt = getattr(self, '_tab_next_btn', None)
+        if prev is None or nxt is None:
+            return False
+        if page_num is None:
+            page_num = self.get_current_page()
+        state = tab_nav_sensitive(page_num, self.get_n_pages())
+        prev.set_sensitive(state['back'])
+        nxt.set_sensitive(state['forward'])
+        return False
+
+    def _build_tab_tree(self):
+        """Sidebar tree: a tab, then its panes when the tab is split.
+
+        Rows are ordinary widgets, not a Gtk.TreeView. The theme paints
+        over a tree selection, and these rows use the same styling as the
+        old tab list.
+        """
+        box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=1)
+        box.get_style_context().add_class('terminator-tab-tree')
+        box.set_vexpand(True)
+        scroll = Gtk.ScrolledWindow()
+        scroll.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
+        scroll.set_shadow_type(Gtk.ShadowType.NONE)
+        scroll.set_vexpand(True)
+        # Do not request the current allocation. That grows the window
+        # on every size pass.
+        scroll.set_propagate_natural_height(False)
+        scroll.set_size_request(228, -1)
+        scroll.add(box)
+        self._enable_tab_drop(box)
+        self._enable_tab_drop(scroll)
+        self._tab_rows = box
+        self._tab_tree = box
+        self._tab_tree_scroll = scroll
+        self._sidebar_sig = None
+        self._sidebar_target = None
+        self._sidebar_collapsed = set()
+        return scroll
+
+    def _current_sidebar_target(self):
+        """Page and pane index that should look selected. Pane -1 is the tab."""
+        page = self.get_current_page()
+        panes = self._ordered_panes(self.get_nth_page(page)) if page >= 0 else []
+        focused = self._focused_terminal(panes)
+        if len(panes) >= 2 and focused in panes:
+            return page, panes.index(focused)
+        return page, -1
+
+    def _ordered_panes(self, page):
+        return self._terminals_in_page(page)
+
+    def _pane_cwd(self, term):
+        cwd = None
+        try:
+            cwd = term.get_cwd()
+        except Exception:
+            cwd = None
+        if not cwd:
+            cwd = getattr(term, 'cwd', None)
+        return cwd
+
+    def _sidebar_pages(self):
+        """(tab title, [pane title, ...]) for every notebook page."""
+        pages = []
+        for index in range(self.get_n_pages()):
+            page = self.get_nth_page(index)
+            label = self.get_tab_label(page)
+            panes = self._ordered_panes(page)
+            pane_titles = []
+            for term in panes:
+                fallback = ''
+                try:
+                    fallback = term.get_window_title() or ''
+                except Exception:
+                    fallback = ''
+                pane_titles.append(pane_row_title(self._pane_cwd(term), fallback))
+            title = ''
+            if hasattr(label, 'get_label'):
+                title = label.get_label() or ''
+            if not title and pane_titles:
+                title = pane_titles[0]
+            pages.append((title, pane_titles))
+        return pages
+
+    def _queue_sidebar_refresh(self):
+        if getattr(self, '_tab_tree', None) is None:
+            return False
+        if getattr(self, '_sidebar_refresh_queued', False):
+            return False
+        self._sidebar_refresh_queued = True
+        GLib.idle_add(self._refresh_sidebar_tree)
+        return False
+
+    def note_pane_focus(self, _widget):
+        """The focused pane changed. Move the tree highlight."""
+        self._queue_sidebar_refresh()
+
+    def _refresh_sidebar_tree(self):
+        """Rebuild the tree when tabs, panes, or focus changed."""
+        self._sidebar_refresh_queued = False
+        if (getattr(self, '_tab_drag_page', None) is not None or
+                getattr(self, '_sidebar_pressed', False)):
+            # Rebuilding now would destroy the row under the pointer.
+            self._sidebar_refresh_after_drag = True
+            return False
+        box = getattr(self, '_tab_rows', None)
+        if box is None:
+            return False
+        pages = self._sidebar_pages()
+        signature = tuple((title, tuple(panes)) for title, panes in pages)
+        target = self._current_sidebar_target()
+        collapsed = tuple(sorted(getattr(self, '_sidebar_collapsed', set())))
+        state = (signature, target, collapsed)
+        if state != getattr(self, '_sidebar_sig', None):
+            self._fill_sidebar_rows(pages, target)
+            self._sidebar_sig = state
+        self._hide_native_tab_labels()
+        return False
+
+    def _fill_sidebar_rows(self, pages, target):
+        box = self._tab_rows
+        for child in list(box.get_children()):
+            box.remove(child)
+        rows = sidebar_tree_rows(pages)
+        parents = {row['page'] for row in rows if row['depth'] == 1}
+        current_page, current_pane = target
+        collapsed = getattr(self, '_sidebar_collapsed', set())
+        for row in rows:
+            if row['depth'] == 1 and row['page'] in collapsed:
+                continue
+            box.pack_start(
+                self._make_sidebar_row(row, row['page'] in parents,
+                                        current_page, current_pane),
+                False, False, 0)
+        box.show_all()
+
+    def _make_sidebar_row(self, row, has_children, current_page, current_pane):
+        """One sidebar row. Children sit in from the tab row."""
+        pane = -1 if row['pane'] is None else row['pane']
+        frame = Gtk.Button()
+        frame.set_relief(Gtk.ReliefStyle.NONE)
+        frame.set_can_focus(False)
+        frame.set_hexpand(True)
+        frame.get_style_context().add_class('terminator-tab-row')
+        if row['depth'] == 1:
+            frame.get_style_context().add_class('terminator-tab-child')
+            # CSS margin would wipe this. Children sit in under the tab.
+            frame.set_margin_start(36)
+        if row['page'] == current_page and pane == current_pane:
+            frame.get_style_context().add_class('current')
+        line = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=4)
+        if row['depth'] == 0:
+            if has_children:
+                open_row = row['page'] not in self._sidebar_collapsed
+                icon = 'pan-down-symbolic' if open_row else 'pan-end-symbolic'
+                image = Gtk.Image.new_from_icon_name(icon, Gtk.IconSize.MENU)
+            else:
+                image = Gtk.Image()
+                image.set_size_request(16, -1)
+            line.pack_start(image, False, False, 0)
+        title = Gtk.Label(label=row['title'] or '', xalign=0,
+                           halign=Gtk.Align.START)
+        title.set_ellipsize(Pango.EllipsizeMode.END)
+        line.pack_start(title, True, True, 0)
+        if row['depth'] == 0 and row['page'] == current_page:
+            # A text "×" drawn at the row's font is only about half the
+            # letter height. The symbolic close mark is scaled to 12px,
+            # the same height as the row text.
+            mark = Gtk.Image.new_from_icon_name(
+                'window-close-symbolic', Gtk.IconSize.MENU)
+            mark.get_style_context().add_class('terminator-tab-close-mark')
+            from .util import scale_image_to_ink
+            scale_image_to_ink(
+                mark, 'window-close-symbolic', target_px=12, button_px=24)
+            line.pack_end(mark, False, False, 0)
+        frame._sidebar_page = row['page']
+        frame._sidebar_depth = row['depth']
+        frame._sidebar_pane = None if row['pane'] is None else row['pane']
+        frame.add(line)
+        page_widget = self.get_nth_page(row['page'])
+        terminal = None
+        if row['depth'] == 1 and page_widget is not None:
+            panes = self._ordered_panes(page_widget)
+            if row['pane'] is not None and row['pane'] < len(panes):
+                terminal = panes[row['pane']]
+        if page_widget is not None:
+            self._make_tab_drag_source(frame, page_widget, terminal)
+        # The pointer is over the row, so the row itself has to accept the drop.
+        # The list behind it only sees drops in the gaps.
+        self._enable_tab_drop(frame)
+        frame.connect('button-press-event', self._on_sidebar_row_press,
+                      row['page'], pane, has_children)
+        frame.connect('button-release-event', self._on_sidebar_row_release)
+        tip = self._sidebar_tip(row['page'], pane)
+        if tip:
+            frame.set_tooltip_text(tip)
+        return frame
+
+    def _toggle_sidebar_page(self, page):
+        collapsed = self._sidebar_collapsed
+        if page in collapsed:
+            collapsed.discard(page)
+        else:
+            collapsed.add(page)
+        self._sidebar_sig = None
+        self._queue_sidebar_refresh()
+
+    def _close_sidebar_page(self, page):
+        label = self.get_tab_label(self.get_nth_page(page))
+        if label is not None:
+            label.emit('close-clicked', label)
+
+    def _enable_tab_drop(self, widget):
+        """Accept a tab dragged from this or another window's list."""
+        if widget is None or getattr(widget, '_tab_drop_ready', False):
+            return
+        widget.drag_dest_set(
+            Gtk.DestDefaults.MOTION | Gtk.DestDefaults.HIGHLIGHT |
+            Gtk.DestDefaults.DROP,
+            _tab_dnd_targets(), Gdk.DragAction.MOVE)
+        widget.connect('drag-data-received', self._on_tab_drop)
+        widget._tab_drop_ready = True
+
+    def _make_tab_drag_source(self, frame, page_widget, terminal=None):
+        """A tab or a child pane can be dragged to reorder or change level."""
+        frame.drag_source_set(
+            Gdk.ModifierType.BUTTON1_MASK, _tab_dnd_targets(),
+            Gdk.DragAction.MOVE)
+        frame.connect('drag-begin', self._on_tab_drag_begin, page_widget)
+        frame.connect('drag-data-get', self._on_tab_drag_data_get,
+                      page_widget, terminal)
+        frame.connect('drag-end', self._on_tab_drag_end)
+        frame.connect('drag-data-delete', self._on_tab_drag_delete)
+
+    def _on_tab_drag_begin(self, _widget, _context, page):
+        self._tab_drag_page = page
+
+    def _on_tab_drag_data_get(self, _widget, _context, selection, _info,
+                              _time, page, terminal):
+        token = '%s:%s:%s' % (id(self), id(page), id(terminal))
+        _TAB_DRAG_PAYLOADS[token] = (self, page, terminal)
+        selection.set(selection.get_target(), 8, token.encode('ascii'))
+
+    def _on_tab_drag_delete(self, _widget, _context):
+        """The page was reparented in the drop handler. Nothing to delete."""
+        return True
+
+    def _on_tab_drag_end(self, _widget, _context):
+        self._tab_drag_page = None
+        stale = [key for key, value in _TAB_DRAG_PAYLOADS.items()
+                 if value[0] is self]
+        for key in stale:
+            _TAB_DRAG_PAYLOADS.pop(key, None)
+        self._sidebar_pressed = False
+        self._flush_sidebar_after_pointer()
+
+    def _on_tab_drop(self, widget, context, x, y, selection, _info, time):
+        raw = selection.get_data()
+        token = raw.decode('ascii', 'replace') if raw else ''
+        payload = _TAB_DRAG_PAYLOADS.pop(token, None)
+        if not payload:
+            Gtk.drag_finish(context, False, False, time)
+            return
+        source, page, terminal = payload
+        action = self._tree_drop_action(widget, x, y)
+        ok = False
+        try:
+            ok = self._take_dropped_node(source, page, terminal, action)
+        except Exception as ex:
+            import traceback
+            err('tab drop failed: %s\n%s' % (ex, traceback.format_exc()))
+        Gtk.drag_finish(context, bool(ok), False, time)
+
+    def _tab_drop_index(self, dest, y):
+        """Insertion index under the pointer, from the tab rows' spans."""
+        tree = getattr(self, '_tab_rows', None)
+        if tree is None:
+            return self.get_n_pages()
+        translated = None
+        try:
+            translated = dest.translate_coordinates(tree, 0, int(y))
+        except Exception:
+            translated = None
+        pointer = y if not translated else translated[1]
+        spans = []
+        current = None
+        for child in tree.get_children():
+            alloc = child.get_allocation()
+            depth = getattr(child, '_sidebar_depth', 0)
+            if depth == 0:
+                if current is not None:
+                    spans.append(tuple(current))
+                current = [alloc.y, alloc.y + alloc.height]
+            elif current is not None:
+                current[1] = alloc.y + alloc.height
+        if current is not None:
+            spans.append(tuple(current))
+        return tab_drop_index(spans, pointer)
+
+    def _tree_drop_action(self, dest, x, y):
+        """Tab insert, nest into a tab, or pane insert under the pointer."""
+        tree = getattr(self, '_tab_rows', None)
+        if tree is None:
+            return ('tab', self.get_n_pages())
+        translated = None
+        try:
+            translated = dest.translate_coordinates(tree, int(x), int(y))
+        except Exception:
+            translated = None
+        pointer_x = x if not translated else translated[0]
+        pointer_y = y if not translated else translated[1]
+        rows = []
+        for child in tree.get_children():
+            alloc = child.get_allocation()
+            rows.append({
+                'depth': getattr(child, '_sidebar_depth', 0),
+                'page': getattr(child, '_sidebar_page', 0),
+                'pane': getattr(child, '_sidebar_pane', None),
+                'top': alloc.y,
+                'bottom': alloc.y + alloc.height,
+            })
+        return tree_drop_target(rows, pointer_x, pointer_y)
+
+    def _take_dropped_node(self, source, page, terminal, action):
+        """Reorder a tab or pane, or move it up or down a level."""
+        if source is None or page is None or not action:
+            return False
+        if source is not self:
+            try:
+                allowed = bool(source.config['detachable_tabs'])
+            except Exception:
+                allowed = True
+            if not allowed:
+                return False
+        kind = action[0]
+        if terminal is None:
+            if kind == 'tab':
+                return self._take_dropped_tab(source, page, action[1])
+            pane_at = None if kind == 'into' or len(action) < 3 else action[2]
+            return self._demote_page_into(source, page, action[1], pane_at)
+        if kind == 'tab':
+            return self._promote_terminal(source, terminal, action[1])
+        if kind == 'into':
+            return self._move_terminal_into_page(source, terminal, action[1], None)
+        return self._move_terminal_into_page(
+            source, terminal, action[1], action[2])
+
+    def _leave_zoom_for(self, *notebooks):
+        from .zoomguard import leave_zoom
+        for notebook in notebooks:
+            win = getattr(notebook, 'window', None)
+            if win is not None and getattr(win, 'is_zoomed', lambda: False)():
+                leave_zoom(win, reason='tab-drop', quiet=False)
+
+    def _lift_terminal(self, term):
+        """Take a pane out of its split without closing it."""
+        parent = term.get_parent() if term is not None else None
+        if parent is None or not hasattr(parent, 'children'):
+            return term
+        self._sync_paned_slots(parent)
+        if term not in parent.children:
+            return term
+        # The Python wrapper keeps the widget alive across the unparent.
+        parent.remove(term)
+        if len(parent.children) == 1:
+            self._collapse_single_child_paned(parent)
+        return term
+
+    def _collapse_single_child_paned(self, paned):
+        """Replace a split that has one child left with that child."""
+        self._sync_paned_slots(paned)
+        if len(getattr(paned, 'children', [])) != 1:
+            return
+        child = paned.children[0]
+        parent = logical_parent(paned)
+        if parent is None:
+            return
+        maker = Factory()
+        paned.remove(child)
+        if maker.isinstance(parent, 'Notebook'):
+            page_num = parent.page_num(paned)
+            label = parent.get_tab_label(paned)
+            lat = None
+            if hasattr(parent, 'last_active_term'):
+                lat = parent.last_active_term.pop(paned, None)
+            parent.detach_tab(paned)
+            if page_num < 0:
+                page_num = parent.get_n_pages()
+            parent.insert_page(child, label, page_num)
+            parent.set_tab_detachable(
+                child, parent.config['detachable_tabs'])
+            parent.set_tab_reorderable(child, True)
+            parent._pack_tab(child)
+            if lat is not None:
+                parent.last_active_term[child] = lat
+            if maker.isinstance(child, 'Terminal'):
+                parent._bind_notebook_terminal(child)
+            child.show_all()
+            parent._hide_native_tab_labels()
+        elif hasattr(parent, 'swap_child'):
+            parent.swap_child(paned, child)
+            self._sync_paned_slots(parent)
+        try:
+            paned.cnxids.remove_all()
+        except Exception:
+            pass
+
+    def _is_vertical(self, widget):
+        get_orientation = getattr(widget, 'get_orientation', None)
+        if not callable(get_orientation):
+            return False
+        try:
+            return get_orientation() == Gtk.Orientation.VERTICAL
+        except Exception:
+            return False
+
+    def _sync_paned_slots(self, paned):
+        """Make a paned's child list follow the visible slots."""
+        if paned is None or not hasattr(paned, 'get_child1'):
+            return
+        if not hasattr(paned, 'children'):
+            return
+        paned.children[:] = [child for child in (paned.get_child1(),
+                                                 paned.get_child2())
+                             if child is not None]
+
+    def _ensure_parented(self, widget):
+        """A move that fails must not leave a terminal with no parent."""
+        if widget is None:
+            return
+        try:
+            parent = widget.get_parent()
+        except Exception:
+            return
+        if parent is None:
+            self.newtab(widget=widget)
+
+    def _promote_terminal(self, source, term, index):
+        """Make a child pane its own tab."""
+        if term is None:
+            return False
+        self._leave_zoom_for(source, self)
+        page = source.find_tab_root(term) if hasattr(source, 'find_tab_root') else None
+        panes = source._ordered_panes(page) if page is not None else []
+        if len(panes) < 2:
+            if page is not None:
+                return self._take_dropped_tab(source, page, index)
+            return False
+        try:
+            self._lift_terminal(term)
+            if term.get_parent() is not None:
+                return False
+            if index < 0:
+                index = 0
+            if index > self.get_n_pages():
+                index = self.get_n_pages()
+            self.newtab(widget=term, metadata={'tabnum': index})
+        except Exception:
+            self._ensure_parented(term)
+            raise
+        self._sidebar_sig = None
+        if source is not self:
+            source._sidebar_sig = None
+            source._queue_sidebar_refresh()
+            GLib.idle_add(self._release_source_after_drop, source)
+        self._queue_sidebar_refresh()
+        return True
+
+    def _move_terminal_into_page(self, source, term, page_index, pane_index):
+        """Move a pane into ``page_index``, at ``pane_index`` or at the end."""
+        if term is None:
+            return False
+        self._leave_zoom_for(source, self)
+        if page_index < 0 or page_index >= self.get_n_pages():
+            return False
+        target = self.get_nth_page(page_index)
+        if target is None:
+            return False
+        panes = list(self._ordered_panes(target))
+        same_page = term in panes
+        vertical = self._is_vertical(term.get_parent()) if same_page else False
+        if same_page:
+            src = panes.index(term)
+            insert_at = len(panes) if pane_index is None else pane_index
+            dest = reorder_to_index(src, insert_at, len(panes))
+            if dest is None:
+                return True
+            pane_index = dest
+        try:
+            self._lift_terminal(term)
+            if term.get_parent() is not None:
+                return False
+            target = self.get_nth_page(page_index)
+            if target is None:
+                self._ensure_parented(term)
+                return False
+            self._insert_widget_beside(target, term, pane_index, vertical)
+        except Exception:
+            self._ensure_parented(term)
+            raise
+        self._sidebar_sig = None
+        self._queue_sidebar_refresh()
+        if source is not self:
+            source._sidebar_sig = None
+            source._queue_sidebar_refresh()
+            GLib.idle_add(self._release_source_after_drop, source)
+        try:
+            from .session import try_mark_dirty
+            try_mark_dirty('notebook.move_pane')
+        except Exception:
+            pass
+        return True
+
+    def _insert_widget_beside(self, page_widget, widget, pane_index,
+                              vertical=False):
+        """Split ``page_widget`` so ``widget`` sits at ``pane_index``."""
+        panes = [item for item in self._ordered_panes(page_widget)
+                 if item is not widget]
+        if not panes:
+            anchor = page_widget
+            before = False
+        elif pane_index is None or pane_index >= len(panes):
+            anchor = panes[-1]
+            before = False
+        elif pane_index <= 0:
+            anchor = panes[0]
+            before = True
+        else:
+            anchor = panes[pane_index]
+            before = True
+        if anchor is widget:
+            return
+        self._split_beside(anchor, widget, before, vertical)
+
+    def _split_beside(self, anchor, sibling, before, vertical=False):
+        """Put ``sibling`` on one side of ``anchor``, keeping a stack's axis."""
+        parent = anchor.get_parent() if anchor is not None else None
+        if parent is not None and hasattr(parent, 'get_orientation'):
+            vertical = self._is_vertical(parent)
+        widgetfirst = not before
+        maker = Factory()
+        if parent is self or maker.isinstance(parent, 'Notebook'):
+            self.split_axis(anchor, vertical=vertical, sibling=sibling,
+                            widgetfirst=widgetfirst)
+            return
+        if parent is not None and hasattr(parent, 'split_axis'):
+            parent.split_axis(anchor, vertical=vertical, sibling=sibling,
+                              widgetfirst=widgetfirst)
+            self._sync_paned_slots(parent)
+            for child in (parent.get_child1(), parent.get_child2()):
+                if child is not None and child is not anchor:
+                    self._sync_paned_slots(child)
+            return
+        self.split_axis(anchor, vertical=vertical, sibling=sibling,
+                        widgetfirst=widgetfirst)
+
+    def _demote_page_into(self, source, page, page_index, pane_index=None):
+        """Make a whole tab a split inside another tab."""
+        if source.page_num(page) < 0:
+            return False
+        if page_index < 0 or page_index >= self.get_n_pages():
+            return False
+        target = self.get_nth_page(page_index)
+        if target is None or target is page:
+            return False
+        self._leave_zoom_for(source, self)
+        src_index = source.page_num(page)
+        if source is self and src_index < page_index:
+            page_index -= 1
+        maker = Factory()
+        terminal_page = maker.isinstance(page, 'Terminal')
+        if terminal_page:
+            source.disconnect_child(page)
+        try:
+            source.detach_tab(page)
+            target = self.get_nth_page(page_index)
+            if target is None:
+                self.newtab(widget=page)
+            else:
+                self._insert_widget_beside(target, page, pane_index, False)
+            if not terminal_page:
+                self._rewire_moved_terminals(page)
+        except Exception:
+            self._ensure_parented(page)
+            raise
+        self._sidebar_sig = None
+        self._hide_native_tab_labels()
+        self._queue_sidebar_refresh()
+        if source is not self:
+            source._sidebar_sig = None
+            GLib.idle_add(self._release_source_after_drop, source)
+        try:
+            from .session import try_mark_dirty
+            try_mark_dirty('notebook.nest_tab')
+        except Exception:
+            pass
+        return True
+
+    def _take_dropped_tab(self, source, page, index):
+        """Move ``page`` into this notebook at ``index``. Same list reorders."""
+        if source is None or page is None:
+            return False
+        if source.page_num(page) < 0:
+            return False
+        from .zoomguard import leave_zoom
+        for notebook in (source, self):
+            win = getattr(notebook, 'window', None)
+            if win is not None and getattr(win, 'is_zoomed', lambda: False)():
+                leave_zoom(win, reason='tab-drop', quiet=False)
+        if source is self:
+            current = self.page_num(page)
+            dest = reorder_to_index(current, index, self.get_n_pages())
+            if dest is not None:
+                self.reorder_child(page, dest)
+            self._queue_sidebar_refresh()
+            return True
+
+        label = source.get_tab_label(page)
+        lat = None
+        if hasattr(source, 'last_active_term'):
+            lat = source.last_active_term.pop(page, None)
+        maker = Factory()
+        if maker.isinstance(page, 'Terminal'):
+            source.disconnect_child(page)
+        try:
+            source.detach_tab(page)
+            if index < 0 or index > self.get_n_pages():
+                index = self.get_n_pages()
+            self.insert_page(page, label, index)
+            if label is not None:
+                try:
+                    label.disconnect_by_func(source.closetab)
+                except Exception:
+                    pass
+                label.notebook = self
+                label.connect('close-clicked', self.closetab)
+            self.set_tab_detachable(page, self.config['detachable_tabs'])
+            self.set_tab_reorderable(page, True)
+            self._pack_tab(page)
+            if lat is not None:
+                self.last_active_term[page] = lat
+            self._rewire_moved_terminals(page)
+            self.set_current_page(index)
+            page.show_all()
+        except Exception:
+            self._ensure_parented(page)
+            raise
+        self._hide_native_tab_labels()
+        self._queue_sidebar_refresh()
+        # Destroying the source window inside the drop handler aborts the drag.
+        GLib.idle_add(self._release_source_after_drop, source)
+        try:
+            from .session import try_mark_dirty
+            try_mark_dirty('notebook.drop_tab')
+        except Exception:
+            pass
+        return True
+
+    def _bind_notebook_terminal(self, widget):
+        """Window and notebook handlers for a terminal that is the whole tab."""
+        from .container import window_terminal_signals
+        signals = window_terminal_signals(
+            self.get_toplevel(), widget, rotate=False)
+        signals.update({'close-term': self.wrapcloseterm,
+                        'split-auto': self.split_auto,
+                        'split-horiz': self.split_horiz,
+                        'split-vert': self.split_vert,
+                        'title-change': self.propagate_title_change})
+        self.connect_terminal_signals(widget, signals)
+
+    def _rewire_moved_terminals(self, page):
+        """Point split panes at this window. A lone terminal binds here."""
+        maker = Factory()
+        if maker.isinstance(page, 'Terminal'):
+            self._bind_notebook_terminal(page)
+            return
+        window = self.get_toplevel()
+        _containers, terminals = enumerate_descendants(page)
+        for term in terminals:
+            parent = term.get_parent()
+            while parent is not None and parent is not self:
+                if (hasattr(parent, 'terminal_signals') and
+                        hasattr(parent, 'disconnect_child')):
+                    parent.disconnect_child(term)
+                    parent.connect_terminal_signals(
+                        term, parent.terminal_signals(window, term))
+                    break
+                parent = parent.get_parent()
+
+    def _release_source_after_drop(self, source):
+        """Close a window whose last tab was dragged away."""
+        try:
+            remaining = source.get_n_pages()
+        except Exception:
+            return False
+        if remaining > 0:
+            source._queue_sidebar_refresh()
+            return False
+        win = source.get_toplevel()
+        parent = source.get_parent()
+        if parent is not None:
+            parent.remove(source)
+        if win is not None and hasattr(win, 'hoover'):
+            win.hoover()
+        return False
+
+    def _on_sidebar_row_release(self, _widget, _event):
+        """The pointer is up. The list may rebuild again."""
+        self._sidebar_pressed = False
+        self._flush_sidebar_after_pointer()
+        return False
+
+    def _flush_sidebar_after_pointer(self):
+        if (getattr(self, '_tab_drag_page', None) is not None or
+                getattr(self, '_sidebar_pressed', False)):
+            return
+        if getattr(self, '_sidebar_refresh_after_drag', False):
+            self._sidebar_refresh_after_drag = False
+            self._queue_sidebar_refresh()
+
+    def _on_sidebar_row_press(self, widget, event, page, pane, has_children):
+        width = widget.get_allocation().width
+        if event.button == 3 and pane < 0:
+            label = self.get_tab_label(self.get_nth_page(page))
+            if hasattr(label, 'popup_tab_menu'):
+                self.set_current_page(page)
+                label.popup_tab_menu(event)
+            return True
+        if event.button != 1:
+            return False
+        # Hold the row still until release. A refresh on press deletes the
+        # widget before the drag can start.
+        self._sidebar_pressed = True
+        # The disclosure triangle is the left of a split tab.
+        if has_children and pane < 0 and event.x < 22:
+            self._toggle_sidebar_page(page)
+            return True
+        # The close mark is the right of the current tab row.
+        if pane < 0 and page == self.get_current_page() and event.x > width - 28:
+            self._close_sidebar_page(page)
+            return True
+        self._activate_sidebar_row(page, pane)
+        return True
+
+    def _sidebar_tip(self, page, pane):
+        page_widget = self.get_nth_page(page)
+        panes = self._ordered_panes(page_widget)
+        if pane >= 0 and pane < len(panes):
+            term = panes[pane]
+        else:
+            term = choose_naming_terminal(panes, self._focused_terminal(panes))
+        return folder_subtitle(self._pane_cwd(term)) if term is not None else ''
+
+    def _hide_native_tab_labels(self):
+        """The tree is the sidebar. The notebook's own rows stay out of it."""
+        if getattr(self, '_tab_tree', None) is None:
+            return
+        for index in range(self.get_n_pages()):
+            label = self.get_tab_label(self.get_nth_page(index))
+            if label is None:
+                continue
+            label.set_no_show_all(True)
+            label.set_size_request(0, 0)
+            label.hide()
+
+    def _activate_sidebar_row(self, page, pane):
+        if page < 0 or page >= self.get_n_pages():
+            return
+        if self.get_current_page() != page:
+            self.set_current_page(page)
+        GLib.idle_add(self._focus_sidebar_pane, page, pane)
+
+    def _focus_sidebar_pane(self, page, pane):
+        page_widget = self.get_nth_page(page)
+        panes = self._ordered_panes(page_widget)
+        if pane >= 0 and pane < len(panes):
+            term = panes[pane]
+        else:
+            term = choose_naming_terminal(
+                panes, self._focused_terminal(panes))
+        if term is not None and hasattr(term, 'grab_focus'):
+            term.grab_focus()
+        return False
+
+    def _place_tab_add_beside_tabs(self, *_args):
+        """Keep the plus next to the last tab, not at the far edge.
+
+        Gtk packs the action widget at the end of the header. A right margin
+        pulls it back until it sits just after the last label. The rest of
+        the header stays the same dark colour.
+        """
+        btn = getattr(self, '_new_tab_btn', None)
+        if btn is None or not btn.get_mapped():
+            return False
+        right = 0
+        for i in range(self.get_n_pages()):
+            label = self.get_tab_label(self.get_nth_page(i))
+            if label is None:
+                continue
+            alloc = label.get_allocation()
+            right = max(right, alloc.x + alloc.width)
+        btn_alloc = btn.get_allocation()
+        if right <= 0 or btn_alloc.width <= 1 or btn_alloc.x < 0:
+            return False
+        old = btn.get_margin_end()
+        new = max(0, old + btn_alloc.x - (right + 8))
+        if new != old:
+            btn.set_margin_end(new)
+        return False
 
     def get_children(self):
         """Return an ordered list of our children"""
@@ -368,7 +1523,14 @@ class Notebook(Container, Gtk.Notebook):
         else:
             tabpos = -1
 
-        label = TabLabel(self.window.get_title(), self)
+        label = TabLabel('', self)
+        try:
+            initial_cwd = widget.get_cwd() if hasattr(widget, 'get_cwd') else None
+        except Exception:
+            initial_cwd = None
+        if not initial_cwd:
+            initial_cwd = getattr(widget, 'cwd', None)
+        label.set_folder_name(initial_cwd)
         if metadata and 'label' in metadata:
             dbg('creating TabLabel with text: %s' % metadata['label'])
             label.set_custom_label(metadata['label'])
@@ -393,12 +1555,13 @@ class Notebook(Container, Gtk.Notebook):
                 break
 
         self.set_tab_label(widget, label)
-        self.child_set_property(widget, 'tab-expand', True)
-        self.child_set_property(widget, 'tab-fill', True)
+        self._pack_tab(widget)
 
         self.set_tab_reorderable(widget, True)
         self.set_current_page(tabpos)
         self.show_all()
+        self._hide_native_tab_labels()
+        self._queue_sidebar_refresh()
         if maker.isinstance(term_widget, 'Terminal'):
             widget.grab_focus()
         try:
@@ -505,15 +1668,67 @@ class Notebook(Container, Gtk.Notebook):
         else:
             return(previous)
 
+    def _terminals_in_page(self, page):
+        """Terminals shown in this tab."""
+        if page is None:
+            return []
+        if hasattr(page, 'get_visible_terminals'):
+            try:
+                found = list(page.get_visible_terminals().keys())
+            except Exception:
+                found = []
+            if found:
+                return found
+        if hasattr(page, 'get_cwd') and hasattr(page, 'vte'):
+            return [page]
+        return []
+
+    def _focused_terminal(self, terminals):
+        for term in terminals:
+            vte = getattr(term, 'vte', None)
+            try:
+                if vte is not None and vte.is_focus():
+                    return term
+            except Exception:
+                pass
+        last = getattr(self.terminator, 'last_focused_term', None)
+        if last in terminals:
+            return last
+        return None
+
     def update_tab_label_text(self, widget, text):
-        """Update the text of a tab label"""
-        notebook = self.find_tab_root(widget)
-        label = self.get_tab_label(notebook)
+        """Name the tab from the focused pane's folder.
+
+        A user-edited title stays on the first line. The shell's window
+        title is not the tab name. A pane that does not have the focus
+        does not rename the tab.
+        """
+        page = self.find_tab_root(widget)
+        label = self.get_tab_label(page)
         if not label:
             err('Notebook::update_tab_label_text: %s not found' % widget)
             return
-
-        label.set_label(text)
+        terminals = self._terminals_in_page(page)
+        focused = self._focused_terminal(terminals)
+        if focused is not None and widget is not focused:
+            self._queue_sidebar_refresh()
+            return
+        source = choose_naming_terminal(terminals, focused)
+        if source is None:
+            source = widget if hasattr(widget, 'get_cwd') else None
+        cwd = None
+        if source is not None:
+            try:
+                cwd = source.get_cwd()
+            except Exception:
+                cwd = None
+            if not cwd:
+                cwd = getattr(source, 'cwd', None)
+        if hasattr(label, 'set_folder_name'):
+            label.set_folder_name(cwd)
+        else:
+            label.set_label(text)
+        self._queue_sidebar_refresh()
 
     def hoover(self):
         """Clean up any empty tabs and if we only have one tab left, die"""
@@ -700,16 +1915,79 @@ class TabLabel(Gtk.HBox):
         self.connect("button-press-event", self.on_button_pressed)
 
         self.label = EditableLabel(title)
+        # Two lines, like Cursor's two-level row: the name, then the folder.
+        self._lines = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=0)
+        self.folder_label = Gtk.Label(xalign=0, halign=Gtk.Align.START)
+        self.folder_label.set_ellipsize(Pango.EllipsizeMode.END)
+        self.folder_label.get_style_context().add_class('terminator-tab-folder')
+        self.folder_label.set_no_show_all(True)
+        self._lines.pack_start(self.label, False, False, 0)
+        self._lines.pack_start(self.folder_label, False, False, 0)
         self.update_angle()
 
-        self.pack_start(self.label, True, True, 0)
+        self.pack_start(self._lines, True, True, 0)
 
         self.update_button()
         self.show_all()
+        if self.button is not None:
+            self.button.hide()
+        self.connect('enter-notify-event', self._on_pointer_enter)
+        self.connect('leave-notify-event', self._on_pointer_leave)
 
     def set_label(self, text):
         """Update the text of our label"""
         self.label.set_text(text)
+        self._fit_label_width()
+
+    def set_folder_name(self, cwd):
+        """First line is the folder name, unless the user renamed the tab.
+
+        The second line is the folder path. A custom title never gets
+        replaced; clearing it falls back to the folder name.
+        """
+        if not cwd:
+            return
+        self._cwd = cwd
+        name = folder_basename(cwd)
+        subtitle = folder_subtitle(cwd)
+        # set_text updates the automatic title even while a custom one shows.
+        self.label.set_text(name or subtitle)
+        same = (not self.label.is_custom()) and subtitle == (name or subtitle)
+        if same or self.notebook.get_tab_pos() != Gtk.PositionType.LEFT:
+            self.folder_label.hide()
+        else:
+            self.folder_label.set_text(subtitle)
+            self.folder_label.show()
+        self._fit_label_width()
+
+    def _fit_label_width(self):
+        """Sidebar rows ellipsize inside a fixed width. Top tabs use the title."""
+        label = self.label._label
+        label.set_halign(Gtk.Align.START)
+        if self.notebook.get_tab_pos() == Gtk.PositionType.LEFT:
+            if getattr(self.notebook, '_tab_tree', None) is not None:
+                self.set_no_show_all(True)
+                self.set_size_request(0, 0)
+                self.hide()
+                return
+            label.set_ellipsize(Pango.EllipsizeMode.END)
+            label.set_xalign(0)
+            label.set_max_width_chars(26)
+            self.folder_label.set_max_width_chars(32)
+            self.set_size_request(220, 44)
+            return
+        self.folder_label.hide()
+        text = label.get_text() or ''
+        layout = label.create_pango_layout(text)
+        width, _height = layout.get_pixel_size()
+        cap = 420
+        if width > cap:
+            label.set_ellipsize(Pango.EllipsizeMode.END)
+            label.set_size_request(cap, -1)
+        else:
+            label.set_ellipsize(Pango.EllipsizeMode.NONE)
+            label.set_size_request(-1, -1)
+        self.set_size_request(-1, -1)
 
     def get_label(self):
         return self.label.get_text()
@@ -743,32 +2021,38 @@ class TabLabel(Gtk.HBox):
 
         if not self.button:
             self.button = Gtk.Button()
+            # Right-click on the close mark uses the same tab menu.
+            self.button.connect('button-press-event', self.on_button_pressed)
+            self.button.connect('clicked', self.on_close)
         if not self.icon:
-            self.icon = Gio.ThemedIcon.new_with_default_fallbacks("window-close-symbolic")
-            self.icon = Gtk.Image.new_from_gicon(self.icon, Gtk.IconSize.MENU)
+            self.icon = Gtk.Label(label='\u00d7')
+            self.icon.get_style_context().add_class('terminator-tab-close-mark')
 
         self.button.set_focus_on_click(False)
         self.button.set_relief(Gtk.ReliefStyle.NONE)
-#        style = Gtk.RcStyle()  # FIXME FOR GTK3 how to do it there? actually do we really want to override the theme?
-#        style.xthickness = 0
-#        style.ythickness = 0
-#        self.button.modify_style(style)
-        self.button.add(self.icon)
-        self.button.connect('clicked', self.on_close)
+        self.button.set_can_focus(False)
+        if self.icon.get_parent() is None:
+            self.button.add(self.icon)
+        self.button.get_style_context().add_class('terminator-tab-close')
         self.button.set_name('terminator-tab-close-button')
         if hasattr(self.button, 'set_tooltip_text'):
             self.button.set_tooltip_text(_('Close Tab'))
-        self.pack_start(self.button, False, False, 0)
+        if self.button.get_parent() is None:
+            self.pack_start(self.button, False, False, 0)
+        # Wave shows the mark only while the pointer is on the tab.
+        self.button.set_no_show_all(True)
+        self.icon.show()
         self.show_all()
+        self.button.hide()
 
     def update_angle(self):
-        """Update the angle of a label"""
+        """Update the angle of a label.
+
+        The left-hand list keeps horizontal text, the same as a sidebar
+        row. Only a tab strip on the right is turned on its side.
+        """
         position = self.notebook.get_tab_pos()
-        if position == Gtk.PositionType.LEFT:
-            if hasattr(self, 'set_orientation'):
-                self.set_orientation(Gtk.Orientation.VERTICAL)
-            self.label.set_angle(90)
-        elif position == Gtk.PositionType.RIGHT:
+        if position == Gtk.PositionType.RIGHT:
             if hasattr(self, 'set_orientation'):
                 self.set_orientation(Gtk.Orientation.VERTICAL)
             self.label.set_angle(270)
@@ -776,6 +2060,19 @@ class TabLabel(Gtk.HBox):
             if hasattr(self, 'set_orientation'):
                 self.set_orientation(Gtk.Orientation.HORIZONTAL)
             self.label.set_angle(0)
+        self._fit_label_width()
+
+    def _on_pointer_enter(self, _widget, _event):
+        if self.button is not None:
+            self.button.show()
+        return False
+
+    def _on_pointer_leave(self, _widget, event):
+        if getattr(event, 'detail', None) == Gdk.NotifyType.INFERIOR:
+            return False
+        if self.button is not None:
+            self.button.hide()
+        return False
 
     def on_close(self, _widget):
         """The close button has been clicked. Destroy the tab"""
@@ -784,5 +2081,48 @@ class TabLabel(Gtk.HBox):
     def on_button_pressed(self, _widget, event):
         if event.button == 2:
             self.on_close(_widget)
+            return True
+        if event.button == 3:
+            # A right-click in the rename entry belongs to the entry.
+            if self.label.editing():
+                return False
+            self.popup_tab_menu(event)
+            return True
+        return False
+
+    def popup_tab_menu(self, event):
+        """Tab context menu: move, detach, close. Same set as GNOME Terminal."""
+        nb = self.notebook
+        page = nb.page_num_of_label(self)
+        if page is None:
+            return False
+        try:
+            nb.set_current_page(page)
+        except Exception:
+            pass
+        state = tab_menu_sensitive(page, nb.get_n_pages())
+        menu = Gtk.Menu()
+
+        def add(text, enabled, callback):
+            item = Gtk.MenuItem.new_with_mnemonic(_(text))
+            item.set_sensitive(enabled)
+            item.connect('activate', lambda *_a: callback())
+            menu.append(item)
+
+        add('Move Terminal _Left', state['left'],
+            lambda: nb.move_labeled_tab(self, 'left'))
+        add('Move Terminal _Right', state['right'],
+            lambda: nb.move_labeled_tab(self, 'right'))
+        menu.append(Gtk.SeparatorMenuItem())
+        add('_Detach Terminal', state['detach'],
+            lambda: nb.detach_labeled_tab(self))
+        menu.append(Gtk.SeparatorMenuItem())
+        add('_Close Terminal', state['close'],
+            lambda: self.on_close(None))
+        menu.show_all()
+        # Keep the menu alive until it pops down.
+        self._tab_menu = menu
+        menu.popup_at_pointer(event)
+        return True
 
 # vim: set expandtab ts=4 sw=4:

@@ -88,6 +88,12 @@ def test_non_shell_self_counts(monkeypatch):
     assert ('vim' in procs[0][1])
 
 
+def test_idle_shells_skip_the_multiple_terminals_dialog():
+    assert cc.no_process_close_result('multiple_terminals') == 'accept'
+    assert cc.no_process_close_result('never') == 'accept'
+    assert cc.no_process_close_result('always') == 'legacy'
+
+
 def test_scope_terminals_lone_terminal():
     # Without Factory/GTK we only verify the helper exists and SHELL set
     assert 'bash' in cc.SHELL_BASENAMES

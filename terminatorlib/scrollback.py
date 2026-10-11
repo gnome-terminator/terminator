@@ -1132,8 +1132,14 @@ class ScrollbackCache(Borg):
             return False
         # Keep SGR colours (m14) but strip every other control sequence;
         # reset afterwards so a truncated style never bleeds into the shell.
+        body = sbt.sanitize_for_feed(raw, keep_sgr=self._color())
+        # A prompt with no command output is not a previous session worth
+        # marking.  Old separator lines do not count: they were fed by an
+        # earlier restore and then snapshotted back into the cache.
+        if not sbt.scrollback_worth_replaying(body):
+            return False
         body = sbt.normalize_newlines_for_feed(
-            sbt.sanitize_for_feed(raw, keep_sgr=self._color()))
+            sbt.strip_replay_separators(body))
         if self._color():
             body += '\x1b[0m'
         sep = sbt.format_separator_feed(mtime, translate=_)

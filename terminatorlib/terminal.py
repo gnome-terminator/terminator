@@ -32,7 +32,8 @@ from . import plugin
 from terminatorlib.layoutlauncher import LayoutLauncher
 from . import regex
 from .scrollback import ScrollbackCache
-from .altscreen import AltScreenScrollbar
+from .altscreen import (AltScreenScrollbar, adjustment_scrollable,
+                       scrollbar_should_show)
 
 _AUTOFONT_TOAST_CSS = None
 
@@ -200,6 +201,8 @@ class Terminal(Gtk.VBox):
         # screen) runs; see altscreen.py for the detection heuristic.
         self.altscreen = AltScreenScrollbar(self)
         self.altscreen.attach()
+        # None: follow the buffer. True/False: this terminal's manual toggle.
+        self._scrollbar_forced = None
         # E: Overlay around the hbox so toasts stay inside the Terminal
         # widget (D will rebuild Window overlays). close()/reconfigure keep
         # using self.terminalbox (the inner hbox).
@@ -229,14 +232,17 @@ class Terminal(Gtk.VBox):
         self.titlebar.connect('create-group', self.really_create_group)
         self.titlebar.update('window-focus-out')
         self.titlebar.show_all()
+        self.titlebar.update_visibility()
         self._ensure_scale_popover()
 
-        self.searchbar = Searchbar()
+        self.searchbar = Searchbar(self)
         self.searchbar.connect('end-search', self.on_search_done)
 
-        # Focus border (C5): transparent 1px border reserves the space so
-        # focus changes never re-allocate the VTE.
+        # Focus border is stroked in _draw_focus_border, on top of the
+        # pane, so an unfocused pane keeps no frame and focus changes
+        # do not resize the VTE.
         self.set_focus_chrome(False)
+        self.connect_after('draw', self._draw_focus_border)
 
         self.show()
         term_area = getattr(self, '_term_overlay', None) or self.terminalbox
@@ -246,8 +252,6 @@ class Terminal(Gtk.VBox):
         else:
             self.pack_start(self.titlebar, False, True, 0)
             self.pack_start(term_area, True, True, 0)
-
-        self.pack_end(self.searchbar, True, True, 0)
 
         self.connect_signals()
 
@@ -394,6 +398,9 @@ class Terminal(Gtk.VBox):
         except Exception as ex:
             dbg('scrollback close hook failed: %s' % ex)
         self.cnxids.remove_widget(self.vte)
+        adj = getattr(self, '_vadjustment', None)
+        if adj is not None:
+            self.cnxids.remove_widget(adj)
         window = self.get_toplevel()
         alt = getattr(self, 'altscreen', None)
         if alt is not None:
@@ -468,8 +475,10 @@ class Terminal(Gtk.VBox):
         """Create a GtkHBox containing the terminal and a scrollbar"""
 
         terminalbox = Gtk.Box.new(Gtk.Orientation.HORIZONTAL, 0)
-        self.scrollbar = Gtk.Scrollbar.new(Gtk.Orientation.VERTICAL, adjustment=self.vte.get_vadjustment())
+        self._vadjustment = self.vte.get_vadjustment()
+        self.scrollbar = Gtk.Scrollbar.new(Gtk.Orientation.VERTICAL, adjustment=self._vadjustment)
         self.scrollbar.set_no_show_all(True)
+        self.cnxids.new(self._vadjustment, 'changed', self.sync_scrollbar)
 
         terminalbox.pack_start(self.vte, True, True, 0)
         terminalbox.pack_start(self.scrollbar, False, True, 0)
@@ -1115,14 +1124,10 @@ class Terminal(Gtk.VBox):
         self.vte.set_scroll_on_keystroke(self.config['scroll_on_keystroke'])
         self.vte.set_scroll_on_output(self.config['scroll_on_output'])
 
-        if self.config['scrollbar_position'] in ['disabled', 'hidden']:
-            self.scrollbar.hide()
-        else:
-            self.scrollbar.show()
-            if self.config['scrollbar_position'] == 'left':
-                self.terminalbox.reorder_child(self.scrollbar, 0)
-            elif self.config['scrollbar_position'] == 'right':
-                self.terminalbox.reorder_child(self.vte, 0)
+        # A preference change drops a manual show/hide for this terminal.
+        self._scrollbar_forced = None
+        self._place_scrollbar()
+        self.sync_scrollbar()
         if getattr(self, 'altscreen', None) is not None:
             self.altscreen.reconfigured()
 
@@ -1468,15 +1473,110 @@ class Terminal(Gtk.VBox):
         menu.show(widget, event, anchor=anchor,
                   skip_link_check=skip_link_check)
 
-    def set_focus_chrome(self, focused):
-        """Toggle the focused-pane accent border CSS classes"""
+    def set_focus_chrome(self, focused, multiple=None):
+        """Toggle the focused-pane accent border.
+
+        A single visible pane has nothing to distinguish, so the border
+        stays off. ``multiple`` may be passed by a caller that already
+        counted the visible panes."""
+        if multiple is None:
+            multiple = self._focus_border_wanted()
         context = self.get_style_context()
-        if focused:
+        if focused and multiple:
             context.remove_class('terminator-term-unfocused')
             context.add_class('terminator-term-focused')
         else:
             context.remove_class('terminator-term-focused')
             context.add_class('terminator-term-unfocused')
+        redraw = getattr(self, 'queue_draw', None)
+        if callable(redraw):
+            redraw()
+
+    def _draw_focus_border(self, widget, cr):
+        """Stroke the focused pane in its titlebar background colour.
+
+        Painted after the titlebar and VTE, so it does not reserve a CSS
+        border. A reserved transparent border shows up black on every pane.
+        """
+        if not widget.get_style_context().has_class('terminator-term-focused'):
+            return False
+        window = self.get_toplevel()
+        checker = getattr(window, 'is_maximised_pane', None)
+        try:
+            if callable(checker) and checker(self):
+                return False
+        except Exception:
+            pass
+        rgba = Gdk.RGBA()
+        try:
+            accent = self._focus_ring_color()
+        except Exception:
+            accent = '#ffffff'
+        if not rgba.parse(str(accent)):
+            return False
+        width = widget.get_allocated_width()
+        height = widget.get_allocated_height()
+        if width < 2 or height < 2:
+            return False
+        cr.save()
+        cr.set_source_rgba(rgba.red, rgba.green, rgba.blue, rgba.alpha)
+        cr.set_line_width(1)
+        # Inset by half a pixel so the stroke stays inside the clip.
+        cr.rectangle(0.5, 0.5, width - 1, height - 1)
+        cr.stroke()
+        cr.restore()
+        return False
+
+    def _focus_ring_color(self):
+        """Colour of the focus ring: this pane's titlebar background."""
+        bar = getattr(self, 'titlebar', None)
+        color = getattr(bar, '_bar_bg', None) if bar is not None else None
+        if color:
+            return color
+        try:
+            return self.config['title_transmit_bg_color']
+        except Exception:
+            return '#ffffff'
+
+    def _focus_border_wanted(self):
+        """True when more than one pane is visible in this window."""
+        window = self.get_toplevel()
+        checker = getattr(window, 'has_multiple_terms', None)
+        if not callable(checker):
+            return True
+        try:
+            return bool(checker())
+        except Exception:
+            return True
+
+    def refresh_visible_focus_chrome(self, focused=None):
+        """Light the focus border on one visible pane and clear the rest.
+
+        A focus-in on one VTE does not always deliver focus-out to the
+        others, so every pane that was focused before can keep the accent.
+        ``focused`` is that pane; when omitted, the VTE that has focus wins."""
+        window = self.get_toplevel()
+        if not hasattr(window, 'get_visible_terminals'):
+            self.set_focus_chrome(False)
+            return
+        try:
+            terminals = list(window.get_visible_terminals())
+        except Exception:
+            return
+        if focused is None:
+            focused = self
+            for term in terminals:
+                vte = getattr(term, 'vte', None)
+                try:
+                    if vte is not None and vte.is_focus():
+                        focused = term
+                        break
+                except Exception:
+                    pass
+        multiple = len(terminals) > 1
+        for term in terminals:
+            if hasattr(term, 'set_focus_chrome'):
+                term.set_focus_chrome(term is focused, multiple=multiple)
 
     def refresh_titlebars_maximise_state(self):
         """Refresh maximise button state of all visible titlebars in our
@@ -1509,8 +1609,11 @@ class Terminal(Gtk.VBox):
             pass
         for term in terminals:
             titlebar = getattr(term, 'titlebar', None)
-            if titlebar is not None and hasattr(titlebar,
-                                                'refresh_maximise_state'):
+            if titlebar is None:
+                continue
+            if hasattr(titlebar, 'update_visibility'):
+                titlebar.update_visibility()
+            if hasattr(titlebar, 'refresh_maximise_state'):
                 try:
                     titlebar.refresh_maximise_state(multiple=multiple)
                 except TypeError:
@@ -1521,9 +1624,116 @@ class Terminal(Gtk.VBox):
 
     def do_scrollbar_toggle(self):
         """Show or hide the terminal scrollbar"""
-        if getattr(self, 'altscreen', None) is not None:
-            self.altscreen.user_toggled()
+        alt = getattr(self, 'altscreen', None)
+        in_tui = alt is not None and alt.detector.active
+        if alt is not None:
+            alt.user_toggled()
         self.toggle_widget_visibility(self.scrollbar)
+        # During a fullscreen program the override lasts only until it
+        # exits.  Otherwise the choice sticks until the next reconfigure.
+        if in_tui:
+            self._scrollbar_forced = None
+        else:
+            self._scrollbar_forced = bool(self.scrollbar.get_visible())
+
+    def _adjustment_scrollable(self):
+        adj = getattr(self, '_vadjustment', None)
+        if adj is None:
+            try:
+                adj = self.vte.get_vadjustment()
+            except Exception:
+                return False
+        try:
+            return adjustment_scrollable(adj.get_lower(), adj.get_upper(),
+                                         adj.get_page_size())
+        except Exception:
+            return False
+
+    def _fullscreen_app_may_hide(self):
+        """True when a fullscreen program may be about to hide the bar.
+
+        Hiding immediately would drop the width the font scaler reserves
+        for that program.  An idle shell (the prompt) is not this case.
+        """
+        alt = getattr(self, 'altscreen', None)
+        if alt is None or alt.user_override or not alt.enabled():
+            return False
+        if alt.detector.active or alt.auto_hidden:
+            return True
+        try:
+            position = self.config['scrollbar_position']
+        except Exception:
+            position = 'right'
+        if position in ('disabled', 'hidden'):
+            return False
+        from .altscreen import foreground_busy, tty_raw
+        fd = alt._pty_fd()
+        if foreground_busy(fd, getattr(self, 'pid', None)) is not True:
+            return False
+        # Canonical commands (ping, make) are not fullscreen programs.
+        return tty_raw(fd) is not False
+
+    def _place_scrollbar(self):
+        """Pack the scrollbar on the configured side.  Does not show it."""
+        if getattr(self, 'scrollbar', None) is None:
+            return
+        if getattr(self, 'terminalbox', None) is None:
+            return
+        position = self.config['scrollbar_position']
+        if position == 'left':
+            self.terminalbox.reorder_child(self.scrollbar, 0)
+        elif position == 'right':
+            self.terminalbox.reorder_child(self.vte, 0)
+
+    def sync_scrollbar(self, *_args):
+        """Show the scrollbar only while there is something to scroll.
+
+        ``left`` and ``right`` are where it appears.  ``hidden`` keeps it
+        off.  A manual toggle is kept until preferences are applied again.
+        """
+        if getattr(self, '_scrollbar_syncing', False):
+            # show/hide can emit adjustment "changed" again; re-read once.
+            self._scrollbar_sync_again = True
+            return
+        self._scrollbar_syncing = True
+        try:
+            for _ in range(2):
+                self._scrollbar_sync_again = False
+                sb = getattr(self, 'scrollbar', None)
+                if sb is None:
+                    return
+                self._sync_scrollbar(sb)
+                if not self._scrollbar_sync_again:
+                    break
+        finally:
+            self._scrollbar_syncing = False
+
+    def _sync_scrollbar(self, sb):
+        try:
+            position = self.config['scrollbar_position']
+        except Exception:
+            position = 'right'
+        alt = getattr(self, 'altscreen', None)
+        want = scrollbar_should_show(
+            position,
+            self._adjustment_scrollable(),
+            getattr(self, '_scrollbar_forced', None),
+            alt_auto_hidden=bool(alt is not None and alt.auto_hidden),
+            user_override=bool(alt is not None and alt.user_override))
+        if want is None:
+            return
+        if want:
+            self._place_scrollbar()
+            if alt is not None and alt.auto_hidden:
+                alt.auto_hidden = False
+                alt.hidden_width = 0
+            sb.show()
+        else:
+            forced = getattr(self, '_scrollbar_forced', None)
+            if (forced is None and sb.get_visible()
+                    and self._fullscreen_app_may_hide()):
+                return
+            sb.hide()
 
     def toggle_widget_visibility(self, widget):
         """Show or hide a widget"""
@@ -1853,7 +2063,7 @@ class Terminal(Gtk.VBox):
                 self.get_toplevel().last_active_term = None
             else:
                 self.get_toplevel().last_active_term = self.uuid
-        self.set_focus_chrome(True)
+        self.refresh_visible_focus_chrome(focused=self)
         self.refresh_titlebars_maximise_state()
         self.emit('focus-in')
 
@@ -1875,9 +2085,7 @@ class Terminal(Gtk.VBox):
         self.scrollbar.set_value(position)
 
     def on_search_done(self, _widget):
-        """We've finished searching, so clean up"""
-        self.searchbar.hide()
-        self.scrollbar.set_value(self.vte.get_cursor_position()[1])
+        """Find dialog closed: leave the viewport on the match."""
         self.vte.grab_focus()
 
     def on_edit_done(self, _widget):
@@ -3216,6 +3424,9 @@ class Terminal(Gtk.VBox):
         self._last_session_cwd = cwd
         if last is not None and last != cwd:
             self._session_mark_dirty('cwd-probe')
+            # The tab name follows this directory. The shell title often
+            # lags a cd, so refresh it from here too.
+            self.emit('title-change', self.get_window_title())
             return True
         return False
 

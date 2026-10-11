@@ -365,6 +365,68 @@ def format_separator_feed(mtime, translate=None):
     return '\r\n\x1b[90m' + label + '\x1b[0m\r\n'
 
 
+# A previous restore's separator, once it has been snapshotted back into
+# the cache.  Matched in both the English msgid and the zh_CN translation.
+_SEPARATOR_LINE_RE = re.compile(
+    r'─{2,}.*(?:Output above is from the previous session|以上为上次会话的输出)'
+)
+# A shell prompt with nothing typed after it.  A command on the same line
+# (user@host:~$ ls) does not match.
+_PROMPT_ONLY_RE = re.compile(
+    r'^(?:\([^)]*\)\s*)*'
+    r'(?:'
+    r'[^@\s]+@[^:\s]+:.*[$#]\s*'
+    r'|'
+    r'[^@\s]+@[^:\s]+\s+\S*[$#%>]\s*'
+    r'|'
+    r'[$#%>]\s*'
+    r')$'
+)
+
+
+def _plain_line(line):
+    """Drop SGR colour sequences and surrounding space for classification."""
+    return _SGR_ANY_RE.sub('', line).strip()
+
+
+def _line_is_prompt_or_separator(line):
+    plain = _plain_line(line)
+    if not plain:
+        return True
+    if _SEPARATOR_LINE_RE.search(plain):
+        return True
+    return bool(_PROMPT_ONLY_RE.match(plain))
+
+
+def scrollback_worth_replaying(text):
+    """False when the cache is blank, bare prompts, or only old separators.
+
+    A prompt with a command, or any other line, is worth replaying.
+    >>> scrollback_worth_replaying('clarence@AILinux:~$ ')
+    False
+    >>> scrollback_worth_replaying('clarence@AILinux:~$ \\n──── 以上为上次会话的输出（已保存的快照，程序未恢复）· 10-10 20:55 ────')
+    False
+    >>> scrollback_worth_replaying('clarence@AILinux:~$ ls\\nfile\\n')
+    True
+    """
+    if not text:
+        return False
+    text = text.replace('\r\n', '\n').replace('\r', '\n')
+    return any(not _line_is_prompt_or_separator(line) for line in text.split('\n'))
+
+
+def strip_replay_separators(text):
+    """Drop previously fed separator lines so they are not replayed again."""
+    if not text:
+        return ''
+    newline = '\r\n' if '\r\n' in text and '\n' not in text.replace('\r\n', '') else '\n'
+    # Classify on logical lines; keep the caller's newline style.
+    logical = text.replace('\r\n', '\n').replace('\r', '\n').split('\n')
+    kept = [line for line in logical
+            if not _SEPARATOR_LINE_RE.search(_plain_line(line))]
+    return newline.join(kept)
+
+
 def atomic_write_txt(path, data, mode=0o600):
     """Write data via mkstemp + full write + fsync + replace.
 

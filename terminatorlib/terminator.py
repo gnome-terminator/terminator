@@ -441,16 +441,192 @@ class Terminator(Borg):
             return default
         return str(value)
 
+    def tab_bar_css(self):
+        """Tab strip.
+
+        The default is a light list down the left side, the same kind of
+        row as Cursor's sidebar. ``tab_position = top`` keeps the dark
+        chip strip.
+        """
+        return """
+            .terminator-terminal-window notebook.terminator-notebook header.top {
+                background-color: #161616;
+                background-image: none;
+                border: none;
+                border-image: none;
+                box-shadow: none;
+                padding: 0 6px;
+                min-height: 36px; }
+            .terminator-terminal-window notebook.terminator-notebook header.top tabs {
+                background-color: transparent;
+                background-image: none;
+                border: none; }
+            .terminator-terminal-window notebook.terminator-notebook header.top tab {
+                background-color: transparent;
+                background-image: none;
+                border-style: none;
+                border-image: none;
+                border-radius: 0;
+                box-shadow: inset -1px 0 0 rgba(255,255,255,0.16);
+                margin: 5px 2px;
+                padding: 2px 12px;
+                min-height: 0;
+                color: #b0b0b0;
+                font-weight: normal; }
+            .terminator-terminal-window notebook.terminator-notebook header.top tab:hover {
+                background-color: #2a2a2a;
+                border-radius: 8px;
+                box-shadow: none;
+                color: #f2f2f2; }
+            .terminator-terminal-window notebook.terminator-notebook header.top tab:checked,
+            .terminator-terminal-window notebook.terminator-notebook header.top tab:checked:hover {
+                background-color: #2d2d2d;
+                border-radius: 8px;
+                box-shadow: none;
+                color: #f2f2f2; }
+            .terminator-terminal-window notebook.terminator-notebook header.top tab label {
+                color: #b0b0b0; }
+            .terminator-terminal-window notebook.terminator-notebook header.top tab:hover label,
+            .terminator-terminal-window notebook.terminator-notebook header.top tab:checked label {
+                color: #f2f2f2; }
+            .terminator-terminal-window notebook.terminator-notebook header.top button.terminator-tab-add {
+                color: #c8c8c8; }
+            .terminator-terminal-window notebook.terminator-notebook header.top button.terminator-tab-add:hover {
+                background-color: #2a2a2a;
+                color: #ffffff; }
+
+            .terminator-terminal-window notebook.terminator-notebook header.left {
+                background-color: #f3f3f3;
+                background-image: none;
+                border: none;
+                border-image: none;
+                box-shadow: none;
+                padding: 6px;
+                min-width: 240px; }
+            .terminator-terminal-window notebook.terminator-notebook header.left tabs {
+                background-color: transparent;
+                background-image: none;
+                border: none; }
+            .terminator-terminal-window notebook.terminator-notebook header.left tab {
+                background-color: transparent;
+                background-image: none;
+                border-style: none;
+                border-image: none;
+                border-radius: 0;
+                box-shadow: none;
+                margin: 0;
+                padding: 0;
+                min-height: 0;
+                min-width: 0;
+                color: transparent;
+                font-weight: normal; }
+            .terminator-terminal-window notebook.terminator-notebook header.left treeview.terminator-tab-tree,
+            .terminator-terminal-window notebook.terminator-notebook header.left treeview.terminator-tab-tree.view {
+                background-color: #f3f3f3;
+                background-image: none;
+                color: #1d1d1f;
+                border: none; }
+            .terminator-terminal-window notebook.terminator-notebook header.left treeview.terminator-tab-tree row {
+                background-color: transparent;
+                color: #1d1d1f;
+                border: none;
+                padding: 3px 4px; }
+            .terminator-terminal-window notebook.terminator-notebook header.left treeview.terminator-tab-tree row:selected,
+            .terminator-terminal-window notebook.terminator-notebook header.left treeview.terminator-tab-tree row:selected:focus,
+            .terminator-terminal-window notebook.terminator-notebook header.left treeview.terminator-tab-tree row:selected:backdrop {
+                background-color: #e4e4e6;
+                background-image: none;
+                color: #1d1d1f; }
+            .terminator-terminal-window notebook.terminator-notebook header.left .terminator-tab-folder {
+                color: #8e8e93;
+                font-size: smaller; }
+            .terminator-terminal-window notebook.terminator-notebook header.left tab:checked .terminator-tab-folder {
+                color: #6e6e73; }
+            .terminator-terminal-window notebook.terminator-notebook header.left tab:hover {
+                background-color: #ececee; }
+            .terminator-terminal-window notebook.terminator-notebook header.left tab:checked,
+            .terminator-terminal-window notebook.terminator-notebook header.left tab:checked:hover {
+                background-color: #e4e4e6;
+                color: #1d1d1f; }
+            .terminator-terminal-window notebook.terminator-notebook header.left tab label {
+                color: #3a3a3c; }
+            .terminator-terminal-window notebook.terminator-notebook header.left tab:checked label {
+                color: #1d1d1f; }
+            .terminator-terminal-window notebook.terminator-notebook header.left button.terminator-tab-close {
+                color: #6e6e73; }
+            .terminator-terminal-window notebook.terminator-notebook header.left button.terminator-tab-row {
+                background-color: transparent;
+                background-image: none;
+                border: none;
+                box-shadow: none;
+                border-radius: 6px;
+                padding: 2px 6px;
+                margin-top: 1px;
+                margin-bottom: 1px; }
+            .terminator-terminal-window notebook.terminator-notebook header.left button.terminator-tab-row:hover {
+                background-color: #ececee;
+                background-image: none; }
+            .terminator-terminal-window notebook.terminator-notebook header.left button.terminator-tab-row.current,
+            .terminator-terminal-window notebook.terminator-notebook header.left button.terminator-tab-row.current:hover {
+                background-color: #e4e4e6;
+                background-image: none;
+                color: #1d1d1f; }
+            .terminator-terminal-window notebook.terminator-notebook header.left button.terminator-tab-row label {
+                color: #1d1d1f; }
+            .terminator-terminal-window notebook.terminator-notebook header.left button.terminator-tab-row image.terminator-tab-close-mark {
+                color: #1d1d1f; }
+            .terminator-terminal-window notebook.terminator-notebook header.left .terminator-tab-toolbar {
+                min-width: 220px;
+                margin: 0 2px 6px 2px; }
+            .terminator-terminal-window notebook.terminator-notebook header.left .terminator-tab-toolbar button {
+                background-color: transparent;
+                background-image: none;
+                border: none;
+                box-shadow: none;
+                color: #6e6e73;
+                border-radius: 6px;
+                margin: 0 2px;
+                padding: 2px;
+                min-width: 24px;
+                min-height: 24px; }
+            .terminator-terminal-window notebook.terminator-notebook header.left .terminator-tab-toolbar button:hover {
+                background-color: #e4e4e6;
+                color: #1d1d1f; }
+            .terminator-terminal-window notebook.terminator-notebook header.left .terminator-tab-toolbar button:disabled {
+                color: #c7c7cc;
+                background-color: transparent; }
+
+            .terminator-terminal-window notebook.terminator-notebook button.terminator-tab-close {
+                background: transparent;
+                background-image: none;
+                border: none;
+                box-shadow: none;
+                padding: 0;
+                margin: 0 0 0 6px;
+                min-width: 14px;
+                min-height: 14px; }
+            .terminator-terminal-window notebook.terminator-notebook button.terminator-tab-add {
+                background: transparent;
+                background-image: none;
+                border: none;
+                box-shadow: none;
+                border-radius: 8px;
+                margin: 4px 2px;
+                padding: 0;
+                min-width: 28px;
+                min-height: 28px; }
+            """
+
     def pane_chrome_css(self):
         """CSS for the Wave-style titlebar and the focused-pane border"""
         accent = self.pane_accent_color()
+        # The accent itself is stroked from Terminal._draw_focus_border.
+        # A CSS border here used to stay on every pane: `transparent` has
+        # nothing behind it on the terminal box, so GTK paints that 1px black.
         return """
-            .terminator-terminal-window .terminator-term-focused {
-                border: 1px solid %(accent)s; }
+            .terminator-terminal-window .terminator-term-focused,
             .terminator-terminal-window .terminator-term-unfocused {
-                border: 1px solid transparent; }
-            .terminator-terminal-window .pane-maximised .terminator-term-focused {
-                border-color: transparent; }
+                border: none; }
 
             .terminator-terminal-window .pane-maximised {
                 border: 2px solid %(accent)s;
@@ -459,14 +635,15 @@ class Terminator(Borg):
                 box-shadow: 0 8px 24px rgba(0,0,0,0.45); }
 
             button.titlebar-btn {
-                padding: 0px 2px; min-height: 0px; min-width: 0px;
-                color: #c9d1d9; }
-            button.titlebar-btn:hover { color: #ffffff; }
-            button.titlebar-btn-close { margin-left: 6px; }
+                padding: 0px; min-height: 0px; min-width: 0px;
+                margin: 0 1px;
+                color: #1d1d1f; }
+            button.titlebar-btn:hover { color: #000000; }
+            button.titlebar-btn-close { margin-left: 1px; }
             button.titlebar-btn-close:hover { color: #f85149; }
             button.titlebar-badge {
                 padding: 0px 4px; min-height: 0px; font-size: smaller;
-                color: #c9d1d9; }
+                color: #1d1d1f; }
 
             .titlebar-density-standard { min-height: 24px; }
             .titlebar-density-compact { min-height: 20px; }
@@ -493,9 +670,8 @@ class Terminator(Borg):
             .terminator-terminal-window {
                 background-color: alpha(@theme_bg_color,0); }
 
-            .terminator-terminal-window .notebook.header,
-            .terminator-terminal-window notebook header {
-                background-color: @theme_bg_color; }
+            .terminator-terminal-window notebook header.top {
+                background-color: #161616; }
 
             .terminator-terminal-window .pane-separator {
                 background-color: @theme_bg_color; }
@@ -517,6 +693,7 @@ class Terminator(Borg):
         # Pane chrome (titlebar buttons, focus border). Shared with the
         # overlay maximise module (D), which appends to this same string.
         css += self.pane_chrome_css()
+        css += self.tab_bar_css()
 
         # Add per profile snippets for setting the background of the HBox
         template = """
@@ -587,15 +764,71 @@ class Terminator(Borg):
                     self.style_providers.append(style_provider)
                     break
 
-        # Size the GtkPaned splitter handle size.
-        css = ""
-        if self.config['handle_size'] in range(0, 21):
-            css += """
-                .terminator-terminal-window separator {
-                    min-height: %spx;
-                    min-width: %spx; 
-                }
-                """ % (self.config['handle_size'],self.config['handle_size'])
+        # Flat 1px split. wide_handle used to draw a grooved gutter
+        # (about 5px: two edges and a trough) between panes.
+        try:
+            handle = int(self.config['handle_size'])
+        except (TypeError, ValueError):
+            handle = 1
+        if handle not in range(0, 21):
+            handle = 1
+        css = """
+            .terminator-terminal-window separator {
+                background-image: none;
+                background-color: #161b22;
+                border: none;
+                box-shadow: none;
+                margin: 0;
+                padding: 0;
+                min-height: %spx;
+                min-width: %spx;
+            }
+            """ % (handle, handle)
+        # White window header, same ground as the pane titlebars.
+        # Titlebutton (min/max/close) is left to the theme so the
+        # traffic lights keep their own colours.
+        css += """
+            headerbar.terminator-header-bar {
+                background-color: #ffffff;
+                background-image: none;
+                color: #1d1d1f;
+                box-shadow: none;
+            }
+            headerbar.terminator-header-bar .title {
+                color: #1d1d1f;
+            }
+            headerbar.terminator-header-bar button.terminator-header-btn {
+                color: #1d1d1f;
+                background-color: transparent;
+                background-image: none;
+                border: none;
+                box-shadow: none;
+            }
+            headerbar.terminator-header-bar button.terminator-header-btn:hover {
+                color: #000000;
+                background-color: rgba(0, 0, 0, 0.06);
+                background-image: none;
+            }
+            headerbar.terminator-header-bar button.terminator-header-btn:checked,
+            headerbar.terminator-header-bar button.terminator-header-btn:checked:hover {
+                background-color: rgba(0, 0, 0, 0.10);
+                background-image: none;
+                border-radius: 8px;
+                box-shadow: none;
+                color: #1d1d1f;
+            }
+            /* The pane-split rule above matches every separator in the
+               window, including the line before the traffic lights. That
+               line stays the header colour. */
+            headerbar.terminator-header-bar separator {
+                background-color: #ffffff;
+                background-image: none;
+                border: none;
+                box-shadow: none;
+                min-width: 0;
+                min-height: 0;
+            }
+            """
         style_provider = Gtk.CssProvider()
         style_provider.load_from_data(css.encode('utf-8'))
         self.style_providers.append(style_provider)
@@ -775,6 +1008,15 @@ class Terminator(Borg):
         """We just moved focus to a new terminal"""
         for terminal in self.terminals:
             terminal.titlebar.update(widget)
+        try:
+            top = widget.get_toplevel()
+            if (top is not None and hasattr(top, 'is_child_notebook')
+                    and top.is_child_notebook()):
+                note = top.get_child()
+                if hasattr(note, 'note_pane_focus'):
+                    note.note_pane_focus(widget)
+        except Exception:
+            pass
         return
 
     def focus_left(self, widget):

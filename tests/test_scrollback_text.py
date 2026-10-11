@@ -15,6 +15,8 @@ from terminatorlib.scrollback_text import (
     format_separator,
     format_separator_feed,
     is_valid_uuid_filename,
+    scrollback_worth_replaying,
+    strip_replay_separators,
     normalize_newlines_for_feed,
     sanitize_for_feed,
     truncate_lines_and_bytes,
@@ -108,6 +110,27 @@ class TestSeparator(unittest.TestCase):
         self.assertIn('\x1b[90m', feed)
         self.assertIn('\x1b[0m', feed)
         self.assertTrue(feed.startswith('\r\n'))
+
+
+class TestReplayWorth(unittest.TestCase):
+    def test_prompt_only_is_skipped(self):
+        self.assertFalse(scrollback_worth_replaying('clarence@AILinux:~$ '))
+        self.assertFalse(scrollback_worth_replaying(
+            'clarence@AILinux:~$ \n'
+            '──── 以上为上次会话的输出（已保存的快照，程序未恢复）· 10-10 20:55 ────\n'
+            'clarence@AILinux:~$ '))
+
+    def test_command_output_is_kept_and_old_separator_dropped(self):
+        text = (
+            'clarence@AILinux:~$ ls\n'
+            'file\n'
+            '──── Output above is from the previous session '
+            '(saved snapshot; programs were not restored) · 10-10 20:55 ────\n'
+        )
+        self.assertTrue(scrollback_worth_replaying(text))
+        kept = strip_replay_separators(text)
+        self.assertIn('file', kept)
+        self.assertNotIn('previous session', kept)
 
 
 class TestAtomicWrite(unittest.TestCase):

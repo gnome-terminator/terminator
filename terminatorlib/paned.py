@@ -103,7 +103,9 @@ class Paned(Container):
             sibling.spawn_child()
             if widget.group and self.config['split_to_group']:
                 sibling.set_group(None, widget.group)
-        elif self.config['always_split_with_profile']:
+        elif (self.config['always_split_with_profile'] and
+              hasattr(sibling, 'force_set_profile') and
+              hasattr(widget, 'get_profile')):
             sibling.force_set_profile(None, widget.get_profile())
 
         self.add(container)
@@ -115,9 +117,17 @@ class Paned(Container):
 
         for terminal in order:
             container.add(terminal)
+        # self.children is appended as slots empty out, so it can disagree
+        # with child1/child2. The sidebar walks children.
+        self.children[:] = [child for child in (self.get_child1(),
+                                                self.get_child2()) if child]
+        container.children[:] = [child for child in (container.get_child1(),
+                                                     container.get_child2())
+                                 if child]
 
         self.show_all()
-        sibling.grab_focus()
+        if hasattr(sibling, 'grab_focus'):
+            sibling.grab_focus()
         
         while Gtk.events_pending():
             Gtk.main_iteration_do(False)
@@ -332,6 +342,8 @@ class Paned(Container):
                 pass
         # Placeholder / other: pack only
         new_widget.show_all()
+        self.children[:] = [child for child in (self.get_child1(),
+                                                self.get_child2()) if child]
         try:
             from .session import try_mark_dirty
             try_mark_dirty('paned.swap_child')
@@ -418,6 +430,17 @@ class Paned(Container):
                     Terminator().find_terminal_by_uuid(sibling.get_toplevel().last_active_term.urn).grab_focus()
                 except AttributeError:
                     dbg('cannot find terminal with uuid: %s' % sibling.get_toplevel().last_active_term.urn)
+            # Closing a pane that did not have focus leaves the survivor
+            # focused without a new focus-in, so clear a border that only
+            # mattered while another pane was visible.
+            target = first_term_sibling
+            if not hasattr(target, 'refresh_visible_focus_chrome'):
+                kids = enumerate_descendants(sibling)[1]
+                target = kids[0] if kids else None
+            if target is not None and hasattr(target, 'refresh_visible_focus_chrome'):
+                target.refresh_visible_focus_chrome()
+            if target is not None and hasattr(target, 'refresh_titlebars_maximise_state'):
+                target.refresh_titlebars_maximise_state()
         else:
             dbg("self.closeterm failed")
 
@@ -632,7 +655,7 @@ class HPaned(Paned, Gtk.HPaned):
         """Class initialiser"""
         Paned.__init__(self)
         GObject.GObject.__init__(self)
-        self.props.wide_handle = True
+        self.props.wide_handle = False
         self.register_signals(HPaned)
         self.cnxids.new(self, 'button-press-event', self.on_button_press)
         self.cnxids.new(self, 'button-release-event', self.on_button_release)
@@ -650,7 +673,7 @@ class VPaned(Paned, Gtk.VPaned):
         """Class initialiser"""
         Paned.__init__(self)
         GObject.GObject.__init__(self)
-        self.props.wide_handle = True
+        self.props.wide_handle = False
         self.register_signals(VPaned)
         self.cnxids.new(self, 'button-press-event', self.on_button_press)
         self.cnxids.new(self, 'button-release-event', self.on_button_release)

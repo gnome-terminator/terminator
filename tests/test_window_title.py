@@ -385,3 +385,123 @@ def test_force_title_marks_session_dirty(monkeypatch):
     wt.force_title('cli', persist=False)
     wt.force_title(None)         # was not persisted: nothing to save
     assert calls == ['window-title', 'window-title']
+
+
+def test_header_bar_matches_gnome_terminal_actions():
+    from terminatorlib.window import Window
+
+    class Host(object):
+        _borderless = False
+        _header_title_bound = True
+        _header_button = Window._header_button
+        _on_header_new_tab = Window._on_header_new_tab
+        _on_header_tab_panel_toggled = Window._on_header_tab_panel_toggled
+        _on_header_find = Window._on_header_find
+        _on_header_menu = Window._on_header_menu
+
+        def set_titlebar(self, bar):
+            self.installed = bar
+
+        def get_title(self):
+            return 'Shallow Clone Install'
+
+        def connect(self, *_args):
+            return 0
+
+    host = Host()
+    Window._install_header_bar(host)
+    assert host.installed is host._header_bar
+    assert host._header_bar.get_show_close_button() is True
+    assert host._header_new_tab.get_parent() is not None
+    assert host._header_find.get_parent() is not None
+    assert host._header_menu.get_parent() is not None
+
+    skipped = Host()
+    skipped._borderless = True
+    Window._install_header_bar(skipped)
+    assert not hasattr(skipped, 'installed')
+
+    class Term(object):
+        def __init__(self):
+            self.searched = False
+            self.menu = None
+
+        def key_search(self):
+            self.searched = True
+
+        def popup_menu(self, widget, anchor=None, skip_link_check=False):
+            self.menu = (widget, anchor, skip_link_check)
+
+    class Win(object):
+        def __init__(self):
+            self.term = Term()
+            self.made = None
+
+        def _header_terminal(self):
+            return self.term
+
+        def tab_new(self, widget=None):
+            self.made = widget
+
+    win = Win()
+    Window._on_header_find(win, None)
+    Window._on_header_menu(win, 'menu-button')
+    assert win.term.searched is True
+    assert win.term.menu == ('menu-button', 'menu-button', True)
+
+    class NB(object):
+        def __init__(self):
+            self.shown = True
+            self.pos = None
+
+        def get_show_tabs(self):
+            return self.shown
+
+        def set_show_tabs(self, value):
+            self.shown = bool(value)
+
+        def set_tab_pos(self, pos):
+            self.pos = pos
+
+    class Panel(object):
+        def __init__(self):
+            self.nb = NB()
+            self.config = {'tab_position': 'left'}
+
+        def is_child_notebook(self):
+            return True
+
+        def get_child(self):
+            return self.nb
+
+        _sync_tab_panel_button = Window._sync_tab_panel_button
+
+    panel = Panel()
+    Window._set_tab_panel_visible(panel, False)
+    assert panel.nb.shown is False
+    Window._set_tab_panel_visible(panel, True)
+    assert panel.nb.shown is True
+
+
+def test_header_title_sync_does_not_recurse():
+    """notify::title must not loop with HeaderBar.set_title."""
+    from gi.repository import Gtk
+    from terminatorlib.window import Window
+
+    class Host(Gtk.Window):
+        _borderless = False
+        _header_button = Window._header_button
+        _on_header_new_tab = Window._on_header_new_tab
+        _on_header_tab_panel_toggled = Window._on_header_tab_panel_toggled
+        _on_header_find = Window._on_header_find
+        _on_header_menu = Window._on_header_menu
+        _sync_header_title = Window._sync_header_title
+
+    win = Host()
+    Window._install_header_bar(win)
+    assert win._header_bar.get_visible() is True
+    win.set_title('layout title')
+    assert win._header_bar.get_title() == 'layout title'
+    win.set_title('another title')
+    assert win._header_bar.get_title() == 'another title'
+    win.destroy()

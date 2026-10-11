@@ -133,6 +133,10 @@ Default value: \fBFalse\fP
 \fBask_before_closing\fP = \fIstring\fP
 .RS 4
 Specify when to ask for confirmation before closing a window or a tab.
+A program other than the shell always asks, and the dialog names that
+program, unless this is \*(Aqnever\*(Aq. \*(Aqmultiple_terminals\*(Aq does not ask
+just because several terminals are open: idle shells close immediately.
+\*(Aqalways\*(Aq still asks when every terminal is only a shell.
 Can be any of: \*(Aqalways\*(Aq, \*(Aqmultiple_terminals\*(Aq, \*(Aqnever\*(Aq.
 Default value: \fBmultiple_terminals\fP
 .RE
@@ -151,12 +155,13 @@ Default value: \fBTrue\fP
 .sp
 \fBtitlebar_show_icon\fP = \fIboolean\fP
 .RS 4
-If set to True, each terminal titlebar shows the terminal icon and the
-grouping (broadcast state) icon on its left side, as upstream Terminator
-does. When False the icons are hidden: the group name and, on the
-sending terminal, a "Broadcast: all/group" text still show the grouping
-state and can be clicked for the grouping menu, the terminal context
-menu gains a \fIGrouping\fP submenu, and the group keybindings keep working.
+The grouping icon (the pane grid with a chevron) is always drawn at the
+left of a terminal titlebar, and the pane title is drawn immediately to
+its right. If this is True, the extra terminal icon is shown as well, as
+upstream Terminator does, and the context menu drops its \fIGrouping\fP
+submenu because the icon itself opens that menu. When False only the
+grouping icon remains; the context menu keeps \fIGrouping\fP, and the
+group keybindings keep working.
 .br
 Default value: \fBFalse\fP
 .RE
@@ -164,6 +169,8 @@ Default value: \fBFalse\fP
 \fBtitlebar_density\fP = \fIstring\fP
 .RS 4
 Height of terminal titlebars and their buttons.
+\*(Aqstandard\*(Aq is 24px, \*(Aqcompact\*(Aq is 20px. The gear, maximise and close
+buttons match that height, and their marks are scaled to one size.
 Can be any of: \*(Aqstandard\*(Aq, \*(Aqcompact\*(Aq.
 .br
 Default value: \fBstandard\fP
@@ -171,8 +178,10 @@ Default value: \fBstandard\fP
 .sp
 \fBpane_accent_color\fP = \fIcolor string\fP
 .RS 4
-Colour of the 1px border drawn around the focused terminal. Invalid
-values fall back to the default.
+Colour of the border around an overlay-maximised pane. The 1px ring
+around a normally focused pane is not this colour: it follows that
+pane's titlebar background (\fBtitle_transmit_bg_color\fP). Invalid values
+fall back to the default.
 .br
 Default value: \fB#3fb950\fP
 .RE
@@ -380,6 +389,17 @@ the scale tier.
 Default value: \fB150\fP
 .RE
 .sp
+\fBwindow_decoration_style\fP = \fIstring\fP
+.RS 4
+Theme of the window header bar. \fIlight\fP keeps it white, with the theme\(cqs
+light window buttons. \fIdark\fP follows a dark header. \fIauto\fP picks from the
+terminal background colour, which turns the header dark on the deep\-teal
+profile.
+Can be any of: \(cqdark\(cq, \(cqlight\(cq, \(cqauto\(cq.
+.br
+Default value: \fBlight\fP
+.RE
+.sp
 \fBborderless\fP = \fIboolean\fP
 .RS 4
 If set to True, the window will be started without window borders.
@@ -391,29 +411,39 @@ Default value: \fBFalse\fP
 \fBtab_position\fP = \fIstring\fP
 .RS 4
 Specify where tabs are placed.
+\*(Aqleft\*(Aq is a tree on the left. Each tab is one row, named from the
+focused pane's directory unless you have renamed the tab. Panes inside
+a split tab are children under that row. Above the tree, a plus opens
+a new tab and the arrows move back and forward. The plus and the arrows
+are the same size. Drag a tab to reorder it, or onto the middle of
+another tab to nest it there as a pane. Drag a child pane to reorder it
+under its tab, onto another tab to move it, or to the left gutter or
+between tabs to make it a tab of its own. A tab can also be dragged
+onto another window's list; a window closes when its last tab leaves.
+The window header's sidebar icon shows or hides this list. \*(Aqtop\*(Aq is a
+dark strip of chips.
 Can be any of: \*(Aqtop\*(Aq, \*(Aqleft\*(Aq, \*(Aqright\*(Aq, \*(Aqbottom\*(Aq, \*(Aqhidden\*(Aq.
 If set to \*(Aqhidden\*(Aq, the tab bar will not be shown. Hiding the tab is not
 recommended, as it can be very confusing.
 .br
-Default value: \fBtop\fP
+Default value: \fBleft\fP
 .RE
 .sp
 \fBclose_button_on_tab\fP = \fIboolean\fP
 .RS 4
-If set to True, tabs will have a close button on them.
+If set to True, a tab shows a close mark while the pointer is on it.
 .br
 Default value: \fBTrue\fP
 .RE
 .sp
 \fBscroll_tabbar\fP = \fIboolean\fP
 .RS 4
-If set to True, the tab bar will not fill the width of the window.
-The titlebars of the tabs will only take as much space as is necessary
-for the text they contain. Except, that is, if the tabs no longer fit
-the width of the window \- in that case scroll buttons will appear to
-move through the tabs.
+If set to True, tabs stay as large as their labels and scroll when they
+no longer fit. On the left-hand list that scrolls the rows. On the top
+strip, each chip is only as wide as its label. If set to False, a top
+strip stretches its tabs across the bar.
 .br
-Default value: \fBFalse\fP
+Default value: \fBTrue\fP
 .RE
 .SS "Terminal Behavior & Appearance"
 .sp
@@ -582,7 +612,33 @@ This option is ignored unless \fBuse_custom_url_handler\fP is set to True.
 \fBcase_sensitive\fP = \fIboolean\fP
 .RS 4
 If set to True, uppercase and lowercase characters will be considered
-different when searching text in the terminal.
+different when searching text in the terminal. The Find dialog
+checkbox \(dqMatch case\(dq edits this.
+.br
+Default value: \fBFalse\fP
+.RE
+.sp
+\fBsearch_whole_word\fP = \fIboolean\fP
+.RS 4
+If set to True, a search matches only a whole word. The Find dialog
+checkbox \(dqMatch entire word\(dq edits this.
+.br
+Default value: \fBFalse\fP
+.RE
+.sp
+\fBsearch_regex\fP = \fIboolean\fP
+.RS 4
+If set to True, the Find text is a regular expression. Otherwise it is
+matched literally. The Find dialog checkbox \(dqMatch as regular expression\(dq
+edits this.
+.br
+Default value: \fBFalse\fP
+.RE
+.sp
+\fBsearch_wrap\fP = \fIboolean\fP
+.RS 4
+If set to True, a search that reaches the end of the scrollback continues
+from the top. The Find dialog checkbox \(dqWrap around\(dq edits this.
 .br
 Default value: \fBTrue\fP
 .RE
@@ -1334,7 +1390,7 @@ Default value: \fBFalse\fP
 Specify the foreground color to use for the terminal.
 This option is ignored unless \fBuse_theme_colors\fP is set to False.
 .br
-Default value: \fB#AAAAAA\fP
+Default value: \fB#C6D3D5\fP
 .RE
 .sp
 \fBbackground_color\fP = \fIcolor string\fP
@@ -1342,7 +1398,7 @@ Default value: \fB#AAAAAA\fP
 Specify the background color to use for the terminal.
 This option is ignored unless \fBuse_theme_colors\fP is set to False.
 .br
-Default value: \fB#000000\fP
+Default value: \fB#163841\fP
 .RE
 .sp
 \fBpalette\fP = \fIstring list of colors\fP
@@ -1442,6 +1498,8 @@ Default value: \fBmiddle\fP
 .RS 4
 Specify where the terminal scrollbar is put.
 Can be any of: \*(Aqleft\*(Aq, \*(Aqright\*(Aq, \*(Aqhidden\*(Aq, \*(Aqdisabled\*(Aq (\*(Aqdisabled\*(Aq is a legacy alias of \*(Aqhidden\*(Aq).
+\*(Aqleft\*(Aq and \*(Aqright\*(Aq pack the bar on that side, but it is drawn only while the scrollback is taller than the terminal. A prompt that still fits on screen does not show it. \*(Aqhidden\*(Aq never shows it.
+The titlebar menu item \(dqShow scrollbar\(dq (and Ctrl+Shift+S) forces it shown or hidden for that terminal until this setting is applied again.
 .br
 Default value: \fBright\fP
 .RE
@@ -1450,7 +1508,8 @@ Default value: \fBright\fP
 .RS 4
 If true, the scrollbar is hidden automatically while a fullscreen program
 (one using the alternate screen, such as vim, less, htop or tmux) is running,
-and restored when it exits. Only applies when the scrollbar is shown.
+and restored when it exits if the scrollback is still taller than the terminal.
+Only applies when the scrollbar would otherwise be shown.
 .br
 Default value: \fBTrue\fP
 .RE
@@ -1520,8 +1579,9 @@ Default value: \fBescape\-sequence\fP
 .sp
 \fBshow_titlebar\fP = \fIboolean\fP
 .RS 4
-If set to True, the terminal will have a titlebar showing the current
-title of that terminal.
+If set to True, a pane has a titlebar showing its current title while
+the window is split into more than one pane. A single pane has no
+titlebar.
 .br
 Default value: \fBTrue\fP
 .RE
@@ -1555,7 +1615,7 @@ Default value: \fBSans 9\fP
 Specify the foreground color to use for the terminal\(cqs titlebar in case
 the terminal is focused.
 .br
-Default value: \fB#e6edf3\fP (upstream Terminator used \fB#ffffff\fP)
+Default value: \fB#1d1d1f\fP (upstream Terminator used \fB#ffffff\fP)
 .RE
 .sp
 \fBtitle_transmit_bg_color\fP = \fIcolor string\fP
@@ -1563,7 +1623,7 @@ Default value: \fB#e6edf3\fP (upstream Terminator used \fB#ffffff\fP)
 Specify the background color to use for the terminal\(cqs titlebar in case
 the terminal is focused.
 .br
-Default value: \fB#21262d\fP (upstream Terminator used \fB#c80003\fP)
+Default value: \fB#ffffff\fP (upstream Terminator used \fB#c80003\fP)
 .RE
 .sp
 \fBtitle_inactive_fg_color\fP = \fIcolor string\fP
@@ -1571,7 +1631,7 @@ Default value: \fB#21262d\fP (upstream Terminator used \fB#c80003\fP)
 Specify the foreground color to use for the terminal\(cqs titlebar in case
 the terminal is unfocused.
 .br
-Default value: \fB#8b949e\fP (upstream Terminator used \fB#000000\fP)
+Default value: \fB#6e6e73\fP (upstream Terminator used \fB#000000\fP)
 .RE
 .sp
 \fBtitle_inactive_bg_color\fP = \fIcolor string\fP
@@ -1579,7 +1639,7 @@ Default value: \fB#8b949e\fP (upstream Terminator used \fB#000000\fP)
 Specify the background color to use for the terminal\(cqs titlebar in case
 the terminal is unfocused.
 .br
-Default value: \fB#161b22\fP (upstream Terminator used \fB#c0bebf\fP)
+Default value: \fB#ffffff\fP (upstream Terminator used \fB#c0bebf\fP)
 .RE
 .sp
 \fBtitle_receive_fg_color\fP = \fIcolor string\fP

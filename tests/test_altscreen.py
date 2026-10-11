@@ -7,7 +7,8 @@ import pytest
 
 from terminatorlib import altscreen
 from terminatorlib.altscreen import (AltScreenDetector, AltScreenScrollbar,
-                                     adjustment_collapsed, foreground_busy,
+                                     adjustment_collapsed, adjustment_scrollable,
+                                     foreground_busy, scrollbar_should_show,
                                      should_auto_hide)
 
 
@@ -17,6 +18,31 @@ def test_adjustment_collapsed():
     assert adjustment_collapsed(0, 24, 24)
     assert not adjustment_collapsed(0, 51, 24)
     assert not adjustment_collapsed(0, 0, 0)  # unrealised widget
+
+
+def test_adjustment_scrollable():
+    assert not adjustment_scrollable(0, 24, 24)   # full slider, nothing to move
+    assert adjustment_scrollable(0, 51, 24)
+    assert not adjustment_scrollable(0, 24, 0)    # not allocated yet
+    assert not adjustment_scrollable(0, 24.4, 24) # within the 0.5 slop
+
+
+def test_scrollbar_should_show_only_when_scrollable():
+    assert scrollbar_should_show('right', False) is False
+    assert scrollbar_should_show('left', False) is False
+    assert scrollbar_should_show('right', True) is True
+    assert scrollbar_should_show('left', True) is True
+    assert scrollbar_should_show('hidden', True) is False
+    assert scrollbar_should_show('disabled', True) is False
+    # A manual toggle sticks until reconfigure clears `forced`.
+    assert scrollbar_should_show('right', False, forced=True) is True
+    assert scrollbar_should_show('right', True, forced=False) is False
+    assert scrollbar_should_show('hidden', False, forced=True) is True
+    # Fullscreen-program latch keeps a non-scrollable bar hidden, and a
+    # toggle during that program is left to the controller.
+    assert scrollbar_should_show('right', False, alt_auto_hidden=True) is False
+    assert scrollbar_should_show('right', True, alt_auto_hidden=True) is True
+    assert scrollbar_should_show('right', True, user_override=True) is None
 
 
 def test_should_auto_hide_respects_config():
@@ -235,6 +261,20 @@ def _ctl(monkeypatch, busy=True, **kw):
     return term, ctl, state
 
 
+def test_restore_asks_terminal_when_it_syncs(monkeypatch):
+    term, ctl, _ = _ctl(monkeypatch)
+    calls = []
+    term.sync_scrollbar = lambda *a: calls.append('sync')
+    ctl.evaluate()
+    term.adj.upper = 24
+    ctl.evaluate()
+    assert not term.scrollbar.visible and calls == []
+    term.adj.upper = 51
+    ctl.evaluate()
+    assert calls == ['sync']
+    assert 'show' not in term.scrollbar.calls
+
+
 def test_controller_hides_and_restores(monkeypatch):
     term, ctl, _ = _ctl(monkeypatch)
     ctl.evaluate()                       # history
@@ -357,8 +397,9 @@ def test_terminal_wires_controller():
     from terminatorlib import terminal
     src = inspect.getsource(terminal.Terminal)
     assert 'AltScreenScrollbar(self)' in src
-    assert 'self.altscreen.user_toggled()' in src
+    assert 'user_toggled()' in src
     assert 'self.altscreen.reconfigured()' in src
+    assert 'self.sync_scrollbar' in src
 
 
 def test_config_default_on():
