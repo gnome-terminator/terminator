@@ -123,6 +123,10 @@ the width of the window - in that case scroll buttons will appear to
 move through the tabs. +
 Default value: *False*
 
+*new_tab_button* = _boolean_::
+If set to True, a button to open a new tab is shown at the end of the tab bar. +
+Default value: *False*
+
 === Terminal Behavior & Appearance
 
 // --- Terminal behavior ---

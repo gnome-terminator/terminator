@@ -20,6 +20,7 @@ class Notebook(Container, Gtk.Notebook):
     """Class implementing a Gtk.Notebook container"""
     window = None
     last_active_term = None
+    new_tab_button = None
     pending_on_tab_switch = None
     pending_on_tab_switch_args = None
 
@@ -39,6 +40,7 @@ class Notebook(Container, Gtk.Notebook):
         self.connect('scroll-event', self.on_scroll_event)
         self.connect('create-window', self.create_window_detach)
         self.connect_after('drag-failed', self.on_tab_drag_failed)
+        self.add_new_tab_button()
         self.configure()
 
         self.set_can_focus(False)
@@ -54,6 +56,33 @@ class Notebook(Container, Gtk.Notebook):
 
         self.show_all()
 
+    def add_new_tab_button(self):
+        """Add a button after the tabs that opens a new tab"""
+        icon = Gio.ThemedIcon.new_with_default_fallbacks("list-add-symbolic")
+        button = Gtk.Button()
+        button.add(Gtk.Image.new_from_gicon(icon, Gtk.IconSize.MENU))
+        button.set_focus_on_click(False)
+        button.set_relief(Gtk.ReliefStyle.NONE)
+        button.set_name('terminator-new-tab-button')
+        button.set_tooltip_text(_('Open a new tab'))
+        button.connect('clicked', self.on_new_tab_clicked)
+        button.get_child().show()
+        # Visibility follows the new_tab_button option, not show_all()
+        button.set_no_show_all(True)
+        self.set_action_widget(button, Gtk.PackType.END)
+        self.new_tab_button = button
+
+    def on_new_tab_clicked(self, _widget):
+        """Open a new tab like the new_tab keybinding does"""
+        terminal = self.window.get_focussed_terminal()
+        if not terminal:
+            # Focus is elsewhere, e.g. the search bar, so use the last active one
+            page = self.get_nth_page(self.get_current_page())
+            uuid = self.last_active_term.get(page)
+            if uuid:
+                terminal = self.terminator.find_terminal_by_uuid(uuid.urn)
+        self.window.tab_new(terminal)
+
     def configure(self):
         """Apply widget-wide settings"""
         # FIXME: The old reordered handler updated Terminator.terminals with
@@ -68,6 +97,8 @@ class Notebook(Container, Gtk.Notebook):
             self.set_show_tabs(True)
             pos = getattr(Gtk.PositionType, self.config['tab_position'].upper())
             self.set_tab_pos(pos)
+
+        self.new_tab_button.set_visible(self.config['new_tab_button'])
 
         for tab in range(0, self.get_n_pages()):
             label = self.get_tab_label(self.get_nth_page(tab))
