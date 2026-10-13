@@ -207,6 +207,8 @@ class Terminator(Borg):
         if profile and self.config['always_split_with_profile']:
             terminal.force_set_profile(None, profile)
         window.add(terminal)
+        if not self.doing_layout:
+            window.apply_always_show_tabbar()
         window.show(True)
         terminal.spawn_child()
         terminal.emit('tab-change', 0)
@@ -333,6 +335,9 @@ class Terminator(Borg):
                     term = self.find_terminal_by_uuid(window_last_active_term_mapping[window].urn)
                     if term:
                         term.ensure_visible_and_focussed()
+
+        for window in self.windows:
+            window.apply_always_show_tabbar()
 
         # Build list of new windows using prelayout list
         new_win_list = []
@@ -503,6 +508,7 @@ class Terminator(Borg):
         # Update tab position if appropriate
         maker = Factory()
         for window in self.windows:
+            window.apply_always_show_tabbar()
             child = window.get_child()
             if maker.isinstance(child, 'Notebook'):
                 child.configure()
