@@ -1,106 +1,69 @@
-Terminator
-==========
+TerminatorX
+===========
 
-![Terminator](data/screenshots/terminator.png)
+![TerminatorX](data/screenshots/terminator.png)
 
-Started by Chris Jones <cmsj@tenshu.net> in 2007, maintained from 2014 to 2020 by Stephen Boddy, currently maintained by Matt Rose. Terminator has had contributions from countless others listed in the [AUTHORS](AUTHORS) file
+Terminator 由 Chris Jones 在 2007 年写出，2014 到 2020 年由 Stephen Boddy 维护，上游目前由 Matt Rose 维护。其余贡献者见 [AUTHORS](AUTHORS)。TerminatorX 基于 Terminator 2.1.6。
 
-## Description
+## 简介
 
-Terminator keeps several terminals in one window. You work on the layout directly: tabs and panes are a list on the left, and a drag reorders them, nests a tab under another, or lifts a pane out into its own tab. A pane can open over the others, then come back. The terminal underneath is VTE, the widget GNOME Terminal uses, so the shell, the scrollback and the escape sequences stay with that implementation. The frame around it is thin: a white header bar, a 1px line between panes, and a pane titlebar only when the window is split.
+TerminatorX 在一个窗口里放多个终端。标签和窗格排在左侧，拖动可以重排、把一个标签嵌到另一个下面，或把窗格拉成自己的标签。一个窗格可以盖住其余窗格，再退回来。底下的终端是 VTE，和 GNOME Terminal 用的是同一个组件，shell、回滚和转义序列都走那套实现。窗口本身很薄：白色标题栏、窗格之间一条 1px 的线，只有在分割之后才出现窗格标题栏。
 
-## Fork features
+## 功能
 
-This fork adds the features below on top of Terminator 2.1.6. All of them are **on by default**. See [CHANGELOG.md](CHANGELOG.md) and `man terminator_config` for details.
+下面这些都默认开着。细节见 [CHANGELOG.md](CHANGELOG.md) 和 `man terminator_config`。
 
-| Feature | How to turn it off |
+| 功能 | 怎么关掉 |
 |---|---|
-| Automatic session save and restore of layout, tabs and working directories, with confirmation before closing running programs | Preferences > Session, `restore_last_session = False`, or `terminator --no-restore` for one launch |
-| Scrollback cache in `~/.cache/terminator/scrollback/`, replayed after a restore | Preferences > Session, `scrollback_cache = False` |
-| Wave-style pane titlebars with menu, maximise and close buttons | Preferences > Panes, `titlebar_buttons = False` |
-| Overlay maximise of a single pane (Ctrl+Shift+Return, restore with Shift+Esc, or double-click the titlebar) | Preferences > Panes, `pane_overlay_maximise = False` |
-| Stepped per-terminal font scaling (100/90/80%) by reading measure | Preferences > Panes, `auto_font_scale = False`, or the titlebar badge |
-| Hide the scrollbar in fullscreen programs (vim, less, htop, tmux) | Preferences > Profiles > Scrolling, `scrollbar_hide_in_alt_screen = False` |
+| 自动保存并恢复布局、标签和工作目录；关掉仍在运行的程序前会询问 | 首选项 > 会话，`restore_last_session = False`，或单次启动加 `terminator --no-restore` |
+| 回滚缓存在 `~/.cache/terminator/scrollback/`，恢复后再放出来 | 首选项 > 会话，`scrollback_cache = False` |
+| 窗格标题栏上的菜单、最大化和关闭 | 首选项 > 窗格，`titlebar_buttons = False` |
+| 单个窗格盖住其余窗格（Ctrl+Shift+Return，Shift+Esc 收回，或双击标题栏） | 首选项 > 窗格，`pane_overlay_maximise = False` |
+| 窗格变窄时，字体按 100% / 90% / 80% 缩小 | 首选项 > 窗格，`auto_font_scale = False`，或点标题栏上的比例 |
+| 全屏程序（vim、less、htop、tmux）运行时藏起滚动条 | 首选项 > 配置文件 > 滚动，`scrollbar_hide_in_alt_screen = False` |
 
-## New home on GitHub
+## 安装
 
-In April of 2020 we started moving **`Terminator`** to GitHub. A new team wanted to continue the work of the original authors.
+命令名仍是 `terminator`。发行版仓库里的包是上游 Terminator。从这份源码构建见 [INSTALL.md](INSTALL.md)。
 
-You can find the project on https://github.com/gnome-terminator/terminator
+仓库：https://github.com/TIIEHenry/TerminatorX
 
-## Installing
+### 快捷键
 
-Terminator is available for most (if not all) Linux distributions from the distribution's repository of binary packages.  It is also available on FreeBSD.   Please search your repository for `terminator`  If you want to find information on how to enable an updated package repository for your OS, build from source, or want to run the bleeding-edge master version, you can follow the instructions in [INSTALL.md](https://github.com/gnome-terminator/terminator/blob/master/INSTALL.md)
+再开一个终端：
 
+- 水平分割：`Ctrl-Shift-o`
+- 垂直分割：`Ctrl-Shift-e`
 
-#### Quick Start:
+切换焦点：
 
-Create more terminals by:  
- - horizontal split: `Ctrl-Shift-o`
- - vertical split: `Ctrl-Shift-e`
+- 下一个：`Ctrl-Shift-n`
+- 上一个：`Ctrl-Shift-p`
 
-Shift focus to:  
- - next terminal: `Ctrl-Shift-n`
- - previous terminal: `Ctrl-Shift-p`
+新标签：`Ctrl-Shift-t`
 
-New tab: `Ctrl-Shift-t`
+新窗口：`Ctrl-Shift-i`
 
-New window: `Ctrl-Shift-i`
+关闭终端或标签：`Ctrl-Shift-w`，或右键后选关闭。
 
-Close terminal or tab:  
- - `Ctrl-Shift-w`
- - or right mouse click -> Close  
+关掉整个窗口：`Ctrl-Shift-q`
 
-Close window with all it's terminals and tabs: `Ctrl-Shift-q`
+重置缩放：`Ctrl-0`
 
-Reset zoom: `Ctrl-0`
+首选项在窗口标题栏的菜单里；没有标题栏时，在终端上右键。其余快捷键在首选项的键盘绑定里改。
 
-Terminator Preferences menu:  
- - right mouse click -> Preferences  
+手册：`man terminator`、`man terminator_config`。按 `F1` 打开上游文档：https://gnome-terminator.readthedocs.io/en/latest/
 
-These and more modifiable shortcuts in:  
- - right mouse click -> Preferences -> Keybindings tab  
+## 参与
 
-Web Documentation: 
- - press `F1` or at https://gnome-terminator.readthedocs.io/en/latest/
+问题与改动请发到 https://github.com/TIIEHenry/TerminatorX/issues 。翻译说明见 [TRANSLATION.md](TRANSLATION.md)。
 
-More info about shortcuts and cli config in man pages:  
- - `man terminator`
- - `man terminator_config`
+## 许可
 
-## Contributing
+GPL v2 only。gedit 终端插件来自 gedit-plugins，许可证为 GPL v2 或更高版本。VTE 的 `vte-demo.py` 版权归原作者，VTE 本身为 LGPL v2。旧图标由 Cristian Grada 以同一许可证提供，新图标由 Cory Kontros 以 CC-by-SA 提供。其余署名见 `debian/copyright`。
 
-Any help is welcome with the Terminator project.
+## English
 
-* [Open issues for bugs or enhancements](https://github.com/gnome-terminator/terminator/issues/new)
-* [Join our chat room on gitter.im for general questions](https://gitter.im/gnome-terminator/community)
-* [Help translating Terminator](TRANSLATION.md)
+TerminatorX keeps several terminals in one window. Tabs and panes are a list on the left: drag to reorder, nest a tab under another, or lift a pane out into its own tab. A pane can open over the others and come back. The terminal is VTE, the widget GNOME Terminal uses. The frame is thin: a white header bar, a 1px line between panes, and a pane titlebar only when the window is split.
 
-You can find old bugs and questions in the launchpad project, but please don't post anything new there.
-
-* https://answers.launchpad.net/terminator
-* https://bugs.launchpad.net/terminator
-
-## Origins
-
-Terminator began by shamelessly copying code from the vte-demo.py in the vte 
-widget package, and the gedit terminal plugin (which was fantastically 
-useful at figuring out vte's API).
-
-vte-demo.py was not my code and is copyright its original author. While it 
-does not contain any specific licensing information in it, the VTE package 
-appears to be licenced under LGPL v2.
-
-The original version 0.1 release of Terminator was on Saturday, 28 July 2007.
- [Here is the archived Terminator 0.1 release announcement](http://cmsj.net/2007/07/28/terminator-01-released.html)
-
-## Licensing
-
-The gedit terminal plugin is part of the gedit-plugins package, which is 
-licenced under GPL v2 or later.
-
-I am thus licensing Terminator as GPL v2 only.
-
-Cristian Grada provided the old icon under the same licence.
-Cory Kontros provided the new icon under the CC-by-SA licence.
-For other authorship information, see debian/copyright
+It is based on Terminator 2.1.6. The command is still `terminator`. Build instructions are in [INSTALL.md](INSTALL.md). The features in the table above are on by default; the right-hand column is how to turn each one off.

@@ -97,7 +97,7 @@ class FakeTerminal:
 def make(config=None):
     window = FakeWindow()
     clock = FakeClock()
-    cfg = {'window_title_mode': 'focused', 'window_title_fixed': 'Terminator'}
+    cfg = {'window_title_mode': 'focused', 'window_title_fixed': 'TerminatorX'}
     cfg.update(config or {})
     wt = WindowTitle(window, config=cfg, timeout_add=clock.timeout_add,
                      source_remove=clock.source_remove)
@@ -262,7 +262,7 @@ def test_force_title_has_precedence_and_unforce_restores_owner():
 def test_initial_title_is_not_literal_none():
     window, clock, wt = make()
     wt.update()
-    assert window.titles == ['Terminator']
+    assert window.titles == ['TerminatorX']
 
 
 def test_destroy_cancels_pending_source():
@@ -290,7 +290,7 @@ def test_terminal_for_widget_walks_up_from_vte():
 def test_config_defaults_present():
     from terminatorlib.config import DEFAULTS
     assert DEFAULTS['global_config']['window_title_mode'] == 'focused'
-    assert DEFAULTS['global_config']['window_title_fixed'] == 'Terminator'
+    assert DEFAULTS['global_config']['window_title_fixed'] == 'TerminatorX'
 
 
 # -- review follow-ups -------------------------------------------------------

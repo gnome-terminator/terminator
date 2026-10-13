@@ -1827,7 +1827,7 @@ class WindowTitle(object):
         return mode if mode in ('focused', 'fixed') else 'focused'
 
     def fixed_text(self):
-        return str(self._cfg('window_title_fixed', 'Terminator') or 'Terminator')
+        return str(self._cfg('window_title_fixed', 'TerminatorX') or 'TerminatorX')
 
     # -- ownership ------------------------------------------------------
     def _owns(self, terminal):

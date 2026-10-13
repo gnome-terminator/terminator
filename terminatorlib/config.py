@@ -145,7 +145,7 @@ DEFAULTS = {
             # terminal (OSC titles from other panes are ignored);
             # 'fixed' always shows window_title_fixed.
             'window_title_mode'     : 'focused',
-            'window_title_fixed'    : 'Terminator',
+            'window_title_fixed'    : 'TerminatorX',
             'detachable_tabs'       : True,
 
             'new_tab_after_current_tab': False,

@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.1.6+fork.1 (unreleased): fork of 2.1.6 (TIIEHenry/terminator, branch integration/m1)
+## 2.1.6+fork.1 (unreleased): fork of 2.1.6 (TIIEHenry/TerminatorX)
 
 The five new features below are **on by default**. Each one can be turned off in Preferences or in the config file (see `terminator_config(5)`).
 
@@ -32,6 +32,7 @@ The five new features below are **on by default**. Each one can be turned off in
 
 **Behaviour changes when upgrading**
 
+- **Name.** The desktop entry, the about page and the default window title say TerminatorX. The command is still `terminator`.
 - **Default layout.** If you have a custom `[layouts][default]`, it is used only until the first session is saved. After that, a plain launch restores the last session. Use `--no-restore`, or set `restore_last_session = False`, to keep using the default layout.
 - **Tabs are one-time unless locked.** Each tab row has a lock (also "Keep for next launch" in the tab menu). A normal exit restores locked tabs only. Unlocked tabs are forgotten, and the next launch is one new window. It does not fall back to `[layouts][default]`. A kill or a crash still restores every tab that was open. A window with no tab list is still restored.
 - **Shortcut clash.** `<Ctrl><Shift>Return` is now bound to `maximise`. If you or a plugin used that key for something else, rebind one of them in Preferences > Keybindings.

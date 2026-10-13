@@ -85,7 +85,7 @@ class ActivityWatch(plugin.MenuItem):
         if terminal.vte.has_focus():
             return True
 
-        note = Notify.Notification.new(_('Terminator'), _('Activity in: %s') % 
+        note = Notify.Notification.new(_('TerminatorX'), _('Activity in: %s') % 
                                   terminal.get_window_title(), 'terminator')
 
         this_time = time.mktime(time.gmtime())
@@ -168,7 +168,7 @@ class InactivityWatch(plugin.MenuItem):
         dbg('seconds since last activity: %f (%s)' % (time_now - self.last_activities[terminal], terminal))
         if time_now - self.last_activities[terminal] >= inactive_period:
             del(self.last_activities[terminal])
-            note = Notify.Notification.new(_('Terminator'), _('Silence in: %s') % 
+            note = Notify.Notification.new(_('TerminatorX'), _('Silence in: %s') % 
                                          terminal.get_window_title(), 'terminator')
             note.show()
 

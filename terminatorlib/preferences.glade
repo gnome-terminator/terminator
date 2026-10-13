@@ -5147,7 +5147,7 @@
                           <object class="GtkLabel" id="label26">
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
-                            <property name="label" translatable="yes">Terminator</property>
+                            <property name="label" translatable="yes">TerminatorX</property>
                             <attributes>
                               <attribute name="size" value="30000"/>
                             </attributes>

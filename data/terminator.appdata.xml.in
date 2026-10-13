@@ -4,7 +4,7 @@
  <id>terminator.desktop</id>
  <metadata_license>CC0-1.0</metadata_license>
  <project_license>GPL-2.0-only</project_license>
- <_name>Terminator</_name>
+ <_name>TerminatorX</_name>
  <_summary>Multiple terminals in one window</_summary>
  <description>
   <_p>
@@ -37,7 +37,7 @@
    <_caption>The main window, with the sidebar tab list and a split pane</_caption>
   </screenshot>
  </screenshots>
- <url type="homepage">https://github.com/gnome-terminator/terminator</url>
+ <url type="homepage">https://github.com/TIIEHenry/TerminatorX</url>
  <updatecontact>terminator@lazyfrosch.de</updatecontact>
  <developer_name>The Terminator Team</developer_name>
 </component>

@@ -33,7 +33,7 @@ class CommandNotify(plugin.Plugin):
 
     def __init__(self):
         self.update_watched()
-        Notify.init('Terminator')
+        Notify.init('TerminatorX')
         return None
 
     def update_watched(self):
