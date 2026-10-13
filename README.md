@@ -7,15 +7,9 @@ Started by Chris Jones <cmsj@tenshu.net> in 2007, maintained from 2014 to 2020 b
 
 ## Description
 
-Terminator was originally developed by Chris Jones in 2007 as a simple, 300-ish line python script.  Since then, it has become The Robot Future of Terminals.  Originally inspired by projects like quadkonsole and gnome-multi-term and more recently by projects like Iterm2, and Tilix, It lets you combine and recombine terminals to suit the style you like.  If you live at the command-line, or are logged into 10 different remote machines at once, you should definitely try out Terminator.
+Terminator keeps several terminals in one window. You work on the layout directly: tabs and panes are a list on the left, and a drag reorders them, nests a tab under another, or lifts a pane out into its own tab. A pane can open over the others, then come back. The terminal underneath is VTE, the widget GNOME Terminal uses, so the shell, the scrollback and the escape sequences stay with that implementation. The frame around it is thin: a white header bar, a 1px line between panes, and a pane titlebar only when the window is split.
 
-When you run **`Terminator`**, you will get a terminal in a window, just like almost 
-every other terminal emulator available. There is also a titlebar which will
-update as shells/programs inside the terminal tell it to. Also on the titlebar
-is a small button that opens the grouping menu. From here you can put terminals
-into groups, which allows you to control multiple terminals simultaneously.
-
-## Fork features (TIIEHenry/terminator)
+## Fork features
 
 This fork adds the features below on top of Terminator 2.1.6. All of them are **on by default**. See [CHANGELOG.md](CHANGELOG.md) and `man terminator_config` for details.
 
