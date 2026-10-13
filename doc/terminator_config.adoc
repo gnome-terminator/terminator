@@ -123,6 +123,11 @@ the width of the window - in that case scroll buttons will appear to
 move through the tabs. +
 Default value: *False*
 
+*always_show_tabbar* = _boolean_::
+If set to True, the tab bar is shown even when a window only has one tab.
+If set to False, the tab bar is only shown once a second tab is opened. +
+Default value: *False*
+
 === Terminal Behavior & Appearance
 
 // --- Terminal behavior ---

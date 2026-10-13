@@ -259,6 +259,26 @@ class Window(Container, Gtk.Window):
         maker = Factory()
         return(maker.isinstance(self.get_child(), 'Notebook'))
 
+    def apply_always_show_tabbar(self):
+        """Add or remove our Notebook to match always_show_tabbar"""
+        if self.is_zoomed():
+            return
+
+        maker = Factory()
+        child = self.get_child()
+        focused = self.get_focussed_terminal()
+        if maker.isinstance(child, 'Notebook'):
+            child.hoover()
+        elif child and self.config['always_show_tabbar']:
+            dbg('Making a Notebook to always show the tab bar')
+            maker.make('Notebook', window=self)
+        else:
+            return
+
+        # Moving our child in or out of the Notebook can move the focus
+        if focused and focused.get_toplevel() is self:
+            focused.grab_focus()
+
     def tab_new(self, widget=None, debugtab=False, _param1=None, _param2=None):
         """Make a new tab"""
         if self.is_zoomed():
@@ -696,6 +716,10 @@ class Window(Container, Gtk.Window):
             # This widget is a direct child of ours and we're a Window
             # so zooming is a no-op
             return
+        if (maker.isinstance(children[0], 'Notebook') and
+                children[0].get_children() == [widget]):
+            # The only terminal, in a tab kept by always_show_tabbar
+            return
 
         self.zoom_data = widget.get_zoom_data()
         self.zoom_data['widget'] = widget
@@ -743,6 +767,7 @@ class Window(Container, Gtk.Window):
         widget.grab_focus()
         self.zoom_data = None
         self.set_property('term_zoomed', False)
+        self.apply_always_show_tabbar()
 
     def rotate(self, widget, clockwise):
         """Rotate children in this window"""
@@ -1155,7 +1180,11 @@ class Window(Container, Gtk.Window):
         elif child['type'] == 'HPaned':
             self.split_axis(terminal, False)
         elif child['type'] == 'Notebook':
-            self.tab_new()
+            if len(child['children']) == 1:
+                # A single tab, saved with always_show_tabbar
+                Factory().make('Notebook', window=self)
+            else:
+                self.tab_new()
             i = 2
             while i < len(child['children']):
                 self.tab_new()

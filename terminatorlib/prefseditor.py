@@ -408,6 +408,10 @@ class PrefsEditor:
         widget = guiget('new_tab_after_current_checkbutton')
         widget.set_active(self.config['new_tab_after_current_tab'])
 
+        # always show tab bar
+        widget = guiget('always_show_tabbar_checkbutton')
+        widget.set_active(self.config['always_show_tabbar'])
+
         #Always split with profile
         widget = guiget('always_split_with_profile')
         widget.set_active(self.config['always_split_with_profile'])
@@ -968,6 +972,11 @@ class PrefsEditor:
     def on_new_tab_after_current_checkbutton_toggled(self, widget):
         """New tab after current tab """
         self.config['new_tab_after_current_tab'] = widget.get_active()
+        self.config.save()
+
+    def on_always_show_tabbar_checkbutton_toggled(self, widget):
+        """Always show tab bar setting changed"""
+        self.config['always_show_tabbar'] = widget.get_active()
         self.config.save()
 
     def on_always_split_with_profile_toggled(self, widget):

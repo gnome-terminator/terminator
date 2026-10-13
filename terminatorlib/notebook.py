@@ -39,6 +39,7 @@ class Notebook(Container, Gtk.Notebook):
         self.connect('scroll-event', self.on_scroll_event)
         self.connect('create-window', self.create_window_detach)
         self.connect_after('drag-failed', self.on_tab_drag_failed)
+        self.last_active_term = {}
         self.configure()
 
         self.set_can_focus(False)
@@ -77,7 +78,6 @@ class Notebook(Container, Gtk.Notebook):
 #        style.xthickness = 0
 #        style.ythickness = 0
 #        self.modify_style(style)
-        self.last_active_term = {}
 
     def create_window_detach(self, notebook, widget, x, y):
         """Defer detaching a dropped tab until the drag has ended"""
@@ -89,6 +89,10 @@ class Notebook(Container, Gtk.Notebook):
         child = self.find_tab_root(widget)
         if self.page_num(child) == -1:
             err('could not find tab to detach for %s' % widget)
+            return False
+
+        if self.get_n_pages() == 1:
+            dbg('only one tab, refusing to detach it')
             return False
 
         dbg('detaching tab into new window: %s' % child)
@@ -103,6 +107,7 @@ class Notebook(Container, Gtk.Notebook):
         self.disconnect_child(child)
         self.hoover()
         window.add(child)
+        window.apply_always_show_tabbar()
 
         window.show_all()
         return False
@@ -130,8 +135,8 @@ class Notebook(Container, Gtk.Notebook):
             return
 
         children = layout['children']
-        if len(children) <= 1:
-            #Notebooks should have two or more children
+        if len(children) < 1:
+            #Notebooks should have one or more children
             err('incorrect number of children for Notebook: %s' % layout)
             return
 
@@ -175,6 +180,10 @@ class Notebook(Container, Gtk.Notebook):
             GObject.idle_add(self.set_current_page, int(layout['active_page']))
         else:
             self.set_current_page(0)
+        if self.get_n_pages() == 1:
+            # There's no page to switch to, so restore the tab's last active
+            # terminal the way a switch would
+            self.deferred_on_tab_switch(self, self.get_nth_page(0), 0)
 
     def split_axis(self, widget, vertical=True, cwd=None, sibling=None, widgetfirst=True):
         """Split the axis of a terminal inside us"""
@@ -243,7 +252,7 @@ class Notebook(Container, Gtk.Notebook):
             err('%s not found in Notebook. Actual parent is: %s' %
                     (widget, widget.get_parent()))
             return(False)
-        self.detach_tab(page_num)
+        self.detach_tab(widget)
         self.disconnect_child(widget)
         return(True)
 
@@ -459,7 +468,7 @@ class Notebook(Container, Gtk.Notebook):
         label.set_label(text)
 
     def hoover(self):
-        """Clean up any empty tabs and if we only have one tab left, die"""
+        """Clean up empty tabs and die when the last tab no longer needs us"""
         numpages = self.get_n_pages()
         while numpages > 0:
             numpages = numpages - 1
@@ -468,7 +477,16 @@ class Notebook(Container, Gtk.Notebook):
                 dbg('Removing empty page: %d' % numpages)
                 self.remove_page(numpages)
 
-        if self.get_n_pages() == 1:
+        if self.get_n_pages() == 0:
+            dbg('No pages left, removing self')
+            parent = self.get_parent()
+            self.cnxids.remove_all()
+            # The window is already gone if this was the last terminal
+            if parent:
+                parent.remove(self)
+                parent.hoover()
+            del(self)
+        elif self.get_n_pages() == 1 and not self.config['always_show_tabbar']:
             dbg('Last page, removing self')
             child = self.get_nth_page(0)
             self.remove_page(0)
