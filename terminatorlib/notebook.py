@@ -243,7 +243,7 @@ class Notebook(Container, Gtk.Notebook):
             err('%s not found in Notebook. Actual parent is: %s' %
                     (widget, widget.get_parent()))
             return(False)
-        self.detach_tab(page_num)
+        self.detach_tab(widget)
         self.disconnect_child(widget)
         return(True)
 
