@@ -378,7 +378,16 @@ def vte_size_for_rect(terminal, rect, frame_chrome=None):
             w -= max(0, tw - vw)
             h -= max(0, th - vh)
         alt = getattr(terminal, 'altscreen', None)
-        if alt is not None and alt.auto_hidden and alt.hidden_width > 0:
+        slot_held = False
+        try:
+            slot = getattr(terminal, '_scrollbar_slot', None)
+            slot_held = slot is not None and bool(slot.get_visible())
+        except Exception:
+            slot_held = False
+        # The gap between Terminal and VTE already includes a held slot.
+        # Subtract only when the bar was hidden and the VTE actually grew.
+        if (alt is not None and alt.auto_hidden and alt.hidden_width > 0
+                and not slot_held):
             w -= alt.hidden_width
     except Exception:
         pass

@@ -218,6 +218,7 @@ class Terminal(Gtk.VBox):
         self._auto_font_timer = None
         self._auto_font_last_change_ms = 0
         self._auto_font_ever_allocated = False
+        self._auto_font_after_tui = False
         self._base_cell = None
         self._base_cell_probe_idle = None
         self._auto_font_disabled = False
@@ -1462,8 +1463,8 @@ class Terminal(Gtk.VBox):
     def popup_menu(self, widget, event=None, anchor=None,
                    skip_link_check=False):
         """Display the context menu. Every entry point (VTE right-click,
-        titlebar right-click, titlebar gear) goes through here so that
-        preventHide is always set.
+        window header menu, titlebar right-click, titlebar gear) goes
+        through here so that preventHide is always set.
         anchor: widget to attach the menu to (gear button).
         skip_link_check: the event is not on the VTE (titlebar), so do not
         run URL / hyperlink detection on its coordinates."""
@@ -1673,6 +1674,75 @@ class Terminal(Gtk.VBox):
         # Canonical commands (ping, make) are not fullscreen programs.
         return tty_raw(fd) is not False
 
+    def hold_scrollbar_slot(self, width):
+        """Keep ``width`` pixels where the scrollbar was.
+
+        Hiding the bar would otherwise give those pixels to the VTE and
+        send the fullscreen program a resize.  The slot is the same width,
+        so the grid does not move.
+        """
+        try:
+            width = int(width or 0)
+        except (TypeError, ValueError):
+            width = 0
+        if width <= 0:
+            self.release_scrollbar_slot()
+            return
+        box = getattr(self, 'terminalbox', None)
+        if box is None:
+            return
+        slot = getattr(self, '_scrollbar_slot', None)
+        if slot is None:
+            slot = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+            slot.set_no_show_all(True)
+            self._scrollbar_slot = slot
+            box.pack_start(slot, False, False, 0)
+        slot.set_size_request(width, -1)
+        try:
+            position = self.config['scrollbar_position']
+        except Exception:
+            position = 'right'
+        if position == 'left':
+            box.reorder_child(slot, 0)
+        else:
+            kids = box.get_children()
+            if slot in kids:
+                box.reorder_child(slot, len(kids) - 1)
+        slot.show()
+
+    def release_scrollbar_slot(self):
+        """Drop the reserved scrollbar width."""
+        slot = getattr(self, '_scrollbar_slot', None)
+        if slot is None:
+            return
+        try:
+            if slot.get_visible():
+                slot.hide()
+        except Exception:
+            pass
+
+    def _fullscreen_blocks_font(self):
+        alt = getattr(self, 'altscreen', None)
+        det = getattr(alt, 'detector', None)
+        try:
+            return bool(det is not None and det.active)
+        except Exception:
+            return False
+
+    def note_fullscreen_exited(self):
+        """The fullscreen program left. A deferred font change may run now."""
+        if not getattr(self, '_auto_font_after_tui', False):
+            return
+        self._auto_font_after_tui = False
+        self.schedule_auto_font_scale()
+
+    def _scrollbar_slot_held(self):
+        slot = getattr(self, '_scrollbar_slot', None)
+        try:
+            return slot is not None and bool(slot.get_visible())
+        except Exception:
+            return False
+
     def _place_scrollbar(self):
         """Pack the scrollbar on the configured side.  Does not show it."""
         if getattr(self, 'scrollbar', None) is None:
@@ -1725,6 +1795,9 @@ class Terminal(Gtk.VBox):
         if want:
             self._place_scrollbar()
             if alt is not None and alt.auto_hidden:
+                release = getattr(alt, '_release_slot', None)
+                if callable(release):
+                    release()
                 alt.auto_hidden = False
                 alt.hidden_width = 0
             sb.show()
@@ -2675,6 +2748,11 @@ class Terminal(Gtk.VBox):
             else:
                 self.refresh_badge()
             return
+        # A cell-height change while vim/htop is up changes the row count.
+        # VTE then realigns that screen and the whole page jumps vertically.
+        if self._fullscreen_blocks_font():
+            self._auto_font_after_tui = True
+            return
         if not self._auto_font_ever_allocated and avail is None:
             return
         params = self._auto_font_load_params()
@@ -2691,10 +2769,13 @@ class Terminal(Gtk.VBox):
                 h = self.vte.get_allocated_height()
             except Exception:
                 return
-            # A scrollbar auto-hidden for a fullscreen TUI must not change
-            # the font tier (it would flip back when the TUI exits).
+            # A scrollbar hidden without a reserved slot makes the VTE
+            # wider.  Subtract that width so the font tier does not flip
+            # for the duration of the program.  A held slot already keeps
+            # the VTE the same size, so subtracting again would shrink it.
             alt = getattr(self, 'altscreen', None)
-            if alt is not None and alt.auto_hidden and alt.hidden_width > 0:
+            if (alt is not None and alt.auto_hidden and alt.hidden_width > 0
+                    and not self._scrollbar_slot_held()):
                 w = max(1, w - alt.hidden_width)
         cols0, rows0 = cols_rows_from_base(w, h, *self._base_cell)
         if cols0 <= 0 or rows0 <= 0:

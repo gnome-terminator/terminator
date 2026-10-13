@@ -10,7 +10,7 @@ from gi.repository import GLib, GObject
 from gi.repository import Gtk, Gdk
 
 from .zoomguard import leave_zoom
-from .util import dbg, err, make_uuid, display_manager, is_x11
+from .util import dbg, err, make_uuid, display_manager, is_x11, layout_root_widget
 
 try:
     from gi.repository import GdkX11
@@ -695,8 +695,11 @@ class Window(Container, Gtk.Window):
     def _tab_panel_visible(self):
         if not self.is_child_notebook():
             return False
+        notebook = self.get_child()
         try:
-            return bool(self.get_child().get_show_tabs())
+            if hasattr(notebook, 'tab_list_visible'):
+                return bool(notebook.tab_list_visible())
+            return bool(notebook.get_show_tabs())
         except Exception:
             return False
 
@@ -733,19 +736,25 @@ class Window(Container, Gtk.Window):
                 pos = 'left'
             if pos == 'hidden':
                 pos = 'left'
-            try:
-                notebook.set_tab_pos(getattr(Gtk.PositionType, pos.upper()))
-            except Exception:
-                notebook.set_tab_pos(Gtk.PositionType.LEFT)
-            notebook.set_show_tabs(True)
-            if hasattr(notebook, '_ensure_tab_add_button'):
-                notebook._ensure_tab_add_button()
-            if hasattr(notebook, '_hide_native_tab_labels'):
-                notebook._hide_native_tab_labels()
-            if hasattr(notebook, '_queue_sidebar_refresh'):
-                notebook._queue_sidebar_refresh()
+            if pos == 'left' and hasattr(notebook, 'show_left_tab_list'):
+                notebook.show_left_tab_list()
+            else:
+                side = getattr(notebook, '_tab_sidebar', None)
+                if side is not None:
+                    side.set_no_show_all(True)
+                    side.hide()
+                try:
+                    notebook.set_tab_pos(getattr(Gtk.PositionType, pos.upper()))
+                except Exception:
+                    notebook.set_tab_pos(Gtk.PositionType.TOP)
+                notebook.set_show_tabs(True)
+                if hasattr(notebook, '_ensure_tab_add_button'):
+                    notebook._ensure_tab_add_button()
         else:
-            notebook.set_show_tabs(False)
+            if hasattr(notebook, 'hide_tab_list'):
+                notebook.hide_tab_list()
+            else:
+                notebook.set_show_tabs(False)
         self._sync_tab_panel_button()
 
     def _on_header_find(self, _button):
@@ -987,6 +996,11 @@ class Window(Container, Gtk.Window):
 
     def remove(self, widget):
         """Remove our child widget by way of Gtk.Window.remove()"""
+        # The left tab list is a box beside the notebook. Removing the
+        # notebook removes that box; it is the widget actually in the window.
+        shell = getattr(widget, '_tab_shell', None)
+        if shell is not None and widget.get_parent() is shell:
+            widget = shell
         if getattr(self, '_overlay', None) is not None and self._overlay.is_active():
             overlay = self._overlay.data['overlay']
             main = self._overlay.main()
@@ -1014,8 +1028,8 @@ class Window(Container, Gtk.Window):
         if getattr(self, '_overlay', None) is not None and self._overlay.is_active():
             # Never expose the temporary Overlay itself (None while the root
             # is being replaced, like a plain Gtk.Window between remove/add)
-            return self._overlay.main()
-        return Gtk.Window.get_child(self)
+            return layout_root_widget(self._overlay.main())
+        return layout_root_widget(Gtk.Window.get_child(self))
 
     def get_children(self):
         """Return a single list of our child (layout root, see get_child)"""
@@ -1717,11 +1731,17 @@ class Window(Container, Gtk.Window):
         elif child['type'] == 'HPaned':
             self.split_axis(terminal, False)
         elif child['type'] == 'Notebook':
-            self.tab_new()
-            i = 2
-            while i < len(child['children']):
+            nchildren = len(child.get('children') or {})
+            if nchildren == 1:
+                # tab_new() wraps the current terminal and then adds another
+                # page. A single kept tab has to stay one page.
+                Factory().make('Notebook', window=self)
+            else:
                 self.tab_new()
-                i = i + 1
+                i = 2
+                while i < nchildren:
+                    self.tab_new()
+                    i = i + 1
         elif child['type'] == 'Terminal':
             pass
         else:

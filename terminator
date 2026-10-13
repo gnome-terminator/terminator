@@ -136,10 +136,12 @@ if __name__ == '__main__':
         # Session restore / ownership (module A)
         sess = None
         restoring = False
+        open_fresh = False
         try:
             from terminatorlib.session import (SessionManager,
                                                SESSION_LAYOUT_NAME,
-                                               is_explicit_launch)
+                                               is_explicit_launch,
+                                               plain_launch_action)
             from terminatorlib.config import Config
             sess = SessionManager()
             got_lock = sess.acquire_lock()
@@ -171,8 +173,16 @@ if __name__ == '__main__':
                 else:
                     data = sess.load()
                 if data:
-                    sess.begin_restore()
                     layout = sess.sanitize_layout(data['layout'])
+                    action, layout = plain_launch_action(data, layout)
+                    if action == 'fresh':
+                        # A clean exit that kept nothing must not fall through
+                        # to [layouts][default]. That layout is the old split.
+                        dbg('session restore skipped: clean exit kept no tabs')
+                        data = None
+                        open_fresh = True
+                if data:
+                    sess.begin_restore()
                     cfg.base.layouts[SESSION_LAYOUT_NAME] = layout
                     sess._loaded_session_uuids = set()
                     for node in layout.values():
@@ -186,6 +196,7 @@ if __name__ == '__main__':
                     dbg('restoring last session (%d terminals)' %
                         len(sess._loaded_session_uuids))
         except Exception as ex:
+            open_fresh = False
             err('session setup failed: %s' % ex)
 
         # B: start scrollback cache after lock/load, before create_layout.
@@ -198,8 +209,12 @@ if __name__ == '__main__':
 
         windows_before = list(TERMINATOR.windows)
         try:
-            dbg('Creating a terminal with layout: %s' % OPTIONS.layout)
-            TERMINATOR.create_layout(OPTIONS.layout)
+            if open_fresh:
+                dbg('clean exit kept no tabs; opening a new window')
+                TERMINATOR.new_window()
+            else:
+                dbg('Creating a terminal with layout: %s' % OPTIONS.layout)
+                TERMINATOR.create_layout(OPTIONS.layout)
         except (KeyError,ValueError) as ex:
             err('layout creation failed, creating a window ("%s")' % ex)
             if restoring and sess is not None:

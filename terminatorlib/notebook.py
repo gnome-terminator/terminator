@@ -99,6 +99,66 @@ def tab_nav_sensitive(index, count):
     }
 
 
+# Shared stroke icons. Same ink box, so they sit at the same size.
+TAB_CLOSE_ICON = 'terminator-tab-close-symbolic'
+TAB_LOCK_ICON = 'terminator-tab-lock-symbolic'
+TAB_UNLOCK_ICON = 'terminator-tab-unlock-symbolic'
+SIDEBAR_MARK_PX = 12
+# The SVG tile. Drawn at this size so the stroke is not resampled.
+SIDEBAR_ICON_PX = 16
+
+
+def sidebar_mark(name, css_class, fallback):
+    """A sidebar glyph drawn from our SVG, or a theme icon if it is missing."""
+    from .util import scale_image_to_ink, svg_icon_surface
+    image = Gtk.Image()
+    image.get_style_context().add_class(css_class)
+    image.set_halign(Gtk.Align.CENTER)
+    image.set_valign(Gtk.Align.CENTER)
+
+    def _paint(*_args):
+        scale = image.get_scale_factor() or 1
+        if getattr(image, '_mark_scale', None) == scale:
+            return False
+        try:
+            surface = svg_icon_surface(name, SIDEBAR_ICON_PX, scale)
+        except Exception:
+            surface = None
+        if surface is not None:
+            image._mark_scale = scale
+            image.set_from_surface(surface)
+            return False
+        if getattr(image, '_mark_fallback', False):
+            return False
+        image._mark_fallback = True
+        image.set_from_icon_name(fallback, Gtk.IconSize.MENU)
+        scale_image_to_ink(
+            image, fallback, target_px=SIDEBAR_MARK_PX, button_px=24)
+        return False
+
+    image.connect('realize', _paint)
+    image.connect('notify::scale-factor', _paint)
+    _paint()
+    return image
+
+
+def sidebar_icon_button(image):
+    """A real button around a sidebar glyph.
+
+    The row used to be one button, with the lock and close painted on it
+    and chosen by pointer position. A press on that row ran the action
+    immediately. A separate button highlights while it is held and runs
+    its action only if the pointer is still on it when released.
+    """
+    button = Gtk.Button()
+    button.set_relief(Gtk.ReliefStyle.NONE)
+    button.set_focus_on_click(False)
+    button.set_can_focus(False)
+    button.get_style_context().add_class('terminator-tab-action')
+    button.add(image)
+    return button
+
+
 def tree_drop_target(rows, x, y, promote_x=36):
     """Where a dragged tab or child pane lands.
 
@@ -168,6 +228,22 @@ def reorder_to_index(current, insert_at, count):
     if insert_at == current:
         return None
     return insert_at
+
+
+def pane_menu_sensitive(index, count):
+    """Which items of a child-pane menu can run.
+
+    Up and down do not wrap. Making the pane its own tab needs a sibling
+    to leave behind. Close always can.
+    """
+    if count < 1 or index < 0 or index >= count:
+        return {'up': False, 'down': False, 'promote': False, 'close': False}
+    return {
+        'up': index > 0,
+        'down': index < count - 1,
+        'promote': count > 1,
+        'close': True,
+    }
 
 
 def tab_menu_sensitive(index, count):
@@ -240,6 +316,10 @@ class Notebook(Container, Gtk.Notebook):
             window.last_active_term = None
 
         self.show_all()
+        # configure() built the list before this notebook had a parent.
+        side = getattr(self, '_tab_sidebar', None)
+        if side is not None and getattr(self, '_tab_shell', None) is None:
+            self._attach_tab_shell(side)
 
     def configure(self):
         """Apply widget-wide settings"""
@@ -251,6 +331,11 @@ class Notebook(Container, Gtk.Notebook):
         self.set_scrollable(self.config['scroll_tabbar'])
 
         if self.config['tab_position'] == 'hidden':
+            self.set_show_tabs(False)
+        elif self.config['tab_position'] == 'left':
+            # The list is a sibling of this notebook, not its header.
+            # Showing the native tabs would put that header back.
+            self.set_tab_pos(Gtk.PositionType.LEFT)
             self.set_show_tabs(False)
         else:
             self.set_show_tabs(True)
@@ -283,6 +368,14 @@ class Notebook(Container, Gtk.Notebook):
             return False
 
         dbg('detaching tab into new window: %s' % child)
+        keep_list = self.tab_list_visible()
+        custom = None
+        locked = False
+        label = self.get_tab_label(child)
+        if label is not None and hasattr(label, 'get_custom_label'):
+            custom = label.get_custom_label()
+        if label is not None and hasattr(label, 'get_locked'):
+            locked = bool(label.get_locked())
         maker = Factory()
         window = maker.make('Window')
         if x is not None and y is not None and window.can_set_position():
@@ -292,10 +385,33 @@ class Notebook(Container, Gtk.Notebook):
 
         self.detach_tab(child)
         self.disconnect_child(child)
-        self.hoover()
+        # One tab left used to throw the notebook away. That closes the
+        # tab list. Leave the list up, and open it on the new window too.
+        self._drop_empty_pages()
+        if self.get_n_pages() == 0:
+            top = self.get_toplevel()
+            self._unparent_from_window()
+            if top is not None and hasattr(top, 'hoover'):
+                top.hoover()
+        else:
+            self._sidebar_sig = None
+            self._hide_native_tab_labels()
+            self._queue_sidebar_refresh()
         window.add(child)
-
         window.show_all()
+        if keep_list and hasattr(window, '_set_tab_panel_visible'):
+            window._set_tab_panel_visible(True)
+        notebook = window.get_child()
+        if maker.isinstance(notebook, 'Notebook'):
+            page = notebook.get_nth_page(0)
+            moved = notebook.get_tab_label(page) if page is not None else None
+            if custom and moved is not None and hasattr(moved, 'set_custom_label'):
+                moved.set_custom_label(custom)
+            if locked and moved is not None and hasattr(moved, 'set_locked'):
+                moved.set_locked(True)
+            if page is not None and not maker.isinstance(page, 'Terminal'):
+                notebook._rewire_moved_terminals(page)
+            notebook._hide_native_tab_labels()
         return False
 
     def page_num_of_label(self, label):
@@ -364,8 +480,7 @@ class Notebook(Container, Gtk.Notebook):
             return
 
         children = layout['children']
-        if len(children) <= 1:
-            #Notebooks should have two or more children
+        if len(children) < 1:
             err('incorrect number of children for Notebook: %s' % layout)
             return
 
@@ -398,6 +513,12 @@ class Notebook(Container, Gtk.Notebook):
                 if labeltext and labeltext != "None":
                     label = self.get_tab_label(page)
                     label.set_custom_label(labeltext)
+            flags = layout.get('locked') or []
+            if (num < len(flags) and
+                    str(flags[num]).strip().lower() == 'true'):
+                label = self.get_tab_label(page)
+                if label is not None and hasattr(label, 'set_locked'):
+                    label.set_locked(True)
             page.create_layout(children[child_key])
 
             if  layout.get('last_active_term',  None):
@@ -409,6 +530,8 @@ class Notebook(Container, Gtk.Notebook):
             GLib.idle_add(self.set_current_page, int(layout['active_page']))
         else:
             self.set_current_page(0)
+        self._sidebar_sig = None
+        self._queue_sidebar_refresh()
 
     def split_axis(self, widget, vertical=True, cwd=None, sibling=None, widgetfirst=True):
         """Split the axis of a terminal inside us"""
@@ -637,7 +760,11 @@ class Notebook(Container, Gtk.Notebook):
             self._tab_prev_btn = prev_btn
             self._tab_next_btn = next_btn
             self._tab_toolbar = bar
-            self.set_action_widget(side, Gtk.PackType.START)
+            self._tab_sidebar = side
+            # Not an action widget. The notebook header splits its height
+            # with the native tab strip, and measuring that strip shows the
+            # labels again. The list is a sibling and takes the full height.
+            self._attach_tab_shell(side)
             self.connect('switch-page', self._on_tab_nav_switch)
             self.connect('page-added', lambda *_a: self._queue_sidebar_refresh())
             self.connect('page-removed', lambda *_a: self._queue_sidebar_refresh())
@@ -653,6 +780,91 @@ class Notebook(Container, Gtk.Notebook):
         self._new_tab_btn = btn
         self.set_action_widget(btn, Gtk.PackType.END)
         self.connect('size-allocate', self._place_tab_add_beside_tabs)
+
+    def tab_list_visible(self):
+        """True when the left list, or the native tab strip, is on screen."""
+        side = getattr(self, '_tab_sidebar', None)
+        if side is not None:
+            try:
+                return bool(side.get_visible() and side.get_parent() is not None)
+            except Exception:
+                return False
+        try:
+            return bool(self.get_show_tabs())
+        except Exception:
+            return False
+
+    def show_left_tab_list(self):
+        """Open the left list. The native tab strip stays hidden."""
+        self._ensure_tab_add_button()
+        side = getattr(self, '_tab_sidebar', None)
+        if side is None:
+            return
+        if getattr(self, '_tab_shell', None) is None:
+            self._attach_tab_shell(side)
+        side.set_no_show_all(False)
+        side.show_all()
+        self.set_show_tabs(False)
+        self._hide_native_tab_labels()
+        self._queue_sidebar_refresh()
+
+    def hide_tab_list(self):
+        """Close the left list, or the native strip when that is what is showing."""
+        side = getattr(self, '_tab_sidebar', None)
+        if side is not None:
+            side.set_no_show_all(True)
+            side.hide()
+        self.set_show_tabs(False)
+
+    def _attach_tab_shell(self, sidebar):
+        """Put the list and this notebook side by side in the window."""
+        if getattr(self, '_tab_shell', None) is not None:
+            return
+        parent = self.get_parent()
+        if parent is None:
+            return
+        shell = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=0)
+        shell.get_style_context().add_class('terminator-tab-shell')
+        shell._tab_shell_notebook = self
+        window = self.get_toplevel()
+        if parent is window:
+            Gtk.Window.remove(window, self)
+        else:
+            parent.remove(self)
+        sidebar.set_vexpand(True)
+        sidebar.set_valign(Gtk.Align.FILL)
+        sidebar.set_hexpand(False)
+        self.set_hexpand(True)
+        shell.pack_start(sidebar, False, False, 0)
+        shell.pack_start(self, True, True, 0)
+        self._tab_shell = shell
+        self._tab_sidebar = sidebar
+        shell.show_all()
+        self.set_show_tabs(False)
+        if parent is window:
+            Gtk.Window.add(window, shell)
+        else:
+            parent.add(shell)
+
+    def _unparent_from_window(self):
+        """Leave the window, taking the tab-list shell with this notebook."""
+        holder = logical_parent(self)
+        if holder is not None:
+            holder.remove(self)
+        else:
+            parent = self.get_parent()
+            if parent is not None:
+                parent.remove(self)
+        shell = getattr(self, '_tab_shell', None)
+        self._tab_shell = None
+        if shell is None:
+            return
+        try:
+            shell._tab_shell_notebook = None
+            if self.get_parent() is shell:
+                shell.remove(self)
+        except Exception:
+            pass
 
     def _on_tab_toolbar(self, which):
         """New, back and forward in the sidebar. Back and forward do not wrap."""
@@ -783,7 +995,8 @@ class Notebook(Container, Gtk.Notebook):
         signature = tuple((title, tuple(panes)) for title, panes in pages)
         target = self._current_sidebar_target()
         collapsed = tuple(sorted(getattr(self, '_sidebar_collapsed', set())))
-        state = (signature, target, collapsed)
+        locks = tuple(self._page_is_locked(i) for i in range(self.get_n_pages()))
+        state = (signature, target, collapsed, locks)
         if state != getattr(self, '_sidebar_sig', None):
             self._fill_sidebar_rows(pages, target)
             self._sidebar_sig = state
@@ -810,64 +1023,135 @@ class Notebook(Container, Gtk.Notebook):
     def _make_sidebar_row(self, row, has_children, current_page, current_pane):
         """One sidebar row. Children sit in from the tab row."""
         pane = -1 if row['pane'] is None else row['pane']
-        frame = Gtk.Button()
-        frame.set_relief(Gtk.ReliefStyle.NONE)
-        frame.set_can_focus(False)
+        page = row['page']
+        frame = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=2)
         frame.set_hexpand(True)
         frame.get_style_context().add_class('terminator-tab-row')
         if row['depth'] == 1:
             frame.get_style_context().add_class('terminator-tab-child')
             # CSS margin would wipe this. Children sit in under the tab.
             frame.set_margin_start(36)
-        if row['page'] == current_page and pane == current_pane:
+        if page == current_page and pane == current_pane:
             frame.get_style_context().add_class('current')
-        line = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=4)
         if row['depth'] == 0:
             if has_children:
-                open_row = row['page'] not in self._sidebar_collapsed
+                open_row = page not in self._sidebar_collapsed
                 icon = 'pan-down-symbolic' if open_row else 'pan-end-symbolic'
-                image = Gtk.Image.new_from_icon_name(icon, Gtk.IconSize.MENU)
+                disclose = sidebar_icon_button(
+                    Gtk.Image.new_from_icon_name(icon, Gtk.IconSize.MENU))
+                disclose.connect(
+                    'clicked', lambda *_a, page=page:
+                    self._toggle_sidebar_page(page))
+                self._bind_sidebar_pointer(disclose, page, pane, has_children)
+                frame.pack_start(disclose, False, False, 0)
             else:
-                image = Gtk.Image()
-                image.set_size_request(16, -1)
-            line.pack_start(image, False, False, 0)
+                gap = Gtk.Box()
+                gap.set_size_request(22, -1)
+                frame.pack_start(gap, False, False, 0)
         title = Gtk.Label(label=row['title'] or '', xalign=0,
                            halign=Gtk.Align.START)
         title.set_ellipsize(Pango.EllipsizeMode.END)
-        line.pack_start(title, True, True, 0)
-        if row['depth'] == 0 and row['page'] == current_page:
-            # A text "×" drawn at the row's font is only about half the
-            # letter height. The symbolic close mark is scaled to 12px,
-            # the same height as the row text.
-            mark = Gtk.Image.new_from_icon_name(
-                'window-close-symbolic', Gtk.IconSize.MENU)
-            mark.get_style_context().add_class('terminator-tab-close-mark')
-            from .util import scale_image_to_ink
-            scale_image_to_ink(
-                mark, 'window-close-symbolic', target_px=12, button_px=24)
-            line.pack_end(mark, False, False, 0)
-        frame._sidebar_page = row['page']
+        title.set_hexpand(True)
+        main = Gtk.Button()
+        main.set_relief(Gtk.ReliefStyle.NONE)
+        main.set_focus_on_click(False)
+        main.set_can_focus(False)
+        main.set_hexpand(True)
+        main.get_style_context().add_class('terminator-tab-row-main')
+        main.add(title)
+        main.connect(
+            'clicked', lambda *_a, page=page, pane=pane:
+            self._activate_sidebar_row(page, pane))
+        self._bind_sidebar_pointer(main, page, pane, has_children)
+        frame.pack_start(main, True, True, 0)
+        locked = False
+        if row['depth'] == 0:
+            locked = self._page_is_locked(page)
+            if locked:
+                frame.get_style_context().add_class('locked')
+            # First pack_end sits on the right. Close is packed first,
+            # so the lock ends up just to its left.
+            if page == current_page:
+                close = sidebar_icon_button(sidebar_mark(
+                    TAB_CLOSE_ICON, 'terminator-tab-close-mark',
+                    'window-close-symbolic'))
+                close.set_tooltip_text(_('Close Tab'))
+                close.connect(
+                    'clicked', lambda *_a, page=page:
+                    self._close_sidebar_page(page))
+                self._bind_sidebar_pointer(close, page, pane, has_children)
+                frame.pack_end(close, False, False, 0)
+            lock = sidebar_icon_button(self._lock_mark(locked))
+            lock.set_tooltip_text(
+                _('Kept for the next launch') if locked else
+                _('One-time — forgotten on a normal exit'))
+            lock.connect(
+                'clicked', lambda *_a, page=page:
+                self._toggle_page_lock(page))
+            self._bind_sidebar_pointer(lock, page, pane, has_children)
+            frame.pack_end(lock, False, False, 0)
+        frame._sidebar_page = page
         frame._sidebar_depth = row['depth']
         frame._sidebar_pane = None if row['pane'] is None else row['pane']
-        frame.add(line)
-        page_widget = self.get_nth_page(row['page'])
+        page_widget = self.get_nth_page(page)
         terminal = None
         if row['depth'] == 1 and page_widget is not None:
             panes = self._ordered_panes(page_widget)
             if row['pane'] is not None and row['pane'] < len(panes):
                 terminal = panes[row['pane']]
         if page_widget is not None:
-            self._make_tab_drag_source(frame, page_widget, terminal)
+            self._make_tab_drag_source(main, page_widget, terminal)
         # The pointer is over the row, so the row itself has to accept the drop.
         # The list behind it only sees drops in the gaps.
         self._enable_tab_drop(frame)
-        frame.connect('button-press-event', self._on_sidebar_row_press,
-                      row['page'], pane, has_children)
-        frame.connect('button-release-event', self._on_sidebar_row_release)
-        tip = self._sidebar_tip(row['page'], pane)
+        tip = self._sidebar_tip(page, pane)
         if tip:
-            frame.set_tooltip_text(tip)
+            main.set_tooltip_text(tip)
         return frame
+
+    def _lock_mark(self, locked):
+        """Padlock for a tab root row. Closed when the tab is kept."""
+        if locked:
+            return sidebar_mark(
+                TAB_LOCK_ICON, 'terminator-tab-lock-mark',
+                'changes-prevent-symbolic')
+        return sidebar_mark(
+            TAB_UNLOCK_ICON, 'terminator-tab-lock-mark',
+            'changes-allow-symbolic')
+
+    def _page_label(self, page):
+        widget = self.get_nth_page(page) if page >= 0 else None
+        if widget is None:
+            return None
+        return self.get_tab_label(widget)
+
+    def _page_is_locked(self, page):
+        label = self._page_label(page)
+        getter = getattr(label, 'get_locked', None)
+        if not callable(getter):
+            return False
+        try:
+            return bool(getter())
+        except Exception:
+            return False
+
+    def _toggle_page_lock(self, page):
+        """Keep this tab across a normal exit, or make it one-time."""
+        label = self._page_label(page)
+        if label is None or not hasattr(label, 'set_locked'):
+            return
+        label.set_locked(not label.get_locked())
+        self.note_tab_lock()
+
+    def note_tab_lock(self):
+        """The lock on a tab changed. Redraw the row and save the session."""
+        self._sidebar_sig = None
+        self._queue_sidebar_refresh()
+        try:
+            from .session import try_mark_dirty
+            try_mark_dirty('notebook.tab_lock')
+        except Exception:
+            pass
 
     def _toggle_sidebar_page(self, page):
         collapsed = self._sidebar_collapsed
@@ -877,6 +1161,72 @@ class Notebook(Container, Gtk.Notebook):
             collapsed.add(page)
         self._sidebar_sig = None
         self._queue_sidebar_refresh()
+
+    def _sidebar_pane_terminal(self, page, pane):
+        panes = self._ordered_panes(self.get_nth_page(page))
+        if pane < 0 or pane >= len(panes):
+            return None
+        return panes[pane]
+
+    def popup_pane_menu(self, event, page, pane):
+        """Child-pane menu: move up or down, make it a tab, or close it."""
+        term = self._sidebar_pane_terminal(page, pane)
+        if term is None:
+            return False
+        self._activate_sidebar_row(page, pane)
+        count = len(self._ordered_panes(self.get_nth_page(page)))
+        state = pane_menu_sensitive(pane, count)
+        menu = Gtk.Menu()
+
+        def add(text, enabled, callback):
+            item = Gtk.MenuItem.new_with_mnemonic(_(text))
+            item.set_sensitive(enabled)
+            item.connect('activate', lambda *_a: callback())
+            menu.append(item)
+
+        add('Move Pane _Up', state['up'],
+            lambda: self._move_sidebar_pane(page, pane, 'up'))
+        add('Move Pane _Down', state['down'],
+            lambda: self._move_sidebar_pane(page, pane, 'down'))
+        menu.append(Gtk.SeparatorMenuItem())
+        add('Detach as _Tab', state['promote'],
+            lambda: self._promote_sidebar_pane(page, pane))
+        menu.append(Gtk.SeparatorMenuItem())
+        add('_Close Pane', state['close'],
+            lambda: self._close_sidebar_pane(page, pane))
+        menu.show_all()
+        self._pane_menu = menu
+        menu.popup_at_pointer(event)
+        return True
+
+    def _move_sidebar_pane(self, page, pane, direction):
+        """Move a child pane one step up or down inside its tab."""
+        term = self._sidebar_pane_terminal(page, pane)
+        if term is None:
+            return
+        count = len(self._ordered_panes(self.get_nth_page(page)))
+        if direction == 'up' and pane > 0:
+            insert_at = pane - 1
+        elif direction == 'down' and pane < count - 1:
+            insert_at = pane + 2
+        else:
+            return
+        self._move_terminal_into_page(self, term, page, insert_at)
+
+    def _promote_sidebar_pane(self, page, pane):
+        """Make this child pane a tab of its own, just after its old tab."""
+        term = self._sidebar_pane_terminal(page, pane)
+        if term is None:
+            return
+        self._promote_terminal(self, term, page + 1)
+
+    def _close_sidebar_pane(self, page, pane):
+        """Close one child pane, asking first when a program is running."""
+        term = self._sidebar_pane_terminal(page, pane)
+        if term is None:
+            return
+        from .close_confirm import request_close_terminal
+        request_close_terminal(term)
 
     def _close_sidebar_page(self, page):
         label = self.get_tab_label(self.get_nth_page(page))
@@ -1370,12 +1720,17 @@ class Notebook(Container, Gtk.Notebook):
             source._queue_sidebar_refresh()
             return False
         win = source.get_toplevel()
-        parent = source.get_parent()
-        if parent is not None:
-            parent.remove(source)
+        source._unparent_from_window()
         if win is not None and hasattr(win, 'hoover'):
             win.hoover()
         return False
+
+    def _bind_sidebar_pointer(self, widget, page, pane, has_children):
+        """Right-click opens the menu. Release may rebuild the list."""
+        widget.connect('button-press-event', self._on_sidebar_row_press,
+                       page, pane, has_children)
+        widget.connect_after('button-release-event',
+                             self._on_sidebar_row_release)
 
     def _on_sidebar_row_release(self, _widget, _event):
         """The pointer is up. The list may rebuild again."""
@@ -1391,29 +1746,23 @@ class Notebook(Container, Gtk.Notebook):
             self._sidebar_refresh_after_drag = False
             self._queue_sidebar_refresh()
 
-    def _on_sidebar_row_press(self, widget, event, page, pane, has_children):
-        width = widget.get_allocation().width
+    def _on_sidebar_row_press(self, _widget, event, page, pane, _has_children):
         if event.button == 3 and pane < 0:
             label = self.get_tab_label(self.get_nth_page(page))
             if hasattr(label, 'popup_tab_menu'):
                 self.set_current_page(page)
                 label.popup_tab_menu(event)
             return True
+        if event.button == 3 and pane >= 0:
+            self.popup_pane_menu(event, page, pane)
+            return True
         if event.button != 1:
             return False
         # Hold the row still until release. A refresh on press deletes the
-        # widget before the drag can start.
+        # widget before the drag can start. Lock and close are their own
+        # buttons: they highlight while held and act on release.
         self._sidebar_pressed = True
-        # The disclosure triangle is the left of a split tab.
-        if has_children and pane < 0 and event.x < 22:
-            self._toggle_sidebar_page(page)
-            return True
-        # The close mark is the right of the current tab row.
-        if pane < 0 and page == self.get_current_page() and event.x > width - 28:
-            self._close_sidebar_page(page)
-            return True
-        self._activate_sidebar_row(page, pane)
-        return True
+        return False
 
     def _sidebar_tip(self, page, pane):
         page_widget = self.get_nth_page(page)
@@ -1730,8 +2079,8 @@ class Notebook(Container, Gtk.Notebook):
             label.set_label(text)
         self._queue_sidebar_refresh()
 
-    def hoover(self):
-        """Clean up any empty tabs and if we only have one tab left, die"""
+    def _drop_empty_pages(self):
+        """Remove notebook pages that no longer have a child."""
         numpages = self.get_n_pages()
         while numpages > 0:
             numpages = numpages - 1
@@ -1740,12 +2089,16 @@ class Notebook(Container, Gtk.Notebook):
                 dbg('Removing empty page: %d' % numpages)
                 self.remove_page(numpages)
 
+    def hoover(self):
+        """Clean up any empty tabs and if we only have one tab left, die"""
+        self._drop_empty_pages()
+
         if self.get_n_pages() == 1:
             dbg('Last page, removing self')
             child = self.get_nth_page(0)
             self.remove_page(0)
             parent = logical_parent(self)
-            parent.remove(self)
+            self._unparent_from_window()
             self.cnxids.remove_all()
             parent.add(child)
             del(self)
@@ -1911,6 +2264,7 @@ class TabLabel(Gtk.HBox):
         self.notebook = notebook
         self.terminator = Terminator()
         self.config = Config()
+        self._locked = False
 
         self.connect("button-press-event", self.on_button_pressed)
 
@@ -2003,6 +2357,13 @@ class TabLabel(Gtk.HBox):
             return(self.label.get_text())
         else:
             return(None)
+
+    def get_locked(self):
+        """True when a normal exit should open this tab again."""
+        return bool(getattr(self, '_locked', False))
+
+    def set_locked(self, locked):
+        self._locked = bool(locked)
 
     def edit(self):
         self.label.edit()
@@ -2102,6 +2463,17 @@ class TabLabel(Gtk.HBox):
             pass
         state = tab_menu_sensitive(page, nb.get_n_pages())
         menu = Gtk.Menu()
+        keep = Gtk.CheckMenuItem.new_with_mnemonic(_('_Keep for next launch'))
+        keep.set_active(self.get_locked())
+
+        def on_keep(item):
+            self.set_locked(item.get_active())
+            if hasattr(nb, 'note_tab_lock'):
+                nb.note_tab_lock()
+
+        keep.connect('toggled', on_keep)
+        menu.append(keep)
+        menu.append(Gtk.SeparatorMenuItem())
 
         def add(text, enabled, callback):
             item = Gtk.MenuItem.new_with_mnemonic(_(text))

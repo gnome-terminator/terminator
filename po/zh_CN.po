@@ -322,6 +322,18 @@ msgstr "分离终端(_D)"
 msgid "_Close Terminal"
 msgstr "关闭终端(_C)"
 
+msgid "Move Pane _Up"
+msgstr "上移布局(_U)"
+
+msgid "Move Pane _Down"
+msgstr "下移布局(_D)"
+
+msgid "Detach as _Tab"
+msgstr "分离为标签(_T)"
+
+msgid "_Close Pane"
+msgstr "关闭布局(_C)"
+
 msgid "Find"
 msgstr "查找"
 

@@ -99,6 +99,145 @@ def collect_terminal_uuids(layout):
     return uuids
 
 
+def _flag_is_true(value):
+    return str(value).strip().lower() == 'true'
+
+
+def _layout_child_order(node):
+    try:
+        return int(node.get('order', 0))
+    except (TypeError, ValueError):
+        return 0
+
+
+def retain_locked_tabs(layout):
+    """Drop notebook pages that are not locked.
+
+    A page is locked when the notebook's ``locked`` list says so. Missing
+    entries are unlocked, so an older session file loses its tabs on the
+    next clean launch. Windows that are not a notebook — one terminal, or
+    splits with no tab list — are kept. A window whose tabs were all
+    dropped is removed, and so is anything that hung under a dropped page.
+    """
+    if not isinstance(layout, dict):
+        return {}
+    layout = deepcopy(layout)
+
+    def kids(parent):
+        found = []
+        for name, node in layout.items():
+            if isinstance(node, dict) and node.get('parent') == parent:
+                found.append((name, node))
+        found.sort(key=lambda item: _layout_child_order(item[1]))
+        return found
+
+    def subtree(name):
+        names = []
+        for child_name, _node in kids(name):
+            names.append(child_name)
+            names.extend(subtree(child_name))
+        return names
+
+    drop = set()
+    for nb_name, node in list(layout.items()):
+        if not isinstance(node, dict) or node.get('type') != 'Notebook':
+            continue
+        pages = kids(nb_name)
+        flags = node.get('locked')
+        if not isinstance(flags, (list, tuple)):
+            flags = []
+        kept = []
+        for index, (child_name, child) in enumerate(pages):
+            flag = flags[index] if index < len(flags) else 'False'
+            if _flag_is_true(flag):
+                kept.append((index, child_name, child))
+            else:
+                drop.add(child_name)
+                drop.update(subtree(child_name))
+        if not kept:
+            drop.add(nb_name)
+            drop.update(subtree(nb_name))
+            parent = node.get('parent')
+            parent_node = layout.get(parent)
+            if (isinstance(parent_node, dict) and
+                    parent_node.get('type') == 'Window'):
+                siblings = [name for name, _child in kids(parent)
+                            if name != nb_name]
+                if not siblings:
+                    drop.add(parent)
+            continue
+
+        def pick(seq):
+            if not isinstance(seq, (list, tuple)):
+                return seq
+            return [seq[old] if old < len(seq) else None
+                    for old, _name, _child in kept]
+
+        if 'labels' in node:
+            node['labels'] = pick(node['labels'])
+        lat = node.get('last_active_term')
+        if isinstance(lat, (list, tuple)):
+            node['last_active_term'] = pick(lat)
+        node['locked'] = ['True'] * len(kept)
+        try:
+            active = int(node.get('active_page', 0))
+        except (TypeError, ValueError):
+            active = 0
+        kept_indexes = [old for old, _name, _child in kept]
+        if active in kept_indexes:
+            node['active_page'] = str(kept_indexes.index(active))
+        else:
+            node['active_page'] = '0'
+        for new_order, (_old, _name, child) in enumerate(kept):
+            child['order'] = str(new_order)
+
+    for name in drop:
+        layout.pop(name, None)
+    changed = True
+    while changed:
+        changed = False
+        for name, node in list(layout.items()):
+            if not isinstance(node, dict):
+                layout.pop(name, None)
+                changed = True
+                continue
+            parent = node.get('parent') or ''
+            if parent and parent not in layout:
+                layout.pop(name, None)
+                changed = True
+    return layout
+
+
+def layout_after_exit_policy(data, layout):
+    """Layout to rebuild after the previous process ended.
+
+    A live snapshot (``exit`` is ``live``: still running, or killed before
+    the final save) comes back whole. Anything else, including a session
+    written before tab locks existed, is a clean exit and keeps only
+    locked tabs.
+    """
+    if str((data or {}).get('exit') or '') == 'live':
+        return layout
+    return retain_locked_tabs(layout)
+
+
+def plain_launch_action(data, layout):
+    """What a plain launch opens from a session file.
+
+    ``session`` rebuilds the layout the exit policy kept. ``fresh`` is a
+    clean exit that kept no terminals: open one new window. The configured
+    default layout is not a stand-in for that empty session, or an unlocked
+    tab would come back as the saved startup layout. ``layout`` means there
+    was no session file, so the caller uses the configured layout.
+    """
+    if not data:
+        return 'layout', None
+    kept = layout_after_exit_policy(data, layout)
+    if count_terminals_in_layout(kept) == 0:
+        return 'fresh', None
+    return 'session', kept
+
+
 def sanitize_layout(layout, missing_dirs=None):
     """Sanitize a loaded session layout for restore.
 
@@ -754,6 +893,14 @@ class SessionManager(Borg):
             dbg('SessionManager.save_now: still 0 terminals after merge')
             return False
 
+        # A normal exit keeps locked tabs only. The file written while the
+        # process is still running stays complete, so a kill restores it.
+        dropped = set()
+        if final:
+            before_ids = collect_terminal_uuids(layout)
+            layout = retain_locked_tabs(layout)
+            dropped = before_ids - collect_terminal_uuids(layout)
+
         change = layout_change_hash(layout)
         if not final and change == self._last_change_hash:
             dbg('SessionManager.save_now: unchanged, skip')
@@ -764,6 +911,9 @@ class SessionManager(Borg):
             'version': SESSION_VERSION,
             'saved_at': _now_iso(),
             'terminator_version': self._terminator_version(),
+            # live: crash / kill should restore every tab.
+            # clean: a normal exit already dropped unlocked tabs.
+            'exit': 'clean' if final else 'live',
             'layout': layout,
         }
         path = self.session_path()
@@ -784,6 +934,8 @@ class SessionManager(Borg):
             self._last_change_hash = change
             self._write_failures = 0
             self._events_since_save = False
+            if final:
+                self._clean_dropped_uuids = dropped
             dbg('SessionManager.save_now: wrote %s (final=%s)' % (path, final))
             return True
         except OSError as ex:
@@ -1293,6 +1445,10 @@ class SessionManager(Borg):
         if terminal_is_excluded(terminal):
             return False
         if self.final_saving and self.is_writer():
+            # Unlocked tabs were omitted from the clean session file.
+            dropped = getattr(self, '_clean_dropped_uuids', None) or ()
+            if uid in dropped:
+                return False
             return True
         if (self._closing_buffer and
                 uid in (self._closing_buffer.get('uuids') or set())):
@@ -1343,6 +1499,9 @@ class SessionManager(Borg):
                     # unrealized/half destroyed; keep the last flushed caches.
                     cache.flush_all(sync=True, final=True,
                                     extra=[closing] if closing else None)
+                    dropped = getattr(self, '_clean_dropped_uuids', None)
+                    if dropped:
+                        cache.discard_uuids(dropped)
                 cache.stop(join_timeout=1.0)
             except Exception as ex:
                 dbg('scrollback finalize: %s' % ex)

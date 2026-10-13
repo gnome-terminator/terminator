@@ -34,7 +34,10 @@ PTY itself).  What *is* observable:
 Rule: hide when the adjustment is collapsed, a non-shell process owns the
 foreground, the PTY is raw (or unknown), and there is evidence of content.
 The decision is taken at the start of such an episode (1 s grace) and kept
-until the episode ends, so a TUI is never reflowed mid-session.
+until the episode ends.  The scrollbar's width stays reserved while it is
+hidden, so the grid is not resized.  A resize here is what jumps a
+fullscreen program vertically: VTE realigns that screen and the row count
+changes under it.
 
 Consequences:
 
@@ -370,9 +373,12 @@ class AltScreenScrollbar(object):
 
     def _on_child_exited(self, *_args):
         self._cancel()
+        was = self.detector.active
         self.detector.reset()
         self.user_override = False
         self.apply()
+        if was:
+            self._note_fullscreen_exited()
 
     def _on_destroy(self, *_args):
         self.detach()
@@ -442,6 +448,8 @@ class AltScreenScrollbar(object):
         if not now:
             self.user_override = False
         self.apply()
+        if was and not now:
+            self._note_fullscreen_exited()
         return now
 
     def apply(self):
@@ -452,17 +460,23 @@ class AltScreenScrollbar(object):
         hide = (should_auto_hide(self.detector.active, self.enabled(),
                                  position)
                 and not self.user_override)
+        scroll = self._scroll_value()
         if hide and not self.auto_hidden:
-            if not sb.get_visible():
-                return  # user (or config) already hid it; nothing to undo
-            try:
-                self.hidden_width = max(0, sb.get_allocated_width())
-            except Exception:
-                self.hidden_width = 0
+            if sb.get_visible():
+                try:
+                    self.hidden_width = max(0, int(sb.get_allocated_width()))
+                except Exception:
+                    self.hidden_width = 0
+                sb.hide()
+            elif self.hidden_width <= 0:
+                # Nothing was on screen, so hiding changes no width.
+                return
             self.auto_hidden = True
-            sb.hide()
+            self._hold_slot()
+            self._restore_scroll(scroll)
             dbg('altscreen: scrollbar visible=%s' % sb.get_visible())
         elif not hide and self.auto_hidden:
+            self._release_slot()
             self.auto_hidden = False
             self.hidden_width = 0
             # Terminal.sync_scrollbar shows the bar only when the restored
@@ -472,7 +486,43 @@ class AltScreenScrollbar(object):
                 sync()
             elif position not in ('disabled', 'hidden'):
                 sb.show()
+            self._restore_scroll(scroll)
             dbg('altscreen: scrollbar visible=%s' % sb.get_visible())
+
+    def _scroll_value(self):
+        try:
+            adj = self.terminal.vte.get_vadjustment()
+            return adj, float(adj.get_value())
+        except Exception:
+            return None, None
+
+    def _restore_scroll(self, pin):
+        """Hiding the bar must not move the view. A value change here is
+        the vertical jump inside a fullscreen program."""
+        adj, value = pin
+        if adj is None or value is None:
+            return
+        try:
+            if abs(float(adj.get_value()) - value) > 0.01:
+                adj.set_value(value)
+        except Exception:
+            pass
+
+    def _note_fullscreen_exited(self):
+        note = getattr(self.terminal, 'note_fullscreen_exited', None)
+        if callable(note):
+            note()
+
+    def _hold_slot(self):
+        """Ask the terminal to keep ``hidden_width`` after the bar is hidden."""
+        hold = getattr(self.terminal, 'hold_scrollbar_slot', None)
+        if callable(hold) and self.hidden_width > 0:
+            hold(self.hidden_width)
+
+    def _release_slot(self):
+        release = getattr(self.terminal, 'release_scrollbar_slot', None)
+        if callable(release):
+            release()
 
     def user_toggled(self):
         """The user toggled the scrollbar by hand.
@@ -482,11 +532,18 @@ class AltScreenScrollbar(object):
         """
         if self.detector.active:
             self.user_override = True
+        self._release_slot()
         self.auto_hidden = False
         self.hidden_width = 0
 
     def reconfigured(self):
         """Terminal.reconfigure() just set visibility from config."""
+        width = self.hidden_width
+        self._release_slot()
         self.auto_hidden = False
-        self.hidden_width = 0
+        # apply() measures a visible bar.  If it is already hidden, the
+        # saved width is what keeps the terminal from growing.
+        self.hidden_width = width
         self.apply()
+        if not self.auto_hidden:
+            self.hidden_width = 0

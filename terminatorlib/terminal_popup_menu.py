@@ -91,25 +91,56 @@ class TerminalPopupMenu(object):
         request_close_terminal(self.terminal)
 
     def wants_chrome_menu(self, anchor, skip_link_check):
-        """Pane-management items belong on the titlebar and the gear.
+        """Settings belong on a titlebar, not on the terminal click.
 
-        The VTE menu stays short while a titlebar is visible. With the
-        titlebar hidden there is nowhere else to put those items, so the
-        VTE menu keeps them."""
-        on_titlebar = bool(skip_link_check or anchor is not None)
+        The window header menu, the pane titlebar and the gear pass
+        skip_link_check or an anchor. The VTE menu stays short while any
+        of those is available. A borderless window with no pane titlebar
+        has nowhere else, so the VTE menu keeps the extra items."""
+        if skip_link_check or anchor is not None:
+            return True
+        return not self._chrome_menu_elsewhere()
+
+    def _pane_titlebar_visible(self):
         try:
-            titlebar_on = bool(self.config['show_titlebar'])
+            configured = bool(self.config['show_titlebar'])
         except Exception:
-            titlebar_on = True
-        # A lone pane hides its titlebar even when the setting is on.
-        # The VTE menu then has to carry the items that lived on it.
+            configured = True
+        if not configured:
+            return False
         bar = getattr(self.terminal, 'titlebar', None)
         if bar is not None and hasattr(bar, 'get_visible'):
             try:
-                titlebar_on = bool(bar.get_visible())
+                return bool(bar.get_visible())
             except Exception:
                 pass
-        return on_titlebar or not titlebar_on
+        return configured
+
+    def _window_header_menu_available(self):
+        """The window title bar's menu button can carry the full menu."""
+        getter = getattr(self.terminal, 'get_toplevel', None)
+        if not callable(getter):
+            return False
+        try:
+            window = getter()
+        except Exception:
+            return False
+        if window is None or getattr(window, '_header_bar', None) is None:
+            return False
+        menu = getattr(window, '_header_menu', None)
+        if menu is None:
+            return False
+        visible = getattr(menu, 'get_visible', None)
+        if not callable(visible):
+            return True
+        try:
+            return bool(visible())
+        except Exception:
+            return True
+
+    def _chrome_menu_elsewhere(self):
+        return (self._pane_titlebar_visible() or
+                self._window_header_menu_available())
 
     def show(self, widget, event=None, anchor=None, skip_link_check=False):
         """Display the context menu.

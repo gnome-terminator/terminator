@@ -322,11 +322,30 @@ def is_pane_placeholder(widget):
     """True for module D's slot stand-in (duck-typed, not Factory-registered)"""
     return bool(getattr(widget, 'is_pane_placeholder', False))
 
+def layout_root_widget(widget):
+    """The layout child a caller should see.
+
+    A left tab list lives in a horizontal box beside the notebook. That
+    box is the window's Gtk child; callers still want the notebook.
+    """
+    if widget is None:
+        return None
+    notebook = getattr(widget, '_tab_shell_notebook', None)
+    try:
+        if notebook is not None and notebook.get_parent() is widget:
+            return notebook
+    except Exception:
+        pass
+    return widget
+
+
 def logical_parent(widget):
-    """Parent as the layout sees it, skipping module D's transient chrome.
+    """Parent as the layout sees it, skipping transient chrome.
 
     - Gtk.Overlay / PaneFrame (is_pane_frame) are skipped, so callers see
       Window / Paned / Notebook.
+    - The left tab list's box is skipped the same way. It is not a layout
+      node; the notebook's parent is the window.
     - For the overlay-maximised terminal itself, the answer is the container
       holding its PanePlaceholder (its logical slot).
     """
@@ -338,7 +357,8 @@ def logical_parent(widget):
     parent = widget.get_parent()
     while parent is not None and (
             isinstance(parent, Gtk.Overlay) or
-            getattr(parent, 'is_pane_frame', False)):
+            getattr(parent, 'is_pane_frame', False) or
+            getattr(parent, '_tab_shell_notebook', None) is not None):
         parent = parent.get_parent()
     return parent
 
@@ -642,6 +662,90 @@ def pin_icon_button(button, px):
     provider.load_from_data(css.encode('utf-8'))
     button.get_style_context().add_provider(
         provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 1)
+
+
+def svg_icon_surface(name, logical, scale, color=(0x1d, 0x1d, 0x1f)):
+    """Draw ``name`` at ``logical`` px times the screen scale.
+
+    The SVG is rasterised straight into those device pixels. A pixbuf
+    painted at 1x and then enlarged by the window scale is what made the
+    sidebar marks soft.
+    """
+    add_source_icon_path()
+    theme = Gtk.IconTheme.get_default()
+    if theme is None:
+        return None
+    try:
+        info = theme.lookup_icon(
+            name, logical, Gtk.IconLookupFlags.FORCE_SVG)
+    except Exception:
+        return None
+    if info is None:
+        return None
+    path = info.get_filename()
+    if not path or not str(path).endswith('.svg'):
+        return None
+    try:
+        gi.require_version('Rsvg', '2.0')
+        from gi.repository import Rsvg
+        handle = Rsvg.Handle.new_from_file(path)
+    except Exception:
+        return None
+    scale = max(1, int(scale))
+    logical = max(1, int(logical))
+    pixel = logical * scale
+    mask = cairo.ImageSurface(cairo.FORMAT_ARGB32, pixel, pixel)
+    mask.set_device_scale(scale, scale)
+    viewport = Rsvg.Rectangle()
+    viewport.x = 0
+    viewport.y = 0
+    viewport.width = logical
+    viewport.height = logical
+    try:
+        handle.render_document(cairo.Context(mask), viewport)
+    except Exception:
+        return None
+    surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, pixel, pixel)
+    surface.set_device_scale(scale, scale)
+    context = cairo.Context(surface)
+    red, green, blue = color
+    context.set_source_rgba(red / 255.0, green / 255.0, blue / 255.0, 1)
+    context.mask_surface(mask, 0, 0)
+    return surface
+
+
+def monochrome_pixbuf(name, size, color=(0x1d, 0x1d, 0x1f)):
+    """Load ``name`` and paint it ``color``, keeping the SVG's alpha.
+
+    A symbolic PNG from gtk-encode-symbolic-svg fills closed strokes, so a
+    hollow lock becomes a solid blob. The sidebar marks are drawn from the
+    SVG instead.
+    """
+    add_source_icon_path()
+    theme = Gtk.IconTheme.get_default()
+    if theme is None or not theme.has_icon(name):
+        return None
+    try:
+        pixbuf = theme.load_icon(name, size, Gtk.IconLookupFlags.FORCE_SVG)
+    except Exception:
+        return None
+    if pixbuf is None:
+        return None
+    return _recolor_pixbuf(pixbuf, color)
+
+
+def _recolor_pixbuf(pixbuf, color):
+    width = pixbuf.get_width()
+    height = pixbuf.get_height()
+    surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, width, height)
+    context = cairo.Context(surface)
+    red, green, blue = color
+    context.set_source_rgba(red / 255.0, green / 255.0, blue / 255.0, 1)
+    context.paint()
+    context.set_operator(cairo.OPERATOR_DEST_IN)
+    Gdk.cairo_set_source_pixbuf(context, pixbuf, 0, 0)
+    context.paint()
+    return Gdk.pixbuf_get_from_surface(surface, 0, 0, width, height)
 
 
 def scale_image_to_ink(image, name, target_px, button_px, canvas_px=16):

@@ -456,13 +456,17 @@ the tab will also close all terminals within it.')
 
         if mytype == 'Notebook':
             labels = []
+            locked = []
             last_active_term = []
             for tabnum in range(0, self.get_n_pages()):
                 page = self.get_nth_page(tabnum)
                 label = self.get_tab_label(page)
                 labels.append(label.get_custom_label())
+                getter = getattr(label, 'get_locked', None)
+                locked.append('True' if callable(getter) and getter() else 'False')
                 last_active_term.append(self.last_active_term[self.get_nth_page(tabnum)])
             layout['labels'] = labels
+            layout['locked'] = locked
             layout['last_active_term'] = last_active_term
             layout['active_page'] = self.get_current_page()
         else:

@@ -262,6 +262,30 @@ def test_hidden_titlebar_keeps_the_terminal_menu():
     assert popup.wants_chrome_menu(None, False) is True
 
 
+def test_window_header_keeps_the_vte_menu_short():
+    """A lone pane hides its titlebar. The header menu still has the
+    extra items, so a terminal right-click stays short."""
+    popup = popup_for(FakeTerminal())
+    popup.config = {'show_titlebar': True}
+
+    class Hidden(object):
+        def get_visible(self):
+            return False
+
+    class Button(object):
+        def get_visible(self):
+            return True
+
+    popup.terminal.titlebar = Hidden()
+    popup.terminal.toplevel = type('Win', (), {
+        '_header_bar': object(),
+        '_header_menu': Button(),
+    })()
+    assert popup.wants_chrome_menu(None, False) is False
+    assert popup.wants_chrome_menu(None, True) is True
+    assert popup.wants_chrome_menu(object(), False) is True
+
+
 def test_vte_menu_does_not_end_on_a_separator():
     from terminatorlib.terminal_popup_menu import TerminalPopupMenu
 
@@ -340,6 +364,16 @@ def test_chrome_items_follow_titlebar():
     assert popup.wants_chrome_menu(object(), False) is True
     popup.config = {'show_titlebar': False}
     assert popup.wants_chrome_menu(None, False) is True
+
+    class Button(object):
+        def get_visible(self):
+            return True
+
+    popup.terminal.toplevel = type('Win', (), {
+        '_header_bar': object(),
+        '_header_menu': Button(),
+    })()
+    assert popup.wants_chrome_menu(None, False) is False
 
 
 def test_close_terminal_closes_after_confirmation_accepts():

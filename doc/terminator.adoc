@@ -331,13 +331,17 @@ Insert padded terminal number, i.e. 01 to 12.
 == SESSIONS
 By default (*restore_last_session* = True) Terminator saves its windows,
 tabs, splits, working directories and maximised terminal automatically
-while it runs, and a plain *terminator* launch restores them. Only the
+while it runs. A plain *terminator* launch restores locked tabs, and any
+window that has no tab list. The lock is on each tab's row in the
+sidebar; the tab menu has the same switch, *Keep for next launch*. A
+normal exit forgets unlocked tabs. If Terminator is killed or crashes,
+the next launch restores every tab that was still open. Only the
 first Terminator process owns the session; launches with *-l*, *-e*,
 *-x*, *--working-directory* or *-j* do not restore it. Windows opened
 with *-l*, *-e*, *-x* or *-j* are left out of the saved session, and
 their scrollback is not cached, until you split them or open a tab in
-them. When the last terminal is closed or exits, the session keeps that
-terminal, so the next launch reopens it. The
+them. When the last terminal of a window with no tab list is closed or
+exits, the session keeps that window, so the next launch reopens it. The
 last lines of each terminal are cached and shown again after a restore
 (*scrollback_cache*). Closing a terminal, tab or window that still has
 programs running asks for confirmation.

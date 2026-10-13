@@ -40,6 +40,11 @@ def _session_has_dirs(app, dirs):
 
 # ---------------------------------------------------------------- 1
 def s1_session_roundtrip(app):
+    """Unlocked tabs stay in the live snapshot and are dropped on a normal exit.
+
+    A crash (see s9) still restores them. A window with no tab list, such
+    as the fresh window after this exit, is kept by the next final save.
+    """
     dirs = {t: app.mkdir('dir_' + t) for t in ('A', 'B', 'C', 'D')}
     app.launch()
     _cd(app, dirs['A'], 'ALPHA')
@@ -56,26 +61,23 @@ def s1_session_roundtrip(app):
     check(types.count('Terminal') == 4, 'session terminals: %s' % types)
     check('Notebook' in types, 'no Notebook in session: %s' % types)
     check(any(t in types for t in ('HPaned', 'VPaned')), 'no Paned: %s' % types)
+    check(sess.get('exit') == 'live', 'debounced save exit=%r' % sess.get('exit'))
     app.screenshot('1-before-sigterm')
 
-    # SIGTERM -> final save; scrollback written
+    # SIGTERM is a normal exit: unlocked tabs are forgotten.
     app.signal(signal.SIGTERM)
     app.wait_exit()
     sess = app.session()
-    check(terminal_dirs(sess) == sorted(dirs.values()),
-          'after SIGTERM dirs=%s' % terminal_dirs(sess))
-    sb = '\n'.join(app.scrollback_text().values())
-    for tag in ('ALPHA', 'BRAVO', 'CHARLIE', 'DELTA'):
-        check('SB_%s_3' % tag in sb, 'scrollback cache lacks SB_%s after SIGTERM' % tag)
+    check(sess.get('exit') == 'clean', 'final save exit=%r' % sess.get('exit'))
+    check(not (set(dirs.values()) & set(terminal_dirs(sess))),
+          'unlocked tabs survived SIGTERM: %s' % terminal_dirs(sess))
 
-    # relaunch -> layout + cwds restored
+    # relaunch starts empty, then a split (no tab list) survives SIGINT.
     app.launch()
-    wait_for(lambda: len(app.shells()) == 4, 10, what='4 restored shells')
-    wait_for(lambda: app.shell_cwds() == sorted(dirs.values()), 10,
-             what='restored cwds (got %s)' % app.shell_cwds())
-    app.screenshot('2-restored')
-    # Do a fresh cd in the focused pane and SIGINT quickly (< debounce):
-    # SIGINT must also run the final save.
+    wait_for(lambda: len(app.shells()) == 1, 10, what='fresh shell, no tabs')
+    app.screenshot('2-fresh')
+    app.key(KEYS['split_horiz'], delay=1.0)
+    app.wait_shells(2)
     e = app.mkdir('dir_E')
     app.type('cd %s' % e, delay=0.4)
     app.signal(signal.SIGINT)
@@ -83,13 +85,7 @@ def s1_session_roundtrip(app):
     sess = app.session()
     check(e in terminal_dirs(sess),
           'SIGINT did not run the final save (dirs=%s)' % terminal_dirs(sess))
-    check(len(layout_nodes(sess, 'Terminal')) == 4, 'SIGINT session lost terminals')
-    # restored scrollback must have been fed into the VTEs: the cache written
-    # by the second run still contains the first run's markers.
-    sb = '\n'.join(app.scrollback_text().values())
-    for tag in ('ALPHA', 'BRAVO', 'CHARLIE', 'DELTA'):
-        check('SB_%s_3' % tag in sb,
-              'restored scrollback for %s not present after 2nd run' % tag)
+    check(sess.get('exit') == 'clean', 'SIGINT exit=%r' % sess.get('exit'))
 
 
 # ---------------------------------------------------------------- 2
@@ -400,7 +396,10 @@ def s9_sigkill_recovery(app):
     wait_for(lambda: len(app.shells()) >= 1, 10, what='shell on 3rd launch')
     app.signal(signal.SIGTERM)
     app.wait_exit()
-    check(isinstance(app.session(), dict) and layout_nodes(app.session(), 'Terminal'),
+    sess = app.session()
+    # The crash restore may have brought unlocked tabs back. A normal exit
+    # then drops them, so the file can be a clean empty layout.
+    check(isinstance(sess, dict) and isinstance(sess.get('layout'), dict),
           'no valid session after 3rd launch')
     app.notes.append('3rd launch restored %d terminal(s) from %s' % (
         len(layout_nodes(app.session(), 'Terminal')),

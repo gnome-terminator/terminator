@@ -134,8 +134,9 @@ Default value: *#3fb950*
 
 *restore_last_session* = _boolean_::
 If set to True, a plain launch (no -l, -e, -x, --working-directory, -j)
-restores the windows, tabs, splits, working directories and the
-maximised pane that were open last time. Only the first Terminator
+restores locked tabs (and windows that have no tab list), with their
+splits, working directories and the maximised pane. Unlocked tabs are
+kept only when the previous process was killed or crashed. Only the first Terminator
 process (the one holding the session lock) restores and saves the
 session; it is saved automatically, debounced, as the layout or the
 working directories change. See also *--restore*, *--no-restore* and
@@ -292,7 +293,10 @@ another tab to nest it there as a pane. Drag a child pane to reorder it
 under its tab, onto another tab to move it, or to the left gutter or
 between tabs to make it a tab of its own. A tab can also be dragged
 onto another window's list; a window closes when its last tab leaves.
-The window header's sidebar icon shows or hides this list. 'top' is a
+Detaching a tab into a new window leaves the list open on both windows.
+Right-click a tab to move, detach or close it. Right-click a child
+pane to move it up or down, make it its own tab, or close it. The
+window header's sidebar icon shows or hides this list. 'top' is a
 dark strip of chips.
 Can be any of: 'top', 'left', 'right', 'bottom', 'hidden'.
 If set to 'hidden', the tab bar will not be shown. Hiding the tab is not
@@ -1018,6 +1022,8 @@ Default value: *right*
 If true, the scrollbar is hidden automatically while a fullscreen program
 (one using the alternate screen, such as vim, less, htop or tmux) is running,
 and restored when it exits if the scrollback is still taller than the terminal.
+Its width stays reserved, so the program is not resized when the bar goes
+away or comes back.
 Only applies when the scrollbar would otherwise be shown. +
 Default value: *True*
 

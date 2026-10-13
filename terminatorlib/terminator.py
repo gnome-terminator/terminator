@@ -495,19 +495,38 @@ class Terminator(Borg):
                 background-color: #2a2a2a;
                 color: #ffffff; }
 
-            .terminator-terminal-window notebook.terminator-notebook header.left {
+            .terminator-terminal-window .terminator-tab-sidebar {
                 background-color: #f3f3f3;
                 background-image: none;
                 border: none;
                 border-image: none;
                 box-shadow: none;
-                padding: 6px;
+                /* No right padding: the scrollbar sits on the list's edge. */
+                padding: 6px 0 0 6px;
                 min-width: 240px; }
-            .terminator-terminal-window notebook.terminator-notebook header.left tabs {
+            .terminator-terminal-window .terminator-tab-sidebar scrolledwindow {
+                border: none;
+                margin: 0;
+                padding: 0; }
+            .terminator-terminal-window .terminator-tab-sidebar scrollbar.vertical {
+                margin: 0;
+                padding: 0;
+                border: none; }
+            /* The theme draws the bar inside a transparent border, which
+               leaves a gap before the terminal. Drop the right border so
+               the bar meets the edge. */
+            .terminator-terminal-window .terminator-tab-sidebar scrollbar.vertical slider {
+                margin: 0;
+                border-style: solid;
+                border-color: transparent;
+                border-width: 2px 0 2px 2px;
+                background-clip: padding-box;
+                min-width: 6px; }
+            .terminator-terminal-window .terminator-tab-sidebar tabs {
                 background-color: transparent;
                 background-image: none;
                 border: none; }
-            .terminator-terminal-window notebook.terminator-notebook header.left tab {
+            .terminator-terminal-window .terminator-tab-sidebar tab {
                 background-color: transparent;
                 background-image: none;
                 border-style: none;
@@ -520,65 +539,88 @@ class Terminator(Borg):
                 min-width: 0;
                 color: transparent;
                 font-weight: normal; }
-            .terminator-terminal-window notebook.terminator-notebook header.left treeview.terminator-tab-tree,
-            .terminator-terminal-window notebook.terminator-notebook header.left treeview.terminator-tab-tree.view {
+            .terminator-terminal-window .terminator-tab-sidebar treeview.terminator-tab-tree,
+            .terminator-terminal-window .terminator-tab-sidebar treeview.terminator-tab-tree.view {
                 background-color: #f3f3f3;
                 background-image: none;
                 color: #1d1d1f;
                 border: none; }
-            .terminator-terminal-window notebook.terminator-notebook header.left treeview.terminator-tab-tree row {
+            .terminator-terminal-window .terminator-tab-sidebar treeview.terminator-tab-tree row {
                 background-color: transparent;
                 color: #1d1d1f;
                 border: none;
                 padding: 3px 4px; }
-            .terminator-terminal-window notebook.terminator-notebook header.left treeview.terminator-tab-tree row:selected,
-            .terminator-terminal-window notebook.terminator-notebook header.left treeview.terminator-tab-tree row:selected:focus,
-            .terminator-terminal-window notebook.terminator-notebook header.left treeview.terminator-tab-tree row:selected:backdrop {
+            .terminator-terminal-window .terminator-tab-sidebar treeview.terminator-tab-tree row:selected,
+            .terminator-terminal-window .terminator-tab-sidebar treeview.terminator-tab-tree row:selected:focus,
+            .terminator-terminal-window .terminator-tab-sidebar treeview.terminator-tab-tree row:selected:backdrop {
                 background-color: #e4e4e6;
                 background-image: none;
                 color: #1d1d1f; }
-            .terminator-terminal-window notebook.terminator-notebook header.left .terminator-tab-folder {
+            .terminator-terminal-window .terminator-tab-sidebar .terminator-tab-folder {
                 color: #8e8e93;
                 font-size: smaller; }
-            .terminator-terminal-window notebook.terminator-notebook header.left tab:checked .terminator-tab-folder {
+            .terminator-terminal-window .terminator-tab-sidebar tab:checked .terminator-tab-folder {
                 color: #6e6e73; }
-            .terminator-terminal-window notebook.terminator-notebook header.left tab:hover {
+            .terminator-terminal-window .terminator-tab-sidebar tab:hover {
                 background-color: #ececee; }
-            .terminator-terminal-window notebook.terminator-notebook header.left tab:checked,
-            .terminator-terminal-window notebook.terminator-notebook header.left tab:checked:hover {
+            .terminator-terminal-window .terminator-tab-sidebar tab:checked,
+            .terminator-terminal-window .terminator-tab-sidebar tab:checked:hover {
                 background-color: #e4e4e6;
                 color: #1d1d1f; }
-            .terminator-terminal-window notebook.terminator-notebook header.left tab label {
+            .terminator-terminal-window .terminator-tab-sidebar tab label {
                 color: #3a3a3c; }
-            .terminator-terminal-window notebook.terminator-notebook header.left tab:checked label {
+            .terminator-terminal-window .terminator-tab-sidebar tab:checked label {
                 color: #1d1d1f; }
-            .terminator-terminal-window notebook.terminator-notebook header.left button.terminator-tab-close {
+            .terminator-terminal-window .terminator-tab-sidebar button.terminator-tab-close {
                 color: #6e6e73; }
-            .terminator-terminal-window notebook.terminator-notebook header.left button.terminator-tab-row {
+            .terminator-terminal-window .terminator-tab-sidebar box.terminator-tab-row {
+                background-color: transparent;
+                border-radius: 6px;
+                padding: 1px 4px;
+                margin-top: 1px;
+                margin-bottom: 1px; }
+            .terminator-terminal-window .terminator-tab-sidebar box.terminator-tab-row:hover {
+                background-color: #ececee; }
+            .terminator-terminal-window .terminator-tab-sidebar box.terminator-tab-row.current,
+            .terminator-terminal-window .terminator-tab-sidebar box.terminator-tab-row.current:hover {
+                background-color: #e4e4e6; }
+            .terminator-terminal-window .terminator-tab-sidebar box.terminator-tab-row label {
+                color: #1d1d1f; }
+            .terminator-terminal-window .terminator-tab-sidebar button.terminator-tab-row-main {
+                background-color: transparent;
+                background-image: none;
+                border: none;
+                box-shadow: none;
+                padding: 2px 4px; }
+            .terminator-terminal-window .terminator-tab-sidebar button.terminator-tab-row-main:hover {
+                background-color: transparent;
+                background-image: none; }
+            .terminator-terminal-window .terminator-tab-sidebar button.terminator-tab-row-main:active,
+            .terminator-terminal-window .terminator-tab-sidebar button.terminator-tab-row-main:active:hover {
+                background-color: #d8d8dc;
+                background-image: none; }
+            .terminator-terminal-window .terminator-tab-sidebar button.terminator-tab-action {
                 background-color: transparent;
                 background-image: none;
                 border: none;
                 box-shadow: none;
                 border-radius: 6px;
-                padding: 2px 6px;
-                margin-top: 1px;
-                margin-bottom: 1px; }
-            .terminator-terminal-window notebook.terminator-notebook header.left button.terminator-tab-row:hover {
-                background-color: #ececee;
-                background-image: none; }
-            .terminator-terminal-window notebook.terminator-notebook header.left button.terminator-tab-row.current,
-            .terminator-terminal-window notebook.terminator-notebook header.left button.terminator-tab-row.current:hover {
-                background-color: #e4e4e6;
-                background-image: none;
-                color: #1d1d1f; }
-            .terminator-terminal-window notebook.terminator-notebook header.left button.terminator-tab-row label {
-                color: #1d1d1f; }
-            .terminator-terminal-window notebook.terminator-notebook header.left button.terminator-tab-row image.terminator-tab-close-mark {
-                color: #1d1d1f; }
-            .terminator-terminal-window notebook.terminator-notebook header.left .terminator-tab-toolbar {
+                padding: 2px;
+                min-width: 22px;
+                min-height: 22px; }
+            .terminator-terminal-window .terminator-tab-sidebar button.terminator-tab-action:hover {
+                background-color: #e4e4e6; }
+            .terminator-terminal-window .terminator-tab-sidebar button.terminator-tab-action:active,
+            .terminator-terminal-window .terminator-tab-sidebar button.terminator-tab-action:active:hover {
+                background-color: #d2d2d6; }
+            .terminator-terminal-window .terminator-tab-sidebar image.terminator-tab-close-mark,
+            .terminator-terminal-window .terminator-tab-sidebar image.terminator-tab-lock-mark {
+                color: #1d1d1f;
+                opacity: 1; }
+            .terminator-terminal-window .terminator-tab-sidebar .terminator-tab-toolbar {
                 min-width: 220px;
                 margin: 0 2px 6px 2px; }
-            .terminator-terminal-window notebook.terminator-notebook header.left .terminator-tab-toolbar button {
+            .terminator-terminal-window .terminator-tab-sidebar .terminator-tab-toolbar button {
                 background-color: transparent;
                 background-image: none;
                 border: none;
@@ -589,10 +631,14 @@ class Terminator(Borg):
                 padding: 2px;
                 min-width: 24px;
                 min-height: 24px; }
-            .terminator-terminal-window notebook.terminator-notebook header.left .terminator-tab-toolbar button:hover {
+            .terminator-terminal-window .terminator-tab-sidebar .terminator-tab-toolbar button:hover {
                 background-color: #e4e4e6;
                 color: #1d1d1f; }
-            .terminator-terminal-window notebook.terminator-notebook header.left .terminator-tab-toolbar button:disabled {
+            .terminator-terminal-window .terminator-tab-sidebar .terminator-tab-toolbar button:active,
+            .terminator-terminal-window .terminator-tab-sidebar .terminator-tab-toolbar button:active:hover {
+                background-color: #d8d8dc;
+                color: #1d1d1f; }
+            .terminator-terminal-window .terminator-tab-sidebar .terminator-tab-toolbar button:disabled {
                 color: #c7c7cc;
                 background-color: transparent; }
 

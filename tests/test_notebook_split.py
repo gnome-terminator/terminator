@@ -69,6 +69,25 @@ def test_notebook_remove_returns_true_and_drops_page(win):
     assert nb.get_n_pages() == 1
 
 
+def test_left_tab_list_fills_the_window_height(win):
+    """The list is a sibling of the notebook, so it gets the full height."""
+    from gi.repository import Gtk
+    from terminatorlib.notebook import Notebook
+    first = list(win.get_visible_terminals())[0]
+    win.resize(900, 700)
+    win.tab_new(first)
+    _pump()
+    nb = win.get_child()
+    assert isinstance(nb, Notebook)
+    assert Gtk.Window.get_child(win) is not nb
+    assert nb.get_parent() is Gtk.Window.get_child(win)
+    assert not nb.get_show_tabs()
+    side = nb._tab_sidebar
+    assert side.get_visible()
+    assert side.get_allocated_height() >= nb.get_allocated_height() - 2
+    assert nb._tab_tree_scroll.get_allocated_height() > nb.get_allocated_height() * 0.7
+
+
 def test_closing_last_term_of_tab_collapses_notebook_in_layout(win):
     from terminatorlib.terminator import Terminator
     from terminatorlib.notebook import Notebook

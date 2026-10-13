@@ -275,6 +275,76 @@ def test_restore_asks_terminal_when_it_syncs(monkeypatch):
     assert 'show' not in term.scrollbar.calls
 
 
+def test_hide_does_not_move_the_view(monkeypatch):
+    """Hiding the bar must put the scroll position back. That shift is the
+    vertical jump inside a fullscreen program."""
+    term, ctl, _ = _ctl(monkeypatch)
+    term.adj.value = 12.0
+
+    def get_value():
+        return term.adj.value
+
+    def set_value(value):
+        term.adj.value = value
+
+    term.adj.get_value = get_value
+    term.adj.set_value = set_value
+    real_hide = term.scrollbar.hide
+
+    def hide():
+        real_hide()
+        term.adj.value = 0.0
+
+    term.scrollbar.hide = hide
+    ctl.evaluate()
+    term.adj.upper = 24
+    ctl.evaluate()
+    assert term.adj.value == 12.0
+
+
+def test_leaving_fullscreen_notifies_terminal(monkeypatch):
+    term, ctl, _ = _ctl(monkeypatch)
+    notes = []
+    term.note_fullscreen_exited = lambda: notes.append('exit')
+    ctl.evaluate()
+    term.adj.upper = 24
+    ctl.evaluate()
+    assert notes == []
+    term.adj.upper = 51
+    ctl.evaluate()
+    assert notes == ['exit']
+
+
+def test_hide_reserves_scrollbar_width(monkeypatch):
+    """Hiding the bar keeps its width, and leaving the program gives it back."""
+    term, ctl, _ = _ctl(monkeypatch)
+    held = []
+    term.hold_scrollbar_slot = lambda width: held.append(width)
+    term.release_scrollbar_slot = lambda: held.append('release')
+    ctl.evaluate()
+    term.adj.upper = 24
+    ctl.evaluate()
+    assert held == [14]
+    assert ctl.auto_hidden
+    term.adj.upper = 51
+    ctl.evaluate()
+    assert held == [14, 'release']
+    assert not ctl.auto_hidden
+
+
+def test_reconfigure_reserves_width_when_bar_already_hidden(monkeypatch):
+    term, ctl, _ = _ctl(monkeypatch)
+    held = []
+    term.hold_scrollbar_slot = lambda width: held.append(width)
+    term.release_scrollbar_slot = lambda: held.append('release')
+    ctl.evaluate()
+    term.adj.upper = 24
+    ctl.evaluate()
+    ctl.reconfigured()
+    assert held == [14, 'release', 14]
+    assert ctl.auto_hidden and ctl.hidden_width == 14
+
+
 def test_controller_hides_and_restores(monkeypatch):
     term, ctl, _ = _ctl(monkeypatch)
     ctl.evaluate()                       # history

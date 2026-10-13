@@ -145,6 +145,9 @@ def after_tab(ok, t1, t2):
     def go(ok):
         if not ok:
             fail('commands did not take effect: cwd1=%r cwd2=%r' % (t1.get_cwd(), t2.get_cwd()))
+        # A normal exit keeps only locked tabs. This round-trip is the
+        # kept layout, so both tabs are locked before the final save.
+        _lock_open_tabs()
         # Floating maximise the split-pane terminal on tab 1.
         nb = t1.get_parent()
         while nb is not None and type(nb).__name__ != 'Notebook':
@@ -163,6 +166,17 @@ def after_tab(ok, t1, t2):
             return False
         GLib.timeout_add(2500, flush_and_quit)
     wait_until(ready, go)
+
+
+def _lock_open_tabs():
+    from terminatorlib.notebook import Notebook
+    for win in T().windows:
+        child = win.get_child()
+        if isinstance(child, Notebook):
+            for index in range(child.get_n_pages()):
+                label = child.get_tab_label(child.get_nth_page(index))
+                if hasattr(label, 'set_locked'):
+                    label.set_locked(True)
 
 
 def dump_and_quit():

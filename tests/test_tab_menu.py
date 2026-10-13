@@ -147,12 +147,14 @@ def test_split_panes_are_the_second_tree_level():
 def test_tab_bar_css_is_a_left_list():
     from terminatorlib.terminator import Terminator
     css = Terminator.tab_bar_css(object())
-    assert 'header.left' in css
+    assert 'terminator-tab-sidebar' in css
     assert '#f3f3f3' in css
     assert '#e4e4e6' in css
     assert 'terminator-tab-add' in css
     assert 'terminator-tab-tree' in css
     assert 'terminator-tab-row' in css
+    assert 'terminator-tab-lock-mark' in css
+    assert 'terminator-tab-action:active' in css
 
 
 def test_close_mark_stays_hidden_until_hover():
@@ -170,6 +172,27 @@ def test_close_mark_stays_hidden_until_hover():
     assert label.button.get_visible() is True
 
 
+def test_pane_menu_moves_do_not_wrap():
+    from terminatorlib.notebook import pane_menu_sensitive
+    assert pane_menu_sensitive(0, 2) == {
+        'up': False, 'down': True, 'promote': True, 'close': True}
+    assert pane_menu_sensitive(1, 2)['up'] is True
+    assert pane_menu_sensitive(1, 2)['down'] is False
+    assert pane_menu_sensitive(1, 3)['down'] is True
+    assert pane_menu_sensitive(-1, 2)['close'] is False
+
+
+def test_child_row_opens_a_pane_menu():
+    import inspect
+    from terminatorlib.notebook import Notebook
+    press = inspect.getsource(Notebook._on_sidebar_row_press)
+    assert 'popup_pane_menu' in press
+    menu = inspect.getsource(Notebook.popup_pane_menu)
+    for label in ('Move Pane _Up', 'Move Pane _Down',
+                  'Detach as _Tab', '_Close Pane'):
+        assert label in menu
+
+
 def test_tab_label_opens_menu_on_right_click():
     import inspect
     from terminatorlib.notebook import TabLabel
@@ -178,5 +201,6 @@ def test_tab_label_opens_menu_on_right_click():
     assert 'popup_tab_menu' in src
     menu = inspect.getsource(TabLabel.popup_tab_menu)
     for label in ('Move Terminal _Left', 'Move Terminal _Right',
-                  '_Detach Terminal', '_Close Terminal'):
+                  '_Detach Terminal', '_Close Terminal',
+                  '_Keep for next launch'):
         assert label in menu
