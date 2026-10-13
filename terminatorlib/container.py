@@ -156,6 +156,10 @@ class Container(object):
         """Create a confirmation dialog for closing things"""
         maker = Factory()
 
+        if maker.isinstance(child, 'Notebook') and child.get_n_pages() == 1:
+            # A single tab, kept by always_show_tabbar
+            child = child.get_nth_page(0)
+
         has_multiple_terms = False
         if not maker.isinstance(child, 'Terminal'):
             has_multiple_terms = True

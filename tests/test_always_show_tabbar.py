@@ -208,3 +208,40 @@ def test_single_tab_layout_restores_focused_pane(config, terminator, enabled,
     focused = window.get_focussed_terminal()
     assert focused is terminator.find_terminal_by_uuid("urn:uuid:" + first)
     window.on_destroy_event(window)
+
+
+class AskedToConfirm(Exception):
+    """Raised instead of showing the close confirmation dialog."""
+
+
+@pytest.fixture
+def confirm_dialog(config, monkeypatch):
+    """Ask before closing multiple terminals, and fail if the dialog opens."""
+    saved = config["ask_before_closing"]
+    config["ask_before_closing"] = "multiple_terminals"
+
+    def dialog(*args, **kwargs):
+        raise AskedToConfirm()
+
+    monkeypatch.setattr("terminatorlib.container.Gtk.Dialog", dialog)
+    yield
+    config["ask_before_closing"] = saved
+
+
+def test_closing_single_terminal_window_does_not_ask(config, window,
+                                                     confirm_dialog):
+    """A window with one terminal in one tab closes without asking."""
+    config["always_show_tabbar"] = True
+    window.apply_always_show_tabbar()
+
+    assert not window.on_delete_event(window, None)
+
+
+def test_closing_window_with_split_tab_asks(config, split_window,
+                                           confirm_dialog):
+    """A window with a split in its only tab still asks before closing."""
+    config["always_show_tabbar"] = True
+    split_window.apply_always_show_tabbar()
+
+    with pytest.raises(AskedToConfirm):
+        split_window.on_delete_event(split_window, None)
