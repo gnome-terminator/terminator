@@ -169,10 +169,9 @@ class Relay:
         self.log = log
         self.vte = vte = terminal.vte
 
-        outer = Vte.Pty.new_sync(Vte.PtyFlags.DEFAULT)
-        vte.set_pty(outer)
-        self.tty = os.open(os.ptsname(outer.get_fd()),
-                           os.O_RDWR | os.O_NOCTTY | os.O_NONBLOCK)
+        master, self.tty = os.openpty()
+        vte.set_pty(Vte.Pty.new_foreign_sync(master))
+        os.set_blocking(self.tty, False)
         tty.setraw(self.tty)
 
         self.inner = Vte.Pty.new_sync(Vte.PtyFlags.DEFAULT)
