@@ -33,16 +33,8 @@
  </description>
  <screenshots>
   <screenshot type="default">
-   <image>https://4.bp.blogspot.com/-xt4Tja1TMQ0/Vdemmf8wYSI/AAAAAAAAA9A/uROTre0PMls/s1600/terminator_main_basic.png</image>
-   <_caption>The main window showing the application in action</_caption>
-  </screenshot>
-  <screenshot>
-   <image>https://4.bp.blogspot.com/-rRxALSpEEZw/Vdeu58JgpnI/AAAAAAAAA9o/XewWKJ5HNo4/s1600/terminator_main_complex.png</image>
-   <_caption>Getting a little crazy with the terminals</_caption>
-  </screenshot>
-  <screenshot>
-   <image>https://2.bp.blogspot.com/-t_8oRyMXUls/VdemmRVnZnI/AAAAAAAAA88/rHIr8L1X7Ho/s1600/terminator_prefs_global.png</image>
-   <_caption>The preferences window where you can change the defaults</_caption>
+   <image>https://raw.githubusercontent.com/TIIEHenry/TerminatorX/main/data/screenshots/terminator.png</image>
+   <_caption>The main window, with the sidebar tab list and a split pane</_caption>
   </screenshot>
  </screenshots>
  <url type="homepage">https://github.com/gnome-terminator/terminator</url>
