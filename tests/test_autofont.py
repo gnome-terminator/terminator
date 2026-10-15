@@ -11,9 +11,11 @@ import pytest
 sys.path.insert(0, os.path.realpath(os.path.join(os.path.dirname(__file__), "..")))
 
 from terminatorlib.autofont import (
+    base_cell_from_measured,
     cols_rows_from_base,
     keeps_full_size,
     parse_tiers,
+    same_content_size,
     select_font_tier,
     tier_label,
     validate_auto_font_config,
@@ -115,6 +117,18 @@ def test_select_ideal_cols():
     # With ideal=66, up from 90% needs cols_at(0) >= 66
     assert select_font_tier(65, 50, 1, TIERS, MIN_C, MIN_R, H, ideal_cols=66) == 1
     assert select_font_tier(66, 50, 1, TIERS, MIN_C, MIN_R, H, ideal_cols=66) == 0
+
+
+def test_base_cell_from_measured_recovers_unit_cell():
+    assert base_cell_from_measured((10, 24), 1.0) == (10, 24)
+    # VTE rounds 24*0.8 to 19; dividing back must restore 24.
+    assert base_cell_from_measured((8, 19), 0.8) == (10, 24)
+    assert base_cell_from_measured((0, 19), 0.8) is None
+
+
+def test_same_content_size_groups_equal_panes_only():
+    assert same_content_size((668, 900), (672, 904))
+    assert not same_content_size((668, 900), (988, 900))
 
 
 def test_tier_label():

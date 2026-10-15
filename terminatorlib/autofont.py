@@ -37,6 +37,65 @@ def cols_rows_from_base(avail_w, avail_h, base_cw, base_ch):
     return int(floor(avail_w / base_cw)), int(floor(avail_h / base_ch))
 
 
+def base_cell_from_measured(measured, scale):
+    """Cell size at font_scale 1.0, recovered from the live cell.
+
+    Do not call set_font_scale(1.0) to measure this. That resizes the
+    grid under a running TUI, which then draws for the wrong column count.
+
+    >>> base_cell_from_measured((10, 20), 1.0)
+    (10, 20)
+    >>> base_cell_from_measured((8, 16), 0.8)
+    (10, 20)
+    >>> base_cell_from_measured((9, 18), 0.9)
+    (10, 20)
+    >>> base_cell_from_measured((8, 19), 0.8)
+    (10, 24)
+    >>> base_cell_from_measured((0, 16), 0.8) is None
+    True
+    >>> base_cell_from_measured(None, 1.0) is None
+    True
+    """
+    if measured is None:
+        return None
+    try:
+        mw, mh = float(measured[0]), float(measured[1])
+        scale = float(scale)
+    except (TypeError, ValueError, IndexError):
+        return None
+    if mw <= 0 or mh <= 0 or scale <= 0:
+        return None
+    bw = int(round(mw / scale))
+    bh = int(round(mh / scale))
+    if bw <= 0 or bh <= 0:
+        return None
+    return (bw, bh)
+
+
+def same_content_size(a, b, tol_px=16, tol_frac=0.04):
+    """True when two panes are the same size for font-tier purposes.
+
+    >>> same_content_size((400, 800), (400, 800))
+    True
+    >>> same_content_size((400, 800), (408, 804))
+    True
+    >>> same_content_size((400, 800), (520, 800))
+    False
+    >>> same_content_size((0, 800), (400, 800))
+    False
+    """
+    try:
+        aw, ah = float(a[0]), float(a[1])
+        bw, bh = float(b[0]), float(b[1])
+    except (TypeError, ValueError, IndexError):
+        return False
+    if min(aw, ah, bw, bh) <= 0:
+        return False
+    tol_w = max(float(tol_px), max(aw, bw) * float(tol_frac))
+    tol_h = max(float(tol_px), max(ah, bh) * float(tol_frac))
+    return abs(aw - bw) <= tol_w and abs(ah - bh) <= tol_h
+
+
 def base_cell_stale(base, measured, scale, tol_px=1, tol_frac=0.06):
     """m40: True when the cached base cell (cw, ch at font_scale 1.0) no
     longer matches what VTE measures now at ``scale``.

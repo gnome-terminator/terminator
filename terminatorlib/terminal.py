@@ -218,7 +218,6 @@ class Terminal(Gtk.VBox):
         self._auto_font_timer = None
         self._auto_font_last_change_ms = 0
         self._auto_font_ever_allocated = False
-        self._auto_font_after_tui = False
         self._base_cell = None
         self._base_cell_probe_idle = None
         self._auto_font_disabled = False
@@ -1721,19 +1720,8 @@ class Terminal(Gtk.VBox):
         except Exception:
             pass
 
-    def _fullscreen_blocks_font(self):
-        alt = getattr(self, 'altscreen', None)
-        det = getattr(alt, 'detector', None)
-        try:
-            return bool(det is not None and det.active)
-        except Exception:
-            return False
-
     def note_fullscreen_exited(self):
-        """The fullscreen program left. A deferred font change may run now."""
-        if not getattr(self, '_auto_font_after_tui', False):
-            return
-        self._auto_font_after_tui = False
+        """The fullscreen program left. Reconcile the font with the pane."""
         self.schedule_auto_font_scale()
 
     def _scrollbar_slot_held(self):
@@ -2680,60 +2668,28 @@ class Terminal(Gtk.VBox):
         return int(time.monotonic() * 1000)
 
     def ensure_base_cell(self):
-        """Cache (cw, ch) measured at font_scale==1.0."""
+        """Cache (cw, ch) at font_scale==1.0.
+
+        Recover it from the live cell. Flipping the scale to 1.0 to
+        measure changes the grid under a TUI, which then draws for a
+        column count the pane no longer has.
+        """
         if self._base_cell is not None:
             return True
         if not hasattr(self.vte, 'get_font_scale'):
             return False
         try:
             scale = float(self.vte.get_font_scale())
+            cw = int(self.vte.get_char_width())
+            ch = int(self.vte.get_char_height())
         except Exception:
             return False
-        if abs(scale - 1.0) < 1e-6:
-            try:
-                cw = self.vte.get_char_width()
-                ch = self.vte.get_char_height()
-            except Exception:
-                return False
-            if cw > 0 and ch > 0:
-                self._base_cell = (cw, ch)
-                return True
+        from .autofont import base_cell_from_measured
+        cell = base_cell_from_measured((cw, ch), scale)
+        if cell is None:
             return False
-        # Rare: need a one-shot probe at scale 1.0
-        if self._base_cell_probe_idle is None:
-            self._base_cell_probe_idle = GLib.idle_add(
-                self._probe_base_cell_once)
-        return False
-
-    def _probe_base_cell_once(self):
-        self._base_cell_probe_idle = None
-        if not hasattr(self.vte, 'get_font_scale'):
-            return False
-        try:
-            old = float(self.vte.get_font_scale())
-        except Exception:
-            return False
-        try:
-            self.vte.set_font_scale(1.0)
-            cw = self.vte.get_char_width()
-            ch = self.vte.get_char_height()
-            if cw > 0 and ch > 0:
-                self._base_cell = (cw, ch)
-        except Exception as ex:
-            dbg('probe_base_cell failed: %s' % ex)
-        finally:
-            try:
-                # Prefer applying the current tier rather than the old raw scale
-                params = self._auto_font_load_params()
-                if params and 0 <= self._font_tier < len(params[0]):
-                    self.vte.set_font_scale(params[0][self._font_tier])
-                else:
-                    self.vte.set_font_scale(old)
-            except Exception:
-                pass
-        if self._base_cell is not None and self._auto_font_mode == 'run':
-            self.update_auto_font_scale(force=True)
-        return False
+        self._base_cell = cell
+        return True
 
     def update_auto_font_scale(self, force=False, avail=None):
         """Recompute and maybe apply a tier. avail=(w,h) for D sync path."""
@@ -2748,11 +2704,10 @@ class Terminal(Gtk.VBox):
             else:
                 self.refresh_badge()
             return
-        # A cell-height change while vim/htop is up changes the row count.
-        # VTE then realigns that screen and the whole page jumps vertically.
-        if self._fullscreen_blocks_font():
-            self._auto_font_after_tui = True
-            return
+        # Font used to stay frozen for the whole TUI. After a split drag
+        # the narrow pane kept 100% and clipped the program, while the
+        # wide pane stayed at a smaller tier. Follow the current size.
+        # An idle TUI whose tier is already right never calls set_font_scale.
         if not self._auto_font_ever_allocated and avail is None:
             return
         params = self._auto_font_load_params()
@@ -2791,8 +2746,15 @@ class Terminal(Gtk.VBox):
         if self._auto_font_keeps_full_size(*pane):
             new = 0
         else:
+            # Same-sized panes share the tier a fresh pane would pick.
+            # Hysteresis would otherwise leave one at 90% and one at 100%.
+            # avail= is a destination rect, not the live split: don't look
+            # for a peer of the current allocation.
+            cur = self._font_tier
+            if avail is None and self._same_size_font_peer(w, h) is not None:
+                cur = 0
             new = select_font_tier(
-                cols0, rows0, self._font_tier, tiers,
+                cols0, rows0, cur, tiers,
                 min_cols, min_rows, hyst, ideal)
         if new == self._font_tier and not force:
             self.refresh_badge()
@@ -2801,6 +2763,25 @@ class Terminal(Gtk.VBox):
             self.schedule_auto_font_scale()
             return
         self.apply_tier(new, reason='update', toast=not force)
+
+    def _same_size_font_peer(self, w, h):
+        """Another visible terminal whose content box matches (w, h)."""
+        from .autofont import same_content_size
+        try:
+            terms = self.get_toplevel().get_visible_terminals()
+        except Exception:
+            return None
+        for term in terms:
+            if term is self or not hasattr(term, 'vte'):
+                continue
+            try:
+                tw = term.vte.get_allocated_width()
+                th = term.vte.get_allocated_height()
+            except Exception:
+                continue
+            if same_content_size((w, h), (tw, th)):
+                return term
+        return None
 
     def _auto_font_page_size(self):
         """(w, h) of the area this pane shares: the current tab page or the
