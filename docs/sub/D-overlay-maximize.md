@@ -1,7 +1,7 @@
 # D 子方案：Wave 风格单分屏浮层最大化（v2，审查后定稿）
 
 > 对应主方案 §D（`docs/session-restore-design.md`）。代码基线 `9f2d0b6`。
-> 范围：多分屏布局中把**一个**分屏以浮层铺满窗口（四周约 12px、圆角绿边、背后暗化可见），带缩放动画；**不是**窗口最大化，**不是**旧 reparent zoom。
+> 范围：多分屏布局中把**一个**分屏以浮层铺满当前标签的窗格区域（四周约 12px、圆角绿边、背后暗化可见），带缩放动画；**不是**窗口最大化，**不是**旧 reparent zoom。左侧标签列表和原生标签条留在浮层外，仍然可以点。
 > 里程碑：**M3**（**8–11 人天**）；内实施序：D0 遍历钩子 → D1a 占位/`swap_child` → D1b 临时 Overlay + `get_child`/`get_children()[0]` 审计 → D1c 放大/还原/关闭 → D2 交互 → D3 动画 → D-prefs。
 > 本文件只写实现路径；**不改代码**。审查来源：`docs/reviews/findings-summary.md` + 父代理决策。
 
@@ -13,7 +13,7 @@
 
 | ID | 行为 | 验收 |
 |---|---|---|
-| D-T1 | 多分屏「最大化此分屏」→ 浮层铺满内容区，四周 12px，圆角 8px，`pane_accent_color` 2px 描边 + 阴影 | 对齐 Wave 截图 |
+| D-T1 | 多分屏「最大化此分屏」→ 浮层铺满当前标签的窗格区域（标签列表和原生标签条留在外面），四周 12px，圆角 8px，`pane_accent_color` 2px 描边 + 阴影 | 对齐 Wave 截图 |
 | D-T2 | 兄弟分屏原位、暗化 `rgba(0,0,0,0.55)` 仍可见且继续跑 | 背后输出继续滚动 |
 | D-T3 | 放大 `pane_animation_expand_ms`（默认 200）ease-out / 还原 `pane_animation_restore_ms`（默认 160）；中途再触发反向 | vim 约 1 次 SIGWINCH |
 | D-T4 | Shift+Esc（`restore_maximised`，**仅放大态消费**）、再点最大化、点蒙层、Ctrl+Shift+X 可还原 | 焦点回放大终端（D21） |

@@ -2,9 +2,10 @@
 # GPL v2 only
 """paneoverlay.py - Wave-style single-pane overlay maximise (module D / M3).
 
-Temporary Gtk.Overlay while maximised: float one pane over the window with
-margins, dim siblings, optional expand/restore animation. Not full-window
-zoom and not the legacy reparent zoom.
+Temporary Gtk.Overlay while maximised: float one pane over the pane area
+with margins, dim siblings, optional expand/restore animation. The tab list
+(left sidebar, or the native tab strip) stays outside that area. Not
+full-window zoom and not the legacy reparent zoom.
 
 m37 (smooth animation): frames come from the widget frame clock
 (add_tick_callback) with the clock starting at the first painted frame, so
@@ -355,6 +356,100 @@ def _rect_from_widget(widget, relative_to):
     else:
         x, y = xy
     return (float(x), float(y), float(alloc.width), float(alloc.height))
+
+
+def _widget_size(widget):
+    try:
+        alloc = widget.get_allocation()
+        return int(alloc.width), int(alloc.height)
+    except Exception:
+        return 0, 0
+
+
+def _pos_in(widget, ancestor):
+    """Origin of widget inside ancestor.
+
+    ``get_allocation().x/y`` is relative to the nearest GdkWindow, so a
+    header bar makes it larger than the offset inside the overlay. Prefer
+    ``translate_coordinates``. Allocation is only a parent-relative fallback
+    for unrealized widgets and unit-test fakes.
+    """
+    xy = _translate_xy(widget, ancestor, 0, 0)
+    if xy is not None:
+        return int(xy[0]), int(xy[1])
+    try:
+        if widget.get_parent() is ancestor:
+            alloc = widget.get_allocation()
+            return int(alloc.x), int(alloc.y)
+    except Exception:
+        pass
+    return None
+
+
+def tab_chrome_insets(main):
+    """Physical (left, top, right, bottom) of tab chrome inside the overlay's
+    main child.
+
+    The dimmer and the maximised frame stay in the pane area. A left tab
+    list, and a native tab strip on any side, stay visible and clickable.
+    Returns zeros when there is no chrome or the allocation is not usable.
+    """
+    if main is None:
+        return (0, 0, 0, 0)
+    mw, mh = _widget_size(main)
+    if mw <= 1 or mh <= 1:
+        return (0, 0, 0, 0)
+
+    left = top = right = bottom = 0
+    content = main
+    notebook = getattr(main, '_tab_shell_notebook', None)
+    try:
+        if (notebook is not None and notebook.get_parent() is main
+                and notebook.get_visible()):
+            origin = _pos_in(notebook, main)
+            nw, nh = _widget_size(notebook)
+            if origin is not None and nw > 1 and nh > 1:
+                left, top = max(0, origin[0]), max(0, origin[1])
+                right = max(0, mw - left - nw)
+                bottom = max(0, mh - top - nh)
+                content = notebook
+    except Exception:
+        pass
+
+    try:
+        show_tabs = bool(content.get_show_tabs())
+    except Exception:
+        show_tabs = False
+    if show_tabs:
+        try:
+            page = content.get_nth_page(content.get_current_page())
+            if page is not None and page.get_visible():
+                origin = _pos_in(page, content)
+                pw, ph = _widget_size(page)
+                cw, ch = _widget_size(content)
+                if (origin is not None and pw > 1 and ph > 1
+                        and cw > 1 and ch > 1):
+                    left += max(0, origin[0])
+                    top += max(0, origin[1])
+                    right += max(0, cw - origin[0] - pw)
+                    bottom += max(0, ch - origin[1] - ph)
+        except Exception:
+            pass
+
+    if left + right >= mw - 32 or top + bottom >= mh - 32:
+        return (0, 0, 0, 0)
+    return (left, top, right, bottom)
+
+
+def margins_from_physical(rtl, left, right, top, bottom):
+    """Map physical insets to Gtk margin (start, end, top, bottom).
+
+    Allocation x grows to the right. ``margin_start`` is the left in LTR
+    and the right in RTL.
+    """
+    if rtl:
+        return (int(right), int(left), int(top), int(bottom))
+    return (int(left), int(right), int(top), int(bottom))
 
 
 # ---------------------------------------------------------------------------
@@ -908,8 +1003,143 @@ class OverlayController(object):
 
     def note_main_replaced(self, widget):
         """Window.add/remove hook: keep data['main'] in sync."""
-        if self.data is not None:
-            self.data['main'] = widget
+        data = self.data
+        if data is None:
+            return
+        bound = data.get('_geo_main')
+        bound_widget = bound[0] if bound else None
+        if bound and bound_widget is not widget:
+            old, sig = bound
+            if old is not None and sig is not None:
+                try:
+                    old.disconnect(sig)
+                except Exception:
+                    pass
+            data['_geo_main'] = None
+        data['main'] = widget
+        if widget is not None and data.get('_geo_main') is None:
+            try:
+                sig = widget.connect(
+                    'size-allocate',
+                    lambda _w, _a: self._schedule_geometry(data))
+            except Exception:
+                sig = None
+            data['_geo_main'] = (widget, sig)
+        self._schedule_geometry(data)
+
+    def _widget_rtl(self, widget):
+        try:
+            return widget.get_direction() == Gtk.TextDirection.RTL
+        except Exception:
+            return False
+
+    @staticmethod
+    def _set_margins(widget, start, end, top, bottom):
+        if widget is None:
+            return
+        start, end, top, bottom = int(start), int(end), int(top), int(bottom)
+        try:
+            if (widget.get_margin_start() == start
+                    and widget.get_margin_end() == end
+                    and widget.get_margin_top() == top
+                    and widget.get_margin_bottom() == bottom):
+                return
+        except Exception:
+            pass
+        widget.set_margin_start(start)
+        widget.set_margin_end(end)
+        widget.set_margin_top(top)
+        widget.set_margin_bottom(bottom)
+
+    def _apply_chrome_geometry(self, data, alloc):
+        """Keep the dimmer and frame inside the pane area.
+
+        Tab chrome (left list, native strip) is not dimmed and not covered,
+        so it still receives clicks. ``dst_rect`` is physical overlay
+        coordinates; widget margins follow text direction.
+        """
+        if data is not self.data or data is None or alloc is None:
+            return
+        width, height = int(alloc.width), int(alloc.height)
+        if width <= 1 or height <= 1:
+            return
+        main = self.main() or data.get('main')
+        chrome = tab_chrome_insets(main)
+        m = int(self.MARGIN)
+        left, top, right, bottom = (chrome[0] + m, chrome[1] + m,
+                                     chrome[2] + m, chrome[3] + m)
+        if left + right >= width or top + bottom >= height:
+            chrome = (0, 0, 0, 0)
+            left = right = top = bottom = m
+        data['dst_rect'] = (float(left), float(top),
+                            max(1.0, width - left - right),
+                            max(1.0, height - top - bottom))
+        rtl = self._widget_rtl(data.get('frame') or data.get('overlay'))
+        self._set_margins(data.get('frame'),
+                          *margins_from_physical(rtl, left, right, top, bottom))
+        self._set_margins(data.get('dim'),
+                          *margins_from_physical(
+                              rtl, chrome[0], chrome[2], chrome[1], chrome[3]))
+
+    def _schedule_geometry(self, data):
+        if data is not self.data or data is None:
+            return
+        if data.get('_geo_idle'):
+            return
+        overlay = data.get('overlay')
+        if overlay is None:
+            return
+
+        def apply():
+            data['_geo_idle'] = None
+            if data is not self.data:
+                return False
+            ov = data.get('overlay')
+            if ov is None:
+                return False
+            self._apply_chrome_geometry(data, ov.get_allocation())
+            return False
+
+        data['_geo_idle'] = GLib.idle_add(apply)
+
+    def _bind_geometry(self, data):
+        overlay = data.get('overlay')
+        main = data.get('main')
+        if overlay is not None and data.get('_geo_overlay') is None:
+            data['_geo_overlay'] = overlay.connect(
+                'size-allocate',
+                lambda _w, alloc: self._on_overlay_allocate(data, alloc))
+        if main is not None and data.get('_geo_main') is None:
+            try:
+                sig = main.connect(
+                    'size-allocate',
+                    lambda _w, _a: self._schedule_geometry(data))
+            except Exception:
+                sig = None
+            data['_geo_main'] = (main, sig)
+
+    def _unbind_geometry(self, data):
+        idle = data.pop('_geo_idle', None)
+        if idle:
+            try:
+                GLib.source_remove(idle)
+            except Exception:
+                pass
+        overlay = data.get('overlay')
+        sig = data.pop('_geo_overlay', None)
+        if overlay is not None and sig is not None:
+            try:
+                overlay.disconnect(sig)
+            except Exception:
+                pass
+        bound = data.pop('_geo_main', None)
+        if bound:
+            widget, sig = bound
+            if widget is not None and sig is not None:
+                try:
+                    widget.disconnect(sig)
+                except Exception:
+                    pass
 
     # -- E (auto font) freeze contract ------------------------------------
 
@@ -1011,9 +1241,11 @@ class OverlayController(object):
 
         src_rect = _rect_from_widget(terminal, main)
         main_alloc = main.get_allocation()
-        dst_rect = (float(self.MARGIN), float(self.MARGIN),
-                    max(1.0, main_alloc.width - 2.0 * self.MARGIN),
-                    max(1.0, main_alloc.height - 2.0 * self.MARGIN))
+        chrome = tab_chrome_insets(main)
+        m = float(self.MARGIN)
+        dst_rect = (chrome[0] + m, chrome[1] + m,
+                    max(1.0, main_alloc.width - chrome[0] - chrome[2] - 2.0 * m),
+                    max(1.0, main_alloc.height - chrome[1] - chrome[3] - 2.0 * m))
 
         self._pause_font(terminal)
 
@@ -1082,12 +1314,11 @@ class OverlayController(object):
         # 3) same-frame E tier at the frame's final size, then reparent
         self._apply_tier_for_rect(terminal, dst_rect, FRAME_CHROME_PX)
         frame.set_terminal(terminal)
-        frame.set_uniform_margin(self.MARGIN)
-        # Keep the animation target in sync with the real overlay size
-        # (window resized / allocated later than the maximise).
+        # Arrived margins exclude the tab list. size-allocate keeps them
+        # in step when the window or the list changes width.
         data_ref = self.data
-        overlay.connect('size-allocate',
-                        lambda w, a: self._on_overlay_allocate(data_ref, a))
+        self._apply_chrome_geometry(data_ref, main_alloc)
+        self._bind_geometry(data_ref)
         window._connect_overlay_terminal_signals(terminal)
 
         overlay.show()
@@ -1111,9 +1342,9 @@ class OverlayController(object):
             return
         if alloc.width <= 1 or alloc.height <= 1:
             return
-        m = float(self.MARGIN)
-        data['dst_rect'] = (m, m, max(1.0, alloc.width - 2.0 * m),
-                            max(1.0, alloc.height - 2.0 * m))
+        # Margins cannot be changed inside size-allocate. Record the size
+        # and apply on idle, after the tab list has its new width too.
+        self._schedule_geometry(data)
 
     def teardown(self):
         """Window is being destroyed: stop the animation tick and put the
@@ -1416,6 +1647,7 @@ class OverlayController(object):
         overlay = data['overlay']
         main = data['main']
         frame = data['frame']
+        self._unbind_geometry(data)
 
         if self._animator is not None:
             self._animator.cancel(silent=True)

@@ -19,7 +19,7 @@ The five new features below are **on by default**. Each one can be turned off in
   - Config keys: `titlebar_buttons`, `titlebar_density`, `pane_accent_color`.
   - Double-clicking a titlebar now maximises the pane. Renaming moved to the menu and to Ctrl+Alt+X.
 - **Overlay maximise.**
-  - A single pane is maximised as an animated overlay above the dimmed layout.
+  - A single pane is maximised as an animated overlay above the dimmed panes. The tab list (left sidebar, or the native tab strip) stays visible and clickable.
   - New default shortcut **Ctrl+Shift+Return** for `maximise`, which upstream left unbound. Ctrl+Shift+X does the same.
   - New shortcut **Shift+Escape** (`restore_maximised`) restores the pane. It only acts while a pane is maximised.
   - Config keys: `pane_overlay_maximise`, `pane_animation_expand_ms`, `pane_animation_restore_ms`, `reduce_motion`.

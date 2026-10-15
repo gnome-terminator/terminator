@@ -25,6 +25,70 @@ def test_ease_in_out_cubic_symmetric():
     assert abs(mid - 0.5) < 1e-9
 
 
+def test_tab_chrome_insets_sidebar_and_strip():
+    from terminatorlib.paneoverlay import tab_chrome_insets, margins_from_physical
+
+    class Alloc(object):
+        def __init__(self, x, y, w, h):
+            self.x, self.y, self.width, self.height = x, y, w, h
+
+    class Box(object):
+        def __init__(self, x, y, w, h):
+            self.alloc = Alloc(x, y, w, h)
+            self.visible = True
+            self.parent = None
+            self.page = None
+            self.show_tabs = False
+
+        def get_allocation(self):
+            return self.alloc
+
+        def get_parent(self):
+            return self.parent
+
+        def get_visible(self):
+            return self.visible
+
+        def get_show_tabs(self):
+            return self.show_tabs
+
+        def get_current_page(self):
+            return 0
+
+        def get_nth_page(self, _n):
+            return self.page
+
+    shell = Box(0, 0, 1000, 700)
+    notebook = Box(240, 0, 760, 700)
+    notebook.parent = shell
+    shell._tab_shell_notebook = notebook
+    assert tab_chrome_insets(shell) == (240, 0, 0, 0)
+
+    page = Box(0, 36, 760, 664)
+    page.parent = notebook
+    notebook.page = page
+    notebook.show_tabs = True
+    assert tab_chrome_insets(shell) == (240, 36, 0, 0)
+
+    bare = Box(0, 0, 800, 600)
+    bare.show_tabs = True
+    bare.page = Box(0, 28, 800, 572)
+    bare.page.parent = bare
+    assert tab_chrome_insets(bare) == (0, 28, 0, 0)
+
+    tiny = Box(0, 0, 1, 1)
+    assert tab_chrome_insets(tiny) == (0, 0, 0, 0)
+    # An inset that leaves no pane is ignored.
+    eaten = Box(0, 0, 100, 100)
+    eaten.show_tabs = True
+    eaten.page = Box(0, 90, 10, 10)
+    eaten.page.parent = eaten
+    assert tab_chrome_insets(eaten) == (0, 0, 0, 0)
+
+    assert margins_from_physical(False, 240, 0, 12, 0) == (240, 0, 12, 0)
+    assert margins_from_physical(True, 240, 8, 12, 0) == (8, 240, 12, 0)
+
+
 def test_interpolate_rect():
     from terminatorlib.paneoverlay import interpolate_rect
     a = (0.0, 0.0, 10.0, 20.0)

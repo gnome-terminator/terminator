@@ -5,7 +5,7 @@ TerminatorX
 
 ## 简介
 
-TerminatorX 在一个窗口里放多个终端。标签和窗格排在左侧，拖动可以重排、把一个标签嵌到另一个下面，或把窗格拉成自己的标签。一个窗格可以盖住其余窗格，再退回来。底下的终端是 VTE，和 GNOME Terminal 用的是同一个组件，shell、回滚和转义序列都走那套实现。窗口本身很薄：白色标题栏、窗格之间一条 1px 的线，只有在分割之后才出现窗格标题栏。
+TerminatorX 在一个窗口里放多个终端。标签和窗格排在左侧，拖动可以重排、把一个标签嵌到另一个下面，或把窗格拉成自己的标签。一个窗格可以盖住其余窗格，左侧的标签列表还留在外面，再退回来。底下的终端是 VTE，和 GNOME Terminal 用的是同一个组件，shell、回滚和转义序列都走那套实现。窗口本身很薄：白色标题栏、窗格之间一条 1px 的线，只有在分割之后才出现窗格标题栏。
 
 命令名仍是 `terminator`。问题与改动请发到 https://github.com/TIIEHenry/TerminatorX/issues 。
 
@@ -35,6 +35,6 @@ TerminatorX 基于 [gnome-terminator/terminator](https://github.com/gnome-termin
 
 ## English
 
-TerminatorX keeps several terminals in one window. Tabs and panes are a list on the left: drag to reorder, nest a tab under another, or lift a pane out into its own tab. A pane can open over the others and come back. The terminal is VTE, the widget GNOME Terminal uses. The frame is thin: a white header bar, a 1px line between panes, and a pane titlebar only when the window is split.
+TerminatorX keeps several terminals in one window. Tabs and panes are a list on the left: drag to reorder, nest a tab under another, or lift a pane out into its own tab. A pane can open over the others and come back. The tab list stays where it is. The terminal is VTE, the widget GNOME Terminal uses. The frame is thin: a white header bar, a 1px line between panes, and a pane titlebar only when the window is split.
 
 The command is still `terminator`. The table above lists what this fork adds. Upstream history, shortcuts and licensing are in the links under 原项目.

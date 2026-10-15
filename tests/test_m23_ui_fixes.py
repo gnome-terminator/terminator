@@ -184,6 +184,82 @@ def test_p0_notebook_collapse_under_overlay(win):
 
 # ---- P1-1 / P1-2 ---------------------------------------------------------
 
+def test_overlay_leaves_tab_list_uncovered(win):
+    """Maximising a pane dims the other panes, not the left tab list."""
+    from terminatorlib.notebook import Notebook
+    first = list(win.get_terminals())[0]
+    win.tab_new(first)
+    _pump(0.3)
+    nb = win.get_child()
+    assert isinstance(nb, Notebook)
+    side = nb._tab_sidebar
+    assert side is not None and side.get_visible()
+    idx = nb.page_num(first)
+    assert idx >= 0
+    nb.set_current_page(idx)
+    _pump(0.1)
+    nb.split_axis(first, True)
+    _pump(0.3)
+    assert win.overlay_maximise(first, animate=False)
+    _pump(0.4)
+    data = win._overlay.data
+    overlay = data['overlay']
+    frame = data['frame']
+    dim = data['dim']
+
+    def at(widget, x=0):
+        return widget.translate_coordinates(overlay, x, 0)
+
+    side_w = side.get_allocated_width()
+    assert side_w >= 120, side_w
+    side_right = at(side, side_w)[0]
+    frame_x, frame_y = frame.translate_coordinates(overlay, 0, 0)
+    dim_x, dim_y = dim.translate_coordinates(overlay, 0, 0)
+    m = win._overlay.MARGIN
+    assert dim_x >= side_right - 1, (dim_x, side_right)
+    assert abs(dim_y) <= 2, dim_y
+    assert abs(frame_x - (side_right + m)) <= 2, (frame_x, side_right, m)
+    assert abs(frame_y - m) <= 2, frame_y
+    nb.hide_tab_list()
+    _pump(0.4)
+    frame_x, frame_y = frame.translate_coordinates(overlay, 0, 0)
+    assert abs(frame_x - m) <= 2, frame_x
+    assert abs(frame_y - m) <= 2, frame_y
+    assert frame.get_margin_start() == m
+    win.overlay_restore(animate=False)
+
+
+def test_overlay_leaves_top_tab_strip_uncovered(win):
+    from terminatorlib.notebook import Notebook
+    saved = win.config['tab_position']
+    win.config['tab_position'] = 'top'
+    try:
+        first = list(win.get_terminals())[0]
+        win.tab_new(first)
+        _pump(0.4)
+        nb = win.get_child()
+        assert isinstance(nb, Notebook)
+        assert nb.get_show_tabs()
+        idx = nb.page_num(first)
+        nb.set_current_page(idx)
+        nb.split_axis(first, True)
+        _pump(0.3)
+        page = nb.get_nth_page(nb.get_current_page())
+        strip = page.translate_coordinates(nb, 0, 0)[1]
+        assert strip > 8, strip
+        assert win.overlay_maximise(first, animate=False)
+        _pump(0.4)
+        frame = win._overlay.data['frame']
+        dim = win._overlay.data['dim']
+        m = win._overlay.MARGIN
+        assert abs(dim.get_margin_top() - strip) <= 2
+        assert abs(frame.get_margin_top() - (strip + m)) <= 2
+        assert frame.get_margin_start() == m
+        win.overlay_restore(animate=False)
+    finally:
+        win.config['tab_position'] = saved
+
+
 def test_p1_frame_shrinks_with_window(win):
     a = list(win.get_terminals())[0]
     win.split_axis(a, True)
