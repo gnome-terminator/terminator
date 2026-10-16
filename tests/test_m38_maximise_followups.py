@@ -2,7 +2,7 @@
 snapshot fallback, public Animator.duration, defer cap, reverse mid-expand)."""
 import cairo
 import pytest
-from gi.repository import GLib
+from gi.repository import GLib, Gtk
 
 from terminatorlib import paneoverlay as po
 from test_m37_smooth_maximise import (  # noqa: F401  (fixture)
@@ -119,3 +119,117 @@ def test_session_defer_cap_saves_with_endless_animation(monkeypatch):
     # counter was reset: the next burst gets the full budget again
     sm._flush()
     assert saved == [False] and sm._anim_deferrals == 1
+
+
+def _pixbuf(fill):
+    from gi.repository import GdkPixbuf
+    pb = GdkPixbuf.Pixbuf.new(GdkPixbuf.Colorspace.RGB, False, 8, 16, 16)
+    pb.fill(fill)
+    return pb
+
+
+def test_wayland_coloured_pixbuf_stays_on_placeholder(win, monkeypatch):
+    coloured = _pixbuf(0x336699ff)
+    monkeypatch.setattr(po, 'should_reduce_motion', lambda c=None: False)
+    monkeypatch.setattr(po, '_is_wayland', lambda w: True)
+    monkeypatch.setattr(po, 'capture_widget_surface', lambda w: None)
+    monkeypatch.setattr(po, 'capture_terminal_pixbuf', lambda t: coloured)
+    t = _pane(win)
+    assert win.overlay_maximise(t, animate=True)
+    data = win._overlay.data
+    ph = data['placeholder']
+    assert data['snapshot'] is None and data['snap'] is None
+    assert data['frame_hidden'] is False
+    assert ph._pixbuf is coloured
+
+
+def test_wayland_black_pixbuf_is_dropped(win, monkeypatch):
+    black = _pixbuf(0x000000ff)
+    monkeypatch.setattr(po, 'should_reduce_motion', lambda c=None: False)
+    monkeypatch.setattr(po, '_is_wayland', lambda w: True)
+    monkeypatch.setattr(po, 'capture_widget_surface', lambda w: None)
+    monkeypatch.setattr(po, 'capture_terminal_pixbuf', lambda t: black)
+    t = _pane(win)
+    assert win.overlay_maximise(t, animate=True)
+    data = win._overlay.data
+    ph = data['placeholder']
+    assert data['snapshot'] is None and data['snap'] is None
+    assert data['frame_hidden'] is False
+    assert ph._pixbuf is None and ph._snap is None
+
+
+def test_non_wayland_black_pixbuf_is_kept(win, monkeypatch):
+    black = _pixbuf(0x000000ff)
+    monkeypatch.setattr(po, 'should_reduce_motion', lambda c=None: False)
+    monkeypatch.setattr(po, '_is_wayland', lambda w: False)
+    monkeypatch.setattr(po, 'capture_widget_surface', lambda w: None)
+    monkeypatch.setattr(po, 'capture_terminal_pixbuf', lambda t: black)
+    t = _pane(win)
+    assert win.overlay_maximise(t, animate=True)
+    data = win._overlay.data
+    assert data['snapshot'] is None and data['frame_hidden'] is False
+    assert data['placeholder']._pixbuf is black
+
+
+def test_surface_src_rect_is_the_terminal(win, monkeypatch):
+    _force_snapshot(monkeypatch)
+    t = _pane(win)
+    alloc = t.get_allocation()
+    vte_alloc = t.vte.get_allocation()
+    assert alloc.width > 1 and alloc.height > vte_alloc.height
+    assert win.overlay_maximise(t, animate=True)
+    data = win._overlay.data
+    assert data['src_rect'][2] == pytest.approx(alloc.width)
+    assert data['src_rect'][3] == pytest.approx(alloc.height)
+    assert data['frame_hidden'] is True
+
+
+def test_restore_swap_failure_uses_same_slot(win, monkeypatch):
+    t = _pane(win)
+    assert win.overlay_maximise(t, animate=False)
+    parent = win._overlay.data['placeholder'].get_parent()
+
+    def boom(*_a, **_k):
+        raise RuntimeError('swap failed')
+
+    monkeypatch.setattr(parent, 'swap_child', boom)
+    assert win.overlay_restore(animate=False)
+    assert t.get_parent() is parent
+    assert t.get_toplevel() is win
+    assert win._overlay.is_active() is False
+    assert getattr(t, '_overlay_placeholder', None) is None
+
+
+def test_restore_unknown_parent_rolls_back(win, monkeypatch):
+    t = _pane(win)
+    assert win.overlay_maximise(t, animate=False)
+    ph = win._overlay.data['placeholder']
+    monkeypatch.setattr(type(ph), 'get_parent', lambda _self: None)
+    grabs = []
+    monkeypatch.setattr(t, 'grab_focus', lambda: grabs.append(1))
+    win.overlay_restore(animate=False)
+    ov = win._overlay
+    assert ov.is_active() is True
+    assert Gtk.Widget.get_parent(ph) is not None
+    assert Gtk.Window.get_child(win) is ov.data['overlay']
+    assert t.get_toplevel() is win
+    assert t.get_parent() is ov.data['frame']
+    assert grabs == []
+
+
+def test_dying_restore_swap_failure_skips_focus(win, monkeypatch):
+    t = _pane(win)
+    assert win.overlay_maximise(t, animate=False)
+    parent = win._overlay.data['placeholder'].get_parent()
+
+    def boom(*_a, **_k):
+        raise RuntimeError('swap failed')
+
+    monkeypatch.setattr(parent, 'swap_child', boom)
+    grabs = []
+    monkeypatch.setattr(t, 'grab_focus', lambda: grabs.append(1))
+    win.isDestroyed = True
+    win.overlay_restore(animate=False)
+    assert t.get_toplevel() is win
+    assert win._overlay.data is None
+    assert grabs == []

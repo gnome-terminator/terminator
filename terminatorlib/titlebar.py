@@ -81,6 +81,7 @@ class Titlebar(Gtk.EventBox):
     _badge_wanted = False
     _win_sig = None
     _sizetext_timer = None
+    _bell_timer = None
     _collapse_level = 0
     _collapse_idle = None
     _pressed_btn = None
@@ -350,9 +351,13 @@ class Titlebar(Gtk.EventBox):
             self.set_from_icon_name(icon, Gtk.IconSize.MENU)
             self._update_broadcast_label(icon)
 
-    def update_visibility(self):
-        """Make the titlebar be visible or not"""
-        if not self.get_desired_visibility():
+    def update_visibility(self, multiple=None):
+        """Make the titlebar be visible or not.
+
+        multiple: already-known Window.has_multiple_terms() result. A
+        refresh of every titlebar passes it so each bar does not walk
+        the window again."""
+        if not self.get_desired_visibility(multiple):
             dbg('hiding titlebar')
             self.hide()
             self.label.hide()
@@ -361,7 +366,7 @@ class Titlebar(Gtk.EventBox):
             self.show()
             self.label.show()
 
-    def get_desired_visibility(self):
+    def get_desired_visibility(self, multiple=None):
         """Returns True if the titlebar is supposed to be visible. False if
         not"""
         if self.editing() == True or self.terminal.group:
@@ -376,7 +381,9 @@ class Titlebar(Gtk.EventBox):
             return False
         # One pane has nothing to tell apart. The window title already
         # shows the path, and the focus outline stays off too.
-        return self._split_needs_titlebar()
+        if multiple is None:
+            return self._split_needs_titlebar()
+        return bool(multiple)
 
     def _split_needs_titlebar(self):
         """True when this window is showing more than one pane."""
@@ -643,7 +650,16 @@ class Titlebar(Gtk.EventBox):
         for btn in (getattr(self, 'btn_gear', None),
                     getattr(self, 'btn_max', None),
                     getattr(self, 'btn_close', None)):
-            image = btn.get_image() if btn is not None else None
+            if btn is None:
+                continue
+            try:
+                # A destroyed button has no parent. get_image() on it
+                # segfaults, so stop before that call.
+                if btn.get_parent() is None:
+                    continue
+                image = btn.get_image()
+            except Exception:
+                continue
             name = getattr(image, '_titlebar_icon', None)
             if name:
                 self._align_button_icon(image, name)
@@ -1004,6 +1020,9 @@ class Titlebar(Gtk.EventBox):
         if self._collapse_idle is not None:
             GLib.source_remove(self._collapse_idle)
             self._collapse_idle = None
+        if self._bell_timer is not None:
+            GLib.source_remove(self._bell_timer)
+            self._bell_timer = None
 
     # ---- Scale badge (E owns the popover and decides when to call) -------
 
@@ -1172,12 +1191,15 @@ class Titlebar(Gtk.EventBox):
     def icon_bell(self):
         """A bell signal requires we display our bell icon"""
         self.bellicon.show()
-        GLib.timeout_add(1000, self.icon_bell_hide)
+        if self._bell_timer is not None:
+            GLib.source_remove(self._bell_timer)
+        self._bell_timer = GLib.timeout_add(1000, self.icon_bell_hide)
 
     def icon_bell_hide(self):
         """Handle a timeout which means we now hide the bell icon"""
+        self._bell_timer = None
         self.bellicon.hide()
-        return(False)
+        return False
 
     def get_custom_string(self):
         """If we have a custom string set, return it, otherwise None"""
@@ -1188,7 +1210,6 @@ class Titlebar(Gtk.EventBox):
 
     def set_custom_string(self, string):
         """Set a custom string"""
-        self.label.set_text(string)
-        self.label.set_custom()
+        self.label.set_custom_text(string)
 
 GObject.type_register(Titlebar)

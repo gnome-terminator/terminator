@@ -266,6 +266,7 @@ class Terminator(Borg):
             count = count + 1
             if count == 1000:
                 err('hit maximum loop boundary. THIS IS VERY LIKELY A BUG')
+            attached = 0
             for obj in list(layout.keys()):
                 if layout[obj]['type'].lower() == 'window':
                     hierarchy[obj] = {}
@@ -279,6 +280,7 @@ class Terminator(Borg):
 
                     objects[obj] = hierarchy[obj]
                     del(layout[obj])
+                    attached = attached + 1
                 else:
                     # Now examine children to see if their parents exist yet
                     if 'parent' not in layout[obj]:
@@ -299,8 +301,20 @@ class Terminator(Borg):
                         objects[layout[obj]['parent']]['children'][obj] = childobj
                         objects[obj] = childobj
                         del(layout[obj])
+                        attached = attached + 1
+            # No node attached this pass: leftovers never will.
+            if attached == 0:
+                break
+
+        for obj in list(layout.keys()):
+            err('Unable to attach layout object %s to parent %r' % (
+                obj, layout[obj].get('parent')))
 
         layout = hierarchy
+        if not layout:
+            # No Window survived. Same fallback as a missing layout.
+            self.new_window()
+            return
 
         for windef in layout:
             if layout[windef]['type'] != 'Window':
@@ -308,23 +322,39 @@ class Terminator(Borg):
                 raise(ValueError)
             dbg('Creating a window')
             window, terminal = self.new_window()
-            # m34: positions only on X11; on Wayland the compositor
-            # places windows (a saved X11 position is kept in the file
-            # untouched until the next save).
-            if 'position' in layout[windef] and window.can_set_position():
+            # Positions only on X11. Wayland leaves placement to the
+            # compositor and keeps a saved position in the file until the
+            # next save. A position that misses every connected monitor
+            # (an unplugged display) is moved onto the primary workarea.
+            position = None
+            if 'position' in layout[windef]:
                 parts = str(layout[windef]['position']).split(':')
                 if len(parts) == 2:
                     try:
-                        window.move(int(parts[0]), int(parts[1]))
+                        position = (int(parts[0]), int(parts[1]))
                     except ValueError:
                         dbg('ignoring bad window position %r' %
                             layout[windef]['position'])
+            size = None
             if 'size' in layout[windef]:
                 parts = layout[windef]['size']
-                winx = int(parts[0])
-                winy = int(parts[1])
-                if winx > 1 and winy > 1:
-                    window.resize(winx, winy)
+                try:
+                    winx = int(parts[0])
+                    winy = int(parts[1])
+                except (IndexError, TypeError, ValueError):
+                    dbg('ignoring bad window size %r' % (parts,))
+                else:
+                    if winx > 1 and winy > 1:
+                        size = (winx, winy)
+            covers = (str(layout[windef].get('maximised', '')) == 'True' or
+                      str(layout[windef].get('fullscreen', '')) == 'True')
+            if window.can_set_position():
+                position, size = window.fit_restored_geometry(
+                    position, size, shrink=not covers)
+                if position:
+                    window.move(position[0], position[1])
+            if size:
+                window.resize(size[0], size[1])
             # Only user-set titles (title_forced marker) are re-applied.
             # Legacy upstream layouts stored the dynamic focused-terminal
             # title here; forcing it would pin the window title forever.
@@ -889,8 +919,17 @@ class Terminator(Borg):
 
         # Cause all the terminals to reconfigure
         for terminal in self.terminals:
-            terminal.reconfigure()
             titlebar = getattr(terminal, 'titlebar', None)
+            # Widget.destroy() leaves the terminal registered. Its titlebar
+            # is no longer packed, and Button.get_image() on those buttons
+            # segfaults inside GTK.
+            if titlebar is not None:
+                try:
+                    if titlebar.get_parent() is None:
+                        continue
+                except Exception:
+                    continue
+            terminal.reconfigure()
             if titlebar is not None and hasattr(titlebar, 'apply_chrome_config'):
                 titlebar.apply_chrome_config()
 
@@ -904,15 +943,9 @@ class Terminator(Borg):
             if maker.isinstance(child, 'Notebook'):
                 child.configure()
 
-        # Update blur hint on all windows
-        should_blur = False
-        for profile in profiles.values():
-            if (profile.get('background_blur', False) and
-                    profile.get('background_type', 'solid') in ('transparent', 'image')):
-                should_blur = True
-                break
+        # Each window blurs only for a profile one of its terminals uses.
         for window in self.windows:
-            window.set_blur_behind(should_blur)
+            window.sync_blur_hint()
 
         # Update window decoration style (handles 'auto' mode)
         decoration_style = self.config['window_decoration_style']
@@ -944,6 +977,12 @@ class Terminator(Borg):
                 return False
         except Exception as ex:
             dbg('closegroupedterms confirm failed: %s' % ex)
+            try:
+                from .util import gerr
+                gerr('Could not confirm closing terminals: %s' % ex)
+            except Exception:
+                err('closegroupedterms confirm failed: %s' % ex)
+            return False
         # Hidden panes of a legacy zoom are detached from the window; put
         # them back so close-term reaches a parent that is in a window.
         hidden = [t for t in members if t.get_toplevel() not in self.windows]
@@ -1014,6 +1053,8 @@ class Terminator(Borg):
             terminals.extend(win_terminals)
 
         for term in self.get_target_terms(widget):
+            if term not in terminals:
+                continue
             idx = terminals.index(term)
             term.feed(numstr.encode() % (idx + 1))
 

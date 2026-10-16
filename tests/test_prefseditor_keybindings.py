@@ -304,3 +304,98 @@ def test_keybinding_successfully_reassigned_after_clearing(accel_params):
     )
 
     reset_config_keybindings()
+
+
+def _visible_actions(editor):
+    model = editor.builder.get_object('keybindingtreeview').get_model()
+    actions = []
+    row = model.get_iter_first()
+    while row is not None:
+        actions.append(model.get_value(row, 0))
+        row = model.iter_next(row)
+    return actions
+
+
+def _child_rows(editor):
+    model = editor.builder.get_object('keybindingtreeview').get_model()
+    child = model.get_model()
+    rows = []
+    row = child.get_iter_first()
+    while row is not None:
+        rows.append((
+            child.get_value(row, 0),
+            child.get_value(row, 1),
+            child.get_value(row, 2),
+            child.get_value(row, 3),
+        ))
+        row = child.iter_next(row)
+    return rows
+
+
+def _search_blob(act, desc, kval, mask, keys_map):
+    keys = keys_map[act] if act in keys_map else ''
+    if keys is None:
+        keys = ''
+    label = act
+    if not (len(keys) and kval and mask):
+        label = 'Disabled'
+    return (label + ' ' + str(keys) + ' ' + desc).lower()
+
+
+def test_keybinding_search_uses_full_entry_text(tmp_path, monkeypatch):
+    from types import SimpleNamespace
+    from terminatorlib.borg import Borg
+    from terminatorlib import optionparse
+    from terminatorlib.plugin import KeyBindUtil
+
+    monkeypatch.setenv('XDG_CONFIG_HOME', str(tmp_path / 'config'))
+    monkeypatch.setenv('XDG_STATE_HOME', str(tmp_path / 'state'))
+    monkeypatch.setenv('XDG_CACHE_HOME', str(tmp_path / 'cache'))
+    state = Borg._Borg__shared_state
+    saved = state.get('ConfigBase')
+    state.pop('ConfigBase', None)
+    old = optionparse.options
+    optionparse.options = SimpleNamespace(
+        config=str(tmp_path / 'config-file'), profile=None, layout=None,
+        command=None, execute=None, working_directory=None,
+        forcedtitle=None, forcedicon=None, role=None, geometry=None)
+    editor = None
+    try:
+        from terminatorlib import terminal, prefseditor
+        editor = prefseditor.PrefsEditor(term=terminal.Terminal())
+        entry = editor.builder.get_object('keybindingsearchentry')
+        keys_map = dict(KeyBindUtil.map_all_act_to_keys)
+        rows = {act: (desc, kval, mask)
+                for act, desc, kval, mask in _child_rows(editor)}
+
+        def blob(act):
+            return _search_blob(act, *rows[act], keys_map)
+
+        def expect(needle):
+            return sorted(act for act in rows if needle in blob(act))
+
+        entry.set_text('q')
+        visible = _visible_actions(editor)
+        assert visible == expect('q')
+        assert visible
+        assert len(visible) < len(rows)
+
+        entry.set_text('')
+        assert len(_visible_actions(editor)) == len(rows)
+        entry.set_text('split_horiz')
+        visible = _visible_actions(editor)
+        assert visible == expect('split_horiz')
+        assert 'split_horiz' in visible
+        assert len(visible) < len(rows)
+
+        entry.set_text('split_horiz_not_a_real_action')
+        assert _visible_actions(editor) == []
+        entry.set_text('split_horiz')
+        assert _visible_actions(editor) == expect('split_horiz')
+    finally:
+        if editor is not None and editor.window is not None:
+            editor.window.destroy()
+        optionparse.options = old
+        state.pop('ConfigBase', None)
+        if saved is not None:
+            state['ConfigBase'] = saved

@@ -5,7 +5,7 @@
 Smoke: several panes all emit OSC titles in loops; check the window title
 only follows the focused / last-focused pane. PYTHONPATH=<worktree>.
 SCENARIO=splits|overlay|tabs|zoom|close"""
-import os, sys, time, collections
+import os, sys, time, collections, re
 import gi
 gi.require_version('Gtk', '3.0'); gi.require_version('Vte', '2.91')
 from gi.repository import Gtk, GLib
@@ -121,18 +121,27 @@ def main():
     for ph, title in log:
         by.setdefault(ph, []).append(title)
     bad = 0
+    pane_phase = re.compile(
+        r'^(?:focus|btn|ovl-max|ovl-btn|ovl-transfer|zoom)-(P\d+)')
     for ph, titles in by.items():
         prefixes = [str(x).split(' ')[0] for x in titles]
         switches = sum(1 for i in range(1, len(prefixes)) if prefixes[i] != prefixes[i-1])
         print('  %-18s n=%4d prefixes=%s switches=%d last=%r' % (ph, len(titles), dict(collections.Counter(prefixes)), switches, titles[-1]))
+        match = pane_phase.match(ph)
+        if match:
+            want = match.group(1)
+            if not titles or any(str(title).split(' ')[0] != want for title in titles):
+                bad += 1
     print('FINAL window title:', win.get_title())
     total_sw = 0
     for ph, titles in by.items():
         pf = [str(x).split(' ')[0] for x in titles]
         total_sw += sum(1 for i in range(1, len(pf)) if pf[i] != pf[i-1])
-    ok = bool(fwn) and str(win.get_title()).split(' ')[0] == fwn[0] and total_sw == 0
+    if not (fwn and str(win.get_title()).split(' ')[0] == fwn[0]):
+        bad += 1
+    ok = bad == 0
     print('RESULT', 'PASS' if ok else 'FAIL', '(in-phase pane switches=%d)' % total_sw)
-    os._exit(0)
+    os._exit(0 if ok else 1)
 
 
 if __name__ == '__main__':

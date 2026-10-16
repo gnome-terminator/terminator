@@ -296,6 +296,7 @@ class PrefsEditor:
             return
 
         self.builder.add_from_string(gladedata)
+        self._connect_palette_pickers()
         self.window = self.builder.get_object('prefswin')
         try:
             # m26 (round2-ux P2-10): one source of truth for the version
@@ -669,7 +670,14 @@ class PrefsEditor:
             layout_to_highlight = terminator.layoutname
         else:
             layout_to_highlight = 'default'
-        selection.select_iter(self.layoutiters[layout_to_highlight])
+        if layout_to_highlight not in self.layoutiters:
+            layout_to_highlight = 'default'
+        if layout_to_highlight in self.layoutiters:
+            selection.select_iter(self.layoutiters[layout_to_highlight])
+        else:
+            first = liststore.get_iter_first()
+            if first is not None:
+                selection.select_iter(first)
         # Now set up the selection changed handler for the layout itself
         widget = guiget('LayoutTreeView')
         selection = widget.get_selection()
@@ -701,22 +709,6 @@ class PrefsEditor:
 
             return False
 
-        def on_search(widget, text):
-            MAX_SEARCH_LEN = 10
-            self.keybind_filter_str = widget.get_text()
-            ln = len(self.keybind_filter_str)
-            #its a small list & we are eager for quick search, but limit
-            if (ln >=2 and ln < MAX_SEARCH_LEN):
-                dbg("filter search str: %s" % self.keybind_filter_str)
-                self.treemodelfilter.refilter()
-
-        def on_search_refilter(widget):
-            dbg("refilter")
-            self.treemodelfilter.refilter()
-
-        kbsearch.connect('key-press-event', on_search)
-        kbsearch.connect('backspace', on_search_refilter)
-
         liststore = widget.get_model()
         liststore.set_sort_column_id(0, Gtk.SortType.ASCENDING)
 
@@ -739,6 +731,12 @@ class PrefsEditor:
         self.treemodelfilter = liststore.filter_new()
         self.treemodelfilter.set_visible_func(filter_visible, act_to_key_map)
         widget.set_model(self.treemodelfilter)
+
+        def on_search_changed(widget):
+            self.keybind_filter_str = widget.get_text()
+            self.treemodelfilter.refilter()
+
+        kbsearch.connect('changed', on_search_changed)
 
         ## Plugins tab
         # Populate the plugin list
@@ -864,14 +862,12 @@ class PrefsEditor:
             widget.set_active(0)
 
         ## Colors tab
-        # Use system colors
-        widget = guiget('use_theme_colors_checkbutton')
-        widget.set_active(self.config['use_theme_colors'])
         # Bold is bright
         widget = guiget('bold_text_is_bright_checkbutton')
         widget.set_active(self.config['bold_is_bright'])
-        # Colorscheme
-        widget = guiget('color_scheme_combobox')
+        # Identify the scheme before either combo signal can fire. The theme
+        # checkbox used to be set first, and its handler then painted the
+        # previous profile's built-in colours into the one being loaded.
         scheme = None
         for ascheme in self.colourschemes:
             forecol = self.colourschemes[ascheme][0]
@@ -886,25 +882,17 @@ class PrefsEditor:
                 scheme = 'deep_teal'
             else:
                 scheme = 'custom'
-        # NOTE: The scheme is set in the GUI widget after the fore/back colours
-        # Foreground color
         widget = guiget('foreground_colorbutton')
         widget.set_events(Gdk.EventMask.BUTTON_PRESS_MASK)
-
-        if scheme == 'custom':
-            widget.set_sensitive(True)
-        else:
-            widget.set_sensitive(False)
-        # Background color
         widget = guiget('background_colorbutton')
         widget.set_events(Gdk.EventMask.BUTTON_PRESS_MASK)
-        if scheme == 'custom':
-            widget.set_sensitive(True)
-        else:
-            widget.set_sensitive(False)
-        # Now actually set the scheme
+        # Scheme index first, then the theme-colors checkbox. An unchanged
+        # index emits nothing, so sensitivity is applied again afterwards.
         widget = guiget('color_scheme_combobox')
         widget.set_active(self.colorschemevalues[scheme])
+        widget = guiget('use_theme_colors_checkbutton')
+        widget.set_active(self.config['use_theme_colors'])
+        self._apply_color_scheme_sensitivity()
         # Palette scheme
         widget = guiget('palette_combobox')
         palette = None
@@ -921,9 +909,6 @@ class PrefsEditor:
         for palette_id in range(0, NUM_PALETTE_COLORS):
             widget = self.get_palette_widget(palette_id)
             widget.set_events(Gdk.EventMask.BUTTON_PRESS_MASK)
-            def on_palette_click(event, data, widget=widget):
-                self.edit_palette_button(widget)
-            widget.connect('button-press-event', on_palette_click)
         self.load_palette()
         # Now set the palette selector widget
         widget = guiget('palette_combobox')
@@ -1420,16 +1405,17 @@ class PrefsEditor:
         cr.fill()
 
     def on_foreground_colorbutton_click(self, event, data):
+        guiget = self.builder.get_object
+        scheme_widget = guiget('color_scheme_combobox')
+        saved_scheme = scheme_widget.get_active()
+        saved_fore = self.config['foreground_color']
+        saved_back = self.config['background_color']
         dialog = Gtk.ColorChooserDialog("Choose Terminal Text Color")
-        fg = self.config['foreground_color']
-        dialog.set_rgba(Gdk.RGBA.from_color(Gdk.color_parse(self.config['foreground_color'])))
+        dialog.set_rgba(Gdk.RGBA.from_color(Gdk.color_parse(saved_fore)))
         dialog.connect('notify::rgba', self.on_foreground_colorpicker_color_change)
         res = dialog.run()
         if res != Gtk.ResponseType.OK:
-            self.config['foreground_color'] = fg
-            self.config.save()
-            terminator = Terminator()
-            terminator.reconfigure()
+            self._restore_color_scheme_snapshot(saved_scheme, saved_fore, saved_back)
         dialog.destroy()
 
     def on_foreground_colorpicker_color_change(self, widget, color):
@@ -1438,6 +1424,8 @@ class PrefsEditor:
         self.config.save()
         terminator = Terminator()
         terminator.reconfigure()
+        self._note_custom_scheme_if_needed()
+        self.builder.get_object('foreground_colorbutton').queue_draw()
 
     def on_background_colorbutton_draw(self, widget, cr):
         width = widget.get_allocated_width()
@@ -1451,16 +1439,17 @@ class PrefsEditor:
         cr.fill()
 
     def on_background_colorbutton_click(self, event, data):
+        guiget = self.builder.get_object
+        scheme_widget = guiget('color_scheme_combobox')
+        saved_scheme = scheme_widget.get_active()
+        saved_fore = self.config['foreground_color']
+        saved_back = self.config['background_color']
         dialog = Gtk.ColorChooserDialog("Choose Terminal Background Color")
-        orig = self.config['background_color']
         dialog.connect('notify::rgba', self.on_background_colorpicker_color_change)
-        dialog.set_rgba(Gdk.RGBA.from_color(Gdk.color_parse(orig)))
+        dialog.set_rgba(Gdk.RGBA.from_color(Gdk.color_parse(saved_back)))
         res = dialog.run()
         if res != Gtk.ResponseType.OK:
-            self.config['background_color'] = orig
-            self.config.save()
-            terminator = Terminator()
-            terminator.reconfigure()
+            self._restore_color_scheme_snapshot(saved_scheme, saved_fore, saved_back)
         dialog.destroy()
 
     def on_background_colorpicker_color_change(self, widget, color):
@@ -1469,6 +1458,8 @@ class PrefsEditor:
         self.config.save()
         terminator = Terminator()
         terminator.reconfigure()
+        self._note_custom_scheme_if_needed()
+        self.builder.get_object('background_colorbutton').queue_draw()
 
     def get_palette_widget(self, palette_id):
         """Returns the palette widget for the given palette ID."""
@@ -1521,6 +1512,19 @@ class PrefsEditor:
         for palette_id in range(0, NUM_PALETTE_COLORS):
             color = Gdk.color_parse(colourpalette[palette_id])
             self.load_palette_color(palette_id, color)
+
+    def _connect_palette_pickers(self):
+        """Connect each palette swatch once. Profile reloads must not stack handlers."""
+        if getattr(self, '_palette_pickers_connected', False):
+            return
+        self._palette_pickers_connected = True
+        for palette_id in range(0, NUM_PALETTE_COLORS):
+            widget = self.get_palette_widget(palette_id)
+            widget.connect('button-press-event', self._on_palette_picker_press)
+
+    def _on_palette_picker_press(self, widget, event):
+        self.edit_palette_button(widget)
+        return False
 
     def edit_palette_button(self, widget):
         """When the palette colorbutton is clicked, open a dialog to
@@ -1945,6 +1949,9 @@ class PrefsEditor:
         elif not sess.is_writer():
             lines.append(_('Automatic saving is paused until Terminator '
                            'restarts.'))
+        if sess.skip_next_armed():
+            lines.append(_('The next plain launch will not restore this '
+                           'session.'))
         if notice:
             lines.append(notice)
         guiget('session_info_label').set_text('\n'.join(lines))
@@ -2386,7 +2393,8 @@ class PrefsEditor:
         if oldname == newtext or oldname == 'default':
             return
         dbg('Changing %s to %s' % (oldname, newtext))
-        self.config.rename_profile(oldname, newtext)
+        if not self.config.rename_profile(oldname, newtext):
+            return
         self.config.save()
 
         widget = self.builder.get_object('profilelist')
@@ -2423,7 +2431,8 @@ class PrefsEditor:
         if oldname == newtext or oldname == 'default':
             return
         dbg('Changing %s to %s' % (oldname, newtext))
-        self.config.rename_layout(oldname, newtext)
+        if not self.config.rename_layout(oldname, newtext):
+            return
         self.config.save()
 
         widget = self.builder.get_object('layoutlist')
@@ -2437,28 +2446,77 @@ class PrefsEditor:
         if oldname == self.layouteditor.layout_name:
             self.layouteditor.layout_name = newtext
 
+    def _colorscheme_name(self):
+        active = self.builder.get_object('color_scheme_combobox').get_active()
+        for key in self.colorschemevalues:
+            if self.colorschemevalues[key] == active:
+                return key
+        return None
+
+    def _color_pickers_clickable(self):
+        theme = self.builder.get_object('use_theme_colors_checkbutton').get_active()
+        return self._colorscheme_name() == 'custom' and not theme
+
+    def _set_color_button_sensitivity(self):
+        guiget = self.builder.get_object
+        clickable = self._color_pickers_clickable()
+        fore = guiget('foreground_colorbutton')
+        back = guiget('background_colorbutton')
+        fore.set_sensitive(clickable)
+        back.set_sensitive(clickable)
+        fore.queue_draw()
+        back.queue_draw()
+
+    def _apply_color_scheme_sensitivity(self):
+        theme_on = self.builder.get_object('use_theme_colors_checkbutton').get_active()
+        self.builder.get_object('color_scheme_combobox').set_sensitive(not theme_on)
+        self._set_color_button_sensitivity()
+
+    def _note_custom_scheme_if_needed(self):
+        name = self._colorscheme_name()
+        if name not in self.colourschemes:
+            return
+        fore, back = self.colourschemes[name]
+        got_fore = self.config['foreground_color']
+        got_back = self.config['background_color']
+        if got_fore.lower() != fore or got_back.lower() != back:
+            self.builder.get_object('color_scheme_combobox').set_active(
+                    self.colorschemevalues['custom'])
+
+    def _restore_color_scheme_snapshot(self, scheme_idx, fore, back):
+        # Restore the index first. A built-in scheme's changed handler would
+        # otherwise paint over the colours we are about to put back.
+        self.builder.get_object('color_scheme_combobox').set_active(scheme_idx)
+        self.config['foreground_color'] = fore
+        self.config['background_color'] = back
+        self.config.save()
+        Terminator().reconfigure()
+        self.builder.get_object('foreground_colorbutton').queue_draw()
+        self.builder.get_object('background_colorbutton').queue_draw()
+
     def on_color_scheme_combobox_changed(self, widget):
         """Update the fore/background colour pickers"""
-        value = None
         guiget = self.builder.get_object
+        value = None
         active = widget.get_active()
 
         for key in list(self.colorschemevalues.keys()):
             if self.colorschemevalues[key] == active:
                 value = key
 
-        fore = guiget('foreground_colorbutton')
-        back = guiget('background_colorbutton')
-        fore.set_sensitive(True)
-        back.set_sensitive(True)
-
-        forecol = None
-        backcol = None
         if value in self.colourschemes:
             forecol = self.colourschemes[value][0]
             backcol = self.colourschemes[value][1]
             self.config['foreground_color'] = forecol
             self.config['background_color'] = backcol
+
+        fore = guiget('foreground_colorbutton')
+        back = guiget('background_colorbutton')
+        clickable = self._color_pickers_clickable()
+        fore.set_sensitive(clickable)
+        back.set_sensitive(clickable)
+        fore.queue_draw()
+        back.queue_draw()
         self.config.save()
         terminator = Terminator()
         terminator.reconfigure()
@@ -2473,8 +2531,8 @@ class PrefsEditor:
         back = guiget('background_colorbutton')
 
         if active:
-            for widget in [scheme, fore, back]:
-                widget.set_sensitive(False)
+            for colour_widget in (scheme, fore, back):
+                colour_widget.set_sensitive(False)
         else:
             scheme.set_sensitive(True)
             self.on_color_scheme_combobox_changed(scheme)
@@ -2612,6 +2670,7 @@ class LayoutEditor:
         """Initialise ourself"""
         self.config = config.Config()
         self.builder = builder
+        self._updating_profiles = False
 
     def prepare(self, layout=None):
         """Do the things we can't do in __init__"""
@@ -2662,18 +2721,32 @@ class LayoutEditor:
 
     def update_profiles(self):
         """Update the list of profiles"""
-        self.profile_ids_to_profile = {}
-        self.profile_profile_to_ids= {}
-        chooser = self.builder.get_object('layout_profile_chooser')
+        self._updating_profiles = True
+        try:
+            self.profile_ids_to_profile = {}
+            self.profile_profile_to_ids = {}
+            chooser = self.builder.get_object('layout_profile_chooser')
+            chooser.remove_all()
 
-        profiles = self.config.list_profiles()
-        profiles.sort()
-        i = 0
-        for profile in profiles:
-            self.profile_ids_to_profile[i] = profile
-            self.profile_profile_to_ids[profile] = i
-            chooser.append_text(profile)
-            i = i + 1
+            profiles = self.config.list_profiles()
+            profiles.sort()
+            for i, profile in enumerate(profiles):
+                self.profile_ids_to_profile[i] = profile
+                self.profile_profile_to_ids[profile] = i
+                chooser.append_text(profile)
+
+            if self.layout_name and self.layout_item:
+                layout = self.config.layout_get_config(self.layout_name) or {}
+                layout_item = layout.get(self.layout_item)
+                if layout_item and layout_item.get('type') == 'Terminal':
+                    profile = layout_item.get('profile', '')
+                    if profile is None or profile == '':
+                        chooser.set_active(0)
+                    elif profile in self.profile_profile_to_ids:
+                        chooser.set_active(
+                                self.profile_profile_to_ids[profile])
+        finally:
+            self._updating_profiles = False
 
     def on_layout_selection_changed(self, selection):
         """A different layout was selected"""
@@ -2749,9 +2822,11 @@ class LayoutEditor:
 
     def on_layout_profile_chooser_changed(self, widget):
         """A new profile has been selected for this item"""
-        if not self.layout_item:
+        if getattr(self, '_updating_profiles', False) or not self.layout_item:
             return
         profile = widget.get_active_text()
+        if profile is None:
+            return
         layout = self.config.layout_get_config(self.layout_name)
         layout[self.layout_item]['profile'] = profile
         self.config.save()

@@ -302,3 +302,46 @@ def test_sidebar_marks_share_one_stroke():
     assert surface is not None
     assert surface.get_width() == SIDEBAR_ICON_PX * 2
     assert surface.get_device_scale() == (2.0, 2.0)
+
+
+def test_swap_child_keeps_lock_and_custom_title(monkeypatch):
+    from terminatorlib.factory import Factory
+    from terminatorlib.notebook import Notebook
+    from terminatorlib.terminal import Terminal
+    from terminatorlib.terminator import Terminator
+
+    monkeypatch.setattr(Terminal, 'spawn_child', lambda self, *a, **k: True)
+    monkeypatch.setattr(Terminator(), 'terminals', [])
+    monkeypatch.setattr(Terminator(), 'windows', [])
+    window = Factory().make('Window')
+    first = Factory().make('Terminal')
+    window.add(first)
+    window.show_all()
+    while Gtk.events_pending():
+        Gtk.main_iteration_do(False)
+    window.tab_new(first)
+    while Gtk.events_pending():
+        Gtk.main_iteration_do(False)
+    notebook = window.get_child()
+    assert isinstance(notebook, Notebook)
+    page = notebook.get_nth_page(0)
+    assert isinstance(page, Terminal)
+    label = notebook.get_tab_label(page)
+    label.set_locked(True)
+    label.set_custom_label('kept-name')
+    other = Factory().make('Terminal')
+    notebook.swap_child(page, other)
+    assert notebook.page_num(other) == 0
+    new_label = notebook.get_tab_label(other)
+    assert new_label is not label
+    assert new_label.get_locked() is True
+    assert new_label.get_custom_label() == 'kept-name'
+    box = Gtk.Box()
+    notebook.swap_child(other, box)
+    assert notebook.get_tab_label(box) is new_label
+    assert new_label.get_locked() is True
+    window.isDestroyed = True
+    window._session_destroy_handled = True
+    window.destroy()
+    while Gtk.events_pending():
+        Gtk.main_iteration_do(False)

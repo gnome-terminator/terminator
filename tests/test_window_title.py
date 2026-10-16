@@ -394,6 +394,7 @@ def test_header_bar_matches_gnome_terminal_actions():
         _borderless = False
         _header_title_bound = True
         _header_button = Window._header_button
+        _header_slot = Window._header_slot
         _on_header_new_tab = Window._on_header_new_tab
         _on_header_tab_panel_toggled = Window._on_header_tab_panel_toggled
         _on_header_find = Window._on_header_find
@@ -491,6 +492,7 @@ def test_header_title_sync_does_not_recurse():
     class Host(Gtk.Window):
         _borderless = False
         _header_button = Window._header_button
+        _header_slot = Window._header_slot
         _on_header_new_tab = Window._on_header_new_tab
         _on_header_tab_panel_toggled = Window._on_header_tab_panel_toggled
         _on_header_find = Window._on_header_find

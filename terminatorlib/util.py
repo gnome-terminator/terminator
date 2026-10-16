@@ -20,6 +20,7 @@ from __future__ import print_function
 import sys
 import cairo
 import os
+import re
 import pwd
 import inspect
 import uuid
@@ -129,9 +130,7 @@ def path_lookup(command):
 
     try:
         paths = os.environ['PATH'].split(':')
-        if len(paths[0]) == 0: 
-            raise(ValueError)
-    except (ValueError, NameError):
+    except KeyError:
         dbg('path_lookup: PATH not set in environment, using fallbacks')
         paths = ['/usr/local/bin', '/usr/bin', '/bin']
 
@@ -145,15 +144,28 @@ def path_lookup(command):
 
     dbg('path_lookup: Unable to locate %s' % command)
 
+def _flatpak_host_shell():
+    """Host passwd shell, or None if the query failed or the field is blank."""
+    try:
+        raw = subprocess.check_output([
+            'flatpak-spawn', '--host', 'getent', 'passwd',
+            pwd.getpwuid(os.getuid())[0]
+        ])
+        fields = raw.decode('UTF-8').rstrip('\n').split(':')
+        shell = fields[6]
+    except (subprocess.CalledProcessError, OSError,
+            UnicodeDecodeError, IndexError, KeyError):
+        return None
+    if not shell or not shell.strip():
+        return None
+    return shell
+
 def shell_lookup():
     """Find an appropriate shell for the user"""
     if is_flatpak():
-        getent = subprocess.check_output([
-            'flatpak-spawn', '--host', 'getent', 'passwd',
-            pwd.getpwuid(os.getuid())[0]
-        ]).decode(encoding='UTF-8').rstrip('\n')
-        shell = getent.split(':')[6]
-        return shell
+        host_shell = _flatpak_host_shell()
+        if host_shell:
+            return host_shell
     try:
         usershell = pwd.getpwuid(os.getuid())[6]
     except KeyError:
@@ -507,6 +519,87 @@ def is_x11(display=None):
     return display_manager(display) == 'X11'
 
 
+def fit_rect_to_monitors(x, y, width, height, monitors, primary=0, shrink=True):
+    """Move a rectangle that misses every workarea onto the primary one.
+
+    ``monitors`` is a sequence of ``(x, y, width, height)`` workareas.
+    A rectangle that intersects any workarea is returned unchanged.
+    Otherwise it is placed at the primary workarea's origin. When
+    ``shrink`` is true, a positive width or height larger than that
+    workarea is reduced to fit. Width or height ``<= 0`` means "no size"
+    and is left as given. Returns ``(x, y, width, height, moved)``.
+    """
+    usable = []
+    for index, mon in enumerate(monitors or []):
+        try:
+            mx, my, mw, mh = (int(mon[0]), int(mon[1]),
+                              int(mon[2]), int(mon[3]))
+        except (TypeError, ValueError, IndexError):
+            continue
+        if mw <= 0 or mh <= 0:
+            continue
+        usable.append((index, (mx, my, mw, mh)))
+    if not usable:
+        return x, y, width, height, False
+
+    def hits(mx, my, mw, mh):
+        if width <= 0 or height <= 0:
+            return mx <= x < mx + mw and my <= y < my + mh
+        return (x < mx + mw and x + width > mx and
+                y < my + mh and y + height > my)
+
+    for _index, mon in usable:
+        if hits(*mon):
+            return x, y, width, height, False
+
+    dest = None
+    for index, mon in usable:
+        if index == primary:
+            dest = mon
+            break
+    if dest is None:
+        dest = usable[0][1]
+    mx, my, mw, mh = dest
+    nw, nh = width, height
+    if shrink:
+        if width > mw:
+            nw = mw
+        if height > mh:
+            nh = mh
+    return mx, my, nw, nh, True
+
+
+def monitor_workareas(widget):
+    """``(workareas, primary_index)`` for the widget's display.
+
+    Each workarea is ``(x, y, width, height)`` in application pixels.
+    An unreadable display yields ``([], 0)``.
+    """
+    try:
+        display = widget.get_display()
+        count = int(display.get_n_monitors())
+    except Exception:
+        return [], 0
+    areas = []
+    primary = 0
+    prim = None
+    try:
+        prim = display.get_primary_monitor()
+    except Exception:
+        prim = None
+    for index in range(max(0, count)):
+        try:
+            mon = display.get_monitor(index)
+            rect = mon.get_workarea()
+            if prim is not None and (mon is prim or mon == prim):
+                primary = len(areas)
+            areas.append((int(rect.x), int(rect.y),
+                          int(rect.width), int(rect.height)))
+        except Exception:
+            continue
+    return areas, primary
+
+
 def window_scale_factor(widget):
     """Integer GDK scale factor (GDK_SCALE / monitor scale) of a widget,
     >= 1.  Safe on unrealized widgets and mocks."""
@@ -551,6 +644,11 @@ def text_scale(widget):
     except Exception:
         return 1.0
 
+# Key token only: leading BOM/indent, then line_height, then optional
+# spaces and '='. Comments, values, and longer names stay put.
+_LINE_HEIGHT_KEY = re.compile(
+    br'(?m)^(\xef\xbb\xbf)?([ \t]*)line_height([ \t]*=)')
+
 def update_config_to_cell_height(filename):
     '''Replace ‘line_height’ with ‘cell_height’ in Terminator
     config file (usually ~/.config/terminator/config on
@@ -559,26 +657,53 @@ def update_config_to_cell_height(filename):
     dbg('update_config_to_cell_height() config filename %s' % filename)
 
     try:
-        with open(filename, 'r+') as file:
-            config_text = file.read()
+        with open(filename, 'rb') as config_file:
+            config_data = config_file.read()
 
-            if not 'line_height' in config_text:
-                #
-                # It is either a new config, or it is already using the
-                # new ‘cell_height’ property instead the old ‘line_height’.
-                #
-                dbg('No ‘line_height’ found in ‘%s’.' % filename)
-                file.close()
-                return
+        if b'line_height' not in config_data:
+            #
+            # It is either a new config, or it is already using the
+            # new ‘cell_height’ property instead the old ‘line_height’.
+            #
+            dbg('No ‘line_height’ found in ‘%s’.' % filename)
+            return
 
-            updated_config_text = config_text.replace('line_height', 'cell_height')
+        updated_config_data, count = _LINE_HEIGHT_KEY.subn(
+            br'\1\2cell_height\3', config_data)
+        if count == 0:
+            return
 
-            file.seek(0)
-            file.write(updated_config_text)
-            file.truncate()
-            file.close()
+        # Same steps as atomic_write_config, but for raw bytes. Do not
+        # import config (it already imports util) or call ConfigObj.write.
+        import tempfile
+        target = os.path.realpath(filename)
+        directory = os.path.dirname(target) or '.'
+        mode = os.stat(target).st_mode & 0o7777
+        fd, tmp = tempfile.mkstemp(prefix='.config.', suffix='.tmp',
+                                   dir=directory)
+        try:
+            with os.fdopen(fd, 'wb') as fh:
+                fh.write(updated_config_data)
+                fh.flush()
+                os.fsync(fh.fileno())
+            os.chmod(tmp, mode)
+            os.replace(tmp, target)
+            try:
+                dfd = os.open(directory, os.O_RDONLY)
+                try:
+                    os.fsync(dfd)
+                finally:
+                    os.close(dfd)
+            except OSError:
+                pass
+        except BaseException:
+            try:
+                os.unlink(tmp)
+            except OSError:
+                pass
+            raise
 
-            dbg('Updted ‘line_height’ to ‘cell_height’.')
+        dbg('Updted ‘line_height’ to ‘cell_height’.')
 
     except Exception as ex:
         err('Unable to open ‘%s’ for reading and/or writing.\n(%s)'

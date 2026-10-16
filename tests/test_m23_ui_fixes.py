@@ -332,6 +332,36 @@ def test_p1_maximise_when_ready_skips_background_tab(win):
     assert not win.is_overlay_maximised()
 
 
+def test_maximise_when_ready_waits_until_parented(monkeypatch):
+    """A terminal that is not in the window yet must not end the wait."""
+    from terminatorlib.terminal import Terminal
+    from terminatorlib.terminator import Terminator
+    from terminatorlib.factory import Factory
+    monkeypatch.setattr(Terminal, 'spawn_child', lambda self, *a, **k: True)
+    monkeypatch.setattr(Terminator(), 'terminals', [])
+    monkeypatch.setattr(Terminator(), 'windows', [])
+    w = Factory().make('Window')
+    a = Factory().make('Terminal')
+    w.resize(900, 600)
+    w._ensure_overlay().maximise_when_ready(a)
+    _pump(0.15)
+    assert not w.is_overlay_maximised()
+    w.add(a)
+    w.split_axis(a, True)
+    _pump(0.1)
+    assert not w.is_overlay_maximised()
+    w.show_all()
+    _pump(0.5)
+    try:
+        assert w.is_maximised_pane(a)
+    finally:
+        w.overlay_restore(animate=False)
+        for term in list(Terminator().terminals):
+            Terminator().deregister_terminal(term)
+        w.destroy()
+        _pump()
+
+
 # ---- P2 ------------------------------------------------------------------
 
 def test_p2_destroy_during_animation_cancels_tick(win, monkeypatch):

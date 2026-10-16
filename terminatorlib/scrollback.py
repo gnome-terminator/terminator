@@ -247,14 +247,29 @@ def cache_exclusion(terminal, config):
     return None
 
 
+def _vte_default_bg(vte):
+    """Terminal background as (r, g, b) 0..255, or None."""
+    try:
+        rgba = vte.get_color_background_for_draw()
+    except Exception:
+        return None
+    if rgba is None:
+        return None
+    return (int(round(rgba.red * 255)), int(round(rgba.green * 255)),
+            int(round(rgba.blue * 255)))
+
+
 def export_vte_text(vte, start_row, start_col, end_row, end_col,
                     color=False, raw=False):
     """Export a text range from VTE using the best available API.
 
-    color=True exports Format.HTML and converts it to text + SGR (m14);
-    falls back to plain text when HTML export is unavailable or fails.
-    raw=True returns (source, is_html) without converting, so the costly
-    HTML -> SGR conversion can run on the writer thread.
+    color=True exports Format.HTML and converts it to text + SGR (m14)
+    on VTE 0.72+. Older VTE has no HTML export; the same call's
+    CharAttributes are converted to SGR instead, already on the main
+    thread (the attribute objects must not cross to the writer).
+    raw=True returns (source, is_html) without the HTML conversion, so
+    that costly step can run on the writer thread. Attribute-derived
+    SGR is not HTML: is_html stays False.
     """
     caps = _vte_caps()
     if color and caps['range_format']:
@@ -267,19 +282,44 @@ def export_vte_text(vte, start_row, start_col, end_row, end_col,
         except Exception as ex:
             dbg('export_vte_text html failed: %s' % ex)
     text = ''
+    attrs = None
+    tried = False
     try:
         if caps['range_format']:
+            tried = True
             result = vte.get_text_range_format(
                 Vte.Format.TEXT, start_row, start_col, end_row, end_col)
             text = result[0] if isinstance(result, (tuple, list)) else result
         elif caps['range']:
+            tried = True
             result = vte.get_text_range(
                 start_row, start_col, end_row, end_col, None)
-            text = result[0] if isinstance(result, (tuple, list)) else result
+            if isinstance(result, (tuple, list)):
+                text = result[0]
+                if len(result) > 1:
+                    attrs = result[1]
+            else:
+                text = result
     except Exception as ex:
         dbg('export_vte_text range failed: %s' % ex)
+        # A range call that raised is a failed read. No range API at all
+        # still returns an empty success so write_contents can run.
+        if tried:
+            return (None, False) if raw else None
         text = ''
     text = text or ''
+    if color and attrs and text and not caps['range_format']:
+        try:
+            # One attribute per UTF-8 byte. A mismatch means the array
+            # is not the text we just read; keep the plain export.
+            if abs(len(attrs) - len(text.encode('utf-8'))) <= 1:
+                text = sbt.char_attrs_to_sgr(
+                    text, attrs, default_bg=_vte_default_bg(vte))
+            else:
+                dbg('export_vte_text attr length %s != utf-8 %s'
+                    % (len(attrs), len(text.encode('utf-8'))))
+        except Exception as ex:
+            dbg('export_vte_text attrs failed: %s' % ex)
     return (text, False) if raw else text
 
 
@@ -315,14 +355,25 @@ def read_last_n_lines_raw(vte, n_lines, color=False):
         col, end_row = vte.get_cursor_position()
     except Exception as ex:
         dbg('get_cursor_position failed: %s' % ex)
-        return '', False
+        return None, False
     try:
         lower = int(vte.get_vadjustment().get_lower())
     except Exception:
         lower = 0
     start_row = max(lower, end_row - max(0, n_lines - 1))
-    src, is_html = export_vte_text(vte, start_row, 0, end_row, col,
+    # End column is exclusive. A cursor in the middle of a line must not
+    # drop the rest of that line; a full row needs column_count, not count-1.
+    end_col = col
+    try:
+        width = int(vte.get_column_count())
+    except Exception:
+        width = 0
+    if width > end_col:
+        end_col = width
+    src, is_html = export_vte_text(vte, start_row, 0, end_row, end_col,
                                    color=color, raw=True)
+    if src is None:
+        return None, False
     if not src:
         # Fallback: write_contents_sync only when range APIs missing and
         # scrollback is finite (caller must gate infinite).
@@ -335,9 +386,14 @@ def read_last_n_lines_raw(vte, n_lines, color=False):
 
 def render_cache_text(src, is_html, n_lines, max_kb):
     """Convert (if HTML) and truncate to the line/byte budget. Thread-safe
-    (pure function); returns the str written to the cache file."""
+    (pure function); returns the str written to the cache file.
+
+    Attribute export on VTE before 0.72 is already SGR with is_html False.
+    That text has to be trimmed by the SGR-aware cutter, or a budget cut
+    can leave a colour open.
+    """
     text = sbt.html_to_sgr(src) if is_html else (src or '')
-    if is_html:
+    if is_html or '\x1b[' in text:
         return sbt.truncate_sgr_lines(text, n_lines, max_kb)
     return sbt.truncate_lines_and_bytes(text, n_lines, max_kb)
 
@@ -769,6 +825,9 @@ class ScrollbackCache(Borg):
         color = self._color()
         lines, max_kb = self._lines(), self._max_kb()
         src, is_html = read_last_n_lines_raw(vte, lines, color=color)
+        if src is None:
+            # Export failed. Leave the file, the hash and the dirty bit.
+            return
         # Hash the *source* (cheap) so unchanged terminals are skipped on the
         # main thread without paying for HTML -> SGR conversion.
         h = hashlib.sha256(('%d:%d:%d:' % (is_html, lines, max_kb)).encode())
@@ -793,9 +852,9 @@ class ScrollbackCache(Borg):
                     self._bytes_since_gc = (self._bytes_since_gc or 0) + len(data)
                 self._last_hash[uuid_str] = digest
                 self._fail_count = 0
+                self._dirty.discard(uuid_str)
             except OSError as ex:
                 self._on_write_failed(ex)
-            self._dirty.discard(uuid_str)
         else:
             if self._queue is None:
                 return
@@ -823,7 +882,9 @@ class ScrollbackCache(Borg):
             return
         try:
             if _sm_will_persist(terminal):
-                self.flush(terminal, sync=True)
+                # Bypass flush()'s breaker: a non-last window can be closing
+                # during the cooldown, and this sync write is the last chance.
+                self._flush_uuid(terminal, uuid_str, sync=True)
             else:
                 self.delete_uuid(uuid_str)
         except Exception as ex:
@@ -983,11 +1044,14 @@ class ScrollbackCache(Borg):
             if item[0] in ('write', 'delete') and _sm_display_lost_flag():
                 # m32: drop writes/deletes queued before the display loss.
                 continue
+            failed = None
             try:
                 if item[0] == 'write':
                     _, uuid_str, payload, digest, seq = item
+                    failed = (uuid_str, seq)
                     path = self.path_for(uuid_str)
                     if not path or self._seq.get(uuid_str) != seq:
+                        failed = None
                         continue
                     if isinstance(payload, tuple):
                         # HTML -> SGR conversion + truncation off the main
@@ -997,12 +1061,13 @@ class ScrollbackCache(Borg):
                         data = payload
                     with self._io_lock:
                         if self._seq.get(uuid_str) != seq:
+                            failed = None
                             continue  # superseded by newer sync write / delete
                         sbt.atomic_write_txt(path, data, mode=0o600)
-                    # Update hash on main thread
+                        self._bytes_since_gc = (
+                            self._bytes_since_gc or 0) + len(data)
+                    failed = None
                     GLib.idle_add(self._on_write_ok, uuid_str, digest, seq)
-                    with self._io_lock:
-                        self._bytes_since_gc = (self._bytes_since_gc or 0) + len(data)
                 elif item[0] == 'gc':
                     _, protect = item
                     self.enforce_total_cap(protect)
@@ -1016,14 +1081,25 @@ class ScrollbackCache(Borg):
                             pass
             except OSError as ex:
                 GLib.idle_add(self._on_write_failed, ex)
+                if failed:
+                    GLib.idle_add(self._restore_dirty, failed[0], failed[1])
             except Exception as ex:
                 dbg('scrollback worker error: %s' % ex)
+                if failed:
+                    GLib.idle_add(self._restore_dirty, failed[0], failed[1])
 
     def _on_write_ok(self, uuid_str, digest, seq=None):
         if seq is not None and self._seq.get(uuid_str) != seq:
             return False
         self._last_hash[uuid_str] = digest
         self._fail_count = 0
+        return False
+
+    def _restore_dirty(self, uuid_str, seq):
+        """Put a failed in-flight write back, unless a newer intent won."""
+        if self._seq.get(uuid_str) != seq:
+            return False
+        self._dirty.add(uuid_str)
         return False
 
     def _bump(self, uuid_str):

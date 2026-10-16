@@ -353,3 +353,53 @@ def test_describe_layout_sets_maximised_pane_flag():
     count = ph.describe_layout(0, 'child0', layout, 0)
     assert count == 1
     assert layout['terminal0']['maximised_pane'] == 'True'
+
+
+class _EnumTerm(object):
+    def __init__(self, group=None):
+        self.group = group
+        self.fed = []
+
+    def feed(self, data):
+        self.fed.append(data)
+
+
+def _do_enumerate(monkeypatch, terminals, tree, groupsend, widget, pad):
+    import terminatorlib.terminator as tmod
+    from terminatorlib.terminator import Terminator
+    t = Terminator()
+    monkeypatch.setattr(t, 'windows', [object()])
+    monkeypatch.setattr(t, 'terminals', list(terminals))
+    monkeypatch.setattr(t, 'groupsend', t.groupsend_type[groupsend])
+    monkeypatch.setattr(tmod, 'enumerate_descendants',
+                        lambda window: ([], list(tree)))
+    t.do_enumerate(widget, pad)
+
+
+def test_do_enumerate_all_skips_terms_off_the_tree(monkeypatch):
+    on, off = _EnumTerm(), _EnumTerm()
+    _do_enumerate(monkeypatch, [on, off], [on], 'all', on, False)
+    assert on.fed == [b'1']
+    assert off.fed == []
+
+
+def test_do_enumerate_group_keeps_tree_index(monkeypatch):
+    other, on, off = _EnumTerm(None), _EnumTerm('g'), _EnumTerm('g')
+    _do_enumerate(monkeypatch, [other, on, off], [other, on], 'group', on, False)
+    assert on.fed == [b'2']
+    assert off.fed == [] and other.fed == []
+
+
+def test_do_enumerate_pad_width_uses_all_terminals(monkeypatch):
+    terms = [_EnumTerm() for _ in range(10)]
+    _do_enumerate(monkeypatch, terms, [terms[0]], 'all', terms[0], True)
+    assert terms[0].fed == [b'01']
+    assert all(term.fed == [] for term in terms[1:])
+
+
+def test_do_enumerate_group_none_numbers_only_the_widget(monkeypatch):
+    widget, other = _EnumTerm(None), _EnumTerm('g')
+    _do_enumerate(monkeypatch, [widget, other], [other, widget], 'group',
+                  widget, False)
+    assert widget.fed == [b'2']
+    assert other.fed == []

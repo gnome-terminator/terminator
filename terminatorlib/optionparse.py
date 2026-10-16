@@ -28,6 +28,12 @@ from .translation import _
 
 options = None
 
+def debug_level_with_filters(debug, debug_classes, debug_methods):
+    """Return 1 when a debug filter is set and no debug level was given."""
+    if (debug_classes or debug_methods) and (debug is None or debug == 0):
+        return 1
+    return debug
+
 class ExecuteCallback(argparse.Action):
     def __call__(self, lparser, namespace, values, option_string=None):
         """Callback for use in parsing execute options"""
@@ -135,9 +141,8 @@ icon for the window (by file or name)'))
             print(l)
         sys.exit(0)
 
-    if options.debug_classes or options.debug_methods:
-        if not options.debug > 0:
-            options.debug = 1
+    options.debug = debug_level_with_filters(
+            options.debug, options.debug_classes, options.debug_methods)
 
     if options.debug:
         util.DEBUG = True

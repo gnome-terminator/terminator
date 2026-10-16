@@ -243,6 +243,130 @@ def test_sizetext_only_while_timer_pending(titlebar):
     assert '80x24' not in titlebar.label.get_text()
 
 
+def _open_sized_title(titlebar):
+    titlebar.termtext = 'shell'
+    titlebar.sizetext = '80x24'
+    titlebar._sizetext_timer = 1
+    titlebar.update_label_only()
+    assert titlebar.label.get_text() == 'shell 80x24'
+
+
+def test_unchanged_edit_does_not_lock_cleared_size(titlebar):
+    _open_sized_title(titlebar)
+    titlebar.label.edit()
+    titlebar._clear_sizetext()
+    titlebar.label._on_entry_activated(None)
+    assert titlebar.label.is_custom() is False
+    assert titlebar.label.get_text() == 'shell'
+    assert '80x24' not in titlebar.label.get_text()
+    titlebar.set_terminal_title(None, 'prompt')
+    assert titlebar.label.get_text() == 'prompt'
+
+
+def test_one_character_edit_locks_custom_title(titlebar):
+    _open_sized_title(titlebar)
+    titlebar.label.edit()
+    titlebar._clear_sizetext()
+    titlebar.label._entry.set_text('shell 80x24!')
+    titlebar.label._on_entry_activated(None)
+    assert titlebar.label.is_custom() is True
+    assert titlebar.label.get_text() == 'shell 80x24!'
+    titlebar.set_terminal_title(None, 'prompt')
+    assert titlebar.label.get_text() == 'shell 80x24!'
+    assert titlebar.label._autotext == 'prompt'
+
+
+def test_unchanged_custom_edit_stays_custom(titlebar):
+    titlebar.label.set_text('Mine')
+    titlebar.label.set_custom()
+    titlebar.label.edit()
+    titlebar.set_terminal_title(None, 'prompt')
+    titlebar.label._on_entry_activated(None)
+    assert titlebar.label.is_custom() is True
+    assert titlebar.label.get_text() == 'Mine'
+
+
+def test_set_custom_string_keeps_autotext_until_cleared(titlebar):
+    titlebar.termtext = 'shell'
+    titlebar.update_label_only()
+    assert titlebar.label._autotext == 'shell'
+
+    titlebar.set_custom_string('Mine')
+    assert titlebar.label.get_text() == 'Mine'
+    assert titlebar.label.is_custom() is True
+    assert titlebar.get_custom_string() == 'Mine'
+    assert titlebar.label._autotext == 'shell'
+
+    titlebar.set_custom_string('Other')
+    assert titlebar.label.get_text() == 'Other'
+    assert titlebar.label.is_custom() is True
+    assert titlebar.label._autotext == 'shell'
+
+    titlebar.set_terminal_title(None, 'prompt')
+    assert titlebar.label.get_text() == 'Other'
+    assert titlebar.label._autotext == 'prompt'
+
+    titlebar.label.edit()
+    titlebar.label._entry.set_text('')
+    titlebar.label._on_entry_activated(None)
+    assert titlebar.label.is_custom() is False
+    assert titlebar.label.get_text() == 'prompt'
+
+
+def _patch_titlebar_glib(monkeypatch):
+    import terminatorlib.titlebar as titlebar_mod
+    sources = {}
+    removed = []
+    added = []
+    nxt = [1]
+
+    def timeout_add(interval, callback):
+        sid = nxt[0]
+        nxt[0] += 1
+        sources[sid] = (interval, callback)
+        added.append((sid, interval))
+        return sid
+
+    def source_remove(sid):
+        removed.append(sid)
+        sources.pop(sid, None)
+        return True
+
+    monkeypatch.setattr(titlebar_mod.GLib, 'timeout_add', timeout_add)
+    monkeypatch.setattr(titlebar_mod.GLib, 'source_remove', source_remove)
+    return sources, removed, added
+
+
+def test_icon_bell_keeps_only_the_latest_timer(titlebar, monkeypatch):
+    sources, removed, added = _patch_titlebar_glib(monkeypatch)
+    titlebar.icon_bell()
+    titlebar.icon_bell()
+    assert len(sources) == 1
+    assert len(added) == 2
+    assert all(interval == 1000 for _sid, interval in added)
+    first = added[0][0]
+    second, (interval, callback) = next(iter(sources.items()))
+    assert first in removed
+    assert second not in removed
+    assert interval == 1000
+    assert titlebar._bell_timer == second
+    assert titlebar.bellicon.get_visible()
+    assert callback() is False
+    assert titlebar.bellicon.get_visible() is False
+    assert titlebar._bell_timer is None
+
+
+def test_destroy_removes_bell_timer(titlebar, monkeypatch):
+    sources, removed, added = _patch_titlebar_glib(monkeypatch)
+    titlebar.icon_bell()
+    pending = added[0][0]
+    assert list(sources) == [pending]
+    titlebar._on_destroy(None)
+    assert sources == {}
+    assert pending in removed
+    assert titlebar._bell_timer is None
+
+
 # --- Window helpers (current-tab visible terminals) ----------------------
 
 class FakeWin(object):

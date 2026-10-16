@@ -140,10 +140,18 @@ def truncate_sgr_lines(text, max_lines, max_kb):
     if max_lines == 0 or max_bytes == 0:
         return ''
     lines = text.split('\n')[-max_lines:]
+    # A trailing newline is an empty field. Drop that one field after the
+    # line cap so it is not kept instead of the newest real line, but do
+    # not drop it before the cap (that would keep an extra older line).
+    trailing_nl = False
+    if len(lines) > 1 and lines[-1] == '':
+        trailing_nl = True
+        lines = lines[:-1]
     kept = []
     used = 0
     for line in reversed(lines):
-        size = len(line.encode('utf-8')) + (1 if kept else 0)
+        extra = 1 if (kept or trailing_nl) else 0
+        size = len(line.encode('utf-8')) + extra
         if used + size > max_bytes:
             break
         kept.append(line)
@@ -152,7 +160,10 @@ def truncate_sgr_lines(text, max_lines, max_kb):
         plain = _SGR_ANY_RE.sub('', lines[-1]).encode('utf-8')
         return truncate_utf8_bytes(plain, max_bytes).decode('utf-8', 'replace')
     kept.reverse()
-    return '\n'.join(kept)
+    out = '\n'.join(kept)
+    if trailing_nl:
+        out += '\n'
+    return out
 
 
 def sanitize_for_feed(text, keep_sgr=False):
@@ -331,6 +342,103 @@ def html_to_sgr(html):
     return p.result()
 
 
+def _component_u8(value):
+    """Pango channels are 0..65535. An 8-bit channel is left as it is."""
+    value = int(value)
+    if value > 255:
+        value = value >> 8
+    if value < 0:
+        return 0
+    if value > 255:
+        return 255
+    return value
+
+
+def _rgb_of(color):
+    return (_component_u8(color.red), _component_u8(color.green),
+            _component_u8(color.blue))
+
+
+def _attr_style(attr):
+    """Foreground, background, underline, strike from one CharAttributes.
+
+    VTE 0.68 via PyGObject packs the two bitfields into ``underline``:
+    bit 0 is underline, bit 1 is strikethrough. A binding that returns
+    underline as 0/1 and strikethrough separately still works. Bold is
+    not in this struct.
+    """
+    flags = int(getattr(attr, 'underline', 0) or 0)
+    strike_field = int(getattr(attr, 'strikethrough', 0) or 0)
+    return (_rgb_of(attr.fore), _rgb_of(attr.back),
+            bool(flags & 1), bool(flags & 2) or bool(strike_field))
+
+
+def _near_rgb(a, b):
+    return all(abs(x - y) <= 1 for x, y in zip(a, b))
+
+
+def _style_sgr(style, default_bg):
+    fg, bg, underline, strike = style
+    codes = []
+    if underline:
+        codes.append('4')
+    if strike:
+        codes.append('9')
+    codes.append('38;2;%d;%d;%d' % fg)
+    if default_bg is None or not _near_rgb(bg, default_bg):
+        codes.append('48;2;%d;%d;%d' % bg)
+    return '\x1b[' + ';'.join(codes) + 'm'
+
+
+def char_attrs_to_sgr(text, attrs, default_bg=None):
+    """Turn VTE ``get_text_range`` text + attributes into SGR text.
+
+    ``attrs`` lines up with the UTF-8 bytes of ``text``, not with Unicode
+    code points: a 3-byte character has three attributes, and the first
+    byte carries the colour. Each line reopens its own style and resets
+    before the newline, so dropping a line cannot leak colour.
+
+    ``default_bg`` is the terminal background as ``(r, g, b)`` 0..255.
+    Cells on that background omit a background sequence. Foreground is
+    always recorded: this API has no separate "default foreground" flag.
+    """
+    if not text:
+        return ''
+    if not attrs:
+        return text
+    styles = []
+    byte_i = 0
+    nattrs = len(attrs)
+    for ch in text:
+        if ch == '\n' or byte_i >= nattrs:
+            styles.append(None)
+        else:
+            try:
+                styles.append(_attr_style(attrs[byte_i]))
+            except Exception:
+                styles.append(None)
+        byte_i += len(ch.encode('utf-8'))
+    out = []
+    cur = None
+    for ch, style in zip(text, styles):
+        if ch == '\n' or style is None:
+            if cur:
+                out.append('\x1b[0m')
+                cur = None
+            out.append(ch)
+            continue
+        sgr = _style_sgr(style, default_bg)
+        if sgr != cur:
+            if cur:
+                out.append('\x1b[0m')
+            out.append(sgr)
+            cur = sgr
+        out.append(ch)
+    if cur:
+        out.append('\x1b[0m')
+    return ''.join(out)
+
+
 def normalize_newlines_for_feed(text):
     """Normalize all newline styles to CRLF for VTE display feed.
 
@@ -375,7 +483,7 @@ _SEPARATOR_LINE_RE = re.compile(
 _PROMPT_ONLY_RE = re.compile(
     r'^(?:\([^)]*\)\s*)*'
     r'(?:'
-    r'[^@\s]+@[^:\s]+:.*[$#]\s*'
+    r'[^@\s]+@[^:\s]+:[^$#]*[$#]\s*'
     r'|'
     r'[^@\s]+@[^:\s]+\s+\S*[$#%>]\s*'
     r'|'

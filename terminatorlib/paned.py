@@ -144,15 +144,16 @@ class Paned(Container):
         """Add a widget to the container"""
         if len(self.children) == 0:
             self.pack1(widget, False, True)
-            self.children.append(widget)
         elif len(self.children) == 1:
             if self.get_child1():
                 self.pack2(widget, False, True)
             else:
                 self.pack1(widget, False, True)
-            self.children.append(widget)
         else:
             raise ValueError('Paned widgets can only have two children')
+
+        self.children[:] = [child for child in (self.get_child1(),
+                                                self.get_child2()) if child]
 
         if self.maker.isinstance(widget, 'Terminal'):
             top_window = self.get_toplevel()
@@ -426,10 +427,14 @@ class Paned(Container):
             if focus_sibling:
                 first_term_sibling.grab_focus()
             elif not sibling.get_toplevel().is_child_notebook():
+                last = sibling.get_toplevel().last_active_term
+                urn = getattr(last, 'urn', None)
                 try:
-                    Terminator().find_terminal_by_uuid(sibling.get_toplevel().last_active_term.urn).grab_focus()
+                    if urn is None:
+                        raise AttributeError
+                    Terminator().find_terminal_by_uuid(urn).grab_focus()
                 except AttributeError:
-                    dbg('cannot find terminal with uuid: %s' % sibling.get_toplevel().last_active_term.urn)
+                    dbg('cannot find terminal with uuid: %s' % urn)
             # Closing a pane that did not have focus leaves the survivor
             # focused without a new focus-in, so clear a border that only
             # mattered while another pane was visible.
@@ -635,13 +640,46 @@ class Paned(Container):
         # For reasons unknown to me, self.ratio often changes when the following loop is executed
         ratio = self.ratio
 
-        # Fix for strange race condition where every so often get_length returns 1. (LP:1655027)
-        while self.terminator.doing_layout and self.get_length() == 1:
-            while Gtk.events_pending():
-                Gtk.main_iteration()
+        # A length of 1 during layout is not yet the real allocation
+        # (LP:1655027). An empty event queue must not spin, and setting the
+        # position from that length pins the bar at 0.
+        steps = 0
+        limit = 50
+        while (self.terminator.doing_layout and self.get_length() == 1
+               and steps < limit and Gtk.events_pending()):
+            Gtk.main_iteration()
+            steps += 1
 
         self.ratio = ratio
-        self.set_pos(self.position_by_ratio(self.get_length(), self.get_handlesize(), self.ratio))
+        if self.get_length() > 1:
+            self._cancel_deferred_ratio()
+            self.set_pos(self.position_by_ratio(
+                self.get_length(), self.get_handlesize(), ratio))
+            return
+        self._defer_ratio_until_sized(ratio)
+
+    def _cancel_deferred_ratio(self):
+        sid = getattr(self, '_ratio_size_id', None)
+        if not sid:
+            return
+        try:
+            self.disconnect(sid)
+        except Exception:
+            pass
+        self._ratio_size_id = None
+
+    def _defer_ratio_until_sized(self, ratio):
+        self._cancel_deferred_ratio()
+
+        def _on_size(_widget, _alloc):
+            if self.get_length() <= 1:
+                return
+            self._cancel_deferred_ratio()
+            self.ratio = ratio
+            self.set_pos(self.position_by_ratio(
+                self.get_length(), self.get_handlesize(), ratio))
+
+        self._ratio_size_id = self.connect('size-allocate', _on_size)
 
     def set_position(self, pos):
         newratio = self.ratio_by_position(self.get_length(), self.get_handlesize(), pos)

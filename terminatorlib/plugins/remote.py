@@ -260,6 +260,15 @@ class ContainerSession(RemoteSession):
             dbg(f"caught error '{e}'")
         return None
 
+    def _parse_container_args(self, parser, argv):
+        """Parse a container name. Failure returns None and does not exit."""
+        try:
+            args, unknown = parser.parse_known_args(argv)
+        except (SystemExit, argparse.ArgumentError):
+            return None
+        dbg(f"got args: {args}, unknown: {unknown}")
+        return args.container or None
+
     def _get_host_exec(self, proc):
         """
         get container name from docker exec cmdline
@@ -280,8 +289,8 @@ class ContainerSession(RemoteSession):
         """
         fullArgs = proc.cmdline()
         startIndex = fullArgs.index('exec') + 1
-        parser = argparse.ArgumentParser()
-        parser.add_argument("container")
+        parser = argparse.ArgumentParser(add_help=False, exit_on_error=False)
+        parser.add_argument("container", nargs='?')
         parser.add_argument("command", nargs='?')
         parser.add_argument('-d', '--detach', action='store_true')
         parser.add_argument('--detach-keys')
@@ -294,9 +303,7 @@ class ContainerSession(RemoteSession):
         parser.add_argument('-t', '--tty', action='store_true')
         parser.add_argument('-u', '--user')
         parser.add_argument('-w', '--workdir')
-        args, unknown = parser.parse_known_args(fullArgs[startIndex:])
-        dbg(f"got args: {args}, unknown: {unknown}")
-        return args.container
+        return self._parse_container_args(parser, fullArgs[startIndex:])
 
     def _get_host_attach(self, proc):
         """
@@ -323,15 +330,13 @@ class ContainerSession(RemoteSession):
         """
         fullArgs = proc.cmdline()
         startIndex = fullArgs.index('attach') + 1
-        parser = argparse.ArgumentParser()
-        parser.add_argument("container")
+        parser = argparse.ArgumentParser(add_help=False, exit_on_error=False)
+        parser.add_argument("container", nargs='?')
         parser.add_argument('--detach-keys')
         parser.add_argument('-l', '--latest', action='store_true')
         parser.add_argument('--no-stdin', action='store_false')
         parser.add_argument('--sig-proxy', action='store_true')
-        args, unknown = parser.parse_known_args(fullArgs[startIndex:])
-        dbg(f"got args: {args}, unknown: {unknown}")
-        return args.container
+        return self._parse_container_args(parser, fullArgs[startIndex:])
 
 class RemoteProcWatch(object):
     """

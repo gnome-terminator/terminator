@@ -4,6 +4,7 @@
 
 import sys
 import hashlib
+from contextlib import contextmanager
 from gi.repository import Gdk
 import dbus.service
 from dbus.exceptions import DBusException
@@ -33,6 +34,23 @@ try:
     BUS_NAME = '%s%s' % (BUS_BASE, DISPLAY)
 except:
     BUS_NAME = BUS_BASE
+
+@contextmanager
+def _cmdline_options(config, incoming):
+    """Swap command-line options for one call, then put the same object back.
+
+    The replacement is a copy of the incoming mapping. Spawn clears that
+    copy, not the caller's dict and not the process-wide namespace.
+    """
+    opts = config.options_get()
+    saved = opts.__dict__
+    opts.__dict__ = dict(incoming)
+    try:
+        config.options_set(opts)
+        yield opts
+    finally:
+        opts.__dict__ = saved
+
 
 class DBusService(Borg, dbus.service.Object):
     """DBus Server class. This is implemented as a Borg"""
@@ -82,30 +100,26 @@ class DBusService(Borg, dbus.service.Object):
                 if not options['profile']:
                     options['profile'] = configjson.get_profile_to_use()
 
-        oldopts = self.terminator.config.options_get()
-        oldopts.__dict__ = options
-        self.terminator.config.options_set(oldopts)
-        windows_before = list(self.terminator.windows)
-        self.terminator.create_layout(oldopts.layout)
-        try:
-            from .session import SessionManager, is_explicit_launch
-            if is_explicit_launch(oldopts):
-                SessionManager().exclude_windows(
-                    [w for w in self.terminator.windows
-                     if w not in windows_before])
-        except Exception as ex:
-            dbg('session exclude (dbus new_window): %s' % ex)
-        self.terminator.layout_done()
+        with _cmdline_options(self.terminator.config, options) as opts:
+            windows_before = list(self.terminator.windows)
+            self.terminator.create_layout(opts.layout)
+            try:
+                from .session import SessionManager, is_explicit_launch
+                if is_explicit_launch(opts):
+                    SessionManager().exclude_windows(
+                        [w for w in self.terminator.windows
+                         if w not in windows_before])
+            except Exception as ex:
+                dbg('session exclude (dbus new_window): %s' % ex)
+            self.terminator.layout_done()
 
     @dbus.service.method(BUS_NAME, in_signature='a{ss}')
     def new_tab_cmdline(self, options=dbus.Dictionary()):
         """Create a new tab"""
         dbg('dbus method called: new_tab with parameters %s'%(options))
-        oldopts = self.terminator.config.options_get()
-        oldopts.__dict__ = options
-        self.terminator.config.options_set(oldopts)
-        window = self.terminator.get_windows()[0]
-        window.tab_new()
+        with _cmdline_options(self.terminator.config, options):
+            window = self.terminator.get_windows()[0]
+            window.tab_new()
 
     @dbus.service.method(BUS_NAME, in_signature='a{ss}')
     def toggle_visibility_cmdline(self,options=dbus.Dictionary):
@@ -133,9 +147,12 @@ class DBusService(Borg, dbus.service.Object):
             return new_terminal_set[0]
 
     @dbus.service.method(BUS_NAME)
-    def new_tab(self, uuid=None):
+    def new_tab(self, uuid=None, options=None):
         """Create a new tab"""
-        return self.new_terminal(uuid, 'tab')
+        cmd = None
+        if options:
+            cmd = options.get('execute') or None
+        return self.new_terminal(uuid, 'tab', init_command=cmd)
 
     @dbus.service.method(BUS_NAME)
     def reload_configuration(self):
@@ -219,7 +236,7 @@ class DBusService(Borg, dbus.service.Object):
         else:
             return new_terminal_set[0]
 
-    def new_terminal(self, uuid, type):
+    def new_terminal(self, uuid, type, init_command=None):
         """Split a terminal horizontally o?r vertically, by UUID"""
         dbg('dbus method called: %s' % type)
         if not uuid:
@@ -229,7 +246,7 @@ class DBusService(Borg, dbus.service.Object):
         if not terminal:
             return "ERROR: Terminal with supplied UUID not found"
         elif type == 'tab':
-            terminal.key_new_tab()
+            terminal.key_new_tab(init_command=init_command)
         elif type == 'hsplit':
             terminal.key_split_horiz()
         elif type == 'vsplit':
@@ -316,10 +333,14 @@ class DBusService(Borg, dbus.service.Object):
             return
 
         notebook = window.get_children()[0]
-        n_page = notebook.get_current_page()
-        page = notebook.get_nth_page(n_page)
-        label = notebook.get_tab_label(page)
-        label.set_custom_label(tab_title, force=True)
+        for tab_child in notebook.get_children():
+            terms = [tab_child]
+            if not maker.isinstance(terms[0], "Terminal"):
+                terms = enumerate_descendants(tab_child)[1]
+            if terminal in terms:
+                notebook.get_tab_label(tab_child).set_custom_label(
+                    tab_title, force=True)
+                return
 
     @dbus.service.method(BUS_NAME)
     def switch_profile(self, uuid=None, options=dbus.Dictionary()):
@@ -378,27 +399,27 @@ def unhide_cmdline(session,options):
 @with_proxy
 def new_window(session, options):
     """Call the dbus method to open a new window"""
-    print(session.new_window())
+    return session.new_window()
 
 @with_proxy
 def new_tab(session, uuid, options):
     """Call the dbus method to open a new tab in the first window"""
-    print(session.new_tab(uuid))
+    return session.new_tab(uuid, options)
 
 @with_proxy
 def hsplit(session, uuid, options):
     """Call the dbus method to horizontally split a terminal"""
-    print(session.hsplit(uuid,options))
+    return session.hsplit(uuid, options)
 
 @with_proxy
 def vsplit(session, uuid, options):
     """Call the dbus method to vertically split a terminal"""
-    print(session.vsplit(uuid,options))
+    return session.vsplit(uuid, options)
 
 @with_proxy
 def get_terminals(session, options):
     """Call the dbus method to return a list of all terminals"""
-    print('\n'.join(session.get_terminals()))
+    return session.get_terminals()
 
 @with_proxy
 def get_focused_terminal(session, options):
@@ -408,22 +429,22 @@ def get_focused_terminal(session, options):
 @with_proxy
 def get_window(session, uuid, options):
     """Call the dbus method to return the toplevel tab for a terminal"""
-    print(session.get_window(uuid))
+    return session.get_window(uuid)
 
 @with_proxy
 def get_window_title(session, uuid, options):
     """Call the dbus method to return the title of a tab"""
-    print(session.get_window_title(uuid))
+    return session.get_window_title(uuid)
 
 @with_proxy
 def get_tab(session, uuid, options):
     """Call the dbus method to return the toplevel tab for a terminal"""
-    print(session.get_tab(uuid))
+    return session.get_tab(uuid)
 
 @with_proxy
 def get_tab_title(session, uuid, options):
     """Call the dbus method to return the title of a tab"""
-    print(session.get_tab_title(uuid))
+    return session.get_tab_title(uuid)
 
 @with_proxy
 def set_tab_title(session, uuid, options):

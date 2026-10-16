@@ -320,6 +320,9 @@ class Notebook(Container, Gtk.Notebook):
         side = getattr(self, '_tab_sidebar', None)
         if side is not None and getattr(self, '_tab_shell', None) is None:
             self._attach_tab_shell(side)
+        # The notebook itself has no GdkWindow. Tab-strip hits land on the
+        # window, which does not start out with a scroll mask.
+        self._select_tab_scroll()
 
     def configure(self):
         """Apply widget-wide settings"""
@@ -354,6 +357,8 @@ class Notebook(Container, Gtk.Notebook):
 #        style.ythickness = 0
 #        self.modify_style(style)
         self.last_active_term = {}
+        self._scroll_acc = 0.0
+        self._select_tab_scroll()
 
     def create_window_detach(self, notebook, widget, x, y):
         """Defer detaching a dropped tab until the drag has ended"""
@@ -650,9 +655,19 @@ class Notebook(Container, Gtk.Notebook):
                 custom = label.get_custom_label()
                 if custom:
                     metadata['label'] = custom
+            locked = False
+            if label is not None and hasattr(label, 'get_locked'):
+                try:
+                    locked = bool(label.get_locked())
+                except Exception:
+                    locked = False
             self.newtab(widget=new_widget, metadata=metadata)
             if lat is not None:
                 self.last_active_term[new_widget] = lat
+            if locked:
+                new_label = self.get_tab_label(new_widget)
+                if new_label is not None and hasattr(new_label, 'set_locked'):
+                    new_label.set_locked(True)
         else:
             self.insert_page(new_widget, label, page_num)
             self._pack_tab(new_widget)
@@ -1414,6 +1429,11 @@ class Notebook(Container, Gtk.Notebook):
                 child, parent.config['detachable_tabs'])
             parent.set_tab_reorderable(child, True)
             parent._pack_tab(child)
+            # The key was the original terminal, not the paned. After the
+            # first pane is lifted out, pop(paned) misses; still record the
+            # survivor so a later closetab does not KeyError.
+            if lat is None and maker.isinstance(child, 'Terminal'):
+                lat = getattr(child, 'uuid', None)
             if lat is not None:
                 parent.last_active_term[child] = lat
             if maker.isinstance(child, 'Terminal'):
@@ -1837,7 +1857,8 @@ class Notebook(Container, Gtk.Notebook):
             children.append(self.get_nth_page(page))
         return(children)
 
-    def newtab(self, debugtab=False, widget=None, cwd=None, metadata=None, profile=None):
+    def newtab(self, debugtab=False, widget=None, cwd=None, metadata=None,
+               profile=None, init_command=None):
         """Add a new tab, optionally supplying a child widget"""
         dbg('making a new tab')
         maker = Factory()
@@ -1849,7 +1870,7 @@ class Notebook(Container, Gtk.Notebook):
                 widget.set_cwd(cwd)
             if profile and self.config['always_split_with_profile']:
                 widget.force_set_profile(None, profile)
-            widget.spawn_child(debugserver=debugtab)
+            widget.spawn_child(debugserver=debugtab, init_command=init_command)
         elif profile and self.config['always_split_with_profile']:
             widget.force_set_profile(None, profile)
 
@@ -1964,7 +1985,7 @@ class Notebook(Container, Gtk.Notebook):
         if maker.isinstance(child, 'Terminal'):
             dbg('child is a single Terminal')
 
-            del nb.last_active_term[child]
+            nb.last_active_term.pop(child, None)
             child.close()
             # FIXME: We only do this del and return here to avoid removing the
             # page below, which child.close() implicitly does
@@ -2194,6 +2215,49 @@ class Notebook(Container, Gtk.Notebook):
         # do_deferred_on_tab_switch) the return value is ignored.
         return False
 
+    def _select_tab_scroll(self):
+        """Let tab-strip wheel events reach this window.
+
+        Notebook.get_has_window() is false, so the strip is drawn on the
+        toplevel GdkWindow. add_events only updates the widget mask.
+        OR the bits on; replacing the mask would drop the window's other
+        events. VTE and the sidebar have their own child windows.
+        """
+        win = self.get_window()
+        if win is None:
+            return
+        win.set_events(win.get_events()
+                       | Gdk.EventMask.SCROLL_MASK
+                       | Gdk.EventMask.SMOOTH_SCROLL_MASK)
+
+    def _child_at_window_coords(self, widget, x, y):
+        """Deepest mapped widget with no GdkWindow of its own at x, y.
+
+        Coordinates are relative to the toplevel. Children that own a
+        different GdkWindow (VTE, sidebar) are skipped so a wheel there
+        is not treated as a tab-strip click.
+        """
+        if widget is None or not widget.get_mapped():
+            return None
+        top = widget.get_toplevel()
+        origin = widget.translate_coordinates(top, 0, 0)
+        if origin is None:
+            return None
+        ox, oy = origin
+        alloc = widget.get_allocation()
+        if not (ox <= x < ox + alloc.width and oy <= y < oy + alloc.height):
+            return None
+        top_win = top.get_window()
+        if hasattr(widget, 'get_children'):
+            for child in reversed(list(widget.get_children())):
+                child_win = child.get_window()
+                if child.get_has_window() and child_win not in (None, top_win):
+                    continue
+                hit = self._child_at_window_coords(child, x, y)
+                if hit is not None:
+                    return hit
+        return widget
+
     def on_scroll_event(self, notebook, event):
         '''Handle scroll events for scrolling through tabs'''
         #print "self: %s" % self
@@ -2204,6 +2268,17 @@ class Notebook(Container, Gtk.Notebook):
             return False
 
         event_widget = Gtk.get_event_widget(event)
+        # A wheel on the toplevel window reports the window, not the
+        # windowless tab label under the pointer.
+        ev_win = getattr(event, 'window', None)
+        if (ev_win is not None and ev_win is self.get_window()
+                and event_widget is self.get_toplevel()
+                and hasattr(event, 'x')):
+            hit = self._child_at_window_coords(
+                self.get_toplevel(), event.x, event.y)
+            if hit is None:
+                return False
+            event_widget = hit
 
         if event_widget == None or \
            event_widget == child or \
@@ -2229,18 +2304,25 @@ class Notebook(Container, Gtk.Notebook):
                                  Gdk.ScrollDirection.UP]:
             self.prev_page()
         elif event.direction == Gdk.ScrollDirection.SMOOTH:
-            if self.get_tab_pos() in [Gtk.PositionType.LEFT,
-                                      Gtk.PositionType.RIGHT]:
-                if event.delta_y > 0:
+            # Same mapping as a discrete wheel, on every tab edge: positive
+            # delta_y is down, positive delta_x is right, and both move to
+            # the next page. Small deltas accumulate; a direction change
+            # drops the unused remainder so a wiggle does not switch twice.
+            dx = float(getattr(event, 'delta_x', 0.0) or 0.0)
+            dy = float(getattr(event, 'delta_y', 0.0) or 0.0)
+            delta = dy if abs(dy) >= abs(dx) else dx
+            if delta != 0.0:
+                acc = getattr(self, '_scroll_acc', 0.0)
+                if acc != 0.0 and (acc > 0.0) != (delta > 0.0):
+                    acc = 0.0
+                acc += delta
+                while acc >= 1.0:
                     self.next_page()
-                elif event.delta_y < 0:
+                    acc -= 1.0
+                while acc <= -1.0:
                     self.prev_page()
-            elif self.get_tab_pos() in [Gtk.PositionType.TOP,
-                                        Gtk.PositionType.BOTTOM]:
-                if event.delta_x > 0:
-                    self.next_page()
-                elif event.delta_x < 0:
-                    self.prev_page()
+                    acc += 1.0
+                self._scroll_acc = acc
         return True
 
 class TabLabel(Gtk.HBox):

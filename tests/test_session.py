@@ -5,7 +5,9 @@ from __future__ import print_function
 
 import json
 import os
+import sys
 import tempfile
+import types
 import uuid
 
 import pytest
@@ -136,7 +138,7 @@ def test_atomic_write_and_load(state_home, monkeypatch):
 
     loaded = sm.load()
     assert loaded is not None
-    assert layout_change_hash(loaded['layout']) == sm._last_change_hash or True
+    assert layout_change_hash(loaded['layout']) == sm._last_change_hash
 
 
 def test_save_now_final_requires_writer(state_home):
@@ -304,6 +306,117 @@ def test_restore_prev_session_suspends_writes(state_home):
     with open(path, encoding='utf-8') as fh:
         data = json.load(fh)
     assert 'b' in data['layout']
+
+
+def test_restore_prev_session_write_failure_keeps_saving(state_home, monkeypatch):
+    """A failed replace must not suspend writes or leave the old file."""
+    _reset_session_borg()
+    sm = SessionManager()
+    sm.acquire_lock()
+
+    class Opt(object):
+        pass
+
+    o = Opt()
+    o.layout_from_default = True
+    o.layout = 'default'
+    o.command = None
+    o.execute = None
+    o.working_directory = None
+    o.configjson = None
+    sm.set_owner_from_options(o)
+
+    path = sm.session_path()
+    os.makedirs(os.path.dirname(path), mode=0o700, exist_ok=True)
+    current = {'version': SESSION_VERSION, 'layout': {'a': {'type': 'Window'}},
+               'saved_at': 'now'}
+    prev = {'version': SESSION_VERSION,
+            'layout': {'b': {'type': 'Window'}}, 'saved_at': 'earlier'}
+    with open(path, 'w', encoding='utf-8') as fh:
+        json.dump(current, fh)
+    with open(path + '.prev', 'w', encoding='utf-8') as fh:
+        json.dump(prev, fh)
+
+    real_write = sm._atomic_write_json
+
+    def boom(dest, data, before_replace=None):
+        raise OSError('disk full')
+
+    monkeypatch.setattr(sm, '_atomic_write_json', boom)
+    assert sm.restore_prev_session() is False
+    assert sm.writes_suspended() is False
+    assert sm.is_writer() is True
+    with open(path, encoding='utf-8') as fh:
+        assert json.load(fh)['layout'] == current['layout']
+
+    monkeypatch.setattr(sm, '_atomic_write_json', real_write)
+    sm._describe_current = lambda: {
+        'terminal1': {'type': 'Terminal', 'uuid': 'saved'}}
+    assert sm.save_now() is True
+    with open(path, encoding='utf-8') as fh:
+        assert json.load(fh)['layout']['terminal1']['uuid'] == 'saved'
+
+
+def _install_buffer_fakes(monkeypatch, terminals, discarded):
+    term_mod = types.ModuleType('terminatorlib.terminator')
+
+    class FakeTerminator(object):
+        def __init__(self):
+            self.terminals = terminals
+
+    term_mod.Terminator = FakeTerminator
+    monkeypatch.setitem(sys.modules, 'terminatorlib.terminator', term_mod)
+
+    sb_mod = types.ModuleType('terminatorlib.scrollback')
+
+    class FakeCache(object):
+        def discard_uuids(self, uuids):
+            discarded.append(set(uuids))
+
+    sb_mod.ScrollbackCache = FakeCache
+    monkeypatch.setitem(sys.modules, 'terminatorlib.scrollback', sb_mod)
+
+
+def test_buffer_timeout_skips_discard_when_listing_fails(state_home, monkeypatch):
+    _reset_session_borg()
+    sm = SessionManager()
+    sm.acquire_lock()
+
+    class Boom(object):
+        def __init__(self):
+            pass
+
+        @property
+        def terminals(self):
+            raise RuntimeError('cannot list terminals')
+
+    discarded = []
+    _install_buffer_fakes(monkeypatch, None, discarded)
+    # Replace the class so constructing it still raises on .terminals.
+    sys.modules['terminatorlib.terminator'].Terminator = Boom
+    sm._closing_buffer = {
+        'deadline': 0, 'windows': [], 'uuids': {'still-open', 'gone'}}
+    assert sm._buffer_timeout_cb() is False
+    assert discarded == []
+    assert sm._closing_buffer is None
+
+
+def test_buffer_timeout_keeps_uuids_still_open(state_home, monkeypatch):
+    _reset_session_borg()
+    sm = SessionManager()
+    sm.acquire_lock()
+
+    class Term(object):
+        def __init__(self, uid):
+            self.uuid = uid
+
+    discarded = []
+    _install_buffer_fakes(monkeypatch, [Term('keep'), Term(None)], discarded)
+    sm._closing_buffer = {
+        'deadline': 0, 'windows': [], 'uuids': {'keep', 'gone'}}
+    assert sm._buffer_timeout_cb() is False
+    assert discarded == [{'gone'}]
+    assert sm._closing_buffer is None
 
 
 def test_restore_prev_session_missing_prev(state_home):

@@ -304,8 +304,6 @@ DEFAULTS = {
                 'use_system_font'       : True,
                 'use_theme_colors'      : False,
                 'bold_is_bright'        : False,
-                'cell_height'           : 1.0,
-                'cell_width'            : 1.0,
                 'force_no_bell'         : False,
                 'copy_on_selection'     : False,
                 'split_to_group'        : False,
@@ -391,6 +389,8 @@ class Config(object):
 
     def del_profile(self, profile):
         """Delete a profile"""
+        if profile == 'default':
+            return
         if profile == self.profile:
             # FIXME: We should solve this problem by updating terminals when we
             # remove a profile
@@ -404,12 +404,21 @@ class Config(object):
             self.options_set(options)
 
     def rename_profile(self, profile, newname):
-        """Rename a profile"""
-        if profile in self.base.profiles:
-            self.base.profiles[newname] = self.base.profiles[profile]
-            del(self.base.profiles[profile])
-            if profile == self.profile:
-                self.profile = newname
+        """Rename a profile. Return False when the rename is refused."""
+        if profile not in self.base.profiles:
+            return False
+        if newname == profile:
+            return True
+        if profile == 'default':
+            return False
+        from .configjson import JSON_PROFILE_NAME
+        if newname == JSON_PROFILE_NAME or newname in self.base.profiles:
+            return False
+        self.base.profiles[newname] = self.base.profiles[profile]
+        del self.base.profiles[profile]
+        if profile == self.profile:
+            self.profile = newname
+        return True
 
     def list_profiles(self):
         """List all configured profiles"""
@@ -429,10 +438,18 @@ class Config(object):
             del(self.base.layouts[layout])
 
     def rename_layout(self, layout, newname):
-        """Rename a layout"""
-        if layout in self.base.layouts:
-            self.base.layouts[newname] = self.base.layouts[layout]
-            del(self.base.layouts[layout])
+        """Rename a layout. Return False when the rename is refused."""
+        if layout not in self.base.layouts:
+            return False
+        if newname == layout:
+            return True
+        from .configjson import JSON_LAYOUT_NAME
+        if (newname in (JSON_LAYOUT_NAME, '__last_session__') or
+                newname in self.base.layouts):
+            return False
+        self.base.layouts[newname] = self.base.layouts[layout]
+        del self.base.layouts[layout]
+        return True
 
     def list_layouts(self):
         """List all configured layouts"""
@@ -572,31 +589,34 @@ class Config(object):
         return(self.base.set_layout(layout, tree))
 
     def copy_layout_item(self, src_layout, dst_layout, item):
+        def uuid_of(section):
+            raw = section.get('uuid', None)
+            if raw is None:
+                return None
+            text = str(raw)
+            if text == '':
+                return None
+            return text
+
         items = {}
         for child in src_layout:
-            section   = src_layout[child]
-            sec_type  = section.get('type', None)
-            if sec_type != 'Terminal':
+            section = src_layout[child]
+            if section.get('type', None) != 'Terminal':
                 continue
-
-            cp_item = section.get(item, None)
-            uuid    = str(section.get('uuid', None))
-            if cp_item:
-                items[uuid] = cp_item
+            uid = uuid_of(section)
+            if uid is not None and item in section:
+                items[uid] = section[item]
 
         dbg("items to be copied:%s" % items)
         for child in dst_layout:
-            section   = dst_layout[child]
-            sec_type  = section.get('type', None)
-            if sec_type != 'Terminal':
+            section = dst_layout[child]
+            if section.get('type', None) != 'Terminal':
                 continue
-
-            uuid       = str(section.get('uuid', None))
-            update_item = items.get(uuid, None)
-            if uuid and update_item:
-               dbg("update layout item:(%s) with value:(%s)"
-                                            % (item, update_item))
-               section[item] = update_item
+            uid = uuid_of(section)
+            if uid is not None and uid in items:
+                dbg("update layout item:(%s) with value:(%s)"
+                                            % (item, items[uid]))
+                section[item] = items[uid]
 
 
 
@@ -816,6 +836,9 @@ class ConfigBase(Borg):
                         # FIXME: Should this be outside the loop?
                         section[profile] = copy(DEFAULTS['profiles']['default'])
                     section[profile].update(parser[section_name][profile])
+                    # Profile copies of these keys shadow the global values.
+                    section[profile].pop('cell_width', None)
+                    section[profile].pop('cell_height', None)
             elif section_name == 'plugins':
                 if section_name not in parser:
                     continue
@@ -977,9 +1000,22 @@ class ConfigBase(Borg):
 
     def get_item(self, key, profile='default', plugin=None, default=None):
         """Look up a configuration item"""
+        if plugin is not None:
+            plugtree = self.plugins.get(plugin)
+            if plugtree is not None and key in plugtree:
+                dbg('%s found in plugin %s: %s' % (
+                        key, plugin, plugtree[key]))
+                return(plugtree[key])
+            elif default:
+                return default
+            else:
+                raise KeyError('ConfigBase::get_item: unknown key %s' % key)
+
         if profile not in self.profiles:
             # Hitting this generally implies a bug
             profile = 'default'
+        if profile not in self.profiles:
+            self.profiles['default'] = copy(DEFAULTS['profiles']['default'])
 
         if key in self.global_config:
             dbg('%s found in globals: %s' %
@@ -991,10 +1027,6 @@ class ConfigBase(Borg):
             return(self.profiles[profile][key])
         elif key == 'keybindings':
             return(self.keybindings)
-        elif plugin and plugin in self.plugins and key in self.plugins[plugin]:
-            dbg('%s found in plugin %s: %s' % (
-                    key, plugin, self.plugins[plugin][key]))
-            return(self.plugins[plugin][key])
         elif default:
             return default
         else:
@@ -1005,16 +1037,21 @@ class ConfigBase(Borg):
         dbg('Setting %s=%s (profile=%s, plugin=%s)' %
                 (key, value, profile, plugin))
 
+        if plugin is not None:
+            if plugin not in self.plugins:
+                self.plugins[plugin] = {}
+            self.plugins[plugin][key] = value
+            return(True)
+
+        if profile == 'default' and profile not in self.profiles:
+            self.profiles['default'] = copy(DEFAULTS['profiles']['default'])
+
         if key in self.global_config:
             self.global_config[key] = value
         elif key in self.profiles[profile]:
             self.profiles[profile][key] = value
         elif key == 'keybindings':
             self.keybindings = value
-        elif plugin is not None:
-            if plugin not in self.plugins:
-                self.plugins[plugin] = {}
-            self.plugins[plugin][key] = value
         else:
             raise KeyError('ConfigBase::set_item: unknown key %s' % key)
 

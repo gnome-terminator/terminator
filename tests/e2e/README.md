@@ -56,7 +56,8 @@ xfwm4, tmux and weston (Wayland smoke) optional. About 3 minutes for the full ru
 | 6-window-title | 3 panes emit OSC titles at 20Hz; WM title only ever shows the focused pane's |
 | 7-altscreen | scrollbar strip hidden in `tput smcup` and tmux, restored after; SIGTERM during a TUI → cache keeps shell history, no TUI frame |
 | 8-corrupt-session | `[1,2]` session.json → starts, moved to `.corrupt`, fresh valid session written |
-| 9-sigkill-recovery | split+tab+cd, wait for debounced save + 5s scrollback interval flush → SIGKILL (no final save) → relaunch restores layout/cwds; SIGKILL again inside the 10s restore window → 3rd launch still starts (session quarantined to `.crashed`, fresh 1-pane session) |
+| 9-sigkill-recovery | split+tab+cd, wait for debounced save + 5s scrollback interval flush → SIGKILL (no final save) → relaunch restores layout/cwds; SIGKILL again while `restoring` exists → named session quarantined to `*.crashed`, 3rd start is `load_crash_fallback` (layout and cwd) |
+| 9b-sigkill-scrollback | same prep through the first relaunch; each pane's scrollback file then has its own `SB_KILO*_3` and the English separator, no second SIGKILL |
 | 14-hidpi-scale2 | GDK_SCALE=2: same device-px window gives ~half the scale-1 columns; session size in logical px; overlay maximise dims the 24-device-px margin and restores |
 | 15-hidpi-autofont | scenario 5 at GDK_SCALE=2 (1560x940 device px): tiers are decided in cells, so 1 pane / stacked 1.0, 2x2 grid 0.8 |
 | 16-wayland-smoke | needs `weston` (else SKIP): session seeded on X11 (split, cd, maximised pane, position) restored natively under `weston --backend=headless` + `GDK_BACKEND=wayland` (no DISPLAY) at output scale 1 and 2: shells/cwds/maximised pane back, the Wayland save drops the position but keeps size/maximised/layout, no stale WINDOWID in shells, clean SIGTERM |

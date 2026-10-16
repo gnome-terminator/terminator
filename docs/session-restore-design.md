@@ -135,7 +135,7 @@
 | **M2** | C 标题栏；C4 `has_multiple_terms` 尽早；C6 在 A7 后 | **2.5–3 天** | 可与 M1 并行 |
 | **M3** | D：D1a 占位/swap → D1b Overlay+`get_children()[0]` 审计 → D1c 放大/关闭 → D2 → D3 动画；补 prefs/快捷键 | **8–11 天** | P0 合入门槛 |
 | **M2b** | E（E3+E4 同发；E3 pause API 先于 D3） | **1.5–2 天** | 可与 M3 交错 |
-| 以后 / 可选 | B 颜色；「下次不恢复」菜单；旧插件导入；外接屏归位；隐私增强 | — | |
+| 以后 / 可选 | 隐私增强（已决定不做）；`CACHEDIR.TAG` 可选。颜色、下次不恢复、外接屏归位已做。旧插件导入不做 | — | |
 
 合计约 **22–28 人日**（审查上调）。
 
@@ -424,9 +424,9 @@ if config['restore_last_session'] and getattr(OPTIONS,'layout_from_default',Fals
 
 依赖：B 仍依赖 A（关闭恢复则不回填）；设置页可一句说明，无需恐吓式文案。
 
-#### B.6 后续可选：保留颜色
+#### B.6 颜色
 
-`Vte.Terminal.get_text_range_format(Vte.Format.HTML, ...)`（VTE 0.72+，运行时 `hasattr` 检测）导出 HTML，自行把 `<font color>`/`<b>`/`<u>` 转成 SGR 序列后 feed。工作量中等，单独迭代。
+已实现。VTE 0.72 及以上用 `get_text_range_format` 导出 HTML 再转成 SGR。更早的 VTE 没有这支 API，改读 `get_text_range` 每个单元格的颜色，按 UTF-8 字节对齐后写成 SGR。粗体没有单独字段，不保留。背景与 `get_color_background_for_draw` 相同时省略。
 
 ---
 
@@ -739,7 +739,7 @@ Window
 | M2 | C（C4 早合入） | 2.5–3 天 |
 | M3 | D 拆 D1a/b/c + 动画 + prefs | 8–11 天 |
 | M2b | E（E3+E4 同发） | 1.5–2 天 |
-| 以后 | B 颜色；菜单「下次不恢复」；插件导入；外接屏 | — |
+| 以后 | 隐私增强不做；`CACHEDIR.TAG` 可选。颜色、下次不恢复、外接屏归位已做。旧插件导入不做 | — |
 
 ### 4.2 M1 暴露的配置项（精简）
 

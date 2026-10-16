@@ -149,7 +149,9 @@ def scrollbar_should_show(position, scrollable, forced=None,
     never draw it.  ``forced`` is a manual toggle for this terminal
     (True show, False hide) and sticks until the caller clears it.
     Returns None when a fullscreen-program override owns the widget and
-    the caller must leave it alone.
+    the caller must leave it alone.  ``alt_auto_hidden`` is that override
+    for the whole episode: a TUI redraw that briefly looks scrollable must
+    not show the bar, or the pane is resized under the program.
     """
     if user_override:
         return None
@@ -157,8 +159,8 @@ def scrollbar_should_show(position, scrollable, forced=None,
         return False
     if position in ('disabled', 'hidden') and forced is not True:
         return False
-    if alt_auto_hidden and not scrollable:
-        return False
+    if alt_auto_hidden:
+        return None
     if forced is True or scrollable:
         return True
     return False
@@ -218,17 +220,24 @@ class AltScreenDetector(object):
     """
 
     GRACE_S = 1.0
+    # A TUI redraw can make the adjustment look scrollable for one sample
+    # while the same program still owns the foreground. Ending the episode
+    # there shows the scrollbar and resizes the grid under the program.
+    # A real exit stays uncollapsed, or the shell takes the foreground.
+    UNCOLLAPSE_HOLD_S = 0.4
 
     def __init__(self, clock=None):
         self.active = False
         self.had_history = False
         self.episode_start = None
+        self._uncollapse_since = None
         self._clock = clock or time.monotonic
 
     def reset(self):
         self.active = False
         self.had_history = False
         self.episode_start = None
+        self._uncollapse_since = None
 
     def update(self, collapsed, busy, raw=None, cursor_beyond=False):
         """Feed one observation and return the new ``active`` value.
@@ -243,12 +252,22 @@ class AltScreenDetector(object):
         """
         if not collapsed:
             self.had_history = True
+            if self.active and busy is True:
+                now = self._clock()
+                since = self._uncollapse_since
+                if since is None:
+                    self._uncollapse_since = now
+                    return self.active
+                if now - since < self.UNCOLLAPSE_HOLD_S:
+                    return self.active
+            self._uncollapse_since = None
             self.active = False
             self.episode_start = None
         elif busy is False:
             self.had_history = False
             self.active = False
             self.episode_start = None
+            self._uncollapse_since = None
         elif busy is None:
             # Foreground unknown (no child pid, e.g. flatpak spawn_async,
             # or tcgetpgrp/proc failed).  An idle readline prompt is also
@@ -256,7 +275,9 @@ class AltScreenDetector(object):
             # hide on guesswork.  Keep had_history untouched.
             self.active = False
             self.episode_start = None
+            self._uncollapse_since = None
         else:
+            self._uncollapse_since = None
             now = self._clock()
             if self.episode_start is None:
                 self.episode_start = now
@@ -333,6 +354,10 @@ class AltScreenScrollbar(object):
                 if not adjustment_collapsed(adj.get_lower(), adj.get_upper(),
                                             adj.get_page_size()):
                     self.detector.had_history = True
+                    # An inactive collapse ends here. A stale episode_start
+                    # would make the next fullscreen miss GRACE_S.
+                    self.detector.episode_start = None
+                    self.detector._uncollapse_since = None
                     return
             except Exception:
                 pass
@@ -430,7 +455,10 @@ class AltScreenScrollbar(object):
                                          page)
         busy = raw = None
         beyond = False
-        if collapsed:
+        # Probe the foreground on an uncollapsed sample too, once a TUI is
+        # active. Otherwise every redraw looks like an exit (busy stays
+        # unknown) and the scrollbar is shown, which resizes the grid.
+        if collapsed or self.detector.active:
             fd = self._pty_fd()
             busy = foreground_busy(fd, getattr(self.terminal, 'pid', None))
             if busy is not False:
@@ -450,6 +478,10 @@ class AltScreenScrollbar(object):
         self.apply()
         if was and not now:
             self._note_fullscreen_exited()
+        elif now and not collapsed:
+            # Still the same program, adjustment only just uncollapsed.
+            # Look again after the hold instead of resizing on this sample.
+            self.schedule(int(self.detector.UNCOLLAPSE_HOLD_S * 1000))
         return now
 
     def apply(self):

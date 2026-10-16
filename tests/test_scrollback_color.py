@@ -29,6 +29,43 @@ def test_html_to_sgr_bad_color_ignored():
     assert sbt.html_to_sgr('<pre><font color="red">a</font></pre>') == 'a'
 
 
+class _RGB(object):
+    def __init__(self, r, g, b):
+        self.red, self.green, self.blue = r << 8, g << 8, b << 8
+
+
+class _Attr(object):
+    def __init__(self, fg, bg=(0, 0, 0), flags=4):
+        self.fore = _RGB(*fg)
+        self.back = _RGB(*bg)
+        self.underline = flags
+        self.strikethrough = 0
+
+
+def test_char_attrs_to_sgr_utf8_bytes_and_decorations():
+    # '中' is 3 UTF-8 bytes; VTE 0.68 gives one attribute per byte.
+    grey, red = (192, 192, 192), (192, 0, 0)
+    text = 'A中\n'
+    attrs = [_Attr(grey), _Attr(red), _Attr(red), _Attr(red), _Attr(grey)]
+    out = sbt.char_attrs_to_sgr(text, attrs, default_bg=(0, 0, 0))
+    assert out == ('\x1b[38;2;192;192;192mA\x1b[0m'
+                   '\x1b[38;2;192;0;0m中\x1b[0m\n')
+    # flags 5/6/7 are the packed underline / strike bits on VTE 0.68.
+    marked = sbt.char_attrs_to_sgr(
+        'US', [_Attr(grey, flags=5), _Attr(grey, flags=6)],
+        default_bg=(0, 0, 0))
+    assert marked == ('\x1b[4;38;2;192;192;192mU\x1b[0m'
+                      '\x1b[9;38;2;192;192;192mS\x1b[0m')
+    # A 0/1 underline plus a separate strikethrough field still counts.
+    separate = _Attr(grey, flags=1)
+    separate.strikethrough = 1
+    both = sbt.char_attrs_to_sgr('B', [separate], default_bg=(0, 0, 0))
+    assert both.startswith('\x1b[4;9;38;2;192;192;192m')
+    painted = sbt.char_attrs_to_sgr(
+        'x', [_Attr(grey, bg=(0, 0, 192))], default_bg=(0, 0, 0))
+    assert '48;2;0;0;192' in painted
+
+
 def test_sanitize_keep_sgr_strips_other_sequences():
     raw = ('\x1b[1;31mred\x1b[0m\x1b]0;evil\x07\x1b[2J\x1b[10;10H'
            '\x1bPdcs\x1b\\\x07\x9b ok')
@@ -85,6 +122,72 @@ def _pump(Gtk, until=None, timeout=10.0):
         time.sleep(0.01)
 
 
+def test_read_raw_includes_the_rest_of_the_cursor_line():
+    """End column is the screen width, so text right of the cursor is kept."""
+    gi = pytest.importorskip('gi')
+    try:
+        gi.require_version('Gtk', '3.0')
+        gi.require_version('Vte', '2.91')
+        from gi.repository import Gtk, Vte
+    except (ValueError, ImportError):
+        pytest.skip('no Gtk/Vte')
+    import terminatorlib.scrollback as sb
+    win = Gtk.Window()
+    v = Vte.Terminal()
+    v.set_size(20, 8)
+    win.add(v)
+    win.show_all()
+    try:
+        _pump(Gtk, lambda: v.get_column_count() >= 10)
+        width = v.get_column_count()
+        assert width >= 10
+        v.feed(b'ABOVE\r\nLEFT_RIGHT')
+        v.feed(b'\x1b[2;6H')
+        _pump(Gtk, lambda: v.get_cursor_position()[0] == 5)
+
+        def _has(text):
+            src, _html = sb.read_last_n_lines_raw(v, 8)
+            return src is not None and text in src
+
+        _pump(Gtk, lambda: _has('RIGHT') and _has('ABOVE'))
+        src, _html = sb.read_last_n_lines_raw(v, 8)
+        assert 'RIGHT' in src and 'ABOVE' in src
+        assert 'BELOW' not in src
+        _col, row = v.get_cursor_position()
+        lower = int(v.get_vadjustment().get_lower())
+        assert row - 7 <= lower or True
+        assert max(lower, row - 7) >= lower
+
+        v.feed(b'\x1b[3;1HBELOW')
+        _pump(Gtk, lambda: _has('BELOW'))
+        v.feed(b'\x1b[2;6H')
+        _pump(Gtk, lambda: v.get_cursor_position() == (5, 1))
+        src, _html = sb.read_last_n_lines_raw(v, 8)
+        assert 'RIGHT' in src and 'BELOW' not in src
+
+        v.reset(True, True)
+        _pump(Gtk)
+        v.feed(b'X' * width)
+        _pump(Gtk, lambda: 'X' * width in (
+            sb.read_last_n_lines_raw(v, 4)[0] or ''))
+        full, _html = sb.read_last_n_lines_raw(v, 4)
+        assert 'X' * width in full
+
+        v.reset(True, True)
+        _pump(Gtk)
+        v.feed(b'HI')
+        _pump(Gtk, lambda: v.get_cursor_position()[0] == 2)
+        wide, _html = sb.read_last_n_lines_raw(v, 4)
+        col, end_row = v.get_cursor_position()
+        lower = int(v.get_vadjustment().get_lower())
+        start_row = max(lower, end_row - 3)
+        narrow, _html = sb.export_vte_text(
+            v, start_row, 0, end_row, col, raw=True)
+        assert wide == narrow
+    finally:
+        win.destroy()
+
+
 def test_vte_round_trip_preserves_colour():
     Gtk, Vte, win, v = _vte()
     try:
@@ -110,6 +213,34 @@ def test_vte_round_trip_preserves_colour():
         again = sb.read_last_n_lines(v2, 100, color=True)
         assert '1;38;2;' in again          # bold + colour survived
         assert '38;2;1;2;3m' in again      # truecolour exact
+    finally:
+        win.destroy()
+
+
+def test_old_vte_attribute_export_keeps_palette_colour():
+    """VTE without HTML export still records palette colour from cell attrs."""
+    gi = pytest.importorskip('gi')
+    try:
+        gi.require_version('Gtk', '3.0')
+        gi.require_version('Vte', '2.91')
+        from gi.repository import Gtk, Vte
+    except (ValueError, ImportError):
+        pytest.skip('no Gtk/Vte')
+    if hasattr(Vte.Terminal, 'get_text_range_format'):
+        pytest.skip('HTML export covers colour on this VTE')
+    import terminatorlib.scrollback as sb
+    win = Gtk.Window()
+    v = Vte.Terminal()
+    v.set_size(40, 8)
+    win.add(v)
+    win.show_all()
+    try:
+        v.feed(b'plain \x1b[31mRED\x1b[0m\r\n')
+        _pump(Gtk, lambda: 'RED' in (sb.read_last_n_lines(v, 10) or ''))
+        text = sb.read_last_n_lines(v, 10, color=True)
+        assert 'RED' in text and '\x1b[' in text.split('RED')[0]
+        plain = sb.read_last_n_lines(v, 10, color=False)
+        assert '\x1b' not in plain and 'RED' in plain
     finally:
         win.destroy()
 
@@ -169,6 +300,22 @@ def test_truncate_sgr_oversized_single_line_is_plain():
     out = sbt.truncate_sgr_lines('\x1b[31m' + '你' * 2000 + '\x1b[0m', 5, 1)
     assert '\x1b' not in out and '[' not in out
     assert len(out.encode('utf-8')) <= 1024 and set(out) == {'你'}
+
+
+def test_truncate_sgr_trailing_newline_does_not_drop_the_line():
+    out = sbt.truncate_sgr_lines('short\n' + ('X' * 1024) + '\n', 100, 1)
+    assert out == 'X' * 1024
+    assert 'short' not in out and '\x1b' not in out
+    assert len(out.encode('utf-8')) <= 1024
+    kept = sbt.truncate_sgr_lines('short\n' + ('Y' * 1023) + '\n', 100, 1)
+    assert kept == ('Y' * 1023) + '\n'
+    assert 'short' not in kept
+    html = sbt.html_to_sgr('<pre>short<br>' + ('Z' * 2000) + '<br></pre>')
+    trimmed = sbt.truncate_sgr_lines(html, 100, 1)
+    assert trimmed and 'short' not in trimmed
+    assert len(trimmed.encode('utf-8')) <= 1024
+    assert sbt.truncate_sgr_lines('hello\n', 10, 1) == 'hello\n'
+    assert sbt.truncate_sgr_lines('ab\ncd\n', 10, 1) == 'ab\ncd\n'
 
 
 def test_async_flush_converts_on_worker(tmp_path, monkeypatch):

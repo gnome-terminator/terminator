@@ -584,19 +584,28 @@ class PanePlaceholder(Gtk.DrawingArea):
             # m37: convert once, not on every frame of the animation
             self._snap = pixbuf_to_surface(self._pixbuf, widget,
                                            self._pixbuf_logical_w)
+        # Slot size, not the capture size. A resize while maximised
+        # would otherwise leave a ghost at the old width and height.
+        aw = max(1, int(alloc.width))
+        ah = max(1, int(alloc.height))
         if self._snap is not None:
             try:
-                _surf, sw, sh = self._snap
-                paint_snapshot(cr, self._snap, (0, 0, sw, sh), 0.35)
+                paint_snapshot(cr, self._snap, (0, 0, aw, ah), 0.35)
             except Exception:
                 pass
         elif self._pixbuf is not None:
             try:
                 # m33 post-review: HiDPI snapshots are device-resolution
-                # (w*scale); draw them at logical size, not scale x larger.
+                # (w*scale). Scale device pixels down to logical size,
+                # then stretch that image to the slot's current allocation.
                 k = placeholder_pixbuf_scale(self._pixbuf,
                                              self._pixbuf_logical_w)
+                pw = max(1, int(self._pixbuf.get_width()))
+                ph = max(1, int(self._pixbuf.get_height()))
+                lw = max(1.0, pw * k)
+                lh = max(1.0, ph * k)
                 cr.save()
+                cr.scale(aw / lw, ah / lh)
                 if k != 1.0:
                     cr.scale(k, k)
                 Gdk.cairo_set_source_pixbuf(cr, self._pixbuf, 0, 0)
@@ -1081,6 +1090,26 @@ class OverlayController(object):
                           *margins_from_physical(
                               rtl, chrome[0], chrome[2], chrome[1], chrome[3]))
 
+    def _flush_geometry(self, data):
+        """Run a pending chrome update now, so arrival sees the latest rect."""
+        if data is None or data is not self.data:
+            return
+        idle = data.get('_geo_idle')
+        if not idle:
+            return
+        try:
+            GLib.source_remove(idle)
+        except Exception:
+            pass
+        data['_geo_idle'] = None
+        ov = data.get('overlay')
+        if ov is None:
+            return
+        try:
+            self._apply_chrome_geometry(data, ov.get_allocation())
+        except Exception as ex:
+            dbg('flush geometry: %s' % ex)
+
     def _schedule_geometry(self, data):
         if data is not self.data or data is None:
             return
@@ -1154,14 +1183,22 @@ class OverlayController(object):
             except Exception as ex:
                 dbg('pause_auto_font_scale: %s' % ex)
 
-    def _resume_font(self, terminal):
+    def _resume_font(self, terminal, avail=None):
         if terminal is None or self._frozen is not terminal:
             return
         self._frozen = None
         resume = getattr(terminal, 'resume_auto_font_scale', None)
         if callable(resume):
             try:
-                resume()
+                if avail is None:
+                    resume()
+                else:
+                    resume(avail=avail)
+            except TypeError:
+                try:
+                    resume()
+                except Exception as ex:
+                    dbg('resume_auto_font_scale: %s' % ex)
             except Exception as ex:
                 dbg('resume_auto_font_scale: %s' % ex)
 
@@ -1222,14 +1259,22 @@ class OverlayController(object):
             self._probe = animprofile.begin('expand', window)
         # Capture BEFORE reparent (whole Terminal incl. titlebar, so the
         # first frame matches what is on screen); failure → dim fade only
+        # Flight uses only the whole-terminal surface. A VTE pixbuf is a
+        # fallback for the placeholder, never stretched across the flight.
         snap = capture_widget_surface(terminal) if animate else None
         pixbuf = None
         if animate and snap is None:
             pixbuf = capture_terminal_pixbuf(terminal)
-            if pixbuf is not None:
+            if pixbuf is not None and _is_wayland(terminal):
                 vte = getattr(terminal, 'vte', None) or terminal
-                snap = pixbuf_to_surface(pixbuf, vte,
-                                         vte.get_allocated_width())
+                candidate = pixbuf_to_surface(
+                    pixbuf, vte, vte.get_allocated_width())
+                blank = True
+                if candidate is not None:
+                    blank = surface_looks_blank(
+                        candidate[0], candidate[1], candidate[2])
+                if blank:
+                    pixbuf = None
         zoom_anim = bool(animate) and snap is not None
         fade_only = bool(animate) and not zoom_anim
 
@@ -1367,30 +1412,54 @@ class OverlayController(object):
     def maximise_when_ready(self, terminal):
         """Session restore (P1-2): maximise once the window has a real
         allocation, and only if the terminal's tab is the current one
-        (a background-tab pane must not float over the visible tab)."""
+        (a background-tab pane must not float over the visible tab).
+
+        Not parented yet, not mapped, or not sized yet: keep waiting.
+        Map and size-allocate both queue another attempt, so a map that
+        does not allocate again still runs. A terminal that already lives
+        in some other window is not waited on."""
         window = self.window
-        state = {'hid': None, 'done': False}
+        state = {'ids': [], 'done': False}
 
         def _finish():
+            if state['done']:
+                return
             state['done'] = True
-            if state['hid'] is not None:
+            for obj, hid in state['ids']:
                 try:
-                    window.disconnect(state['hid'])
+                    obj.disconnect(hid)
                 except Exception:
                     pass
-                state['hid'] = None
+            state['ids'] = []
+
+        def _kick(*_a):
+            if not state['done']:
+                GLib.idle_add(_attempt)
 
         def _attempt():
             if state['done']:
                 return False
-            if getattr(window, 'isDestroyed', False) or \
-                    terminal.get_toplevel() is not window:
+            if getattr(window, 'isDestroyed', False):
                 _finish()
+                return False
+            try:
+                if terminal.in_destruction():
+                    _finish()
+                    return False
+                top = terminal.get_toplevel()
+            except Exception:
+                _finish()
+                return False
+            # Unparented: toplevel is the terminal itself. Another real
+            # window means this pane will not land here.
+            if top is not window:
+                if isinstance(top, Gtk.Window):
+                    _finish()
                 return False
             alloc = window.get_allocation()
             if not window.get_mapped() or alloc.width <= 1 or \
                     alloc.height <= 1:
-                return False  # wait for size-allocate
+                return False
             _finish()
             if not terminal_in_current_tab(window, terminal):
                 dbg('maximise_when_ready: %s not in current tab, skipped'
@@ -1402,11 +1471,15 @@ class OverlayController(object):
                 dbg('maximise_when_ready: %s' % ex)
             return False
 
-        def _on_alloc(_w, _a):
-            if not state['done']:
-                GLib.idle_add(_attempt)
-
-        state['hid'] = window.connect('size-allocate', _on_alloc)
+        state['ids'].append((window, window.connect('size-allocate', _kick)))
+        state['ids'].append((window, window.connect('map', _kick)))
+        state['ids'].append((window, window.connect('destroy',
+                                                    lambda *_a: _finish())))
+        try:
+            state['ids'].append(
+                (terminal, terminal.connect('hierarchy-changed', _kick)))
+        except Exception:
+            pass
         GLib.idle_add(_attempt)
         return True
 
@@ -1632,7 +1705,18 @@ class OverlayController(object):
         data['dim'].set_alpha(self.DIM_ALPHA)
         data['ready_at'] = time.monotonic() + self.CLICK_GUARD_MS / 1000.0
         terminal = data['terminal']
-        self._resume_font(terminal)
+        # A resize during the flight updates dst_rect on idle. Apply that
+        # landed size before resume reads the VTE, which can still be the
+        # allocation from animation start.
+        self._flush_geometry(data)
+        rect = data.get('dst_rect')
+        avail = None
+        if rect is not None:
+            try:
+                avail = vte_size_for_rect(terminal, rect, FRAME_CHROME_PX)
+            except Exception:
+                avail = None
+        self._resume_font(terminal, avail=avail)
         if not data['emitted']:
             data['emitted'] = True
             self._emit_changed(terminal, True)
@@ -1663,16 +1747,20 @@ class OverlayController(object):
         # recompute or font resume on terminals that are about to close.
         dying = bool(getattr(window, 'isDestroyed', False) or
                      getattr(window, '_session_destroy_handled', False))
+        emitted = bool(data.get('emitted'))
 
-        # Window-side handlers off before the terminal returns to its slot
+        # Window-side handlers off before the terminal returns to its slot.
+        # On a failed rehome they are connected again with the overlay table.
         try:
             window.disconnect_child(terminal)
         except Exception:
             pass
         frame.set_terminal(None)
+        removed_extras = []
         for extra in (frame, data.get('dim'), data.get('snapshot')):
             if extra is not None and extra.get_parent() is overlay:
                 overlay.remove(extra)
+                removed_extras.append(extra)
 
         # Same-frame E tier for the slot size, then swap back
         try:
@@ -1685,57 +1773,280 @@ class OverlayController(object):
             self._apply_tier_for_rect(terminal, slot)
 
         root_terminal = False
+        removed_placeholder = False
+        placeholder_parent = None
+        try:
+            placeholder_parent = placeholder.get_parent()
+        except Exception:
+            placeholder_parent = None
         # The Overlay's Bin child is the real layout root; data['main'] may
         # be stale if the root was replaced while maximised (P0-1).
         try:
             actual_main = Gtk.Bin.get_child(overlay)
         except Exception:
             actual_main = None
-        if placeholder.get_parent() is overlay:
+        if placeholder_parent is overlay:
             # Siblings all exited: the placeholder became the layout root
-            overlay.remove(placeholder)
+            try:
+                overlay.remove(placeholder)
+                removed_placeholder = True
+            except Exception as ex:
+                dbg('overlay restore: drop root placeholder: %s' % ex)
             main = None
             root_terminal = True
         else:
-            # Take the overlay out of the window first so logical_parent and
-            # Window.add/remove see the plain tree again
             main = actual_main if actual_main is not None else data['main']
 
         try:
             if main is not None and main.get_parent() is overlay:
                 overlay.remove(main)
-            Gtk.Window.remove(window, overlay)
+            if overlay.get_parent() is window:
+                Gtk.Window.remove(window, overlay)
         except Exception as ex:
             dbg('overlay teardown: %s' % ex)
 
+        # Clear the session before the swap. Window.add nests into the
+        # Overlay while is_active() is still true.
         self.data = None
         window.set_property('term_zoomed', False)
 
+        attached = False
         if root_terminal:
-            terminal._overlay_placeholder = None
-            window.add(terminal)
+            attached = self._rehome_root(window, terminal, dying)
         else:
-            if main is not None:
-                Gtk.Window.add(window, main)
-            parent = placeholder.get_parent()
-            terminal._overlay_placeholder = None
-            if parent is None or not self._swap(parent, placeholder,
-                                                 terminal):
-                err('overlay restore: placeholder slot lost; terminal %s '
-                    'not re-parented' % terminal)
+            if main is not None and main.get_parent() is None:
+                try:
+                    Gtk.Window.add(window, main)
+                except Exception as ex:
+                    dbg('overlay restore: reattach main: %s' % ex)
+            parent = placeholder_parent
+            if parent is not None and self._swap(parent, placeholder, terminal):
+                attached = (terminal.get_parent() is not None and
+                            terminal.get_toplevel() is window)
+            if not attached and parent is not None:
+                attached, removed_now = self._same_slot_replace(
+                    window, parent, placeholder, terminal, dying)
+                if removed_now:
+                    removed_placeholder = True
+
+        if not attached:
+            self._abort_restore(
+                window, terminal, placeholder, overlay, main, frame,
+                removed_extras, root_terminal, dying, data,
+                removed_placeholder, placeholder_parent)
+            err('overlay restore: placeholder slot lost; terminal %s '
+                'not re-parented' % terminal)
+            return
+
+        terminal._overlay_placeholder = None
         terminal.show_all()
-        placeholder.destroy()
+        try:
+            placeholder.destroy()
+        except Exception:
+            pass
         if dying:
             # Leave the terminal frozen; it is closed right after this.
             self._frozen = None
         else:
+            # Root success already grabbed inside Window.add.
+            if not root_terminal:
+                try:
+                    terminal.grab_focus()
+                except Exception:
+                    pass
+            self._resume_font(terminal)
+        if emitted:
+            self._emit_changed(terminal, False)
+
+    def _rehome_root(self, window, terminal, dying):
+        """Placeholder was the layout root. data is already clear."""
+        if dying:
             try:
-                terminal.grab_focus()
+                Gtk.Window.add(window, terminal)
+            except Exception as ex:
+                dbg('overlay restore: window add failed: %s' % ex)
+            if terminal.get_parent() is None or \
+                    terminal.get_toplevel() is not window:
+                return False
+            try:
+                window.connect_terminal_signals(
+                    terminal,
+                    window.terminal_signals(terminal, overlay=False))
             except Exception:
                 pass
-            self._resume_font(terminal)
-        if data.get('emitted'):
-            self._emit_changed(terminal, False)
+            return True
+        try:
+            window.add(terminal)
+        except Exception as ex:
+            dbg('overlay restore: window add failed: %s' % ex)
+        return (terminal.get_parent() is not None and
+                terminal.get_toplevel() is window)
+
+    def _same_slot_replace(self, window, parent, placeholder, terminal, dying):
+        """Swap failed. Replace that one slot. Never add onto the layout root.
+
+        Returns (attached, placeholder_was_removed).
+        """
+        page_num = getattr(parent, 'page_num', None)
+        detach_tab = getattr(parent, 'detach_tab', None)
+        if callable(page_num) and callable(detach_tab):
+            # Notebook.add is newtab. A live window gives up; a dying
+            # window may move the existing page.
+            if not dying:
+                return False, False
+            try:
+                page = page_num(placeholder)
+            except Exception:
+                return False, False
+            if page is None or page < 0:
+                return False, False
+            removed = False
+            try:
+                label = parent.get_tab_label(placeholder)
+                detach_tab(placeholder)
+                removed = True
+                parent.insert_page(terminal, label, page)
+                terminal.show_all()
+            except Exception as ex:
+                dbg('overlay restore: notebook slot: %s' % ex)
+                return False, removed
+            attached = (terminal.get_parent() is not None and
+                        terminal.get_toplevel() is window)
+            return attached, removed
+
+        remove = getattr(parent, 'remove', None)
+        add = getattr(parent, 'add', None)
+        if not callable(remove) or not callable(add):
+            return False, False
+        try:
+            remove(placeholder)
+        except Exception as ex:
+            dbg('overlay restore: slot remove: %s' % ex)
+            return False, False
+        try:
+            add(terminal)
+        except Exception as ex:
+            dbg('overlay restore: slot add: %s' % ex)
+            try:
+                add(placeholder)
+            except Exception:
+                return False, True
+            return False, False
+        attached = (terminal.get_parent() is not None and
+                    terminal.get_toplevel() is window)
+        return attached, True
+
+    def _abort_restore(self, window, terminal, placeholder, overlay, main,
+                       frame, removed_extras, root_terminal, dying, data,
+                       removed_placeholder, placeholder_parent):
+        """Swap missed. A live window keeps this maximise. A dying window
+        must not leave is_active() true."""
+        try:
+            parent = terminal.get_parent()
+            if parent is not None and parent is not frame:
+                parent.remove(terminal)
+        except Exception:
+            pass
+
+        if dying:
+            self._abort_restore_dying(
+                window, terminal, placeholder, overlay, main, frame,
+                removed_extras, root_terminal)
+            return
+
+        try:
+            frame.set_terminal(terminal)
+        except Exception as ex:
+            err('overlay restore: frame rollback failed: %s' % ex)
+        if (removed_placeholder and placeholder_parent is not None
+                and placeholder_parent is not overlay):
+            adder = getattr(placeholder_parent, 'add', None)
+            if callable(adder):
+                try:
+                    adder(placeholder)
+                    removed_placeholder = False
+                except Exception as ex:
+                    dbg('overlay restore: put placeholder back: %s' % ex)
+        try:
+            child = Gtk.Window.get_child(window)
+            if child is not None and child is not overlay:
+                Gtk.Window.remove(window, child)
+        except Exception:
+            pass
+        try:
+            if root_terminal:
+                if removed_placeholder:
+                    overlay.add(placeholder)
+            elif main is not None and main.get_parent() is None:
+                overlay.add(main)
+        except Exception as ex:
+            dbg('overlay restore: rollback main: %s' % ex)
+        for extra in removed_extras:
+            try:
+                if extra is not None and extra.get_parent() is None:
+                    overlay.add_overlay(extra)
+            except Exception:
+                pass
+        # data is still None, so this cannot take Window.add's overlay branch.
+        try:
+            if overlay.get_parent() is None:
+                Gtk.Window.add(window, overlay)
+        except Exception as ex:
+            dbg('overlay restore: rollback overlay: %s' % ex)
+        self.data = data
+        window.set_property('term_zoomed', True)
+        try:
+            data['main'] = Gtk.Bin.get_child(overlay)
+        except Exception:
+            data['main'] = main
+        self._bind_geometry(data)
+        self._schedule_geometry(data)
+        # Undo the slot-sized tier applied before the failed swap.
+        self._apply_tier_for_rect(
+            terminal, data.get('dst_rect'), FRAME_CHROME_PX)
+        self._resume_font(terminal)
+        try:
+            window._connect_overlay_terminal_signals(terminal)
+        except Exception:
+            pass
+        try:
+            overlay.show()
+            frame.show_all()
+        except Exception:
+            pass
+
+    def _abort_restore_dying(self, window, terminal, placeholder, overlay,
+                             main, frame, removed_extras, root_terminal):
+        """Leave the terminal in the frame. data stays None."""
+        try:
+            frame.set_terminal(terminal)
+        except Exception as ex:
+            err('overlay restore: frame rollback failed: %s' % ex)
+        try:
+            child = Gtk.Window.get_child(window)
+            if child is not None and child is not overlay:
+                Gtk.Window.remove(window, child)
+                if (not root_terminal and main is not None
+                        and main.get_parent() is None):
+                    overlay.add(main)
+        except Exception as ex:
+            dbg('overlay restore: dying rollback: %s' % ex)
+        for extra in removed_extras:
+            try:
+                if extra is not None and extra.get_parent() is None:
+                    overlay.add_overlay(extra)
+            except Exception:
+                pass
+        try:
+            if overlay.get_parent() is None:
+                Gtk.Window.add(window, overlay)
+        except Exception as ex:
+            dbg('overlay restore: dying overlay: %s' % ex)
+        try:
+            placeholder.destroy()
+        except Exception:
+            pass
+        self._frozen = None
 
     def _emit_changed(self, terminal, active):
         try:

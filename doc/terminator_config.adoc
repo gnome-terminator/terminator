@@ -140,7 +140,11 @@ kept only when the previous process was killed or crashed. Only the first Termin
 process (the one holding the session lock) restores and saves the
 session; it is saved automatically, debounced, as the layout or the
 working directories change. See also *--restore*, *--no-restore* and
-*--clear-session* in *terminator*(1). Set in Preferences > Session. +
+*--clear-session* in *terminator*(1). The full terminal menu item
+*Don't restore next launch* pauses that saving and skips only the next
+plain launch. On X11 a window position that lies on no connected
+monitor is moved onto the primary monitor's work area. Set in
+Preferences > Session. +
 Default value: *True*
 
 *session_save_delay_ms* = _integer_::

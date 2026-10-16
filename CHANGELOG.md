@@ -9,6 +9,7 @@ The five new features below are **on by default**. Each one can be turned off in
 - **Session save and restore.** Windows, tabs, splits, working directories, the maximised pane and any manually set window title are saved automatically (debounced) while Terminator runs. A plain `terminator` launch restores them.
   - New options `--restore`, `--no-restore` and `--clear-session`.
   - New Preferences > Session page with "Save as layout", "Use previous session next time" and "Clear session and cache…".
+  - The full terminal menu has "Don't restore next launch". Checked, it pauses saving and the next plain launch opens a new window once. Uncheck to keep saving. Quit and start Terminator again; a second window opened while this one is still running is not that next launch.
   - Config keys: `restore_last_session`, `session_save_delay_ms`, `session_file`.
   - The session is stored in `$XDG_STATE_HOME/terminator/session.json`.
 - **Close confirmation for running processes.** Closing a terminal, tab or window asks only when a program other than the shell is still running, and the dialog names that program. Several idle shells close with no prompt. `ask_before_closing = always` still asks when every terminal is only a shell. `never` never asks. Config key: `close_confirm_ignore`.
@@ -65,12 +66,34 @@ The five new features below are **on by default**. Each one can be turned off in
 - Missing GNOME gsettings schemas no longer abort startup.
 - **Wayland.** The backend is detected from the display GTK actually opened, so XWayland (`GDK_BACKEND=x11`) still gets the X11 features.
   - On native Wayland the window position is neither saved nor restored, because the compositor places windows. Size, maximised/fullscreen state, layout and the maximised pane are still restored.
+  - On X11, a restored window whose saved position misses every connected monitor is moved onto the primary monitor's work area and shrunk to fit. A maximised or fullscreen window is moved there without shrinking, and the window manager applies that state.
   - Without a global hotkey, hide-on-lose-focus and the hide toggle minimise the window instead of hiding it beyond reach. The toggle brings it back.
   - Shells no longer inherit a stale `WINDOWID` on Wayland.
   - Upstream bug: `WINDOWID` was never set on X11, and the "minimise instead" fallback for a taken hide hotkey was overwritten. Both are fixed.
 - **HiDPI.**
   - Background images are drawn at native resolution under `GDK_SCALE=2`, so they are no longer upscaled and blurry.
   - The narrow-titlebar collapse widths grow with the text size (`GDK_DPI_SCALE`, Xft.dpi, a large UI font).
+- **Mouse wheel.** Ctrl zoom and Shift page-scroll require the whole modifier mask. Ctrl+Shift+Super scrolls every terminal. Turning mouse-wheel zoom off leaves the wheel alone.
+- **Shell start.** A Flatpak shell that fails to start is reported once. Closing a terminal only signals a real process id.
+- **Drag and drop.** A multi-line URI list pastes the first line only.
+- **Background image.** Leaving image mode disconnects the draw handler.
+- **Copy address.** The menu copies the prepared URL.
+- **Close confirmation.** With `ask_before_closing = always`, several idle shells ask once. `flatpak-spawn` itself does not count as a running program. A group close that cannot show its dialog leaves the terminals open.
+- **Splits.** A saved ratio is applied after the pane has a size. Collapsing an inner split keeps the outer pane order. Closing a pane when the window has no last-focused terminal no longer raises.
+- **Overlay maximise.** Restoring a pane puts it back in the slot it left. A session-marked pane still maximises once the window is mapped, including when the terminal was not in the window on the first attempt. The placeholder ghost follows the slot when that slot changes size. Resizing the window during the expand animation leaves the automatic font size on the final pane size.
+- **Window blur.** The blur hint follows the focused terminal.
+- **remotinator.** `new_tab -x` runs that command in the new tab. Set-tab-title updates the page that holds the terminal. A D-Bus string prints as one line. A remote new window or new tab puts the process command line back afterwards.
+- **Alternate screen.** Leaving the inactive fast path ends that scrollbar episode.
+- **Titles and Find.** Confirming a title without changing the text does not lock a custom title. Reopening Find keeps the previous pattern, and a non-ASCII regular expression is compiled in full. The bell icon does not stack timers.
+- **Preferences.** A missing layout name falls back to `default`. Keybinding search filters on the whole string as it is typed. Loading a profile does not paint the previous profile's colours onto it. Cancelling a colour dialog restores the colours that were open. Renaming a profile or layout onto a reserved or existing name is refused. The `default` profile cannot be deleted.
+- **Config.** `cell_width` and `cell_height` stay global. A plugin setting writes only that plugin's tree. `--debug-classes` or `--debug-methods` without `-d` starts.
+- **Debug console.** The debug server listens on a private user socket, and a debug terminal connects to that socket.
+- **Startup.** An empty layout opens one window. A bad window size is skipped and the rest of that window is still created. A layout error does not open a second window when one was already created. If the layout launcher cannot find its interface file, it exits only when no other window is open.
+- **Session.** A rotated or unreadable previous-session file is set aside, and a good `session.json` is kept. Restoring the previous session suspends later writes only after the replacement file is on disk. Layout nodes whose parent is missing are dropped.
+- **Scrollback cache.** A failed write stays dirty and is retried. Closing a terminal still flushes once while the error cooldown is active. Line trimming keeps the tail of the text. VTE before 0.72 has no HTML export; the cache reads each cell's colour from `get_text_range` and replays it, so a restored session keeps palette colours. Bold is not available from that API.
+- **Preferences.** Reconfiguring skips a terminal whose titlebar has already been destroyed, so opening preferences does not crash on that leftover.
+
+- **Plugins.** The logger writes the whole captured block. Docker `exec` and `attach` lines with no container name no longer print a usage error every second. Custom Commands reads the last shell command without blocking the terminal. Auto Theme applies the saved theme once, and cancelling its dialog restores the previous profiles.
 
 **Translations and docs**
 

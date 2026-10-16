@@ -409,3 +409,206 @@ def test_close_terminal_finds_confirmation_container_above_parent_widget():
 
     assert terminal.closed
     assert container.confirmations == [(terminal.get_toplevel(), terminal)]
+
+
+# Same expression as Terminal.update_url_matches for the email handler.
+EMAIL_PATTERN = (
+    "\\b(mailto:)?[a-zA-Z0-9][a-zA-Z0-9.+-]*@[a-zA-Z0-9]"
+    "[a-zA-Z0-9-]*\\.[a-zA-Z0-9][a-zA-Z0-9-]+"
+    "[.a-zA-Z0-9-]*\\b"
+)
+
+
+class _LinkEvent(object):
+    button = 3
+    time = 1
+
+
+def _link_terminal(link, checked):
+    checked_calls = []
+
+    class Vte(object):
+        def hyperlink_check_event(self, event):
+            return link
+
+        def match_check_event(self, event):
+            checked_calls.append(event)
+            return checked
+
+        def get_has_selection(self):
+            return False
+
+        def get_input_enabled(self):
+            return True
+
+    class Bar(object):
+        def get_property(self, _name):
+            return False
+
+    class Top(object):
+        def get_child(self):
+            return None
+
+        def has_multiple_terms(self):
+            return True
+
+    class Term(object):
+        is_held_open = False
+        matches = {'email': 7, 'voip': 8, 'apturl': 9}
+        match_patterns = {
+            'email': EMAIL_PATTERN,
+            'apturl': r'\bapt:.*\b',
+        }
+        scrollbar = Bar()
+        opened = []
+        prepared = []
+
+        class titlebar(object):
+            @staticmethod
+            def get_visible():
+                return True
+
+        def is_zoomed(self):
+            return False
+
+        def get_profile(self):
+            return 'default'
+
+        def get_cwd(self):
+            return '/tmp'
+
+        def emit(self, *_args):
+            pass
+
+        def get_toplevel(self):
+            return Top()
+
+        def maximise(self, *_args):
+            pass
+
+        def open_url(self, url, flag):
+            self.opened.append((url, flag))
+
+        def prepare_url(self, url):
+            self.prepared.append(url)
+            return 'https://example.com/café/路径'
+
+    term = Term()
+    term.vte = Vte()
+
+    class Clip(object):
+        def __init__(self):
+            self.calls = []
+
+        def set_text(self, text, length):
+            self.calls.append((text, length))
+
+    term.clipboard = Clip()
+    term.check_calls = checked_calls
+    return term
+
+
+def _menu_labels(menu):
+    labels = []
+    for child in menu.get_children():
+        getter = getattr(child, 'get_label', None)
+        if not callable(getter):
+            continue
+        label = getter()
+        if label:
+            labels.append(label)
+    return labels
+
+
+def _show_link_menu(term, event):
+    captured = []
+    original = Gtk.Menu.popup_at_pointer
+    Gtk.Menu.popup_at_pointer = lambda self, *_args: captured.append(self)
+    try:
+        popup = TerminalPopupMenu(term)
+        popup.show(term, event)
+    finally:
+        Gtk.Menu.popup_at_pointer = original
+    return captured[-1]
+
+
+def _item_with_label(menu, label):
+    for child in menu.get_children():
+        getter = getattr(child, 'get_label', None)
+        if callable(getter) and getter() == label:
+            return child
+    return None
+
+
+def test_copy_address_prepares_the_url_once_and_uses_length_minus_one():
+    from terminatorlib.translation import _
+    link = 'https://example.com/café/路径'
+    term = _link_terminal(link, [link, 5])
+    menu = _show_link_menu(term, _LinkEvent())
+    assert term.prepared == []
+    item = _item_with_label(menu, _('_Copy address'))
+    assert item is not None
+    item.emit('activate')
+    assert term.prepared == [[link, 5]]
+    assert term.clipboard.calls == [('https://example.com/café/路径', -1)]
+
+
+def test_mailto_hyperlink_uses_the_email_match():
+    from terminatorlib.translation import _
+    term = _link_terminal('mailto:foo@bar.com', None)
+    menu = _show_link_menu(term, _LinkEvent())
+    labels = _menu_labels(menu)
+    assert _('_Send email to...') in labels
+    assert _('_Copy email address') in labels
+    assert _('Open software manager') not in labels
+    assert term.check_calls == []
+    _item_with_label(menu, _('_Send email to...')).emit('activate')
+    assert term.opened == [(['mailto:foo@bar.com', term.matches['email']], True)]
+
+
+def test_unmatched_hyperlink_falls_back_to_match_check():
+    from terminatorlib.translation import _
+    event = _LinkEvent()
+    term = _link_terminal('https://example.com/not-a-handler', None)
+    menu = _show_link_menu(term, event)
+    assert term.check_calls == [event]
+    assert _('Open software manager') not in _menu_labels(menu)
+
+
+def test_url_containing_the_word_email_is_not_an_email():
+    from terminatorlib.translation import _
+    event = _LinkEvent()
+    term = _link_terminal('https://example.com/email', None)
+    menu = _show_link_menu(term, event)
+    assert term.check_calls == [event]
+    assert _('_Send email to...') not in _menu_labels(menu)
+    assert _('Open software manager') not in _menu_labels(menu)
+
+
+def test_add_regex_stores_the_pattern_and_match_remove_drops_it():
+    from terminatorlib.terminal import Terminal
+    term = Terminal.__new__(Terminal)
+
+    class Vte(object):
+        def match_add_regex(self, _reg, _flags):
+            return 4
+
+        def match_add_gregex(self, _reg, _flags):
+            return 5
+
+        def match_set_cursor_name(self, *_args):
+            pass
+
+        def match_remove(self, *_args):
+            pass
+
+    term.vte = Vte()
+    term.matches = {}
+    term.match_patterns = {}
+    term.regex_flags = 0
+    term._add_regex('email', r'foo')
+    assert term.match_patterns['email'] == r'foo'
+    assert term.matches['email'] in (4, 5)
+    term.match_remove('email')
+    assert 'email' not in term.matches
+    assert 'email' not in term.match_patterns

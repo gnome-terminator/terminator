@@ -154,13 +154,22 @@ if __name__ == '__main__':
                     err('--clear-session ignored: another Terminator instance '
                         'owns the session')
             cfg = Config()
-            want_restore = (
-                (cfg['restore_last_session'] or getattr(OPTIONS, 'restore', False))
-                and got_lock
+            plain_launch = (
+                got_lock
                 and getattr(OPTIONS, 'layout_from_default', False)
                 and not OPTIONS.command and not OPTIONS.execute
                 and not OPTIONS.working_directory and not OPTIONS.configjson
+            )
+            # One-shot from the full menu. Consumed on this plain launch
+            # even when restore is already off, so the mark cannot fire later.
+            skip_once = plain_launch and sess.consume_skip_next_restore()
+            if skip_once:
+                dbg('session restore skipped: one-shot mark from the previous run')
+            want_restore = (
+                (cfg['restore_last_session'] or getattr(OPTIONS, 'restore', False))
+                and plain_launch
                 and not getattr(OPTIONS, 'no_restore', False)
+                and not skip_once
             )
             if want_restore:
                 if sess.check_crash_marker():
@@ -219,7 +228,8 @@ if __name__ == '__main__':
             err('layout creation failed, creating a window ("%s")' % ex)
             if restoring and sess is not None:
                 sess.restore_failed(ex)
-            TERMINATOR.new_window()
+            if not [w for w in TERMINATOR.windows if w not in windows_before]:
+                TERMINATOR.new_window()
         except Exception as ex:
             # A malformed restored session must never stop startup
             err('layout creation crashed, creating a window ("%s")' % ex)

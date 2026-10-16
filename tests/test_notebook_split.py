@@ -138,3 +138,162 @@ def test_closing_second_to_last_terminal_does_not_finalize(monkeypatch):
     except Exception:
         pass
     assert calls == [1]
+
+
+def _three_page_notebook(win):
+    first = list(win.get_visible_terminals())[0]
+    win.tab_new(first)
+    _pump()
+    win.tab_new(first)
+    _pump()
+    nb = _nb(win)
+    assert nb is not None and nb.get_n_pages() == 3
+    return nb, first
+
+
+def _split_without_draining_idle(nb, original):
+    """split_axis queues focus on idle. Leave that source unrun."""
+    page = nb.page_num(original)
+    assert page >= 0
+    nb.split_axis(original, vertical=True)
+    paned = nb.get_nth_page(page)
+    survivor = [child for child in paned.get_children()
+                if child is not None and child is not original][0]
+    return survivor
+
+
+def test_promote_original_pane_closes_without_focus_in(win, monkeypatch):
+    from terminatorlib.terminal import Terminal
+    monkeypatch.setattr(Terminal, 'on_vte_focus_in', lambda *a, **k: None)
+    old_ask = win.config['ask_before_closing']
+    win.config['ask_before_closing'] = 'never'
+    try:
+        nb, original = _three_page_notebook(win)
+        survivor = _split_without_draining_idle(nb, original)
+        assert nb._promote_terminal(nb, original, 0) is True
+        assert nb.page_num(survivor) >= 0
+        assert nb.last_active_term[survivor] is survivor.uuid
+        before = nb.get_n_pages()
+        label = nb.get_tab_label(survivor)
+        nb.closetab(label, label)
+        assert nb.get_n_pages() == before - 1
+        assert all(nb.get_nth_page(i) is not survivor
+                   for i in range(nb.get_n_pages()))
+    finally:
+        win.config['ask_before_closing'] = old_ask
+
+
+def test_promote_original_pane_close_after_focus_in(win):
+    old_ask = win.config['ask_before_closing']
+    win.config['ask_before_closing'] = 'never'
+    try:
+        nb, original = _three_page_notebook(win)
+        survivor = _split_without_draining_idle(nb, original)
+        assert nb._promote_terminal(nb, original, 0) is True
+        survivor.on_vte_focus_in(None, None)
+        assert nb.page_num(survivor) >= 0
+        before = nb.get_n_pages()
+        label = nb.get_tab_label(survivor)
+        nb.closetab(label, label)
+        assert nb.get_n_pages() == before - 1
+        assert survivor not in nb.last_active_term
+    finally:
+        win.config['ask_before_closing'] = old_ask
+
+
+def _scroll(nb, direction, dx=0.0, dy=0.0):
+    from gi.repository import Gdk
+    event = Gdk.Event.new(Gdk.EventType.SCROLL)
+    event.direction = direction
+    event.delta_x = dx
+    event.delta_y = dy
+    return nb.on_scroll_event(nb, event)
+
+
+def test_tab_strip_window_selects_smooth_scroll(win):
+    from gi.repository import Gdk
+    first = list(win.get_visible_terminals())[0]
+    win.tab_new(first)
+    _pump()
+    nb = _nb(win)
+    previous = nb.config['tab_position']
+    nb.config['tab_position'] = 'top'
+    try:
+        nb.configure()
+        win.resize(800, 600)
+        _pump()
+        mask = nb.get_window().get_events()
+        assert mask & Gdk.EventMask.SCROLL_MASK
+        assert mask & Gdk.EventMask.SMOOTH_SCROLL_MASK
+    finally:
+        nb.config['tab_position'] = previous
+
+
+def test_smooth_scroll_vertical_on_top_switches_one_page(win, monkeypatch):
+    from gi.repository import Gdk
+    nb, _original = _three_page_notebook(win)
+    monkeypatch.setattr(Gtk, 'get_event_widget', lambda _event: nb)
+    for pos in (Gtk.PositionType.TOP, Gtk.PositionType.BOTTOM):
+        nb.set_tab_pos(pos)
+        nb.set_current_page(1)
+        nb._scroll_acc = 0.0
+        assert _scroll(nb, Gdk.ScrollDirection.SMOOTH, 0.0, 1.0) is True
+        assert nb.get_current_page() == 2
+        assert _scroll(nb, Gdk.ScrollDirection.SMOOTH, 0.0, -1.0) is True
+        assert nb.get_current_page() == 1
+
+
+def test_smooth_scroll_accumulates_on_the_right(win, monkeypatch):
+    from gi.repository import Gdk
+    nb, _original = _three_page_notebook(win)
+    monkeypatch.setattr(Gtk, 'get_event_widget', lambda _event: nb)
+    nb.set_tab_pos(Gtk.PositionType.RIGHT)
+    nb.set_current_page(0)
+    nb._scroll_acc = 0.0
+    assert _scroll(nb, Gdk.ScrollDirection.SMOOTH, 0.0, 0.4) is True
+    assert _scroll(nb, Gdk.ScrollDirection.SMOOTH, 0.0, 0.4) is True
+    assert nb.get_current_page() == 0
+    assert _scroll(nb, Gdk.ScrollDirection.SMOOTH, 0.0, 0.4) is True
+    assert nb.get_current_page() == 1
+    assert _scroll(nb, Gdk.ScrollDirection.SMOOTH, 0.0, -0.4) is True
+    assert nb.get_current_page() == 1
+
+
+def test_discrete_down_is_next_on_every_edge(win, monkeypatch):
+    from gi.repository import Gdk
+    nb, _original = _three_page_notebook(win)
+    monkeypatch.setattr(Gtk, 'get_event_widget', lambda _event: nb)
+    for pos in (Gtk.PositionType.TOP, Gtk.PositionType.BOTTOM,
+                Gtk.PositionType.LEFT, Gtk.PositionType.RIGHT):
+        nb.set_tab_pos(pos)
+        nb.set_current_page(0)
+        assert _scroll(nb, Gdk.ScrollDirection.DOWN) is True
+        assert nb.get_current_page() == 1
+
+
+def test_collapse_inner_first_slot_keeps_outer_order(win):
+    first = win.get_child()
+    win.split_axis(first, vertical=False)
+    outer = win.get_child()
+    outer.split_axis(outer.get_child1(), vertical=True)
+    inner = outer.get_child1()
+    saved_second = outer.get_child2()
+    survivor = inner.get_child2()
+    inner.wrapcloseterm(inner.get_child1())
+    assert outer.get_child1() is survivor
+    assert outer.get_child2() is saved_second
+    assert list(outer.children) == [outer.get_child1(), outer.get_child2()]
+
+
+def test_collapse_inner_second_slot_keeps_outer_order(win):
+    first = win.get_child()
+    win.split_axis(first, vertical=False)
+    outer = win.get_child()
+    outer.split_axis(outer.get_child2(), vertical=True)
+    inner = outer.get_child2()
+    saved_first = outer.get_child1()
+    survivor = inner.get_child2()
+    inner.wrapcloseterm(inner.get_child1())
+    assert outer.get_child1() is saved_first
+    assert outer.get_child2() is survivor
+    assert list(outer.children) == [saved_first, survivor]

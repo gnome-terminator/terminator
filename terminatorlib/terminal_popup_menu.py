@@ -14,6 +14,48 @@ from .config import Config
 from .prefseditor import PrefsEditor
 from . import plugin
 
+
+def append_skip_restore_item(menu):
+    """Add the one-shot "don't restore the next plain launch" check item."""
+    from .session import SessionManager
+    sess = SessionManager()
+    item = Gtk.CheckMenuItem.new_with_mnemonic(_("Don't restore _next launch"))
+    item.set_tooltip_text(_(
+        'The next plain launch opens a new window instead of this session. '
+        'Uncheck to keep saving. This window stays as it is.'))
+    try:
+        owner = bool(sess.is_owner())
+    except Exception:
+        owner = False
+    item.set_sensitive(owner)
+    try:
+        armed = bool(owner and sess.skip_next_armed())
+    except Exception:
+        armed = False
+    item.set_active(armed)
+
+    def _toggled(check):
+        if getattr(check, '_skip_restore_updating', False):
+            return
+        try:
+            owns = bool(sess.is_owner())
+        except Exception:
+            owns = False
+        if not owns:
+            return
+        if check.get_active():
+            if not sess.arm_skip_next_restore():
+                check._skip_restore_updating = True
+                check.set_active(False)
+                check._skip_restore_updating = False
+        else:
+            sess.cancel_skip_next_restore()
+
+    item.connect('toggled', _toggled)
+    menu.append(item)
+    return item
+
+
 class TerminalPopupMenu(object):
     """Class implementing the Terminal context menu"""
     terminal = None
@@ -166,16 +208,13 @@ class TerminalPopupMenu(object):
 
             if url:
                 tag = None
-
-                for pattern, tag in terminal.matches.items():
+                for name, pattern in getattr(terminal, 'match_patterns', {}).items():
                     try:
-                        if re.search(pattern, url):
-                            tag = tag
-
+                        if pattern and re.search(pattern, url):
+                            tag = terminal.matches[name]
                             break
                     except Exception:
                         continue
-
                 if tag is not None:
                     url = [url, tag]
                 else:
@@ -237,8 +276,10 @@ class TerminalPopupMenu(object):
 
             item = Gtk.MenuItem.new_with_mnemonic(namecopy)
             item.set_tooltip_text(url[0])
-            item.connect('activate',
-                         lambda x: terminal.clipboard.set_text(terminal.prepare_url(url), len(terminal.prepare_url(url))))
+            def _copy_address(_item, url=url):
+                text = terminal.prepare_url(url)
+                terminal.clipboard.set_text(text, -1)
+            item.connect('activate', _copy_address)
             menu.append(item)
 
             menu.append(Gtk.SeparatorMenuItem())
@@ -384,6 +425,8 @@ class TerminalPopupMenu(object):
             item.set_active(terminal.scrollbar.get_property('visible'))
             item.connect('toggled', lambda x: terminal.do_scrollbar_toggle())
             menu.append(item)
+
+            append_skip_restore_item(menu)
 
             if hasattr(Gtk, 'Builder'):  # VERIFY FOR GTK3: is this ever false?
                 item = self.menu_item(Gtk.MenuItem, 'preferences',

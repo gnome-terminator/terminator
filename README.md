@@ -22,6 +22,8 @@ TerminatorX 在一个窗口里放多个终端。标签和窗格排在左侧，�
 | 窗格变窄时，字体按 100% / 90% / 80% 缩小 | 首选项 > 窗格，`auto_font_scale = False`，或点标题栏上的比例 |
 | 全屏程序（vim、less、htop、tmux）运行时藏起滚动条 | 首选项 > 配置文件 > 滚动，`scrollbar_hide_in_alt_screen = False` |
 
+完整菜单里可以勾选「下次启动不恢复」：先退出，再启动，下一次普通启动会开一个新窗口。外接屏拔掉以后，落在已经不存在的屏幕上的窗口会回到主显示器。
+
 ## 原项目
 
 TerminatorX 基于 [gnome-terminator/terminator](https://github.com/gnome-terminator/terminator) 2.1.6。下面这些是上游的说明：
@@ -37,4 +39,4 @@ TerminatorX 基于 [gnome-terminator/terminator](https://github.com/gnome-termin
 
 TerminatorX keeps several terminals in one window. Tabs and panes are a list on the left: drag to reorder, nest a tab under another, or lift a pane out into its own tab. A pane can open over the others and come back. The tab list stays where it is. The terminal is VTE, the widget GNOME Terminal uses. The frame is thin: a white header bar, a 1px line between panes, and a pane titlebar only when the window is split.
 
-The command is still `terminator`. The table above lists what this fork adds. Upstream history, shortcuts and licensing are in the links under 原项目.
+The command is still `terminator`. The table above lists what this fork adds. The full menu can skip the next plain launch once ("Don't restore next launch"). On X11, a window restored onto a monitor that is no longer connected moves to the primary display. Upstream history, shortcuts and licensing are in the links under 原项目.

@@ -52,8 +52,10 @@ HAS_WRITE_CONTENTS_SYNC = hasattr(Vte.Terminal, 'write_contents_sync')
 | 优先级 | API | 自版本 | 用法 |
 |---|---|---|---|
 | 1 | `vte.get_text_range_format(Vte.Format.TEXT, start_row, 0, end_row, end_col)` | 0.72+ | 返回 `(text, length)`；取 `[0]` |
-| 2 | `vte.get_text_range(start_row, 0, end_row, end_col, None)` | 更旧；0.76 起 deprecated | 返回 `(text, attrs)`；取 `[0]` |
+| 2 | `vte.get_text_range(start_row, 0, end_row, end_col, None)` | 更旧；0.76 起 deprecated | 返回 `(text, attrs)`。纯文本取 `[0]`。没有 HTML 导出时，`color=True` 用 `attrs` 写成 SGR |
 | 3 | `vte.write_contents_sync(stream, Vte.WriteFlags.DEFAULT, None)` | 较广 | 写入 `Gio.MemoryOutputStream`，再按行截断 |
+
+没有 `get_text_range_format` 时，颜色走第 2 行的 `attrs`。属性按 UTF-8 字节对齐，不是按码点：一个 3 字节字符占三条属性，颜色在第一条上。每行自己打开样式并在换行前复位。前景色一律记下（这个接口分不出“默认前景”）。背景色与 `get_color_background_for_draw` 相同则不写。PyGObject 在 VTE 0.68 上把下划线放在 `underline` 的 bit 0、删除线放在 bit 1。粗体不在这个结构里。
 
 **行范围算法**（绝对行号；起始行不得小于 `get_vadjustment().get_lower()`，否则 scrollback 溢出淘汰后会请求已不存在的行。终端视图 `create_terminalbox` 已用同一 adjustment，见 `terminal.py:337`）：
 

@@ -13,6 +13,13 @@
 # System packages (Debian/Ubuntu), install once if missing:
 #   sudo apt-get install python3-gi python3-gi-cairo gir1.2-gtk-3.0 \
 #        gir1.2-vte-2.91 xvfb libglib2.0-bin
+#
+# Gtk must be 3.0 in the pytest process before collection. A test module
+# that imports Gtk without gi.require_version gets Gtk 4 on current
+# gi, and terminatorlib.util then exits because Gdk 4 is already loaded.
+# The repo-root conftest.py requests Gtk 3.0 and Vte 2.91 before collection.
+# The import check below is a separate process and only verifies the
+# system packages; it does not load Gtk into the pytest process.
 #   Optional (enables the two ignored modules):
 #   sudo apt-get install python3-dbus gir1.2-notify-0.7
 #   Optional (real schema instead of the stub): gsettings-desktop-schemas

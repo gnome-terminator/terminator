@@ -67,8 +67,10 @@ def test_restore_prev_then_save_then_crash_quarantines_real_source(sm):
     assert sm.check_crash_marker() is True
     assert not os.path.exists(path + '.prev2')
     assert _uid(path + '.prev2.crashed') == 'src'
-    # the crashing session is gone; the older non-crashing one remains
-    assert sm.load()['layout']['terminal1']['uuid'] == 'cur'
+    # only the rotated source is quarantined; the save during restore stays
+    assert _uid(path) == 'new'
+    assert _uid(path + '.prev') == 'cur'
+    assert sm.load()['layout']['terminal1']['uuid'] == 'new'
 
 
 def test_restore_session_json_then_save_then_crash(sm):
@@ -82,9 +84,13 @@ def test_restore_session_json_then_save_then_crash(sm):
     assert _marker_src(sm) == 'session.json.prev'
     assert sm.check_crash_marker() is True
     assert not os.path.exists(path + '.prev')
-    data = sm.load()
-    # falls back to the older session, not the one that crashed
-    assert data['layout']['terminal1']['uuid'] == 'older'
+    assert os.path.isfile(path)
+    assert _uid(path) == 'new'
+    assert _uid(path + '.prev.crashed') == 'src'
+    data = sm.load_crash_fallback()
+    assert data['layout']['terminal1']['uuid'] == 'new'
+    assert sm.safe_restore is False
+    assert sm._fallback_restore is True
 
 
 def test_legacy_marker_without_source_follows_session_json(sm):

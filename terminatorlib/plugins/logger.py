@@ -48,8 +48,7 @@ class Logger(plugin.MenuItem):
             content = terminal.get_text_range_format(Vte.Format.TEXT,row_start, col_start, row_end, col_end)
         content = content[0]
         fd = self.loggers[terminal]["fd"]
-        # Don't write the last char which is always '\n'
-        fd.write(content[:-1])
+        fd.write(content)
         self.loggers[terminal]["col"] = col_end
         self.loggers[terminal]["row"] = row_end
 

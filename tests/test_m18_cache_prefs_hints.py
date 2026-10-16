@@ -12,23 +12,38 @@ gi.require_version('Vte', '2.91')
 from terminatorlib.prefseditor import scrollback_cache_info_text  # noqa: E402
 
 
+def _off_hint():
+    """Static '0 = off' sentence inside the translated cache label."""
+    from terminatorlib.translation import _
+    fmt = _('Cache: %s (%d file(s), %d KiB); %s; %s. '
+            '0 = off. Open terminals are never pruned at runtime; they are '
+            'limited only by %s.')
+    return fmt.split('%s')[3]
+
+
 def test_info_text_values():
+    from terminatorlib.translation import _
     t = scrollback_cache_info_text('/c', 2, 2048, 7, 20, 512)
-    assert '7 days' in t and '20 MiB' in t and '2 KiB' in t
-    assert '0 = off' in t and '(512 KiB)' in t
+    assert (_('older than %d days is pruned') % 7) in t
+    assert (_('total above %d MiB is pruned') % 20) in t
+    assert (_('the per-file size limit (%d KiB)') % 512) in t
+    assert '2 KiB' in t and _off_hint() in t
     # m26: no raw config keys in the UI
     assert '_' not in t.replace('/c', '')
 
 
 def test_info_text_zero_is_off():
+    from terminatorlib.translation import _
     t = scrollback_cache_info_text('/c', 0, 0, 0, 0)
-    assert 'age pruning off' in t and 'total size cap off' in t
-    assert '0 days' not in t and '0 MiB' not in t
+    assert _('age pruning off') in t and _('total size cap off') in t
+    assert (_('older than %d days is pruned') % 0) not in t
+    assert (_('total above %d MiB is pruned') % 0) not in t
 
 
 def test_info_text_bad_values():
+    from terminatorlib.translation import _
     t = scrollback_cache_info_text('/c', 0, 0, 'x', None)
-    assert 'off' in t
+    assert _('age pruning off') in t and _('total size cap off') in t
 
 
 @pytest.fixture

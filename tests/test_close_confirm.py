@@ -3,9 +3,10 @@
 
 from __future__ import print_function
 
-import os
-
+import gi
 import pytest
+
+gi.require_version('Gtk', '3.0')
 
 from terminatorlib import close_confirm as cc
 
@@ -15,29 +16,41 @@ def test_basename_strips_login_dash():
     assert cc._basename_of('/usr/bin/zsh') == 'zsh'
 
 
-def test_shell_only_not_confirm():
+def test_shell_only_not_confirm(monkeypatch):
+    import sys
+    calls = []
+
+    class Proc(object):
+        def name(self):
+            calls.append('name')
+            return 'bash'
+
+        def children(self, recursive=True):
+            calls.append(('children', recursive))
+            return []
+
+    class FakePsutil(object):
+        class Error(Exception):
+            pass
+
+        class NoSuchProcess(Error):
+            pass
+
+        @staticmethod
+        def Process(pid):
+            calls.append(('Process', pid))
+            return Proc()
+
+    monkeypatch.setitem(sys.modules, 'psutil', FakePsutil)
+    monkeypatch.setattr(cc, '_never_ask', lambda: False)
+
     class Term(object):
-        pid = os.getpid()  # pytest process — usually not a shell basename
+        pid = 4242
 
-    # Force ignore of our own process name by treating it as shell
-    ignore = set()
-    # Monkeypatch relevant_processes to use known shell pid simulation
-    class ShellTerm(object):
-        pid = 1  # init — name varies; use mock via monkeypatch
-
-    # Unit-level: empty found when basename in SHELL
-    # Simulate by calling with a fake that we control via /proc of self:
-    # Mark our pid's basename as shell by temporarily adding it
-    myname = cc._proc_basename(os.getpid()) or 'python'
-    shells = set(cc.SHELL_BASENAMES)
-    shells.add(myname)
-    # Inline check of filter logic
-    found = []
-    bname = myname
-    skip = shells | set(cc.DEFAULT_CLOSE_CONFIRM_IGNORE)
-    if bname and bname not in skip:
-        found.append((os.getpid(), bname))
-    assert found == []
+    assert cc.relevant_processes_for_terminal(Term()) == []
+    assert calls == [('Process', 4242), 'name', ('children', True)]
+    need, procs = cc.should_confirm_processes([Term()])
+    assert need is False and procs == []
 
 
 def test_pid_none_no_prompt():
@@ -99,3 +112,158 @@ def test_scope_terminals_lone_terminal():
     assert 'bash' in cc.SHELL_BASENAMES
     assert callable(cc.request_close_terminal)
     assert callable(cc.scope_terminals)
+
+
+def _install_psutil(monkeypatch, root_name, children):
+    import sys
+    calls = []
+
+    class Child(object):
+        def __init__(self, pid, name):
+            self.pid = pid
+            self._name = name
+
+        def name(self):
+            calls.append(('child-name', self.pid))
+            return self._name
+
+    class Proc(object):
+        def name(self):
+            calls.append('name')
+            return root_name
+
+        def children(self, recursive=True):
+            calls.append(('children', recursive))
+            return [Child(pid, name) for pid, name in children]
+
+    class FakePsutil(object):
+        class Error(Exception):
+            pass
+
+        class NoSuchProcess(Error):
+            pass
+
+        @staticmethod
+        def Process(pid):
+            calls.append(('Process', pid))
+            return Proc()
+
+    monkeypatch.setitem(sys.modules, 'psutil', FakePsutil)
+    monkeypatch.setattr(cc, '_never_ask', lambda: False)
+    return calls
+
+
+def test_flatpak_spawn_root_alone_is_not_a_job(monkeypatch):
+    assert 'flatpak-spawn' not in cc.SHELL_BASENAMES
+    calls = _install_psutil(monkeypatch, 'flatpak-spawn', [])
+
+    class Term(object):
+        pid = 4242
+
+    assert cc.relevant_processes_for_terminal(Term()) == []
+    assert calls == [('Process', 4242), 'name', ('children', True)]
+    need, procs = cc.should_confirm_processes([Term()])
+    assert need is False and procs == []
+
+
+def test_flatpak_spawn_root_still_lists_children(monkeypatch):
+    calls = _install_psutil(monkeypatch, 'flatpak-spawn', [(99, 'vim')])
+
+    class Term(object):
+        pid = 4242
+
+    assert cc.relevant_processes_for_terminal(Term()) == [(99, 'vim')]
+    assert calls[0] == ('Process', 4242)
+    assert calls[1] == 'name'
+    assert calls[2] == ('children', True)
+    need, procs = cc.should_confirm_processes([Term()])
+    assert need is True
+    assert procs == [(99, 'vim')]
+
+
+def _pin_dialogs(monkeypatch, ask, shell_response):
+    from gi.repository import Gtk
+    seen = {'shell': 0, 'process': 0}
+
+    def shell(parent, terms):
+        seen['shell'] += 1
+        seen['shell_args'] = (parent, terms)
+        return shell_response
+
+    def process(parent, terms, procs):
+        seen['process'] += 1
+        seen['process_args'] = (parent, terms, procs)
+        return Gtk.ResponseType.ACCEPT
+
+    monkeypatch.setattr(cc, '_ask_before_closing', lambda: ask)
+    monkeypatch.setattr(cc, 'show_shell_close_dialog', shell)
+    monkeypatch.setattr(cc, 'show_process_close_dialog', process)
+    return seen
+
+
+def test_always_idle_shells_follow_the_shell_dialog(monkeypatch):
+    from gi.repository import Gtk
+    parent = object()
+
+    class Term(object):
+        pid = None
+        closed = False
+
+        def get_toplevel(self):
+            return parent
+
+        def close(self):
+            self.closed = True
+
+    term = Term()
+    seen = _pin_dialogs(monkeypatch, 'always', Gtk.ResponseType.CANCEL)
+    assert cc.confirm_close_terminals([term]) is False
+    assert seen['shell'] == 1 and seen['process'] == 0
+    assert seen['shell_args'][0] is parent
+
+    seen = _pin_dialogs(monkeypatch, 'always', Gtk.ResponseType.ACCEPT)
+    assert cc.confirm_close_terminals([term]) is True
+    assert seen['shell'] == 1 and seen['process'] == 0
+
+    seen = _pin_dialogs(monkeypatch, 'always', Gtk.ResponseType.CANCEL)
+    from terminatorlib.terminator import Terminator
+    term.group = 'g'
+    app = type('App', (), {'terminals': [term], 'windows': []})()
+    assert Terminator.closegroupedterms(app, 'g') is False
+    assert term.closed is False
+
+
+def test_multiple_terminals_and_never_skip_both_dialogs(monkeypatch):
+    class Term(object):
+        pid = None
+
+        def get_toplevel(self):
+            return None
+
+    for mode in ('multiple_terminals', 'never'):
+        seen = _pin_dialogs(monkeypatch, mode, None)
+        assert cc.confirm_close_terminals([Term()]) is True
+        assert seen['shell'] == 0 and seen['process'] == 0
+
+
+def test_always_with_a_named_process_uses_only_the_process_dialog(monkeypatch):
+    seen = _pin_dialogs(monkeypatch, 'always', None)
+    monkeypatch.setattr(
+        cc, 'should_confirm_processes', lambda terms: (True, [(7, 'vim')]))
+
+    class Term(object):
+        pid = 7
+
+        def get_toplevel(self):
+            return None
+
+    assert cc.confirm_close_terminals([Term()]) is True
+    assert seen['process'] == 1 and seen['shell'] == 0
+    assert seen['process_args'][2] == [(7, 'vim')]
+
+
+def test_empty_terminal_lists_close_without_a_dialog(monkeypatch):
+    seen = _pin_dialogs(monkeypatch, 'always', None)
+    assert cc.confirm_close_terminals([]) is True
+    assert cc.confirm_close_terminals([None]) is True
+    assert seen['shell'] == 0 and seen['process'] == 0

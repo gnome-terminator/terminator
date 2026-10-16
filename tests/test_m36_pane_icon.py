@@ -40,8 +40,9 @@ def _tb(**extra):
     cfg = dict(_COLOURS)
     cfg.update(extra)
     tb = Titlebar(FakeTerminal(make_config(**cfg)))
-    # Fake terminals have no VTE style context; keep the titlebar shown
-    tb.get_desired_visibility = lambda: True
+    # Fake terminals have no VTE style context; keep the titlebar shown.
+    # update_visibility may pass the already-known multi-pane flag.
+    tb.get_desired_visibility = lambda *args, **kwargs: True
     return tb
 
 
@@ -260,14 +261,16 @@ def test_real_terminal_icons_hidden_and_menu_has_grouping(win, monkeypatch):
         cfg['titlebar_show_icon'] = False
         term.titlebar.apply_chrome_config()
         assert term.titlebar.groupicon.get_visible() is True
+        from terminatorlib.translation import _
         assert term.titlebar.termicon.get_visible() is False
         assert cfg['show_titlebar'] is True
-        assert 'Grouping' in _menu_labels(monkeypatch, term)
+        grouping = _('Grouping')
+        assert grouping in _menu_labels(monkeypatch, term)
         cfg['titlebar_show_icon'] = True
         term.titlebar.apply_chrome_config()
         assert term.titlebar.groupicon.get_visible() is True
         # icon is clickable again -> menu keeps upstream behaviour
-        assert 'Grouping' not in _menu_labels(monkeypatch, term)
+        assert grouping not in _menu_labels(monkeypatch, term)
     finally:
         cfg['titlebar_show_icon'] = old
 

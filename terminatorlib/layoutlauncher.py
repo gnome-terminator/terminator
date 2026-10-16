@@ -43,6 +43,12 @@ class LayoutLauncher:
         except Exception as ex:
             print("Failed to find layoutlauncher.glade")
             print(ex)
+            self.terminator.deregister_launcher_window(self)
+            # main_quit() before Gtk.main() does not cancel the later
+            # Gtk.main(). Exit only when nothing else is still registered.
+            if (not self.terminator.windows
+                    and not self.terminator.launcher_windows):
+                raise SystemExit(1)
             return
 
         self.builder.add_from_string(gladedata)

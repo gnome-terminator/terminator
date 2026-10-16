@@ -29,12 +29,15 @@ class TestTruncateUtf8(unittest.TestCase):
         self.assertEqual(truncate_utf8_bytes(b'abcdef', 3), b'def')
 
     def test_no_split_multibyte(self):
-        # '€' is e2 82 ac
+        # '€' is e2 82 ac. Budget 3 starts on a continuation byte.
         data = b'x' + '€'.encode('utf-8') + b'y'
-        out = truncate_utf8_bytes(data, 4)  # would start mid-euro if naive
-        # Must be valid utf-8
+        out = truncate_utf8_bytes(data, 3)
+        self.assertEqual(out, b'y')
         out.decode('utf-8')
-        self.assertTrue(out.endswith(b'y') or out == b'y' or '€'.encode('utf-8') in out)
+        self.assertLessEqual(len(out), 3)
+        out4 = truncate_utf8_bytes(data, 4)
+        self.assertEqual(out4, '€'.encode('utf-8') + b'y')
+        self.assertLessEqual(len(out4), 4)
 
     def test_cjk(self):
         data = '你好世界'.encode('utf-8')
@@ -53,7 +56,11 @@ class TestTruncateLinesAndBytes(unittest.TestCase):
     def test_bytes_cap(self):
         text = ('x' * 200 + '\n') * 20
         out = truncate_lines_and_bytes(text, 100, 1)  # 1KB
+        # 4020 bytes; the last 1024 start mid-line. After the newline
+        # alignment the kept tail is five whole lines (1005 bytes).
+        self.assertEqual(out, ('x' * 200 + '\n') * 5)
         self.assertLessEqual(len(out.encode('utf-8')), 1024)
+        self.assertTrue(text.endswith(out))
 
     def test_empty(self):
         self.assertEqual(truncate_lines_and_bytes('', 10, 1), '')
@@ -119,6 +126,28 @@ class TestReplayWorth(unittest.TestCase):
             'clarence@AILinux:~$ \n'
             '──── 以上为上次会话的输出（已保存的快照，程序未恢复）· 10-10 20:55 ────\n'
             'clarence@AILinux:~$ '))
+
+    def test_command_on_the_prompt_line_is_replayed(self):
+        kept = (
+            'clarence@AILinux:~$ echo $\nclarence@AILinux:~$ ',
+            'root@host:~# make #\nroot@host:~# ',
+            'clarence@AILinux:~$ echo hello #\nclarence@AILinux:~$ ',
+            '(venv) clarence@AILinux:~$ echo $',
+            'user@host:~/proj (main)$ git status',
+        )
+        for text in kept:
+            self.assertTrue(scrollback_worth_replaying(text), text)
+        skipped = (
+            '(venv) clarence@AILinux:~$ ',
+            'user@host:~/proj (main)$ ',
+            '$',
+            '#',
+            '%',
+            '>',
+            '──── Output above is from the previous session · 10-10 20:55 ────',
+        )
+        for text in skipped:
+            self.assertFalse(scrollback_worth_replaying(text), text)
 
     def test_command_output_is_kept_and_old_separator_dropped(self):
         text = (

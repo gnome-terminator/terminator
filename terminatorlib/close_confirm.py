@@ -171,7 +171,8 @@ def relevant_processes_for_terminal(terminal, ignore=None):
             # Root process itself
             try:
                 bname = _basename_of(root.name())
-                if bname and bname not in skip:
+                # The wrapper itself is not a job. Its children still count.
+                if bname and bname not in skip and bname != 'flatpak-spawn':
                     found.append((pid, bname))
             except psutil.Error:
                 pass
@@ -192,7 +193,7 @@ def relevant_processes_for_terminal(terminal, ignore=None):
         if bname is None:
             # Gone (or /proc unavailable): nothing to name
             return []
-        if bname not in skip:
+        if bname not in skip and bname != 'flatpak-spawn':
             found.append((pid, bname))
         for child_pid in _descendants(pid):
             cb = _proc_basename(child_pid)
@@ -342,6 +343,37 @@ def show_process_close_dialog(parent_window, terminals, procs):
     return response
 
 
+def show_shell_close_dialog(parent_window, terminals):
+    """ask_before_closing=always, and nothing to name: ask once for the group."""
+    from gi.repository import Gtk
+    from .translation import _
+    nterms = len(terminals)
+    if nterms > 1:
+        primary = _('Close multiple terminals?')
+        secondary = _('Do you really wish to close these terminals?')
+    else:
+        primary = _('Close terminal?')
+        secondary = _('Do you really wish to close this terminal?')
+    dialog = Gtk.MessageDialog(
+        transient_for=parent_window,
+        modal=True,
+        message_type=Gtk.MessageType.WARNING,
+        buttons=Gtk.ButtonsType.NONE,
+        text=primary)
+    dialog.format_secondary_text(secondary)
+    dialog.add_button(_('_Cancel'), Gtk.ResponseType.CANCEL)
+    dialog.add_button(_('_Close'), Gtk.ResponseType.ACCEPT)
+    dialog.set_default_response(Gtk.ResponseType.CANCEL)
+    try:
+        dialog.set_focus(dialog.get_widget_for_response(
+            Gtk.ResponseType.CANCEL))
+    except Exception:
+        pass
+    response = dialog.run()
+    dialog.destroy()
+    return response
+
+
 def no_process_close_result(ask_mode):
     """How to close when nothing but shells (and ignored helpers) is running.
 
@@ -418,12 +450,15 @@ def confirm_close_terminals(terminals, parent_window=None):
     if not terminals:
         return True
     need, procs = should_confirm_processes(terminals)
-    if not need:
-        return True
     if parent_window is None:
         try:
             parent_window = terminals[0].get_toplevel()
         except Exception:
             parent_window = None
-    return show_process_close_dialog(parent_window, terminals, procs) == \
-        Gtk.ResponseType.ACCEPT
+    if need:
+        return show_process_close_dialog(
+            parent_window, terminals, procs) == Gtk.ResponseType.ACCEPT
+    if no_process_close_result(_ask_before_closing()) == 'accept':
+        return True
+    return show_shell_close_dialog(
+        parent_window, terminals) == Gtk.ResponseType.ACCEPT

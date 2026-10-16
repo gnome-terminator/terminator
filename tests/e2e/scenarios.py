@@ -7,6 +7,7 @@ reported XFAIL when it fails (does not fail the run) and XPASS when it
 passes, which DOES fail the run so the marker gets removed once fixed."""
 import json
 import os
+import re
 import signal
 import time
 
@@ -356,9 +357,10 @@ def s8_corrupt_session(app):
 
 # ---------------------------------------------------------------- 9
 def s9_sigkill_recovery(app):
-    """m30: hard crash (SIGKILL, no final save) -> relaunch restores the
-    last debounced session + last interval scrollback flush; a second
-    SIGKILL inside the restore window must not crash-loop the next start."""
+    """Hard crash (SIGKILL, no final save) restores the last debounced
+    session. A second SIGKILL while the restoring marker is still present
+    quarantines that named session as *.crashed; the third start uses
+    load_crash_fallback (layout and cwd, no scrollback replay)."""
     app.write_config('[global_config]\n  scrollback_cache_interval_s = 5\n')
     dirs = {t: app.mkdir('k9_' + t) for t in ('A', 'B', 'C')}
     app.launch()
@@ -386,24 +388,115 @@ def s9_sigkill_recovery(app):
     types = [n['type'] for n in layout_nodes(app.session())]
     check('Notebook' in types and any(t in types for t in ('HPaned', 'VPaned')),
           'restored layout lost tab/split: %s' % types)
-    # crash again while the restore marker is still live (<10s)
-    in_window = time.monotonic() - t_relaunch
-    app.notes.append('2nd SIGKILL %.1fs after relaunch (%s 10s restore window)'
-                     % (in_window, 'inside' if in_window < 10 else 'OUTSIDE'))
+    restoring = os.path.join(app.state_dir, 'restoring')
+    check(os.path.isfile(restoring), 'restoring marker missing before 2nd SIGKILL')
+    with open(restoring, encoding='utf-8') as fh:
+        marker_lines = fh.read().splitlines()
+    check(len(marker_lines) > 1, 'restoring marker has no source line')
+    named = os.path.basename(marker_lines[1].strip())
+    check(named in ('session.json', 'session.json.prev', 'session.json.prev2'),
+          'restoring source %r' % named)
+    with open(os.path.join(app.state_dir, named), 'rb') as fh:
+        blob = fh.read()
+    named_dirs = terminal_dirs(json.loads(blob.decode('utf-8')))
+    check(named_dirs == sorted(dirs.values()),
+          'named session dirs %s' % named_dirs)
+    elapsed = time.monotonic() - t_relaunch
+    app.notes.append('2nd SIGKILL %.1fs after relaunch (restoring still present)'
+                     % elapsed)
     app.kill()
     app.launch()
     check(app.alive(), 'third launch after crash-during-restore died')
-    wait_for(lambda: len(app.shells()) >= 1, 10, what='shell on 3rd launch')
+
+    def _quarantined():
+        if not os.path.isdir(app.state_dir):
+            return False
+        for fn in os.listdir(app.state_dir):
+            if not (fn.startswith('session.json') and '.crashed' in fn):
+                continue
+            path = os.path.join(app.state_dir, fn)
+            if os.path.isfile(path):
+                with open(path, 'rb') as fh:
+                    if fh.read() == blob:
+                        return True
+        return False
+
+    check(_quarantined(), 'named session was not quarantined byte-for-byte')
+    wait_for(lambda: len(app.shells()) == 3, 10, what='3 shells after crash fallback')
+    wait_for(lambda: app.shell_cwds() == sorted(dirs.values()), 10,
+             what='fallback cwds (got %s)' % app.shell_cwds())
+    types = [n['type'] for n in layout_nodes(app.session())]
+    check('Notebook' in types and any(t in types for t in ('HPaned', 'VPaned')),
+          'fallback layout lost tab/split: %s' % types)
     app.signal(signal.SIGTERM)
     app.wait_exit()
     sess = app.session()
-    # The crash restore may have brought unlocked tabs back. A normal exit
-    # then drops them, so the file can be a clean empty layout.
     check(isinstance(sess, dict) and isinstance(sess.get('layout'), dict),
           'no valid session after 3rd launch')
     app.notes.append('3rd launch restored %d terminal(s) from %s' % (
         len(layout_nodes(app.session(), 'Terminal')),
         sorted(f for f in os.listdir(app.state_dir) if 'session' in f)))
+
+
+def s9b_sigkill_scrollback(app):
+    """First relaunch after SIGKILL feeds each pane its own scrollback,
+    including the previous-session separator. No second SIGKILL."""
+    app.write_config('[global_config]\n  scrollback_cache_interval_s = 5\n')
+    dirs = {t: app.mkdir('k9_' + t) for t in ('A', 'B', 'C')}
+    app.launch()
+    _cd(app, dirs['A'], 'KILOA')
+    app.key(KEYS['split_vert'], delay=1.0)
+    _cd(app, dirs['B'], 'KILOB')
+    app.key(KEYS['new_tab'], delay=1.0)
+    _cd(app, dirs['C'], 'KILOC')
+    app.wait_shells(3)
+    wait_for(_session_has_dirs(app, dirs.values()), 10,
+             what='debounced session.json with 3 cwds')
+
+    def _cached():
+        sb = '\n'.join(app.scrollback_text().values())
+        return all('SB_KILO%s_3' % t in sb for t in 'ABC')
+
+    wait_for(_cached, 15, what='interval scrollback flush (5s)')
+    app.kill()
+    check(terminal_dirs(app.session()) == sorted(dirs.values()),
+          'session after SIGKILL: %s' % terminal_dirs(app.session()))
+    app.launch()
+    wait_for(lambda: len(app.shells()) == 3, 10, what='3 restored shells')
+    wait_for(lambda: app.shell_cwds() == sorted(dirs.values()), 10,
+             what='restored cwds (got %s)' % app.shell_cwds())
+    types = [n['type'] for n in layout_nodes(app.session())]
+    check('Notebook' in types and any(t in types for t in ('HPaned', 'VPaned')),
+          'restored layout lost tab/split: %s' % types)
+    tags = {'A': 'SB_KILOA_3', 'B': 'SB_KILOB_3', 'C': 'SB_KILOC_3'}
+    separator = 'Output above is from the previous session'
+
+    def _per_pane():
+        nodes = layout_nodes(app.session(), 'Terminal')
+        by_dir = {}
+        for node in nodes:
+            by_dir.setdefault(node.get('directory'), []).append(node.get('uuid'))
+        if sorted(by_dir) != sorted(dirs.values()):
+            return False
+        for letter, directory in dirs.items():
+            uuids = by_dir.get(directory) or []
+            if len(uuids) != 1 or not uuids[0]:
+                return False
+            path = os.path.join(app.scrollback_dir, str(uuids[0]) + '.txt')
+            if not os.path.isfile(path):
+                return False
+            with open(path, errors='replace') as fh:
+                text = fh.read()
+            others = [tags[k] for k in tags if k != letter]
+            if tags[letter] not in text or any(other in text for other in others):
+                return False
+            if separator not in re.sub(r'\s+', ' ', text):
+                return False
+        return True
+
+    wait_for(_per_pane, 15, what='per-pane scrollback replay')
+    app.signal(signal.SIGTERM)
+    app.wait_exit()
 
 
 # ---------------------------------------------------------------- 10
@@ -451,5 +544,6 @@ SCENARIOS = [
     ('7-altscreen', s7_altscreen, {}),
     ('8-corrupt-session', s8_corrupt_session, {}),
     ('9-sigkill-recovery', s9_sigkill_recovery, {}),
+    ('9b-sigkill-scrollback', s9b_sigkill_scrollback, {}),
     ('10-quit-relaunch', s10_quit_relaunch, {}),
 ]

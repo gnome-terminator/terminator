@@ -284,6 +284,20 @@ def sanitize_layout(layout, missing_dirs=None):
             else:
                 node.pop('title', None)
                 node.pop('title_forced', None)
+    # A dropped node must not leave its split and terminals behind. Repeat
+    # so a child whose parent is removed in the same pass is removed too.
+    # Empty-parent roots stay.
+    changed = True
+    while changed:
+        changed = False
+        for name, node in list(layout.items()):
+            if not isinstance(node, dict):
+                continue
+            parent = node.get('parent') or ''
+            if parent and parent not in layout:
+                dbg('sanitize_layout: dropping orphan %r' % (name,))
+                del layout[name]
+                changed = True
     return layout
 
 
@@ -498,6 +512,9 @@ class SessionManager(Borg):
     _crash_skipped = None
     # m31 crash fallback state
     crash_fallback_ok = False
+    # True when a rotated .prev/.prev2 was the crash source and session.json
+    # was left in place as the layout written during that restore.
+    _prefer_rotated_session = False
     safe_restore = False
     _fallback_restore = False
     _crashed_sources = ()
@@ -561,6 +578,8 @@ class SessionManager(Borg):
             self._config = None
         if self._rotated_this_run is None:
             self._rotated_this_run = False
+        if getattr(self, '_skip_suspended', None) is None:
+            self._skip_suspended = False
 
     # --- paths ----------------------------------------------------------
 
@@ -686,6 +705,77 @@ class SessionManager(Borg):
             ScrollbackCache().stop(join_timeout=1.0)
         except Exception as ex:
             dbg('SessionManager.suspend_writes scrollback: %s' % ex)
+
+    def resume_writes(self, reason=''):
+        """Undo suspend_writes for this run and start the cache again."""
+        if not self._disabled:
+            return
+        dbg('SessionManager.resume_writes: %s' % reason)
+        self._disabled = False
+        try:
+            from .scrollback import ScrollbackCache
+            ScrollbackCache().start()
+        except Exception as ex:
+            dbg('SessionManager.resume_writes scrollback: %s' % ex)
+
+    def skip_next_path(self):
+        return os.path.join(self.state_dir(), 'skip-next-restore')
+
+    def skip_next_armed(self):
+        """True when this run asked the next plain launch not to restore.
+
+        Does not create the state directory; opening a menu must not do that.
+        """
+        return os.path.isfile(os.path.join(get_state_dir(), 'skip-next-restore'))
+
+    def arm_skip_next_restore(self):
+        """Skip the next plain launch once, and stop this run from saving.
+
+        The session file stays. The next plain launch deletes the mark and
+        opens a new window; later launches save and restore as usual.
+        """
+        path = self.skip_next_path()
+        try:
+            fd = os.open(path, os.O_CREAT | os.O_WRONLY | os.O_TRUNC, 0o600)
+            os.close(fd)
+        except OSError as ex:
+            err('SessionManager.arm_skip_next_restore: %s' % ex)
+            return False
+        self.suspend_writes('skip next restore')
+        self._skip_suspended = True
+        return True
+
+    def _drop_skip_next_marker(self):
+        try:
+            os.unlink(self.skip_next_path())
+            return True
+        except OSError:
+            return False
+
+    def cancel_skip_next_restore(self):
+        """Remove the one-shot mark and resume saving if that mark suspended it.
+
+        A clear or "use previous session" also suspends writes. Unchecking
+        the menu must not start saving again after those.
+        """
+        if not self.skip_next_armed():
+            return False
+        if not self._drop_skip_next_marker():
+            return False
+        if getattr(self, '_skip_suspended', False):
+            self._skip_suspended = False
+            self.resume_writes('cancel skip next restore')
+        return True
+
+    def consume_skip_next_restore(self):
+        """True once, when a previous run marked this launch to skip restore."""
+        if not self.skip_next_armed():
+            return False
+        if not self._drop_skip_next_marker():
+            err('SessionManager.consume_skip_next_restore: marker remains')
+            return False
+        dbg('SessionManager: consumed skip-next-restore')
+        return True
 
     # --- dirty / flush --------------------------------------------------
 
@@ -1209,6 +1299,7 @@ class SessionManager(Borg):
         """
         path = self.restoring_path()
         self.crash_fallback_ok = False
+        self._prefer_rotated_session = False
         self._crashed_sources = []
         if not os.path.exists(path):
             return False
@@ -1228,7 +1319,15 @@ class SessionManager(Borg):
             # ValueError: undecodable marker (UnicodeDecodeError) must not
             # abort startup (m27).
             dbg('SessionManager crash marker read: %s' % ex)
-        for victim in (session, src):
+        # A marker that names .prev/.prev2, and is not itself a fallback,
+        # crashed the rotated source. The session.json still on disk is the
+        # layout saved during that restore, so leave it.
+        if src and not was_fallback:
+            victims = (src,)
+            self._prefer_rotated_session = True
+        else:
+            victims = (session, src)
+        for victim in victims:
             if victim and os.path.isfile(victim):
                 dest = self._quarantine_crashed(victim)
                 if dest:
@@ -1258,10 +1357,13 @@ class SessionManager(Borg):
     def load_crash_fallback(self):
         """m31: after a crash marker, restore the newest good candidate.
 
-        Order: .prev, .prev2 (full restore), then the quarantined *.crashed
-        file in safe mode (layout/cwd only: no scrollback replay; commands
-        are already stripped by sanitize_layout). The restore is flagged as
-        a fallback so a second crash goes empty. None if nothing usable.
+        When the marker named a rotated .prev/.prev2 and was not itself a
+        fallback, session.json is the layout written during that restore and
+        is tried first. Otherwise the order is .prev, then .prev2 (full
+        restore), then the quarantined *.crashed file in safe mode (layout
+        and cwd only: no scrollback replay; commands are already stripped by
+        sanitize_layout). The restore is flagged as a fallback so a second
+        crash goes empty. None if nothing usable.
         """
         path = self.session_path()
         self._loaded_from = None
@@ -1269,7 +1371,13 @@ class SessionManager(Borg):
         self.safe_restore = False
         if not getattr(self, 'crash_fallback_ok', False):
             return None
-        for candidate in (path + '.prev', path + '.prev2'):
+        # The flag, not "the file still exists", decides whether session.json
+        # is the post-rotation layout. A rename that failed must not qualify.
+        ordered = []
+        if getattr(self, '_prefer_rotated_session', False):
+            ordered.append(path)
+        ordered.extend((path + '.prev', path + '.prev2'))
+        for candidate in ordered:
             data = self._load_file(candidate)
             if data is not None:
                 self._loaded_from = candidate
@@ -1296,7 +1404,7 @@ class SessionManager(Borg):
         path = self.session_path()
         for candidate in [path, path + '.prev', path + '.prev2',
                           path + '.bad', path + '.corrupt', path + '.crashed',
-                          self.restoring_path()] + sorted(
+                          self.restoring_path(), self.skip_next_path()] + sorted(
                               glob.glob(glob.escape(path) + '*.crashed*')):
             try:
                 if os.path.exists(candidate):
@@ -1310,12 +1418,13 @@ class SessionManager(Borg):
             dbg('SessionManager clear scrollback: %s' % ex)
         self._last_change_hash = None
         self._loaded_session_uuids = None
+        self._skip_suspended = False
 
     def restore_prev_session(self):
         """Copy session.json.prev over session.json for next launch.
 
-        Always suspends writes first so any caller (prefs UI or otherwise)
-        cannot have this instance overwrite the restored file on exit.
+        Suspend writes only after that copy is in place, so a failed
+        replace leaves this process saving the layout it already had.
         """
         path = self.session_path()
         prev = path + '.prev'
@@ -1330,14 +1439,15 @@ class SessionManager(Borg):
         except Exception as ex:
             err('SessionManager.restore_prev_session: %s' % ex)
             return False
-        # Only suspend once we know the copy can succeed
-        self.suspend_writes('restore previous session')
         try:
             self._atomic_write_json(path, data)
-            return True
         except Exception as ex:
             err('SessionManager.restore_prev_session: %s' % ex)
             return False
+        self._drop_skip_next_marker()
+        self._skip_suspended = False
+        self.suspend_writes('restore previous session')
+        return True
 
     # --- D5 buffer / will_persist ---------------------------------------
 
@@ -1413,7 +1523,8 @@ class SessionManager(Borg):
                 pass
             return False
         discard = set(buf.get('uuids') or set())
-        # Keep uuids still open
+        # Keep uuids still open. If the list itself cannot be read, drop
+        # nothing: the buffer may still name a terminal that is open.
         try:
             from .terminator import Terminator
             still = set()
@@ -1422,7 +1533,7 @@ class SessionManager(Borg):
                     still.add(str(term.uuid))
             discard -= still
         except Exception:
-            pass
+            discard = set()
         if discard:
             try:
                 from .scrollback import ScrollbackCache

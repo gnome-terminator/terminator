@@ -43,7 +43,8 @@ def test_feed_with_newline_snapshots(monkeypatch):
     assert _Cache.calls == []
     t.feed('ls\n')
     t.feed(b'make\r')
-    assert _Cache.calls == [t, t] and t.vte.fed[-1] == b'make\r'
+    assert t.vte.fed == [b'ls', b'ls\n', b'make\r']
+    assert _Cache.calls == [t, t]
 
 
 def test_paste_snapshots_every_target(monkeypatch):

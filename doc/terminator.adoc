@@ -123,6 +123,11 @@ no effect together with *-l*, *-e*, *-x*, *--working-directory* or
 Do not restore the last session for this launch; start with the default
 layout instead. This run still saves the session automatically, so the
 previously saved session is replaced.
++
+The full terminal menu item *Don't restore next launch* is different:
+it pauses saving in the running process, and the next plain launch
+opens a new window once. Uncheck it to keep saving. Opening another
+window while this process is still running does not consume the mark.
 
 *--clear-session*::
 Delete the saved session (including its backups) and the scrollback

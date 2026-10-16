@@ -46,9 +46,10 @@ def test_pane_options_moved_to_panes_tab(pe):
         assert _is_inside(get(wid), panes), wid
         assert not _is_inside(get(wid), glob), wid
     nb = get('notebook1')
+    from terminatorlib.translation import _
     labels = [nb.get_tab_label_text(nb.get_nth_page(i))
               for i in range(nb.get_n_pages())]
-    assert labels[:3] == ['Global', 'Panes', 'Profiles']
+    assert labels[:3] == [_('Global'), _('Panes'), _('Profiles')]
 
 
 def test_page_names_resolve_through_scrollers(pe):

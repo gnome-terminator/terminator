@@ -342,3 +342,104 @@ def test_background_image_native_resolution_at_scale2(app, tmp_path):
     t.background_draw(t.vte, cr)
     t._background_image_size(w1)
     assert t.background_image.get_device_scale() == (1.0, 1.0)
+
+
+# ---- r09: create_layout hierarchy and bad window size -----------------------
+
+def _spy_layout(monkeypatch, layout):
+    """Count new_window / window.create_layout and capture terminator.err."""
+    import terminatorlib.terminator as tmod
+    t, fake, calls = _run_create_layout(monkeypatch, layout)
+    errs = []
+    opened = []
+    created = []
+    monkeypatch.setattr(tmod, 'err', lambda msg: errs.append(str(msg)))
+    monkeypatch.setattr(
+        t, 'new_window',
+        lambda *a, **k: opened.append(1) or (fake, None))
+    fake.create_layout = created.append
+    return t, calls, errs, opened, created
+
+
+def test_create_layout_cycle_opens_one_window(monkeypatch):
+    layout = {
+        'a': {'type': 'Terminal', 'parent': 'b'},
+        'b': {'type': 'Terminal', 'parent': 'a'},
+    }
+    t, calls, errs, opened, created = _spy_layout(monkeypatch, layout)
+    monkeypatch.setattr(t, 'layoutname', 'before-cycle')
+    t.create_layout('cycle-layout')
+    assert opened == [1]
+    assert created == []
+    assert t.layoutname == 'before-cycle'
+    assert t.doing_layout is True
+    assert len(errs) == 2
+    assert not any('hit maximum loop boundary' in m for m in errs)
+    assert any(m.startswith('Unable to attach layout object a ') and "'b'" in m
+               for m in errs)
+    assert any(m.startswith('Unable to attach layout object b ') and "'a'" in m
+               for m in errs)
+
+
+def test_create_layout_attaches_across_passes_child_before_parent(monkeypatch):
+    # Child keys first, so one forward pass cannot hang the whole chain.
+    layout = {}
+    layout['term2'] = {'type': 'Terminal', 'parent': 'pane1'}
+    layout['pane1'] = {'type': 'HPaned', 'parent': 'window0'}
+    layout['term1'] = {'type': 'Terminal', 'parent': 'pane1'}
+    layout['window0'] = {'type': 'Window', 'parent': ''}
+    assert list(layout) == ['term2', 'pane1', 'term1', 'window0']
+    t, calls, errs, opened, created = _spy_layout(monkeypatch, layout)
+    t.create_layout('deep-layout')
+    assert opened == [1]
+    assert len(created) == 1
+    pane = created[0]['children']['pane1']
+    assert 'term1' in pane['children'] and 'term2' in pane['children']
+    assert not any('Unable to attach' in m for m in errs)
+    assert not any('hit maximum loop boundary' in m for m in errs)
+
+
+def test_create_layout_orphan_keeps_real_window(monkeypatch):
+    layout = {
+        'window0': {'type': 'Window', 'parent': ''},
+        'terminal_orphan': {'type': 'Terminal', 'parent': 'missing'},
+    }
+    t, calls, errs, opened, created = _spy_layout(monkeypatch, layout)
+    monkeypatch.setattr(t, 'layoutname', 'before-orphan')
+    t.create_layout('orphan-layout')
+    assert opened == [1]
+    assert len(created) == 1
+    assert t.layoutname == 'orphan-layout'
+    assert len(errs) == 1
+    assert 'terminal_orphan' in errs[0] and 'missing' in errs[0]
+    assert 'hit maximum loop boundary' not in errs[0]
+
+
+def test_create_layout_missing_layout_opens_one_window(monkeypatch):
+    t, calls, errs, opened, created = _spy_layout(monkeypatch, None)
+    monkeypatch.setattr(t, 'layoutname', 'before-missing')
+    t.create_layout('no-such')
+    assert opened == [1]
+    assert created == []
+    assert t.layoutname == 'before-missing'
+    assert t.doing_layout is True
+    assert errs
+    assert len(errs) < 10
+    assert not any('hit maximum loop boundary' in m for m in errs)
+
+
+@pytest.mark.parametrize('size', [['x', 'y'], [1], 12, [1, 500], None])
+def test_bad_window_size_does_not_drop_later_window(monkeypatch, size):
+    first = {'type': 'Window', 'parent': '', 'maximised': 'False'}
+    if size is not None:
+        first['size'] = size
+    layout = {
+        'window0': first,
+        'window1': {'type': 'Window', 'parent': '', 'size': [700, 500],
+                    'maximised': 'True'},
+    }
+    t, calls, errs, opened, created = _spy_layout(monkeypatch, layout)
+    t.create_layout('sizes')
+    assert calls['resize'] == [(700, 500)]
+    assert len(created) == 2
+    assert len(calls['max']) == 2

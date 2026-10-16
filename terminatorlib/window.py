@@ -10,7 +10,8 @@ from gi.repository import GLib, GObject
 from gi.repository import Gtk, Gdk
 
 from .zoomguard import leave_zoom
-from .util import dbg, err, make_uuid, display_manager, is_x11, layout_root_widget
+from .util import (dbg, err, make_uuid, display_manager, is_x11,
+                   layout_root_widget, fit_rect_to_monitors, monitor_workareas)
 
 try:
     from gi.repository import GdkX11
@@ -35,6 +36,17 @@ if display_manager() == 'X11':
     except (ImportError, ValueError):
         err('Unable to load Keybinder module. This means the \
 hide_window shortcut will be unavailable')
+
+def _group_name_is_tab(name, template):
+    """True when name matches the translated 'Tab %d' shape."""
+    if not name or template.count('%d') != 1:
+        return False
+    prefix, suffix = template.split('%d', 1)
+    if not name.startswith(prefix) or not name.endswith(suffix):
+        return False
+    middle = name[len(prefix):len(name) - len(suffix)]
+    return bool(middle) and all('0' <= ch <= '9' for ch in middle)
+
 
 # pylint: disable-msg=R0904
 class Window(Container, Gtk.Window):
@@ -198,6 +210,43 @@ class Window(Container, Gtk.Window):
             return is_x11(self.get_display())
         except Exception:
             return is_x11()
+
+    def fit_restored_geometry(self, position, size, shrink=True):
+        """Pull a restored window back onto a connected monitor.
+
+        ``position`` is ``(x, y)`` or None. ``size`` is ``(width, height)``
+        or None. Wayland, and a rectangle that still meets a workarea, come
+        back unchanged. A rectangle that misses every workarea moves to the
+        primary workarea. ``shrink`` reduces it to that workarea; a maximised
+        or fullscreen window passes ``shrink=False`` so the window manager
+        still applies the saved size.
+        """
+        if not position or not self.can_set_position():
+            return position, size
+        try:
+            x, y = int(position[0]), int(position[1])
+        except (TypeError, ValueError, IndexError):
+            return position, size
+        width = height = 0
+        has_size = False
+        if size is not None:
+            try:
+                width, height = int(size[0]), int(size[1])
+                has_size = True
+            except (TypeError, ValueError, IndexError):
+                width = height = 0
+                has_size = False
+        areas, primary = monitor_workareas(self)
+        nx, ny, nw, nh, moved = fit_rect_to_monitors(
+            x, y, width, height, areas, primary, shrink=shrink)
+        if not moved:
+            return position, size
+        dbg('restored window %s,%s %sx%s missed every monitor; '
+            'moved to %s,%s %sx%s' % (x, y, width, height, nx, ny, nw, nh))
+        new_size = size
+        if has_size and shrink and (nw != width or nh != height):
+            new_size = (nw, nh)
+        return (nx, ny), new_size
 
     def _remember_position(self):
         """Save the position for a later re-show (X11 only)."""
@@ -366,7 +415,8 @@ class Window(Container, Gtk.Window):
         maker = Factory()
         return(maker.isinstance(self.get_child(), 'Notebook'))
 
-    def tab_new(self, widget=None, debugtab=False, _param1=None, _param2=None):
+    def tab_new(self, widget=None, debugtab=False, _param1=None, _param2=None,
+                *, init_command=None):
         """Make a new tab"""
         try:
             from .session import note_window_grown
@@ -389,7 +439,8 @@ class Window(Container, Gtk.Window):
             notebook = maker.make('Notebook', window=self)
         self.show()
         self.present()
-        return self.get_child().newtab(debugtab, cwd=cwd, profile=profile)
+        return self.get_child().newtab(debugtab, cwd=cwd, profile=profile,
+                                       init_command=init_command)
 
     def on_delete_event(self, window, event, data=None):
         """Handle a window close request"""
@@ -889,16 +940,29 @@ class Window(Container, Gtk.Window):
             if visual:
                 self.set_visual(visual)
 
+    def blur_hint_wanted(self):
+        """True if any terminal in this window uses a blurring profile."""
+        profiles = self.config.base.profiles
+        for term in self.get_terminals() or ():
+            get_profile = getattr(term, 'get_profile', None)
+            if get_profile is None:
+                continue
+            profile = profiles.get(get_profile())
+            if not isinstance(profile, dict):
+                continue
+            if (profile.get('background_blur', False) and
+                    profile.get('background_type', 'solid') in
+                    ('transparent', 'image')):
+                return True
+        return False
+
+    def sync_blur_hint(self):
+        """Set or remove this window's blur hint from its own terminals."""
+        self.set_blur_behind(self.blur_hint_wanted())
+
     def on_window_realize(self, widget):
         """Apply window hints once the window is realized"""
-        profiles = self.config.base.profiles
-        should_blur = False
-        for profile in profiles.values():
-            if (profile.get('background_blur', False) and
-                    profile.get('background_type', 'solid') in ('transparent', 'image')):
-                should_blur = True
-                break
-        self.set_blur_behind(should_blur)
+        self.sync_blur_hint()
         self._set_theme_variant_x11(self.config['window_decoration_style'])
 
     def set_blur_behind(self, enable=True):
@@ -942,9 +1006,11 @@ class Window(Container, Gtk.Window):
             cardinal_atom = libx11.XInternAtom(display, b'CARDINAL', 0)
 
             if enable:
-                data = (ctypes.c_ubyte * 4)(0, 0, 0, 0)
+                # Empty CARDINAL region: KWin treats 0 elements as the whole
+                # window. format 32 is a long, so a 4-byte buffer with
+                # nelements=1 reads off the end on 64-bit.
                 libx11.XChangeProperty(display, xid, blur_atom, cardinal_atom,
-                                       32, 0, data, 1)
+                                       32, 0, None, 0)
                 dbg('set_blur_behind: enabled blur hint on window %s' % xid)
             else:
                 libx11.XDeleteProperty(display, xid, blur_atom)
@@ -1508,7 +1574,7 @@ class Window(Container, Gtk.Window):
 
     def group_all_toggle(self, widget):
         """Toggle grouping to all"""
-        if widget.group == 'All':
+        if widget.group == _('All'):
             self.ungroup_all(widget)
         else:
             self.group_all(widget)
@@ -1521,7 +1587,7 @@ class Window(Container, Gtk.Window):
         """Group all terminals in the current window"""
         # FIXME: Why isn't this being done by Terminator() ?
         dbg("Group Windows")
-        group = _('Window group %s' % (len(self.terminator.groups) + 1))
+        group = _('Window group %s') % (len(self.terminator.groups) + 1)
         self.terminator.create_group(group)
         self.set_groups(group, self.get_terminals())
 
@@ -1555,7 +1621,7 @@ class Window(Container, Gtk.Window):
 
     def group_tab_toggle(self, widget):
         """Blah"""
-        if widget.group and widget.group[:4] == 'Tab ':
+        if _group_name_is_tab(widget.group, _('Tab %d')):
             self.ungroup_tab(widget)
         else:
             self.group_tab(widget)

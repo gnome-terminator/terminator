@@ -2445,6 +2445,42 @@ msgstr "窗口组 %s"
 msgid "Tab %d"
 msgstr "标签 %d"
 
+#: ../terminatorlib/close_confirm.py:353
+msgid "Do you really wish to close these terminals?"
+msgstr "确定要关闭这些终端吗？"
+
+#: ../terminatorlib/notebook.py:1101
+msgid "Kept for the next launch"
+msgstr "下次启动时保留"
+
+#: ../terminatorlib/notebook.py:1102
+msgid "One-time — forgotten on a normal exit"
+msgstr "一次性 — 正常退出后不再保留"
+
+#: ../terminatorlib/notebook.py:2548
+msgid "_Keep for next launch"
+msgstr "下次启动时保留(_K)"
+
+#: ../terminatorlib/plugins/activitywatch.py:88 ../terminatorlib/preferences.glade:5150
+msgid "TerminatorX"
+msgstr "TerminatorX"
+
+#: ../terminatorlib/terminal_popup_menu.py
+msgid "Don't restore _next launch"
+msgstr "下次启动不恢复(_N)"
+
+#: ../terminatorlib/terminal_popup_menu.py
+msgid ""
+"The next plain launch opens a new window instead of this session. Uncheck "
+"to keep saving. This window stays as it is."
+msgstr ""
+"下一次普通启动会打开新窗口，不恢复这次会话。取消勾选则继续保存。当前窗口保持"
+"不变。"
+
+#: ../terminatorlib/prefseditor.py
+msgid "The next plain launch will not restore this session."
+msgstr "下一次普通启动不会恢复这次会话。"
+
 #~ msgid "Version: 2.1.6"
 #~ msgstr "版本：2.1.6"
 

@@ -187,6 +187,28 @@ def test_placeholder_no_opaque_fill_in_rgba_window(monkeypatch, translucent):
     assert (a == 0) if translucent else (a == 255)
 
 
+def test_placeholder_snapshot_uses_current_allocation(monkeypatch):
+    seen = []
+    monkeypatch.setattr(
+        po, 'paint_snapshot',
+        lambda cr, snap, rect, *a, **k: seen.append(rect) or True)
+    ph = po.PanePlaceholder(None, snap=(_argb(4, 4, (1, 0, 0, 1)), 4, 4))
+    win = Gtk.Window()
+    win.add(ph)
+    win.resize(80, 40)
+    win.show_all()
+    _pump(0.2)
+    try:
+        alloc = ph.get_allocation()
+        assert alloc.width > 4 and alloc.height > 4
+        ph._on_draw(ph, cairo.Context(cairo.ImageSurface(
+            cairo.FORMAT_ARGB32, alloc.width, alloc.height)))
+        assert seen[-1] == (0, 0, alloc.width, alloc.height)
+    finally:
+        win.destroy()
+        _pump()
+
+
 # ---- review: missing tests -------------------------------------------------
 
 @pytest.fixture
@@ -212,6 +234,33 @@ def win(monkeypatch):
     if not getattr(w, 'isDestroyed', False):
         w.destroy()
     _pump()
+
+
+def test_arrive_recomputes_font_for_landed_rect(win, monkeypatch):
+    from gi.repository import GLib
+    from terminatorlib.terminal import Terminal
+    seen = []
+    real = Terminal.resume_auto_font_scale
+
+    def wrapped(self, avail=None):
+        seen.append(avail)
+        return real(self, avail=avail)
+
+    monkeypatch.setattr(Terminal, 'resume_auto_font_scale', wrapped)
+    term = list(win.get_terminals())[-1]
+    assert win.overlay_maximise(term, animate=False)
+    ov = win._overlay
+    idle = ov.data.get('_geo_idle')
+    if idle:
+        GLib.source_remove(idle)
+        ov.data['_geo_idle'] = None
+    dst = (10.0, 10.0, 500.0, 400.0)
+    ov.data['dst_rect'] = dst
+    ov._pause_font(term)
+    seen.clear()
+    ov._arrive_maximised()
+    assert seen[-1] == po.vte_size_for_rect(term, dst, po.FRAME_CHROME_PX)
+    win.overlay_restore(animate=False)
 
 
 def test_reverse_mid_expand_rehides_frame(win, monkeypatch):

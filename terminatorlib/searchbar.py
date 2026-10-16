@@ -62,6 +62,10 @@ class Searchbar(GObject.GObject):
         parent = self.terminal.get_toplevel()
         if isinstance(parent, Gtk.Window):
             self.dialog.set_transient_for(parent)
+        text = self.entry.get_text()
+        if text:
+            self._last = text
+        self._apply(jump=False)
         self.dialog.present()
         self.entry.grab_focus()
         self.entry.select_region(0, -1)
@@ -238,7 +242,9 @@ class Searchbar(GObject.GObject):
             if caseless:
                 flags |= regex.PCRE2_CASELESS
             try:
-                compiled = Vte.Regex.new_for_search(pattern, len(pattern), flags)
+                # API length is UTF-8 bytes, or -1 for the whole string.
+                # len() is code points and can accept a shorter valid pattern.
+                compiled = Vte.Regex.new_for_search(pattern, -1, flags)
                 self.vte.search_set_regex(compiled, 0)
                 self.searchre = compiled
                 return True

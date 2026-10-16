@@ -38,10 +38,10 @@ def test_scrollbar_should_show_only_when_scrollable():
     assert scrollbar_should_show('right', False, forced=True) is True
     assert scrollbar_should_show('right', True, forced=False) is False
     assert scrollbar_should_show('hidden', False, forced=True) is True
-    # Fullscreen-program latch keeps a non-scrollable bar hidden, and a
-    # toggle during that program is left to the controller.
-    assert scrollbar_should_show('right', False, alt_auto_hidden=True) is False
-    assert scrollbar_should_show('right', True, alt_auto_hidden=True) is True
+    # While the fullscreen latch owns the bar, a redraw that looks
+    # scrollable must not show it. The controller shows it again on exit.
+    assert scrollbar_should_show('right', False, alt_auto_hidden=True) is None
+    assert scrollbar_should_show('right', True, alt_auto_hidden=True) is None
     assert scrollbar_should_show('right', True, user_override=True) is None
 
 
@@ -122,6 +122,24 @@ def test_foreground_busy_unknown_shell_name_or_pgrp(monkeypatch):
     monkeypatch.setattr(os, 'tcgetpgrp', lambda fd: 0)
     assert foreground_busy(5, 100, is_shell=lambda pid: True) is None
     assert altscreen.is_shell_pid(2 ** 22 + 12345) is None
+
+
+def test_detector_redraw_does_not_end_episode():
+    """One uncollapsed sample while the TUI still owns the pty is a redraw.
+    A stable uncollapse, or the shell coming back, ends the episode."""
+    clock = Clock()
+    d = AltScreenDetector(clock=clock)
+    d.update(False, None)
+    assert d.update(True, True, raw=True) is True
+    assert d.update(False, True, raw=True) is True
+    clock.t += 0.2
+    assert d.update(False, True, raw=True) is True
+    clock.t += 0.3
+    assert d.update(False, True, raw=True) is False
+    d2 = AltScreenDetector(clock=clock)
+    d2.update(False, None)
+    assert d2.update(True, True, raw=True) is True
+    assert d2.update(False, False) is False
 
 
 def test_detector_shell_in_foreground_means_no_tui():
@@ -262,13 +280,14 @@ def _ctl(monkeypatch, busy=True, **kw):
 
 
 def test_restore_asks_terminal_when_it_syncs(monkeypatch):
-    term, ctl, _ = _ctl(monkeypatch)
+    term, ctl, state = _ctl(monkeypatch)
     calls = []
     term.sync_scrollbar = lambda *a: calls.append('sync')
     ctl.evaluate()
     term.adj.upper = 24
     ctl.evaluate()
     assert not term.scrollbar.visible and calls == []
+    state['busy'] = False                 # shell is back; not a redraw
     term.adj.upper = 51
     ctl.evaluate()
     assert calls == ['sync']
@@ -303,13 +322,14 @@ def test_hide_does_not_move_the_view(monkeypatch):
 
 
 def test_leaving_fullscreen_notifies_terminal(monkeypatch):
-    term, ctl, _ = _ctl(monkeypatch)
+    term, ctl, state = _ctl(monkeypatch)
     notes = []
     term.note_fullscreen_exited = lambda: notes.append('exit')
     ctl.evaluate()
     term.adj.upper = 24
     ctl.evaluate()
     assert notes == []
+    state['busy'] = False
     term.adj.upper = 51
     ctl.evaluate()
     assert notes == ['exit']
@@ -317,7 +337,7 @@ def test_leaving_fullscreen_notifies_terminal(monkeypatch):
 
 def test_hide_reserves_scrollbar_width(monkeypatch):
     """Hiding the bar keeps its width, and leaving the program gives it back."""
-    term, ctl, _ = _ctl(monkeypatch)
+    term, ctl, state = _ctl(monkeypatch)
     held = []
     term.hold_scrollbar_slot = lambda width: held.append(width)
     term.release_scrollbar_slot = lambda: held.append('release')
@@ -326,6 +346,7 @@ def test_hide_reserves_scrollbar_width(monkeypatch):
     ctl.evaluate()
     assert held == [14]
     assert ctl.auto_hidden
+    state['busy'] = False
     term.adj.upper = 51
     ctl.evaluate()
     assert held == [14, 'release']
@@ -346,7 +367,7 @@ def test_reconfigure_reserves_width_when_bar_already_hidden(monkeypatch):
 
 
 def test_controller_hides_and_restores(monkeypatch):
-    term, ctl, _ = _ctl(monkeypatch)
+    term, ctl, state = _ctl(monkeypatch)
     ctl.evaluate()                       # history
     assert term.scrollbar.visible and not ctl.auto_hidden
     term.adj.upper = 24                  # enter alt screen
@@ -355,7 +376,8 @@ def test_controller_hides_and_restores(monkeypatch):
     assert ctl.hidden_width == 14
     ctl.evaluate()                       # no repeated hide
     assert term.scrollbar.calls == ['hide']
-    term.adj.upper = 51                  # leave alt screen
+    state['busy'] = False                # leave alt screen
+    term.adj.upper = 51
     ctl.evaluate()
     assert term.scrollbar.visible and not ctl.auto_hidden
     assert term.scrollbar.calls == ['hide', 'show']
@@ -392,7 +414,7 @@ def test_controller_user_hidden_scrollbar_left_alone(monkeypatch):
 
 
 def test_controller_user_toggle_inside_tui_is_respected(monkeypatch):
-    term, ctl, _ = _ctl(monkeypatch)
+    term, ctl, state = _ctl(monkeypatch)
     ctl.evaluate()
     term.adj.upper = 24
     ctl.evaluate()
@@ -401,11 +423,36 @@ def test_controller_user_toggle_inside_tui_is_respected(monkeypatch):
     term.scrollbar.show()
     ctl.evaluate()
     assert term.scrollbar.visible        # not re-hidden while in vim
+    state['busy'] = False
     term.adj.upper = 51
     ctl.evaluate()                       # vim exits: override cleared
+    state['busy'] = True
     term.adj.upper = 24
     ctl.evaluate()                       # next TUI hides again
     assert not term.scrollbar.visible
+
+
+def test_tui_redraw_does_not_show_scrollbar(monkeypatch):
+    """A scrollable-looking sample while the TUI is still in front must not
+    release the reserved width. That release is the layout flicker."""
+    term, ctl, state = _ctl(monkeypatch)
+    held = []
+    term.hold_scrollbar_slot = lambda width: held.append(width)
+    term.release_scrollbar_slot = lambda: held.append('release')
+    ctl.evaluate()
+    term.adj.upper = 24
+    ctl.evaluate()
+    assert ctl.auto_hidden and held == [14]
+    term.adj.upper = 51                  # redraw blip
+    ctl.evaluate()
+    assert ctl.auto_hidden and ctl.detector.active
+    assert held == [14]
+    assert term.scrollbar.calls == ['hide']
+    state['busy'] = False
+    ctl.evaluate()
+    assert not ctl.auto_hidden
+    assert held == [14, 'release']
+    ctl._cancel()
 
 
 def test_controller_reconfigure_reapplies(monkeypatch):
@@ -460,6 +507,27 @@ def test_on_change_fast_path_skips_timer(monkeypatch):
     term.adj.upper = 24
     ctl._on_change(term.adj)
     assert scheduled == [1]
+
+
+def test_on_change_fast_path_ends_inactive_episode(monkeypatch):
+    term, ctl, _ = _ctl(monkeypatch)
+    clock = Clock()
+    ctl.detector._clock = clock
+    scheduled = []
+    monkeypatch.setattr(ctl, 'schedule', lambda: scheduled.append(1))
+    ctl.detector.update(True, True, raw=False)
+    assert ctl.detector.episode_start is not None
+    assert ctl.detector.active is False
+    assert ctl.detector.had_history is False
+    term.adj.upper = 51
+    ctl._on_change(term.adj)
+    assert ctl.detector.episode_start is None
+    assert ctl.detector._uncollapse_since is None
+    assert ctl.detector.active is False
+    assert ctl.detector.had_history is True
+    assert scheduled == []
+    clock.t += ctl.detector.GRACE_S + 1
+    assert ctl.detector.update(True, True, raw=True) is True
 
 
 def test_terminal_wires_controller():

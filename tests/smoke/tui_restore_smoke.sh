@@ -30,10 +30,37 @@ xdotool mousemove $((X + WIDTH*3/4)) $((Y + HEIGHT - 12)) click 1; sleep 3
 pkill -f "tests/smoke/fake_tui.py"
 pgrep -f "./terminator -u" && { echo "FAIL: STILL_RUNNING"; FAIL=1; pkill -f "./terminator -u"; sleep 1; }
 echo ---- cache; grep -rl . $XDG_CACHE_HOME/terminator 2>/dev/null; grep -r "SHELLHIST\|TUIFRAME" $XDG_CACHE_HOME/terminator $XDG_CONFIG_HOME/terminator 2>/dev/null | cut -c1-200
-mkdir -p ${OUT:-/tmp}/snap; cp -r $XDG_CACHE_HOME/terminator/scrollback ${OUT:-/tmp}/snap/ ; cp $HOME/.local/state/terminator/session.json ${OUT:-/tmp}/snap/
+t_start=$(date +%s)
+rm -rf "${OUT:-/tmp}/snap"
+mkdir -p "${OUT:-/tmp}/snap"
+cp -r "$XDG_CACHE_HOME/terminator/scrollback" "${OUT:-/tmp}/snap/" || FAIL=1
+cp "$HOME/.local/state/terminator/session.json" "${OUT:-/tmp}/snap/" || FAIL=1
+grep -rq SHELLHIST_42 "${OUT:-/tmp}/snap/scrollback" || { echo "FAIL: shell history not cached"; FAIL=1; }
+grep -rq TUIFRAME "${OUT:-/tmp}/snap/scrollback" && { echo "FAIL: TUI frame cached"; FAIL=1; }
 start 2
 DISPLAY=:77 ${SHOT:-/workspace/smoke/shot.sh} ${OUT:-/tmp}/3-restored.png
+W2=$(xdotool search --onlyvisible --class terminator | head -1)
+if [ -n "$W2" ]; then
+  xdotool windowactivate "$W2"
+  sleep 0.5
+  xdotool key Return
+else
+  echo "FAIL: restored window not found"; FAIL=1
+fi
+found=0
+for _i in 1 2 3 4 5 6 7 8 9 10; do
+  for f in "$XDG_CACHE_HOME"/terminator/scrollback/*.txt; do
+    [ -f "$f" ] || continue
+    mt=$(stat -c %Y "$f" 2>/dev/null || echo 0)
+    if [ "$mt" -gt "$t_start" ] && grep -q SHELLHIST_42 "$f" && ! grep -q TUIFRAME "$f"; then
+      found=1
+      break
+    fi
+  done
+  [ "$found" = 1 ] && break
+  sleep 0.3
+done
+[ "$found" = 1 ] || { echo "FAIL: live cache missing restored SHELLHIST_42"; FAIL=1; }
+grep -rq TUIFRAME "$XDG_CACHE_HOME/terminator/scrollback" && { echo "FAIL: TUI frame in live cache"; FAIL=1; }
 pkill -f "./terminator -u"
-grep -rq SHELLHIST_42 ${OUT:-/tmp}/snap/scrollback || { echo "FAIL: shell history not cached"; FAIL=1; }
-grep -rq TUIFRAME ${OUT:-/tmp}/snap/scrollback && { echo "FAIL: TUI frame cached"; FAIL=1; }
 [ $FAIL = 0 ] && echo SMOKE_PASS; exit $FAIL

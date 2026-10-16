@@ -96,6 +96,44 @@ def test_reenable_skipped_when_display_lost(cache, monkeypatch):
     assert cache._disabled_by_error is True
 
 
+def test_close_during_breaker_still_flushes_once(monkeypatch, tmp_path):
+    """will_persist close bypasses flush()'s breaker and does not rearm."""
+    c = sb.ScrollbackCache()
+    saved = (c._enabled, c._disabled_by_error, c._timer_id, c._dir)
+    c._dir = str(tmp_path)
+    c._enabled = True
+    c._disabled_by_error = True
+    c._timer_id = 0
+    c._dirty = set()
+    c._seq = {}
+    c._last_hash = {}
+    seen = []
+
+    def spy(term, uuid_str, sync=False):
+        seen.append(sync)
+
+    monkeypatch.setattr(c, '_flush_uuid', spy)
+    monkeypatch.setattr(sb, '_sm_will_persist', lambda term: True)
+    monkeypatch.setattr(sb, '_sm_display_lost', lambda: False)
+    monkeypatch.setattr(sb, '_sm_safe_keep', lambda uid: False)
+    term = FakeTerm()
+    c.on_terminal_close(term)
+    assert seen == [True]
+    assert c._timer_id == 0
+
+    flushed = []
+    monkeypatch.setattr(
+        c, '_flush_uuid',
+        lambda t, uid, sync=False: flushed.append((uid, sync)))
+    monkeypatch.setattr(
+        tmod, 'Terminator', lambda: types.SimpleNamespace(terminals=[term]))
+    c.flush_all(sync=True)
+    assert flushed == [(str(term.uuid), True)]
+    c.mark_dirty(term)
+    assert str(term.uuid) not in c._dirty
+    c._enabled, c._disabled_by_error, c._timer_id, c._dir = saved
+
+
 # (3) idle periodic
 def test_periodic_tick_skips_when_idle(monkeypatch):
     sm = sess.SessionManager()
@@ -264,3 +302,62 @@ def test_placeholder_scale_logical_pixbuf_unchanged():
     assert po.placeholder_pixbuf_scale(_PB(800), 800, 2) == 1.0
     assert po.placeholder_pixbuf_scale(_PB(800), 800, 1) == 1.0
     assert po.placeholder_pixbuf_scale(None, 800, 2) == 1.0
+
+
+def _glade_open_fails(monkeypatch):
+    """LayoutLauncher opens layoutlauncher.glade via the module global."""
+    import terminatorlib.layoutlauncher as ll
+    from gi.repository import Gtk
+    from terminatorlib.config import ConfigBase
+
+    monkeypatch.setattr(ConfigBase, 'load', lambda self: None)
+    monkeypatch.setattr(ConfigBase, 'reload', lambda self: None)
+
+    def fake_open(path, *args, **kwargs):
+        if str(path).endswith('layoutlauncher.glade'):
+            raise FileNotFoundError(path)
+        return open(path, *args, **kwargs)
+
+    monkeypatch.setattr(ll, 'open', fake_open, raising=False)
+    monkeypatch.setattr(tmod.Gtk, 'main_quit', lambda *a, **k: None)
+    added = []
+    monkeypatch.setattr(Gtk.Builder, 'add_from_string',
+                        lambda self, *a, **k: added.append(a))
+    term = tmod.Terminator()
+    saved = (term.windows[:], term.launcher_windows[:])
+    term.windows[:] = []
+    term.launcher_windows[:] = []
+    return ll, added, saved
+
+
+def _restore_borg_lists(saved):
+    term = tmod.Terminator()
+    term.windows[:] = saved[0]
+    term.launcher_windows[:] = saved[1]
+
+
+def test_layoutlauncher_missing_glade_exits_when_nothing_else(monkeypatch, capsys):
+    ll, added, saved = _glade_open_fails(monkeypatch)
+    try:
+        with pytest.raises(SystemExit) as ei:
+            ll.LayoutLauncher()
+        assert ei.value.code == 1
+        assert tmod.Terminator().launcher_windows == []
+        assert added == []
+        assert 'Failed to find layoutlauncher.glade' in capsys.readouterr().out
+    finally:
+        _restore_borg_lists(saved)
+
+
+def test_layoutlauncher_missing_glade_returns_if_a_window_exists(monkeypatch):
+    ll, added, saved = _glade_open_fails(monkeypatch)
+    sentinel = object()
+    tmod.Terminator().windows.append(sentinel)
+    try:
+        launcher = ll.LayoutLauncher()
+        assert launcher.window is None
+        assert launcher not in tmod.Terminator().launcher_windows
+        assert sentinel in tmod.Terminator().windows
+        assert added == []
+    finally:
+        _restore_borg_lists(saved)

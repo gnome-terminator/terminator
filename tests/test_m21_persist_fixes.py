@@ -187,6 +187,24 @@ def test_sanitize_drops_malformed_nodes():
     assert sanitize_layout(['nope']) == {}
 
 
+def test_sanitize_drops_orphans_of_malformed_nodes():
+    out = sanitize_layout({
+        'badwin': {'type': 3, 'parent': ''},
+        'badpaned': {'type': 'HPaned', 'parent': 'badwin'},
+        'badterm': {'type': 'Terminal', 'parent': 'badpaned', 'uuid': 'b'},
+        'empty': {'type': '', 'parent': ''},
+        'emptypaned': {'type': 'VPaned', 'parent': 'empty'},
+        'emptyterm': {'type': 'Terminal', 'parent': 'emptypaned', 'uuid': 'e'},
+        'goodwin': {'type': 'Window', 'parent': ''},
+        'goodterm': {'type': 'Terminal', 'parent': 'goodwin', 'uuid': 'g'},
+        'd': {'type': 'Terminal', 'uuid': 'u'},
+    })
+    assert 'badwin' not in out and 'badpaned' not in out and 'badterm' not in out
+    assert 'empty' not in out and 'emptypaned' not in out and 'emptyterm' not in out
+    assert set(out) == {'goodwin', 'goodterm', 'd'}
+    assert out['goodterm']['parent'] == 'goodwin'
+
+
 def test_restore_failed_keeps_bad_copy(sm):
     path = sm.session_path()
     _write(path, {'t': {'type': 'Terminal'}})
@@ -559,3 +577,71 @@ def test_get_cwd_after_child_exit_is_not_terminators_cwd():
     assert Terminal.get_cwd(t) == '/srv/last'
     t.pid = 2 ** 22 + 12345  # not a live pid
     assert Terminal.get_cwd(t) == '/srv/last'
+
+
+def _layout_key_handler_source():
+    """Startup script's KeyError/ValueError handler, dedented for exec."""
+    import textwrap
+    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    with open(os.path.join(root, 'terminator'), encoding='utf-8') as fh:
+        src = fh.read()
+    start = src.index('except (KeyError,ValueError)')
+    line_start = src.rfind('\n', 0, start) + 1
+    end = src.index('except Exception as ex:', start)
+    end_line = src.rfind('\n', 0, end) + 1
+    return textwrap.indent(textwrap.dedent(src[line_start:end_line]), '    ')
+
+
+@pytest.mark.parametrize('exc_type', [ValueError, KeyError])
+@pytest.mark.parametrize('case,expect', [
+    ('created', 0),
+    ('both_empty', 1),
+    ('only_old', 1),
+])
+def test_script_layout_error_opens_window_only_without_a_new_one(
+        exc_type, case, expect):
+    if case == 'created':
+        windows = [object()]
+        windows_before = []
+    elif case == 'both_empty':
+        windows = []
+        windows_before = []
+    else:
+        old = object()
+        windows = [old]
+        windows_before = [old]
+
+    class _Sess(object):
+        def __init__(self):
+            self.ex = None
+
+        def restore_failed(self, ex):
+            self.ex = ex
+
+    class _Term(object):
+        def __init__(self):
+            self.windows = windows
+            self.calls = 0
+
+        def new_window(self):
+            self.calls += 1
+
+    sess = _Sess()
+    term = _Term()
+    raised = exc_type('layout broke')
+    logs = []
+    code = ("def _run():\n"
+            "    try:\n"
+            "        raise raised\n" + _layout_key_handler_source() +
+            "\n_run()\n")
+    exec(code, {
+        'raised': raised,
+        'err': lambda msg: logs.append(msg),
+        'restoring': True,
+        'sess': sess,
+        'TERMINATOR': term,
+        'windows_before': windows_before,
+    })
+    assert term.calls == expect
+    assert sess.ex is raised
+    assert logs and 'layout creation failed, creating a window' in logs[0]

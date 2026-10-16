@@ -32,6 +32,16 @@ except ImportError:
     sys.exit(1)
 from terminatorlib.translation import _
 
+def print_result(result):
+    """唯一的结果打印。str 必须先于 list，否则 dbus.String 会被按字符拼接。"""
+    if isinstance(result, str):
+        print(result)
+        return
+    if isinstance(result, (list, tuple)):
+        print('\n'.join(str(item) for item in result))
+        return
+    print(result)  # None -> None
+
 APP_NAME='remotinator'
 
 COMMANDS={
@@ -105,9 +115,9 @@ if __name__ == '__main__':
     if uuid_required:
         uuid = options.get('uuid', os.environ.get('TERMINATOR_UUID'))
         if uuid:
-            print(str(func(uuid, options)))
+            print_result(func(uuid, options))
         else:
             err("$TERMINATOR_UUID is not set, or passed as an option.")
             sys.exit(1)
     else:
-        print(str(func(options)))
+        print_result(func(options))

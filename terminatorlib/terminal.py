@@ -163,6 +163,7 @@ class Terminal(Gtk.VBox):
         self.connect('focus-out', self.terminator.focus_left)
 
         self.matches = {}
+        self.match_patterns = {}
         self.cnxids = Signalman()
 
         self.config = Config()
@@ -291,15 +292,17 @@ class Terminal(Gtk.VBox):
         return xid
 
     def set_background_image(self,image):
-        try: 
+        try:
             bg_pixbuf = GdkPixbuf.Pixbuf.new_from_file(image)
             self.background_image = Gdk.cairo_surface_create_from_pixbuf(bg_pixbuf, 1, None)
             self._bg_image_scale = 1
+            self.cnxids.remove_signal(self.vte, 'draw')
+            self.cnxids.new(self.vte, 'draw', self.background_draw)
             self.vte.set_clear_background(False)
-            self.vte.connect("draw", self.background_draw)
         except Exception as e:
             self.background_image = None
             self.vte.set_clear_background(True)
+            self.cnxids.remove_signal(self.vte, 'draw')
             err('error loading background image: %s, %s' % (type(e).__name__,e))
 
     def get_vte(self):
@@ -413,7 +416,7 @@ class Terminal(Gtk.VBox):
                 title.terminal_removed(self)
             except Exception as ex:
                 dbg('window title fallback on close failed: %s' % ex)
-        if self.pid is not None:
+        if isinstance(self.pid, int) and self.pid > 0:
             try:
                 dbg('close: killing %d' % self.pid)
                 os.kill(self.pid, signal.SIGHUP)
@@ -507,6 +510,7 @@ class Terminal(Gtk.VBox):
             match = self.vte.match_add_gregex(reg, 0)
 
         self.matches[name] = match
+        self.match_patterns[name] = re
         self.vte.match_set_cursor_name(self.matches[name], 'pointer')
 
     def update_url_matches(self):
@@ -592,6 +596,7 @@ class Terminal(Gtk.VBox):
             return
         self.vte.match_remove(self.matches[name])
         del(self.matches[name])
+        self.match_patterns.pop(name, None)
 
     def maybe_copy_clipboard(self):
         if self.config['copy_on_selection'] and self.vte.get_has_selection():
@@ -897,6 +902,8 @@ class Terminal(Gtk.VBox):
     def reconfigure(self, _widget=None):
         """Reconfigure our settings"""
         dbg('Terminal::reconfigure')
+        if getattr(self, 'vte', None) is None:
+            return
         self.cnxids.remove_signal(self.vte, 'realize')
 
         # Handle child command exiting
@@ -1014,6 +1021,8 @@ class Terminal(Gtk.VBox):
             self.set_background_image(self.config['background_image'])
         else:
             self.background_image = None
+            self.vte.set_clear_background(True)
+            self.cnxids.remove_signal(self.vte, 'draw')
 
         factor = self.config['inactive_color_offset']
         if factor > 1.0:
@@ -1143,6 +1152,20 @@ class Terminal(Gtk.VBox):
         self.vte.queue_draw()
         self._ensure_scale_popover()
         self.schedule_auto_font_scale()
+        self._sync_owning_window_blur()
+
+    def _sync_owning_window_blur(self):
+        """Recompute the blur hint of the window this terminal is in."""
+        top = self.get_toplevel()
+        if top is self:
+            return
+        sync = getattr(top, 'sync_blur_hint', None)
+        if sync is None:
+            return
+        try:
+            sync()
+        except Exception as ex:
+            dbg('blur hint sync failed: %s' % ex)
 
     def set_cursor_color(self):
         """Set the cursor color appropriately"""
@@ -1221,7 +1244,13 @@ class Terminal(Gtk.VBox):
 
     def get_window_title(self):
         """Return the window title"""
-        title = self.vte.get_window_title()
+        vte = getattr(self, 'vte', None)
+        title = None
+        if vte is not None:
+            try:
+                title = vte.get_window_title()
+            except Exception:
+                title = None
         if title:
             return title
         if self.command:
@@ -1425,39 +1454,74 @@ class Terminal(Gtk.VBox):
         return False
 
     def on_mousewheel(self, widget, event):
-        """Handler for modifier + mouse wheel scroll events"""
-        SMOOTH_SCROLL_UP = event.direction == Gdk.ScrollDirection.SMOOTH and event.delta_y <= 0.
-        SMOOTH_SCROLL_DOWN = event.direction == Gdk.ScrollDirection.SMOOTH and event.delta_y > 0.
+        """Handler for modifier + mouse wheel scroll events.
 
-        modifiers = event.state & (Gdk.ModifierType.CONTROL_MASK | Gdk.ModifierType.SHIFT_MASK)
-        if modifiers == Gdk.ModifierType.CONTROL_MASK:
-            # Zoom the terminal(s) in or out if not disabled in config
-            if self.config["disable_mousewheel_zoom"] is True:
-                return False
-            # Choice of target terminals depends on Shift and Super modifiers
-            if event.state & Gdk.ModifierType.MOD4_MASK == Gdk.ModifierType.MOD4_MASK:
-                targets = self.terminator.terminals
-            elif event.state & Gdk.ModifierType.SHIFT_MASK == Gdk.ModifierType.SHIFT_MASK:
-                targets = self.terminator.get_target_terms(self)
+        Each mask is compared in parentheses: ``==`` binds tighter than
+        ``&``, so an ungrouped test treats every state as Shift.
+        Smooth deltas accumulate per modifier combo and only act on a
+        full step. A zero delta is not a step and does not reset that.
+        """
+        ctrl = ((event.state & Gdk.ModifierType.CONTROL_MASK)
+                == Gdk.ModifierType.CONTROL_MASK)
+        shift = ((event.state & Gdk.ModifierType.SHIFT_MASK)
+                 == Gdk.ModifierType.SHIFT_MASK)
+        mod4 = ((event.state & Gdk.ModifierType.MOD4_MASK)
+                == Gdk.ModifierType.MOD4_MASK)
+        if not ctrl and not shift:
+            return False
+        if ctrl and self.config['disable_mousewheel_zoom'] is True:
+            return False
+        direction = event.direction
+        smooth = direction == Gdk.ScrollDirection.SMOOTH
+        discrete_up = direction == Gdk.ScrollDirection.UP
+        discrete_down = direction == Gdk.ScrollDirection.DOWN
+        if not smooth and not discrete_up and not discrete_down:
+            return False
+        if smooth and event.delta_y == 0:
+            return False
+        combo = (ctrl, shift, mod4)
+        if getattr(self, '_wheel_mod_combo', None) != combo:
+            self._wheel_zoom_remainder = 0.0
+            self._wheel_page_remainder = 0.0
+            self._wheel_mod_combo = combo
+        if discrete_up or discrete_down:
+            steps = -1 if discrete_up else 1
+        else:
+            delta = event.delta_y
+            attr = '_wheel_zoom_remainder' if ctrl else '_wheel_page_remainder'
+            rem = float(getattr(self, attr, 0.0) or 0.0)
+            if rem and ((rem > 0) != (delta > 0)):
+                rem = 0.0
+            rem += delta
+            count = int(abs(rem))
+            if count:
+                sign = 1.0 if rem > 0 else -1.0
+                rem -= sign * count
+                steps = int(sign * count)
             else:
-                targets = [self]
-            if event.direction == Gdk.ScrollDirection.UP or SMOOTH_SCROLL_UP:
+                steps = 0
+            setattr(self, attr, rem)
+            if steps == 0:
+                return True
+        if mod4:
+            targets = self.terminator.terminals
+        elif shift:
+            targets = self.terminator.get_target_terms(self)
+        else:
+            targets = [self]
+        up = steps < 0
+        nsteps = abs(steps)
+        if ctrl:
+            for _step in range(nsteps):
                 for target in targets:
-                    target.zoom_in()
-                return True
-            elif event.direction == Gdk.ScrollDirection.DOWN or SMOOTH_SCROLL_DOWN:
-                for target in targets:
-                    target.zoom_out()
-                return True
-        elif modifiers == Gdk.ModifierType.SHIFT_MASK:
-            # Shift + mouse wheel up/down
-            if event.direction == Gdk.ScrollDirection.UP or SMOOTH_SCROLL_UP:
-                self.scroll_by_page(-1)
-                return True
-            elif event.direction == Gdk.ScrollDirection.DOWN or SMOOTH_SCROLL_DOWN:
-                self.scroll_by_page(1)
-                return True
-        return False
+                    if up:
+                        target.zoom_in()
+                    else:
+                        target.zoom_out()
+        else:
+            for _step in range(nsteps):
+                self.scroll_by_page(-1 if up else 1)
+        return True
 
     def popup_menu(self, widget, event=None, anchor=None,
                    skip_link_check=False):
@@ -1612,7 +1676,10 @@ class Terminal(Gtk.VBox):
             if titlebar is None:
                 continue
             if hasattr(titlebar, 'update_visibility'):
-                titlebar.update_visibility()
+                try:
+                    titlebar.update_visibility(multiple=multiple)
+                except TypeError:
+                    titlebar.update_visibility()
             if hasattr(titlebar, 'refresh_maximise_state'):
                 try:
                     titlebar.refresh_maximise_state(multiple=multiple)
@@ -1983,9 +2050,8 @@ class Terminal(Gtk.VBox):
             # https://bugs.launchpad.net/terminator/+bug/1518705
             if info == self.TARGET_TYPE_MOZ:
                  txt = txt.decode('utf-16')
-                 # KDE ends it's text/x-moz-url text with CRLF, :shrug:
-                 if not txt.endswith('\r\n'):
-                   txt = txt.split('\n')[0]
+                 # First line only. A title after CR or LF must not reach feed.
+                 txt = txt.split('\n', 1)[0].split('\r', 1)[0]
             else:
                  txt = txt.decode()
 
@@ -2324,6 +2390,7 @@ class Terminal(Gtk.VBox):
         args = []
         shell = None
         command = init_command
+        debug_local = False
 
         if self.terminator.doing_layout:
             dbg('still laying out, refusing to spawn a child')
@@ -2360,10 +2427,10 @@ class Terminal(Gtk.VBox):
             command = self.layout_command
         elif debugserver is True:
             details = self.terminator.debug_address
-            if details is not None:
-                dbg('spawning debug session with: %s:%s' % (details[0],
-                    details[1]))
-                command = 'telnet %s %s' % (details[0], details[1])
+            if isinstance(details, str) and details:
+                from terminatorlib.debugserver import debug_connect_argv
+                command = debug_connect_argv(details)
+                debug_local = True
 
         # working directory set in layout config
         if self.directory:
@@ -2406,11 +2473,14 @@ class Terminal(Gtk.VBox):
         args.insert(0, shell)
 
         if util.is_flatpak():
-            dbg('Flatpak detected')
-            args = util.get_flatpak_args(args, envv, self.cwd)
-            dbg('Forking shell: "%s" with args: %s via flatpak-spawn' % (shell, args))
-        
-            self.pid = self.vte.spawn_async(
+            if not debug_local:
+                dbg('Flatpak detected')
+                args = util.get_flatpak_args(args, envv, self.cwd)
+                dbg('Forking shell: "%s" with args: %s via flatpak-spawn' % (shell, args))
+            # spawn_async is void. The pid arrives in the callback, and a
+            # failure must not look like os.kill(-1).
+            self.command = shell
+            self.vte.spawn_async(
                 Vte.PtyFlags.NO_CTTY,
                 self.cwd,
                 args,
@@ -2420,7 +2490,7 @@ class Terminal(Gtk.VBox):
                 None,
                 -1,
                 None,
-                None,
+                self._on_flatpak_spawned,
                 None,
             )
         else:
@@ -2441,9 +2511,20 @@ class Terminal(Gtk.VBox):
 
         self.titlebar.update()
 
-        if self.pid == -1:
+        if self.pid == -1 and not getattr(self, '_flatpak_spawn_reported', False):
             self.vte.feed((_('Unable to start shell:') + shell).encode('utf-8'))
             return -1
+
+    def _on_flatpak_spawned(self, _vte, pid, error, _user_data=None):
+        """Flatpak spawn_async callback. VTE gives us the wrapper pid here."""
+        if error is not None or not isinstance(pid, int) or pid <= 0:
+            self.pid = -1
+            if not getattr(self, '_flatpak_spawn_reported', False):
+                self._flatpak_spawn_reported = True
+                self.vte.feed((_('Unable to start shell:') +
+                               (self.command or '')).encode('utf-8'))
+        else:
+            self.pid = pid
 
     def prepare_url(self, urlmatch):
         """Prepare a URL from a VTE match"""
@@ -2906,10 +2987,16 @@ class Terminal(Gtk.VBox):
             self._font_tier = 0
             self.refresh_badge()
 
-    def resume_auto_font_scale(self):
-        """Leave pause mode and force a recompute."""
+    def resume_auto_font_scale(self, avail=None):
+        """Leave pause mode and force a recompute.
+
+        avail=(w, h) is the content size to use instead of the live VTE
+        allocation. Overlay arrival passes the landed rect: a resize during
+        the animation has already updated that rect, while the VTE
+        allocation can still be the size from when the flight started.
+        """
         self._auto_font_mode = 'run'
-        self.update_auto_font_scale(force=True)
+        self.update_auto_font_scale(force=True, avail=avail)
 
     def compute_tier_for_size(self, w, h):
         """Return the scale D should apply for destination pixels (no VTE write)."""
@@ -3487,8 +3574,12 @@ class Terminal(Gtk.VBox):
         if last is not None and last != cwd:
             self._session_mark_dirty('cwd-probe')
             # The tab name follows this directory. The shell title often
-            # lags a cd, so refresh it from here too.
-            self.emit('title-change', self.get_window_title())
+            # lags a cd, so refresh it from here too. A half-built
+            # terminal has no signal table; the dirty mark still stands.
+            try:
+                self.emit('title-change', self.get_window_title())
+            except Exception:
+                pass
             return True
         return False
 
@@ -3645,8 +3736,8 @@ class Terminal(Gtk.VBox):
     def key_new_window(self):
         self.terminator.new_window(self.get_cwd(), self.get_profile())
 
-    def key_new_tab(self):
-        self.get_toplevel().tab_new(self)
+    def key_new_tab(self, init_command=None):
+        self.get_toplevel().tab_new(self, init_command=init_command)
 
     def key_new_terminator(self):
         spawn_new_terminator(self.origcwd, ['-u'])
