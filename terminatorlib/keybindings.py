@@ -56,6 +56,8 @@ class Keybindings:
 
     def __init__(self):
         self.keymap = Gdk.Keymap.get_default()
+        if self.keymap is not None:
+            self.keymap.connect('keys-changed', self._on_keys_changed)
         self.configure({})
 
     def configure(self, bindings, physical=False):
@@ -130,6 +132,16 @@ class Keybindings:
                     self._physical_lookup.setdefault(mask, {})
                     self._physical_lookup[mask][(entry.keycode, entry.level)] = action
 
+    def _on_keys_changed(self, _keymap):
+        """Rebuild the physical lookup when the keyboard layout changes
+
+        The entries a keyval resolves to depend on the installed layouts, so
+        the table has to be rebuilt if layouts are added or reordered at
+        runtime.
+        """
+        if self.physical:
+            self._build_physical_lookup()
+
     def _lookup_physical(self, mask, keycode, level):
         """Resolve an action from a physical key press.
 
@@ -178,7 +190,13 @@ class Keybindings:
             return None
         mask = (event.get_state() & ~consumed) & self._masks
         action = self._lookup.get(mask, self.empty).get(keyval, None)
-        if action is None and self.physical:
+        # Only consult the physical table when the active layout produced a
+        # non-Latin character (0x24F is the last code point of the Latin
+        # Extended-B block). Otherwise a keybinding from another installed
+        # layout could hijack a key that this layout already handles, e.g.
+        # Ctrl+/ firing zoom_out when both us and de layouts are present.
+        if (action is None and self.physical
+                and Gdk.keyval_to_unicode(keyval) > 0x24F):
             action = self._lookup_physical(mask, event.hardware_keycode, level)
         return action
 
