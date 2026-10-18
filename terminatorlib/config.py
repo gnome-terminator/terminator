@@ -112,6 +112,7 @@ DEFAULTS = {
             'disable_mouse_paste'   : False,
             'smart_copy'            : True,
             'clear_select_on_copy'  : False,
+            'physical_keybindings'  : False,
             'cell_width'            : 1.0,
             'cell_height'           : 1.0,
             'case_sensitive'        : True,

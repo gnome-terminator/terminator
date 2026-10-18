@@ -91,7 +91,8 @@ class Terminator(Borg):
             self.groupsend = self.groupsend_type[self.config['broadcast_default']]
         if not self.keybindings:
             self.keybindings = Keybindings()
-            self.keybindings.configure(self.config['keybindings'])
+            self.keybindings.configure(self.config['keybindings'],
+                                       self.config['physical_keybindings'])
         if not self.style_providers:
             self.style_providers = []
         if not self.doing_layout:
@@ -498,7 +499,8 @@ class Terminator(Borg):
             terminal.reconfigure()
 
         # Reparse our keybindings
-        self.keybindings.configure(self.config['keybindings'])
+        self.keybindings.configure(self.config['keybindings'],
+                                   self.config['physical_keybindings'])
 
         # Update tab position if appropriate
         maker = Factory()

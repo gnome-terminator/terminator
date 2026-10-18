@@ -387,6 +387,9 @@ class PrefsEditor:
         # Detachable tabs
         widget = guiget('detachable_tabs')
         widget.set_active(self.config['detachable_tabs'])
+        # Physical keybindings
+        widget = guiget('physical_keybindings')
+        widget.set_active(self.config['physical_keybindings'])
         #Hide from taskbar
         widget = guiget('hidefromtaskbcheck')
         widget.set_active(self.config['hide_from_taskbar'])
@@ -903,6 +906,10 @@ class PrefsEditor:
 
     def on_detachable_tabs_toggled(self, widget):
         self.config['detachable_tabs'] = widget.get_active()
+        self.config.save()
+
+    def on_physical_keybindings_toggled(self, widget):
+        self.config['physical_keybindings'] = widget.get_active()
         self.config.save()
 
     def on_disable_mousewheel_zoom_toggled(self, widget):

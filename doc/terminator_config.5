@@ -245,6 +245,16 @@ If set to True, text selection will be cleared after copying using the
 Default value: \fBFalse\fP
 .RE
 .sp
+\fBphysical_keybindings\fP = \fIboolean\fP
+.RS 4
+If set to True, shortcuts that the active keyboard layout does not match are
+retried against the physical key that was pressed, provided the layout
+produced a non\-Latin character. This keeps shortcuts such as Ctrl\-C and
+Ctrl\-V working when a non\-Latin layout (e.g. Cyrillic or Greek) is active.
+.br
+Default value: \fBFalse\fP
+.RE
+.sp
 \fBhandle_size\fP = \fIinteger\fP
 .RS 4
 Specify the width of the separator between terminals.
@@ -363,6 +373,11 @@ Default value: \fB[\*(AqLaunchpadBugURLHandler\*(Aq, \*(AqLaunchpadCodeURLHandle
 .sp
 These are the options Terminator currently supports in the \fBkeybindings\fP
 section.
+.sp
+When \fBphysical_keybindings\fP is enabled in the \fBglobal_config\fP section,
+a key press that matches a keybinding under any installed keyboard layout is
+consumed by Terminator and is not forwarded to the program running in the
+terminal. Keybindings added by plugins are not affected.
 .SS "Creation & Destruction"
 .sp
 \fBsplit_horiz\fP

@@ -175,6 +175,13 @@ If set to True, text selection will be cleared after copying using the
 *copy* keybinding. +
 Default value: *False*
 
+*physical_keybindings* = _boolean_::
+If set to True, shortcuts that the active keyboard layout does not match are
+retried against the physical key that was pressed, provided the layout
+produced a non-Latin character. This keeps shortcuts such as Ctrl+C and
+Ctrl+V working when a non-Latin layout (e.g. Cyrillic or Greek) is active. +
+Default value: *False*
+
 // --- Terminal appearance ---
 
 *handle_size* = _integer_::
@@ -257,6 +264,11 @@ Default value: *['LaunchpadBugURLHandler', 'LaunchpadCodeURLHandler', 'APTURLHan
 == keybindings
 These are the options Terminator currently supports in the *keybindings*
 section.
+
+When *physical_keybindings* is enabled in the *global_config* section, a key
+press that matches a keybinding under any installed keyboard layout is
+consumed by Terminator and is not forwarded to the program running in the
+terminal. Keybindings added by plugins are not affected.
 
 === Creation & Destruction
 
