@@ -335,8 +335,8 @@ def test_leaving_fullscreen_notifies_terminal(monkeypatch):
     assert notes == ['exit']
 
 
-def test_hide_reserves_scrollbar_width(monkeypatch):
-    """Hiding the bar keeps its width, and leaving the program gives it back."""
+def test_hide_gives_scrollbar_width_to_vte(monkeypatch):
+    """Hiding the bar leaves no empty strip. The VTE takes that width."""
     term, ctl, state = _ctl(monkeypatch)
     held = []
     term.hold_scrollbar_slot = lambda width: held.append(width)
@@ -344,16 +344,17 @@ def test_hide_reserves_scrollbar_width(monkeypatch):
     ctl.evaluate()
     term.adj.upper = 24
     ctl.evaluate()
-    assert held == [14]
-    assert ctl.auto_hidden
+    assert held == ['release']
+    assert ctl.auto_hidden and ctl.hidden_width == 14
     state['busy'] = False
     term.adj.upper = 51
     ctl.evaluate()
-    assert held == [14, 'release']
+    assert held == ['release', 'release']
     assert not ctl.auto_hidden
+    assert ctl.hidden_width == 0
 
 
-def test_reconfigure_reserves_width_when_bar_already_hidden(monkeypatch):
+def test_reconfigure_keeps_width_without_a_slot(monkeypatch):
     term, ctl, _ = _ctl(monkeypatch)
     held = []
     term.hold_scrollbar_slot = lambda width: held.append(width)
@@ -362,7 +363,8 @@ def test_reconfigure_reserves_width_when_bar_already_hidden(monkeypatch):
     term.adj.upper = 24
     ctl.evaluate()
     ctl.reconfigured()
-    assert held == [14, 'release', 14]
+    assert held == ['release', 'release', 'release']
+    assert 14 not in held
     assert ctl.auto_hidden and ctl.hidden_width == 14
 
 
@@ -434,7 +436,7 @@ def test_controller_user_toggle_inside_tui_is_respected(monkeypatch):
 
 def test_tui_redraw_does_not_show_scrollbar(monkeypatch):
     """A scrollable-looking sample while the TUI is still in front must not
-    release the reserved width. That release is the layout flicker."""
+    show the bar. Showing it would resize the grid under the program."""
     term, ctl, state = _ctl(monkeypatch)
     held = []
     term.hold_scrollbar_slot = lambda width: held.append(width)
@@ -442,16 +444,17 @@ def test_tui_redraw_does_not_show_scrollbar(monkeypatch):
     ctl.evaluate()
     term.adj.upper = 24
     ctl.evaluate()
-    assert ctl.auto_hidden and held == [14]
+    assert ctl.auto_hidden and ctl.hidden_width == 14
+    assert held == ['release']
     term.adj.upper = 51                  # redraw blip
     ctl.evaluate()
     assert ctl.auto_hidden and ctl.detector.active
-    assert held == [14]
+    assert held == ['release']
     assert term.scrollbar.calls == ['hide']
     state['busy'] = False
     ctl.evaluate()
     assert not ctl.auto_hidden
-    assert held == [14, 'release']
+    assert held == ['release', 'release']
     ctl._cancel()
 
 

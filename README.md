@@ -20,7 +20,7 @@ TerminatorX 在一个窗口里放多个终端。标签和窗格排在左侧，�
 | 窗格标题栏上的菜单、最大化和关闭 | 首选项 > 窗格，`titlebar_buttons = False` |
 | 单个窗格盖住其余窗格（Ctrl+Shift+Return，Shift+Esc 收回，或双击标题栏） | 首选项 > 窗格，`pane_overlay_maximise = False` |
 | 窗格变窄时，字体按 100% / 90% / 80% 缩小 | 首选项 > 窗格，`auto_font_scale = False`，或点标题栏上的比例 |
-| 全屏程序（vim、less、htop、tmux）运行时藏起滚动条 | 首选项 > 配置文件 > 滚动，`scrollbar_hide_in_alt_screen = False` |
+| 全屏程序（vim、less、htop、tmux）运行时藏起滚动条，腾出的宽度交给终端 | 首选项 > 配置文件 > 滚动，`scrollbar_hide_in_alt_screen = False` |
 
 完整菜单里可以勾选「下次启动不恢复」：先退出，再启动，下一次普通启动会开一个新窗口。外接屏拔掉以后，落在已经不存在的屏幕上的窗口会回到主显示器。
 

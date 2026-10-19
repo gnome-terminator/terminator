@@ -630,3 +630,12 @@ def test_p2_tier_rect_subtracts_chrome():
     t.vte = W(485, 376)          # 15 px scrollbar, 24 px titlebar
     assert vte_size_for_rect(t, (0, 0, 1000, 700)) == (985, 676)
     assert vte_size_for_rect(t, (0, 0, 1000, 700), 8) == (977, 668)
+
+    class Alt(object):
+        auto_hidden = True
+        hidden_width = 14
+
+    grown = T(500, 400)
+    grown.vte = W(500, 376)      # bar hidden, VTE took the width, no slot
+    grown.altscreen = Alt()
+    assert vte_size_for_rect(grown, (0, 0, 1000, 700)) == (986, 676)

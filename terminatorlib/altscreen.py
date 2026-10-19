@@ -34,10 +34,12 @@ PTY itself).  What *is* observable:
 Rule: hide when the adjustment is collapsed, a non-shell process owns the
 foreground, the PTY is raw (or unknown), and there is evidence of content.
 The decision is taken at the start of such an episode (1 s grace) and kept
-until the episode ends.  The scrollbar's width stays reserved while it is
-hidden, so the grid is not resized.  A resize here is what jumps a
-fullscreen program vertically: VTE realigns that screen and the row count
-changes under it.
+until the episode ends.  The hidden bar's width goes to the VTE, so the
+program reaches the pane edge.  That is one resize when it starts and one
+when it exits.  ``hidden_width`` is still recorded so the font tier does
+not follow those extra columns.  The bar stays hidden for the whole
+episode: showing it again for a redraw would resize the grid under the
+program.
 
 Consequences:
 
@@ -499,11 +501,15 @@ class AltScreenScrollbar(object):
                     self.hidden_width = max(0, int(sb.get_allocated_width()))
                 except Exception:
                     self.hidden_width = 0
-                sb.hide()
             elif self.hidden_width <= 0:
                 # Nothing was on screen, so hiding changes no width.
                 return
+            # Record the hide before the bar disappears. A synchronous
+            # size-allocate then subtracts hidden_width, and the font
+            # tier does not flip just because the VTE grew.
             self.auto_hidden = True
+            if sb.get_visible():
+                sb.hide()
             self._hold_slot()
             self._restore_scroll(scroll)
             dbg('altscreen: scrollbar visible=%s' % sb.get_visible())
@@ -546,10 +552,13 @@ class AltScreenScrollbar(object):
             note()
 
     def _hold_slot(self):
-        """Ask the terminal to keep ``hidden_width`` after the bar is hidden."""
-        hold = getattr(self.terminal, 'hold_scrollbar_slot', None)
-        if callable(hold) and self.hidden_width > 0:
-            hold(self.hidden_width)
+        """Give the hidden bar's pixels to the VTE.
+
+        A reserved slot is the empty profile-coloured strip beside a
+        fullscreen program. ``hidden_width`` stays set for font and
+        overlay math. Drop a leftover slot so that strip cannot remain.
+        """
+        self._release_slot()
 
     def _release_slot(self):
         release = getattr(self.terminal, 'release_scrollbar_slot', None)
@@ -574,7 +583,7 @@ class AltScreenScrollbar(object):
         self._release_slot()
         self.auto_hidden = False
         # apply() measures a visible bar.  If it is already hidden, the
-        # saved width is what keeps the terminal from growing.
+        # saved width is what font and overlay math still subtract.
         self.hidden_width = width
         self.apply()
         if not self.auto_hidden:
