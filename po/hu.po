@@ -5,7 +5,7 @@
 # 
 # Translators:
 # Gnome Terminator <terminator@lazyfrosch.de>, 2020
-# linuxrendszergazda linuxrendszergazda, 2025
+# linuxrendszergazda linuxrendszergazda, 2026
 # 
 #, fuzzy
 msgid ""
@@ -14,7 +14,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-10-19 09:29-0400\n"
 "PO-Revision-Date: 2020-04-22 08:11+0000\n"
-"Last-Translator: linuxrendszergazda linuxrendszergazda, 2025\n"
+"Last-Translator: linuxrendszergazda linuxrendszergazda, 2026\n"
 "Language-Team: Hungarian (https://app.transifex.com/terminator/teams/109338/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -151,11 +151,11 @@ msgid ""
 "terminals in grids (tabs is the most common default method, which Terminator"
 " also supports)."
 msgstr ""
-"Egy haladó felhasználóknak szánt eszköz a terminálablakok elrendezésének "
-"céljából. Olyan programok ihlették, mint a gnome-multi-term, quadkonsole "
-"stb., mivel ezeknél a fő hangsúly szintén az egyes terminálablakok rácsos "
-"elrendezésén van. (A fülek a leggyakoribb alapértelmezett módszer, amelyet a"
-" Terminator is támogat)."
+"Egy haladószintű felhasználóknak szánt eszköz a terminálablakok "
+"elrendezésének céljából. Olyan programok ihlették, mint a gnome-multi-term, "
+"quadkonsole stb., mivel ezeknél a fő hangsúly szintén az egyes "
+"terminálablakok rácsos elrendezésén van. (A fülek a leggyakoribb "
+"alapértelmezett módszer, amelyet a Terminator is támogat)."
 
 #: ../data/terminator.appdata.xml.in.h:5
 msgid ""
