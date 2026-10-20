@@ -376,12 +376,20 @@ E 的 scaled_zoom 暂停钩子挂在 **`_legacy_zoom` / `_legacy_unzoom` 的 `fo
 
 | 位置 | 改动 |
 |---|---|
-| `notebook` `switch-page` / `deferred_on_tab_switch` | 浮层中 → restore(False) 再切 |
+| `notebook` `switch-page` / `deferred_on_tab_switch` | 浮层中 → 记录旧 tab 的 `last_maximised_term` 后 restore(False) 切页；切换后若目标 tab 有记录且多终端，自动无动画重放大 |
+| `notebook.page_num_descendant` | 终端被放大时重亲和至 Window.Overlay，通过 `_overlay_placeholder` 溯源其在 Notebook 中的所属 tabnum |
 | `window.navigate_terminal` `:1053` | 浮层 + 方向键 → **不要** unzoom；槽位几何选目标 → `overlay_transfer` |
 | `terminal.on_keypress` `:1065+` | `restore_maximised`：**仅** `is_zoomed()`（浮层或旧 zoom）时调用并 `return True`；否则 **`return False`** 放行（对标 `copy` 无选区时的特殊处理 `:1083-1088`） |
 | `terminal.key_toggle_zoom` | 不变，经 Window 分发 |
 | 标题栏双击 / 最大化按钮（C） | `maximise`/`is_maximised_pane` / 听 `pane-maximise-changed` |
 | 拖拽 / detach | 放大期禁用或先 restore(False) |
+
+#### 5.6.1 多标签页独立保留放大布局（Per-tab Maximise Persistence）
+
+- **切页保存与重现**：当用户切换标签页时，`deferred_on_tab_switch` 将当前 tab 放大的终端 UUID 保存至 `Notebook.last_maximised_term[old_page]`，随后调用 `leave_zoom(..., reason='tab-switch')` 无动画还原浮层，防止浮层跨标签页遮挡。在 `on_tab_switch` 目标标签激活时，若该页存在 `last_maximised_term` 且该页可见终端数 `> 1`，则通过 `win.overlay_maximise(max_term, animate=False)` 恢复放大状态。
+- **主动还原与清理**：用户主动点击还原或按快捷键退出最大化时，`_on_pane_maximise_changed`（在 `_tab_switching` 为 False 时）清除对应标签的记录。
+- **槽位回溯**：放大状态下的终端挂载在 Window 的 Overlay 下，其实际在 Notebook 内部的槽位由 `_overlay_placeholder` 占位。`Notebook.page_num_descendant(widget)` 识别 `_overlay_placeholder`，保证在放大期间仍可正确定位该终端所属的标签页号。
+- **生命周期同步**：在新建标签（`tab_new` 从 Window 升级为 Notebook）、折叠分屏（`_collapse_single_child_paned`）、分屏分割（`split_axis`）、子控件替换（`swap_child`）与关闭标签（`closetab`）过程中，同步迁移或清理 `last_maximised_term`。
 
 ### 5.7 `has_multiple_terms`
 

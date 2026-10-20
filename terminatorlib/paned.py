@@ -408,6 +408,11 @@ class Paned(Container):
                     notebook.set_last_active_term(first_term_sibling.uuid)
                     notebook.clean_last_active_term()
                     self.get_toplevel().last_active_term = None
+                if hasattr(notebook, 'last_maximised_term') and notebook.last_maximised_term is not None:
+                    if notebook.last_maximised_term.get(nth_page) == widget.uuid:
+                        notebook.last_maximised_term.pop(nth_page, None)
+                    if hasattr(notebook, 'clean_last_maximised_term'):
+                        notebook.clean_last_maximised_term()
                 if cur_tabnum != tabnum:
                     focus_sibling = False
             elif self.get_toplevel().last_active_term != widget.uuid:

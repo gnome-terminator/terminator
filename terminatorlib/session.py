@@ -178,6 +178,9 @@ def retain_locked_tabs(layout):
         lat = node.get('last_active_term')
         if isinstance(lat, (list, tuple)):
             node['last_active_term'] = pick(lat)
+        lmt = node.get('last_maximised_term')
+        if isinstance(lmt, (list, tuple)):
+            node['last_maximised_term'] = pick(lmt)
         node['locked'] = ['True'] * len(kept)
         try:
             active = int(node.get('active_page', 0))
@@ -325,7 +328,7 @@ def is_explicit_launch(options):
     return bool(explicit_layout or has_command or has_configjson)
 
 
-LIVE_ID_KEYS = ('uuid', 'last_active_term', 'maximised_pane')
+LIVE_ID_KEYS = ('uuid', 'last_active_term', 'last_maximised_term', 'maximised_pane')
 
 
 def strip_live_ids(layout):
@@ -372,6 +375,16 @@ def remap_layout_uuids(layout, new_uuid=None):
             node['last_active_term'] = mapping[str(lat)]
         else:
             node.pop('last_active_term', None)
+    for node in (layout or {}).values():
+        if not isinstance(node, dict) or 'last_maximised_term' not in node:
+            continue
+        lmt = node['last_maximised_term']
+        if isinstance(lmt, (list, tuple)):
+            node['last_maximised_term'] = [mapping.get(str(v), '') for v in lmt]
+        elif lmt not in (None, '') and str(lmt) in mapping:
+            node['last_maximised_term'] = mapping[str(lmt)]
+        else:
+            node.pop('last_maximised_term', None)
     return mapping
 
 

@@ -27,3 +27,5 @@ data/terminator.desktop
 
 ## Test env (tests/run_tests.sh)
 /.venv-test
+data/terminator.metainfo.xml
+install-files.txt

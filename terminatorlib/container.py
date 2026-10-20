@@ -458,20 +458,39 @@ the tab will also close all terminals within it.')
             labels = []
             locked = []
             last_active_term = []
+            last_maximised_term = []
+            win = self.get_toplevel()
+            if hasattr(win, 'is_overlay_maximised') and win.is_overlay_maximised():
+                overlay_data = getattr(getattr(win, '_overlay', None), 'data', None)
+                if overlay_data and overlay_data.get('terminal'):
+                    cur_p = self.get_nth_page(self.get_current_page())
+                    if cur_p is not None:
+                        if not hasattr(self, 'last_maximised_term') or self.last_maximised_term is None:
+                            self.last_maximised_term = {}
+                        self.last_maximised_term[cur_p] = overlay_data['terminal'].uuid
             for tabnum in range(0, self.get_n_pages()):
                 page = self.get_nth_page(tabnum)
                 label = self.get_tab_label(page)
                 labels.append(label.get_custom_label())
                 getter = getattr(label, 'get_locked', None)
                 locked.append('True' if callable(getter) and getter() else 'False')
-                last_active_term.append(self.last_active_term[self.get_nth_page(tabnum)])
+                lat_map = getattr(self, 'last_active_term', {}) or {}
+                lat_val = lat_map.get(page, '')
+                last_active_term.append(lat_val if lat_val else '')
+                lmt_map = getattr(self, 'last_maximised_term', {}) or {}
+                m_uuid = lmt_map.get(page, '')
+                last_maximised_term.append(m_uuid if m_uuid else '')
             layout['labels'] = labels
             layout['locked'] = locked
             layout['last_active_term'] = last_active_term
+            if any(last_maximised_term):
+                layout['last_maximised_term'] = last_maximised_term
             layout['active_page'] = self.get_current_page()
         else:
             if hasattr(self, 'last_active_term') and self.last_active_term is not None:
                 layout['last_active_term'] = self.last_active_term
+            if getattr(self, 'last_maximised_term', None) is not None:
+                layout['last_maximised_term'] = self.last_maximised_term
 
         if mytype == 'Window':
             if self.uuid == self.terminator.last_active_window:

@@ -64,6 +64,7 @@ class Window(Container, Gtk.Window):
     ignore_startup_show = None
     set_pos_by_ratio = None
     last_active_term = None
+    last_maximised_term = None
     preventHide = None
     # m34: the window was iconified by on_hide_window/hide-on-lose-focus
     # (no global hotkey -> hidefunc is iconify), so the next toggle must
@@ -424,7 +425,16 @@ class Window(Container, Gtk.Window):
         except Exception as ex:
             dbg('note_window_grown: %s' % ex)
         if self.is_zoomed():
-            leave_zoom(self, reason='window', quiet=False)
+            if not self.is_child_notebook():
+                max_term = None
+                if self.is_overlay_maximised():
+                    data = getattr(getattr(self, '_overlay', None), 'data', None)
+                    max_term = data.get('terminal') if data else None
+                leave_zoom(self, reason='window', quiet=False)
+                if max_term is not None and getattr(max_term, 'uuid', None):
+                    self.last_maximised_term = max_term.uuid
+            else:
+                leave_zoom(self, legacy=True, overlay=False, reason='window', quiet=False)
 
         cwd = None
         profile = None
@@ -1525,7 +1535,7 @@ class Window(Container, Gtk.Window):
     def tab_change(self, widget, num=None):
         """Change to a specific tab"""
         if self.is_zoomed():
-            leave_zoom(self, reason='window', quiet=False)
+            leave_zoom(self, legacy=True, overlay=False, reason='window', quiet=False)
 
         if num is None:
             err('must specify a tab to change to')
@@ -1818,6 +1828,9 @@ class Window(Container, Gtk.Window):
 
         if 'last_active_term' in layout and layout['last_active_term'] not in ['', None]:
             self.last_active_term = make_uuid(layout['last_active_term'])
+
+        if 'last_maximised_term' in layout and layout['last_maximised_term'] not in ['', None]:
+            self.last_maximised_term = make_uuid(layout['last_maximised_term'])
 
         if 'last_active_window' in layout and layout['last_active_window'] == 'True':
             self.terminator.last_active_window = self.uuid

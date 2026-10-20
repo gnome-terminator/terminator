@@ -253,7 +253,8 @@ class SessionManager(Borg):         # 与 Terminator/Config 同样用 borg 单�
                  "title": "Terminator", "last_active_window": "True"},
     "child1":   {"type": "Notebook", "parent": "child0", "order": "0",
                  "labels": ["", "build"], "active_page": "1",
-                 "last_active_term": ["9a1…", "c3d…"]},
+                 "last_active_term": ["9a1…", "c3d…"],
+                 "last_maximised_term": ["", "c3d…"]},
     "child2":   {"type": "HPaned", "parent": "child1", "order": "0", "ratio": "0.42"},
     "terminal3":{"type": "Terminal", "parent": "child2", "order": "0",
                  "profile": "default", "uuid": "9a1…",
@@ -268,7 +269,7 @@ class SessionManager(Borg):         # 与 Terminator/Config 同样用 borg 单�
 }
 ```
 
-`maximised_pane` 为 D 新增的可选键（见 D.6）。`command` 键**不写入**（不自动重跑命令，避免副作用）。
+`maximised_pane` 为 D 新增的可选键（见 D.6）。`last_maximised_term` 为按页记录各 tab 放大分屏 UUID 的可选键（Notebook 为列表，Window 单终端/无 Notebook 布局为单个 UUID 字符串）。`command` 键**不写入**（不自动重跑命令，避免副作用）。
 
 #### A.3 "变动"事件挂钩点（全部只调用 `SessionManager().mark_dirty()`）
 

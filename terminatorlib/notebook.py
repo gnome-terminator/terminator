@@ -281,6 +281,9 @@ class Notebook(Container, Gtk.Notebook):
     """Class implementing a Gtk.Notebook container"""
     window = None
     last_active_term = None
+    last_maximised_term = None
+    _tab_switching = False
+    _maximise_changed_handler = None
     pending_on_tab_switch = None
     pending_on_tab_switch_args = None
 
@@ -310,10 +313,16 @@ class Notebook(Container, Gtk.Notebook):
         window.remove(child)
         window.add(self)
         window_last_active_term = window.last_active_term
+        window_last_maximised_term = getattr(window, 'last_maximised_term', None)
         self.newtab(widget=child)
         if window_last_active_term:
             self.set_last_active_term(window_last_active_term)
             window.last_active_term = None
+        if window_last_maximised_term:
+            self.last_maximised_term[child] = window_last_maximised_term
+            window.last_maximised_term = None
+        self.connect('page-removed', self._on_page_removed)
+        self._wire_window_maximise_signals()
 
         self.show_all()
         # configure() built the list before this notebook had a parent.
@@ -357,6 +366,8 @@ class Notebook(Container, Gtk.Notebook):
 #        style.ythickness = 0
 #        self.modify_style(style)
         self.last_active_term = {}
+        if not hasattr(self, 'last_maximised_term') or self.last_maximised_term is None:
+            self.last_maximised_term = {}
         self._scroll_acc = 0.0
         self._select_tab_scroll()
 
@@ -528,6 +539,11 @@ class Notebook(Container, Gtk.Notebook):
 
             if  layout.get('last_active_term',  None):
                 self.last_active_term[page] = make_uuid(layout['last_active_term'][num])
+            if layout.get('last_maximised_term', None):
+                raw_lmt = layout['last_maximised_term']
+                if isinstance(raw_lmt, (list, tuple)) and num < len(raw_lmt) and raw_lmt[num]:
+                    self.last_maximised_term[page] = make_uuid(raw_lmt[num])
+            self._wire_window_maximise_signals()
             num = num + 1
 
         if 'active_page' in layout:
@@ -548,6 +564,12 @@ class Notebook(Container, Gtk.Notebook):
             return
 
         label = self.get_tab_label(widget)
+        lat = None
+        if hasattr(self, 'last_active_term') and self.last_active_term is not None:
+            lat = self.last_active_term.pop(widget, None)
+        lmt = None
+        if hasattr(self, 'last_maximised_term') and self.last_maximised_term is not None:
+            lmt = self.last_maximised_term.pop(widget, None)
         self.remove(widget)
 
         maker = Factory()
@@ -572,6 +594,13 @@ class Notebook(Container, Gtk.Notebook):
             sibling.force_set_profile(None, widget.get_profile())
 
         self.insert_page(container, None, page_num)
+        if hasattr(self, 'last_active_term') and self.last_active_term is not None:
+            if lat is not None:
+                self.last_active_term[container] = lat
+            elif hasattr(widget, 'uuid'):
+                self.last_active_term[container] = widget.uuid
+        if hasattr(self, 'last_maximised_term') and self.last_maximised_term is not None and lmt is not None:
+            self.last_maximised_term[container] = lmt
         self.set_tab_detachable(container, self.config['detachable_tabs'])
         self._pack_tab(container)
         self.set_tab_reorderable(container, True)
@@ -642,6 +671,9 @@ class Notebook(Container, Gtk.Notebook):
         lat = None
         if hasattr(self, 'last_active_term'):
             lat = self.last_active_term.pop(old_widget, None)
+        lmt = None
+        if hasattr(self, 'last_maximised_term') and self.last_maximised_term is not None:
+            lmt = self.last_maximised_term.pop(old_widget, None)
 
         self.disconnect_child(old_widget)
         # Keep the label widget; detach page without destroying the label
@@ -664,6 +696,8 @@ class Notebook(Container, Gtk.Notebook):
             self.newtab(widget=new_widget, metadata=metadata)
             if lat is not None:
                 self.last_active_term[new_widget] = lat
+            if lmt is not None and hasattr(self, 'last_maximised_term') and self.last_maximised_term is not None:
+                self.last_maximised_term[new_widget] = lmt
             if locked:
                 new_label = self.get_tab_label(new_widget)
                 if new_label is not None and hasattr(new_label, 'set_locked'):
@@ -676,6 +710,8 @@ class Notebook(Container, Gtk.Notebook):
                 term = getattr(new_widget, 'terminal', None)
                 self.last_active_term[new_widget] = (
                     lat if lat is not None else getattr(term, 'uuid', None))
+            if hasattr(self, 'last_maximised_term') and self.last_maximised_term is not None and lmt is not None:
+                self.last_maximised_term[new_widget] = lmt
             self.set_current_page(page_num)
             new_widget.show_all()
         try:
@@ -1421,6 +1457,9 @@ class Notebook(Container, Gtk.Notebook):
             lat = None
             if hasattr(parent, 'last_active_term'):
                 lat = parent.last_active_term.pop(paned, None)
+            lmt = None
+            if hasattr(parent, 'last_maximised_term') and parent.last_maximised_term is not None:
+                lmt = parent.last_maximised_term.pop(paned, None)
             parent.detach_tab(paned)
             if page_num < 0:
                 page_num = parent.get_n_pages()
@@ -1436,6 +1475,9 @@ class Notebook(Container, Gtk.Notebook):
                 lat = getattr(child, 'uuid', None)
             if lat is not None:
                 parent.last_active_term[child] = lat
+            if lmt is not None and hasattr(parent, 'last_maximised_term') and parent.last_maximised_term is not None:
+                if not maker.isinstance(child, 'Terminal'):
+                    parent.last_maximised_term[child] = lmt
             if maker.isinstance(child, 'Terminal'):
                 parent._bind_notebook_terminal(child)
             child.show_all()
@@ -1662,6 +1704,9 @@ class Notebook(Container, Gtk.Notebook):
         lat = None
         if hasattr(source, 'last_active_term'):
             lat = source.last_active_term.pop(page, None)
+        lmt = None
+        if hasattr(source, 'last_maximised_term') and source.last_maximised_term is not None:
+            lmt = source.last_maximised_term.pop(page, None)
         maker = Factory()
         if maker.isinstance(page, 'Terminal'):
             source.disconnect_child(page)
@@ -1682,6 +1727,8 @@ class Notebook(Container, Gtk.Notebook):
             self._pack_tab(page)
             if lat is not None:
                 self.last_active_term[page] = lat
+            if lmt is not None and hasattr(self, 'last_maximised_term') and self.last_maximised_term is not None:
+                self.last_maximised_term[page] = lmt
             self._rewire_moved_terminals(page)
             self.set_current_page(index)
             page.show_all()
@@ -1986,6 +2033,8 @@ class Notebook(Container, Gtk.Notebook):
             dbg('child is a single Terminal')
 
             nb.last_active_term.pop(child, None)
+            if hasattr(nb, 'last_maximised_term') and nb.last_maximised_term is not None:
+                nb.last_maximised_term.pop(child, None)
             child.close()
             # FIXME: We only do this del and return here to avoid removing the
             # page below, which child.close() implicitly does
@@ -2129,6 +2178,11 @@ class Notebook(Container, Gtk.Notebook):
 
     def page_num_descendant(self, widget):
         """Find the tabnum of the tab containing a widget at any level"""
+        if widget is None:
+            return -1
+        placeholder = getattr(widget, '_overlay_placeholder', None)
+        if placeholder is not None and placeholder.get_parent() is not None:
+            widget = placeholder
         tabnum = self.page_num(widget)
         dbg("widget is direct child if not equal -1 - tabnum: %d" % tabnum)
         while tabnum == -1 and widget.get_parent():
@@ -2161,6 +2215,63 @@ class Notebook(Container, Gtk.Notebook):
                 last_active_term[nth_page] = self.last_active_term[nth_page]
         self.last_active_term = last_active_term
 
+    def clean_last_maximised_term(self):
+        """Clean up old entries in last_maximised_term"""
+        if self.terminator.doing_layout == True:
+            return
+        if not hasattr(self, 'last_maximised_term') or self.last_maximised_term is None:
+            self.last_maximised_term = {}
+            return
+        last_maximised_term = {}
+        for tabnum in range(0, self.get_n_pages()):
+            nth_page = self.get_nth_page(tabnum)
+            if nth_page in self.last_maximised_term:
+                last_maximised_term[nth_page] = self.last_maximised_term[nth_page]
+        self.last_maximised_term = last_maximised_term
+
+    def _on_page_removed(self, notebook, child, page_num):
+        if hasattr(self, 'last_active_term') and self.last_active_term is not None:
+            self.last_active_term.pop(child, None)
+        if hasattr(self, 'last_maximised_term') and self.last_maximised_term is not None:
+            self.last_maximised_term.pop(child, None)
+        self.clean_last_active_term()
+        self.clean_last_maximised_term()
+
+    def _wire_window_maximise_signals(self):
+        win = getattr(self, 'window', None)
+        if win is not None and getattr(self, '_maximise_changed_handler', None) is None:
+            try:
+                self._maximise_changed_handler = win.connect(
+                    'pane-maximise-changed', self._on_pane_maximise_changed)
+            except Exception as ex:
+                dbg('notebook connect pane-maximise-changed: %s' % ex)
+
+    def _on_pane_maximise_changed(self, window, terminal, active):
+        if not hasattr(self, 'last_maximised_term') or self.last_maximised_term is None:
+            self.last_maximised_term = {}
+        if active:
+            if terminal is not None:
+                tabnum = self.page_num_descendant(terminal)
+                if tabnum != -1:
+                    page = self.get_nth_page(tabnum)
+                    self.last_maximised_term[page] = getattr(terminal, 'uuid', None)
+        else:
+            if not getattr(self, '_tab_switching', False):
+                if terminal is not None:
+                    tabnum = self.page_num_descendant(terminal)
+                    if tabnum != -1:
+                        page = self.get_nth_page(tabnum)
+                        self.last_maximised_term.pop(page, None)
+                        return
+                    term_uuid = getattr(terminal, 'uuid', None)
+                    if term_uuid is not None:
+                        to_del = [p for p, u in self.last_maximised_term.items() if u == term_uuid]
+                        for p in to_del:
+                            self.last_maximised_term.pop(p, None)
+                cur_page_num = self.get_current_page()
+                if 0 <= cur_page_num < self.get_n_pages():
+                    self.last_maximised_term.pop(self.get_nth_page(cur_page_num), None)
+
     def on_page_reordered_dirty(self, *args):
         try:
             from .session import try_mark_dirty
@@ -2170,6 +2281,18 @@ class Notebook(Container, Gtk.Notebook):
 
     def deferred_on_tab_switch(self, notebook, page,  page_num,  data=None):
         """Prime a single idle tab switch signal, using the most recent set of params"""
+        self._tab_switching = True
+        win = self.get_toplevel()
+        old_page_num = self.get_current_page()
+        if 0 <= old_page_num < self.get_n_pages():
+            old_page = self.get_nth_page(old_page_num)
+            is_ov = getattr(win, 'is_overlay_maximised', None)
+            if callable(is_ov) and is_ov():
+                overlay_data = getattr(getattr(win, '_overlay', None), 'data', None)
+                if overlay_data and overlay_data.get('terminal'):
+                    if not hasattr(self, 'last_maximised_term') or self.last_maximised_term is None:
+                        self.last_maximised_term = {}
+                    self.last_maximised_term[old_page] = overlay_data['terminal'].uuid
         # Module D: leaving a tab while overlay-maximised must snap-restore
         from .zoomguard import leave_zoom
         leave_zoom(self.get_toplevel(), legacy=False, overlay=True,
@@ -2194,6 +2317,7 @@ class Notebook(Container, Gtk.Notebook):
         finally:
             self.pending_on_tab_switch = False
             self.pending_on_tab_switch_args = None
+            self._tab_switching = False
         return False
 
     def on_tab_switch(self, notebook, page,  page_num,  data=None):
@@ -2203,12 +2327,44 @@ class Notebook(Container, Gtk.Notebook):
             try_mark_dirty('switch-page')
         except Exception:
             pass
-        tabs_last_active_term = data['tabs_last_active_term']
-        if tabs_last_active_term:
-            term = self.terminator.find_terminal_by_uuid(tabs_last_active_term.urn)
-            # if we can't find a last active term we must be starting up
-            if term is not None:
-                GLib.idle_add(term.ensure_visible_and_focussed)
+        target_page = self.get_nth_page(page_num) if hasattr(self, 'get_nth_page') else None
+        lmt = getattr(self, 'last_maximised_term', None) or {}
+        max_uuid = lmt.get(target_page, None) if target_page is not None else None
+        max_term = None
+        if max_uuid and hasattr(self, 'terminator'):
+            max_term = self.terminator.find_terminal_by_uuid(
+                max_uuid.urn if hasattr(max_uuid, 'urn') else str(max_uuid))
+            if max_term is not None and hasattr(self, 'page_num_descendant') and self.page_num_descendant(max_term) == page_num:
+                win = self.get_toplevel() if hasattr(self, 'get_toplevel') else None
+                if win is not None and hasattr(win, 'overlay_maximise'):
+                    term_count = 0
+                    for t in getattr(self.terminator, 'terminals', []):
+                        if hasattr(self, 'page_num_descendant') and self.page_num_descendant(t) == page_num:
+                            term_count += 1
+                            if term_count > 1:
+                                break
+                    if term_count > 1:
+                        if not win.overlay_maximise(max_term, animate=False):
+                            if hasattr(self, 'last_maximised_term') and self.last_maximised_term:
+                                self.last_maximised_term.pop(target_page, None)
+                            max_term = None
+                    else:
+                        if hasattr(self, 'last_maximised_term') and self.last_maximised_term:
+                            self.last_maximised_term.pop(target_page, None)
+                        max_term = None
+            else:
+                if hasattr(self, 'last_maximised_term') and self.last_maximised_term:
+                    self.last_maximised_term.pop(target_page, None)
+                max_term = None
+        if max_term is not None:
+            GLib.idle_add(max_term.ensure_visible_and_focussed)
+        else:
+            tabs_last_active_term = data.get('tabs_last_active_term') if isinstance(data, dict) else None
+            if tabs_last_active_term:
+                term = self.terminator.find_terminal_by_uuid(tabs_last_active_term.urn)
+                # if we can't find a last active term we must be starting up
+                if term is not None:
+                    GLib.idle_add(term.ensure_visible_and_focussed)
         # Return False (GLib.SOURCE_REMOVE) so that, should this ever be
         # scheduled directly via GLib.idle_add/timeout_add, it runs once
         # instead of repeating forever.  As a switch-page handler (or via

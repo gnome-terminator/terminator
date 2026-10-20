@@ -639,3 +639,162 @@ def test_p2_tier_rect_subtracts_chrome():
     grown.vte = W(500, 376)      # bar hidden, VTE took the width, no slot
     grown.altscreen = Alt()
     assert vte_size_for_rect(grown, (0, 0, 1000, 700)) == (986, 676)
+
+
+def test_tab_switch_preserves_overlay_maximise(win):
+    """Switching away from an overlay-maximised tab snap-restores, but
+    returning re-maximises that pane automatically without animation."""
+    from terminatorlib.notebook import Notebook
+    t0 = list(win.get_terminals())[0]
+    win.tab_new(t0)
+    _pump(0.3)
+    nb = win.get_child()
+    assert isinstance(nb, Notebook)
+    assert nb.get_n_pages() == 2
+
+    # Tab 0: split into 2 terminals: t0_a and t0_b
+    nb.set_current_page(0)
+    _pump(0.2)
+    nb.split_axis(t0, True)
+    _pump(0.3)
+    tab0_terms = [t for t in win.get_terminals() if nb.page_num_descendant(t) == 0]
+    assert len(tab0_terms) == 2
+    t0_a, t0_b = tab0_terms[0], tab0_terms[1]
+
+    # Tab 1: split into 2 terminals: t1_a and t1_b
+    nb.set_current_page(1)
+    _pump(0.2)
+    t1 = [t for t in win.get_terminals() if nb.page_num_descendant(t) == 1][0]
+    nb.split_axis(t1, True)
+    _pump(0.3)
+    tab1_terms = [t for t in win.get_terminals() if nb.page_num_descendant(t) == 1]
+    assert len(tab1_terms) == 2
+    t1_a, t1_b = tab1_terms[0], tab1_terms[1]
+
+    # Go back to Tab 0 and maximise t0_a
+    nb.set_current_page(0)
+    _pump(0.2)
+    assert win.overlay_maximise(t0_a, animate=False)
+    _pump(0.3)
+    assert win.is_overlay_maximised()
+    assert win.is_maximised_pane(t0_a)
+
+    # Switch to Tab 1: Tab 1 was not maximised, so overlay should restore for Tab 1
+    nb.set_current_page(1)
+    _pump(0.4)
+    assert not win.is_overlay_maximised()
+
+    # Maximise t1_b on Tab 1
+    assert win.overlay_maximise(t1_b, animate=False)
+    _pump(0.3)
+    assert win.is_overlay_maximised()
+    assert win.is_maximised_pane(t1_b)
+
+    # Switch back to Tab 0: t0_a should be re-maximised!
+    nb.set_current_page(0)
+    _pump(0.4)
+    assert win.is_overlay_maximised()
+    assert win.is_maximised_pane(t0_a)
+
+    # Switch back to Tab 1: t1_b should be re-maximised!
+    nb.set_current_page(1)
+    _pump(0.4)
+    assert win.is_overlay_maximised()
+    assert win.is_maximised_pane(t1_b)
+
+    # Explicitly restore (un-maximise) on Tab 1
+    win.overlay_restore(animate=False)
+    _pump(0.3)
+    assert not win.is_overlay_maximised()
+
+    # Switch to Tab 0: still maximised!
+    nb.set_current_page(0)
+    _pump(0.4)
+    assert win.is_overlay_maximised()
+    assert win.is_maximised_pane(t0_a)
+
+    # Switch back to Tab 1: remains un-maximised!
+    nb.set_current_page(1)
+    _pump(0.4)
+    assert not win.is_overlay_maximised()
+
+    # Cleanup
+    nb.set_current_page(0)
+    _pump(0.2)
+    if win.is_overlay_maximised():
+        win.overlay_restore(animate=False)
+        _pump(0.2)
+
+
+def test_tab_new_preserves_overlay_maximise(win):
+    """Creating a new tab while a pane is overlay-maximised preserves
+    the maximise state when returning to the tab."""
+    from terminatorlib.notebook import Notebook
+    a = list(win.get_terminals())[0]
+    win.split_axis(a, True)
+    _pump(0.3)
+    assert win.overlay_maximise(a, animate=False)
+    _pump(0.3)
+    assert win.is_overlay_maximised()
+
+    # Create a new tab via tab_new()
+    win.tab_new()
+    _pump(0.4)
+    nb = win.get_child()
+    assert isinstance(nb, Notebook)
+    assert nb.get_n_pages() == 2
+    assert nb.get_current_page() == 1
+    assert not win.is_overlay_maximised()
+
+    # Switch back to tab 0
+    nb.set_current_page(0)
+    _pump(0.4)
+    assert win.is_overlay_maximised()
+    assert win.is_maximised_pane(a)
+    win.overlay_restore(animate=False)
+    _pump(0.2)
+
+
+def test_describe_layout_records_last_maximised_term(win):
+    from terminatorlib.notebook import Notebook
+    t0 = list(win.get_terminals())[0]
+    win.tab_new(t0)
+    _pump(0.3)
+    nb = win.get_child()
+    nb.set_current_page(0)
+    _pump(0.2)
+    nb.split_axis(t0, True)
+    _pump(0.3)
+    tab0_terms = [t for t in win.get_terminals() if nb.page_num_descendant(t) == 0]
+    assert win.overlay_maximise(tab0_terms[0], animate=False)
+    _pump(0.3)
+    layout = {}
+    win.describe_layout(0, None, layout, 0)
+    nb_node = [v for v in layout.values() if v.get('type') == 'Notebook'][0]
+    assert 'last_maximised_term' in nb_node
+    assert str(tab0_terms[0].uuid) in [str(u) for u in nb_node['last_maximised_term']]
+    win.overlay_restore(animate=False)
+    _pump(0.2)
+
+
+def test_page_num_descendant_with_overlay_placeholder(win):
+    """page_num_descendant resolves tabnum via _overlay_placeholder when
+    the terminal is reparented into Overlay."""
+    from terminatorlib.notebook import Notebook
+    t0 = list(win.get_terminals())[0]
+    win.tab_new(t0)
+    _pump(0.3)
+    nb = win.get_child()
+    assert isinstance(nb, Notebook)
+    nb.set_current_page(0)
+    _pump(0.2)
+    nb.split_axis(t0, True)
+    _pump(0.3)
+    tab0_terms = [t for t in win.get_terminals() if nb.page_num_descendant(t) == 0]
+    term = tab0_terms[0]
+    assert win.overlay_maximise(term, animate=False)
+    _pump(0.3)
+    assert win.is_overlay_maximised()
+    assert nb.page_num_descendant(term) == 0
+    win.overlay_restore(animate=False)
+    _pump(0.2)

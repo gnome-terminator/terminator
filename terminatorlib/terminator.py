@@ -440,9 +440,20 @@ class Terminator(Borg):
                     continue
                 terminal._restore_maximised = False
                 win = terminal.get_toplevel()
-                if win in seen_windows:
-                    continue
                 if not hasattr(win, 'overlay_maximise'):
+                    continue
+                maker = Factory()
+                top_child = win.get_child()
+                if maker.isinstance(top_child, 'Notebook'):
+                    page_num = top_child.page_num_descendant(terminal)
+                    if page_num >= 0:
+                        page = top_child.get_nth_page(page_num)
+                        if not hasattr(top_child, 'last_maximised_term') or top_child.last_maximised_term is None:
+                            top_child.last_maximised_term = {}
+                        top_child.last_maximised_term[page] = terminal.uuid
+                        if page_num != top_child.get_current_page():
+                            continue
+                if win in seen_windows:
                     continue
                 seen_windows.add(win)
                 # Deferred until the window is allocated and only for the
