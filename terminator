@@ -46,6 +46,7 @@ except ImportError:
 
 import terminatorlib.optionparse
 from terminatorlib.terminator import Terminator
+from terminatorlib.session import Session
 from terminatorlib.factory import Factory
 from terminatorlib.version import APP_NAME, APP_VERSION
 from terminatorlib.util import dbg, err
@@ -128,12 +129,25 @@ if __name__ == '__main__':
         TERMINATOR.set_dbus_data(dbus_service)
         TERMINATOR.reconfigure()
 
+        # Only the DBus master records the session, and only when started
+        # plainly, so a second instance or a -l/-e/-x launch doesn't
+        # overwrite it.
+        layout = OPTIONS.layout
+        if TERMINATOR.config['restore_session'] and dbus_service and \
+                layout == 'default' and not OPTIONS.command and \
+                not OPTIONS.execute:
+            saved = Session().start()
+            if saved:
+                TERMINATOR.config.base.layouts['__session__'] = saved
+                layout = '__session__'
         try:
-            dbg('Creating a terminal with layout: %s' % OPTIONS.layout)
-            TERMINATOR.create_layout(OPTIONS.layout)
+            dbg('Creating a terminal with layout: %s' % layout)
+            TERMINATOR.create_layout(layout)
         except (KeyError,ValueError) as ex:
             err('layout creation failed, creating a window ("%s")' % ex)
             TERMINATOR.new_window()
+        # Never let a config save write the session into the user's layouts
+        TERMINATOR.config.base.layouts.pop('__session__', None)
         TERMINATOR.layout_done()
 
     if OPTIONS.debug and OPTIONS.debug >= 2:

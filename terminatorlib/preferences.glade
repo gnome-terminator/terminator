@@ -962,6 +962,24 @@
                                   </packing>
                                 </child>
                                 <child>
+                                  <object class="GtkCheckButton" id="restore_session">
+                                    <property name="label" translatable="yes">Restore previous session on startup</property>
+                                    <property name="use-action-appearance">False</property>
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">True</property>
+                                    <property name="receives-default">False</property>
+                                    <property name="tooltip-text" translatable="yes">Reopens your windows, tabs and splits with their scrollback. Terminal output is saved unencrypted under ~/.local/state/terminator/session. Takes effect on the next start.</property>
+                                    <property name="xalign">0</property>
+                                    <property name="draw-indicator">True</property>
+                                    <signal name="toggled" handler="on_restore_session_toggled" swapped="no"/>
+                                  </object>
+                                  <packing>
+                                    <property name="left-attach">0</property>
+                                    <property name="top-attach">9</property>
+                                    <property name="width">4</property>
+                                  </packing>
+                                </child>
+                                <child>
                                   <placeholder/>
                                 </child>
                                 <child>

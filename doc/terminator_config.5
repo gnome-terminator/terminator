@@ -192,6 +192,22 @@ peer terminal. If set to False, they will always use the default profile.
 Default value: \fBFalse\fP
 .RE
 .sp
+\fBrestore_session\fP = \fIboolean\fP
+.RS 4
+If set to True, Terminator reopens the windows, tabs and splits of the
+previous session on startup, with each terminal\(cqs working directory and
+scrollback (including colours). Terminal output is saved unencrypted under
+\fI$XDG_STATE_HOME/terminator/session\fP (by default
+\fI~/.local/state/terminator/session\fP). Running programs are not restored;
+each terminal starts a fresh shell. Only the first (DBus) instance started
+without \fB\-l\fP, \fB\-e\fP or \fB\-x\fP records and restores the session. Tip: for
+per\-terminal shell history, set
+\fIHISTFILE=~/.local/state/bash_history/${TERMINATOR_UUID##*:}\fP in your
+shell\(cqs startup file.
+.br
+Default value: \fBFalse\fP
+.RE
+.sp
 \fBlink_single_click\fP = \fIboolean\fP
 .RS 4
 If set to True, clicking a link will open it even if \fBCtrl\fP is not
@@ -426,6 +442,23 @@ Default value: \fB<Ctrl><Shift>W\fP
 Close the current window.
 .br
 Default value: \fB<Ctrl><Shift>Q\fP
+.RE
+.sp
+\fBquit\fP
+.RS 4
+Close all windows at once. With \fBrestore_session\fP enabled, all of them
+are reopened on the next start.
+.br
+Default value: \fB<Ctrl><Shift><Alt>Q\fP
+.RE
+.sp
+\fBreopen_closed\fP
+.RS 4
+Reopen the most recently closed terminal, tab or window, with its
+scrollback if \fBrestore_session\fP is enabled. Terminals and tabs come back
+as a new tab in the current window.
+.br
+Default value: \fB<Ctrl><Shift><Alt>T\fP
 .RE
 .SS "Navigation"
 .sp

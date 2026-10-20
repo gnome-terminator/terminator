@@ -139,6 +139,19 @@ Specify whether splits/tabs will continue to use the profile of their
 peer terminal. If set to False, they will always use the default profile. +
 Default value: *False*
 
+*restore_session* = _boolean_::
+If set to True, Terminator reopens the windows, tabs and splits of the
+previous session on startup, with each terminal's working directory and
+scrollback (including colours). Terminal output is saved unencrypted under
+_$XDG_STATE_HOME/terminator/session_ (by default
+_~/.local/state/terminator/session_). Running programs are not restored;
+each terminal starts a fresh shell. Only the first (DBus) instance started
+without *-l*, *-e* or *-x* records and restores the session. Tip: for
+per-terminal shell history, set
+_HISTFILE=~/.local/state/bash_history/${TERMINATOR_UUID##*:}_ in your
+shell's startup file. +
+Default value: *False*
+
 *link_single_click* = _boolean_::
 If set to True, clicking a link will open it even if *Ctrl* is not
 pressed. +
@@ -295,6 +308,17 @@ Default value: *<Ctrl><Shift>W*
 *close_window*::
 Close the current window. +
 Default value: *<Ctrl><Shift>Q*
+
+*quit*::
+Close all windows at once. With *restore_session* enabled, all of them
+are reopened on the next start. +
+Default value: *<Ctrl><Shift><Alt>Q*
+
+*reopen_closed*::
+Reopen the most recently closed terminal, tab or window, with its
+scrollback if *restore_session* is enabled. Terminals and tabs come back
+as a new tab in the current window. +
+Default value: *<Ctrl><Shift><Alt>T*
 
 === Navigation
 

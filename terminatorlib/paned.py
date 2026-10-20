@@ -313,10 +313,14 @@ class Paned(Container):
             if focus_sibling:
                 first_term_sibling.grab_focus()
             elif not sibling.get_toplevel().is_child_notebook():
-                try:
-                    Terminator().find_terminal_by_uuid(sibling.get_toplevel().last_active_term.urn).grab_focus()
-                except AttributeError:
-                    dbg('cannot find terminal with uuid: %s' % sibling.get_toplevel().last_active_term.urn)
+                # last_active_term is None after the window had tabs, until a
+                # terminal gets focus again (never, if the window is closing)
+                last_active = sibling.get_toplevel().last_active_term
+                term = last_active and Terminator().find_terminal_by_uuid(last_active.urn)
+                if term:
+                    term.grab_focus()
+                else:
+                    dbg('cannot find last active terminal: %s' % last_active)
         else:
             dbg("self.closeterm failed")
 

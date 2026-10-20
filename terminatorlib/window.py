@@ -23,6 +23,7 @@ from .version import APP_NAME
 from .container import Container
 from .factory import Factory
 from .terminator import Terminator
+from .session import Session
 if display_manager() == 'X11':
     try:
         gi.require_version('Keybinder', '3.0')
@@ -295,6 +296,11 @@ class Window(Container, Gtk.Window):
     def on_destroy_event(self, widget, data=None):
         """Handle window destruction"""
         dbg('destroying self')
+        if self.terminator.windows == [self]:
+            # Last window: keep its terminals in the saved session
+            Session().freeze()
+        else:
+            Session().closed(self)
         for terminal in self.get_terminals():
             # Only for race condition, while closing a window with a single
             # terminal. Could be useful in other scenarios.

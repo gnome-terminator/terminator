@@ -9,6 +9,7 @@ from gi.repository import Gdk
 from gi.repository import Gio
 
 from .terminator import Terminator
+from .session import Session
 from .config import Config
 from .factory import Factory
 from .container import Container
@@ -208,6 +209,8 @@ class Notebook(Container, Gtk.Notebook):
             sibling.force_set_profile(None, widget.get_profile())
 
         self.insert_page(container, None, page_num)
+        # The split replaces the tab's page; keep the tab's last active term
+        self.last_active_term[container] = self.last_active_term.pop(widget, widget.uuid)
         self.set_tab_detachable(container, self.config['detachable_tabs'])
         self.child_set_property(container, 'tab-expand', True)
         self.child_set_property(container, 'tab-fill', True)
@@ -243,7 +246,7 @@ class Notebook(Container, Gtk.Notebook):
             err('%s not found in Notebook. Actual parent is: %s' %
                     (widget, widget.get_parent()))
             return(False)
-        self.detach_tab(page_num)
+        self.detach_tab(widget)
         self.disconnect_child(widget)
         return(True)
 
@@ -397,6 +400,8 @@ class Notebook(Container, Gtk.Notebook):
         if confirm_close != Gtk.ResponseType.ACCEPT:
             dbg('user cancelled request')
             return
+
+        Session().closed(child, label.get_custom_label())
 
         if maker.isinstance(child, 'Terminal'):
             dbg('child is a single Terminal')
