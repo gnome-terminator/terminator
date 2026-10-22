@@ -130,7 +130,12 @@ class TerminalPopupMenu(object):
     def close_terminal(self, _menuitem=None):
         """Close the terminal after applying the normal close confirmation."""
         from .close_confirm import request_close_terminal
-        request_close_terminal(self.terminal)
+        btn = getattr(getattr(self.terminal, 'titlebar', None), 'btn_close', None)
+        anchor = btn if (btn is not None and getattr(btn, 'get_visible', lambda: False)()) else None
+        try:
+            request_close_terminal(self.terminal, anchor_widget=anchor)
+        except TypeError:
+            request_close_terminal(self.terminal)
 
     def wants_chrome_menu(self, anchor, skip_link_check):
         """Settings belong on a titlebar, not on the terminal click.

@@ -305,21 +305,31 @@ def scope_terminals(root_widget) -> list:
 
 `has_multiple_terms(window)`（C/D 共用，可放 window 方法）：`len(scope_terminals(window)) > 1`。
 
-### 4.3 `request_close_terminal` / 对话框
+### 4.3 `request_close_terminal` / 对话框与 Popover
 
 ```python
-def request_close_terminal(terminal) -> bool:
-    """找最近 construct_confirm_close → 确认则 terminal.close()；返回是否关闭。"""
+def request_close_terminal(terminal, anchor_widget=None) -> bool:
+    """找最近 construct_confirm_close(anchor_widget=...) → 确认则 terminal.close()；返回是否关闭。"""
 
-def construct_confirm_close(self, window, child):  # 扩展 container.py:155
+def construct_confirm_close(self, window, child, anchor_widget=None):  # 扩展 container.py:155
     terminals = scope_terminals(child if not maker.isinstance(child,'Window') else child)
     # 若 child 是 Window，直接 scope_terminals(window)
     need, procs = should_confirm_processes(terminals)
     if need:
+        if anchor_widget is not None:
+            try:
+                return show_process_close_popover(anchor_widget, terminals, procs)
+            except Exception:
+                pass
         return show_process_close_dialog(window, terminals, procs)
         # 单 MessageDialog；取消=默认焦点；无「不再询问」
     return <existing ask_before_closing logic>
 ```
+
+关闭单终端/布局分屏（`_Close Pane` / 关闭布局、标题栏 ✕、右键菜单关闭）时：
+- 若终端内有需确认的进程，且能提供触发锚点控件（`anchor_widget`，如侧边栏行/关闭按钮、标题栏 ✕ 按钮或终端自身），通过 `show_process_close_popover` 弹出贴靠在锚点上的模态 `Gtk.Popover`，列出运行中的进程，默认焦点在「取消」，点击「关闭」（`destructive-action`）或取消后退出局部模态事件循环。
+- 若锚点控件位于 `terminator-tab-sidebar`，Popover 位置自动设为 `Gtk.PositionType.RIGHT`；其余场景默认为 `Gtk.PositionType.BOTTOM`。
+- 若无锚点控件（如关整窗、关闭标签或快捷键退出）或 Popover 异常，则降级为整窗模态对话框 `show_process_close_dialog`。
 
 挂钩：
 

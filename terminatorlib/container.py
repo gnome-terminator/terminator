@@ -263,7 +263,7 @@ class Container(object):
         """Unzoom a terminal"""
         raise NotImplementedError('unzoom')
 
-    def construct_confirm_close(self, window, child):
+    def construct_confirm_close(self, window, child, anchor_widget=None):
         """Create a confirmation dialog for closing things"""
         maker = Factory()
 
@@ -271,7 +271,7 @@ class Container(object):
         try:
             from .close_confirm import construct_confirm_close_with_processes
             proc_result = construct_confirm_close_with_processes(
-                self, window, child)
+                self, window, child, anchor_widget=anchor_widget)
             if proc_result is not None:
                 return proc_result
         except Exception as ex:

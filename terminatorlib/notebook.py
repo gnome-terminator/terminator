@@ -1141,6 +1141,22 @@ class Notebook(Container, Gtk.Notebook):
                 self._toggle_page_lock(page))
             self._bind_sidebar_pointer(lock, page, pane, has_children)
             frame.pack_end(lock, False, False, 0)
+        if row['depth'] == 1 and page == current_page and pane == current_pane:
+            close = sidebar_icon_button(sidebar_mark(
+                TAB_CLOSE_ICON, 'terminator-tab-close-mark',
+                'window-close-symbolic'))
+            tip = _('_Close Pane').replace('_', '')
+            if tip.endswith('(_C)'):
+                tip = tip[:-4]
+            elif tip.endswith('(C)'):
+                tip = tip[:-3]
+            close.set_tooltip_text(tip)
+            close.connect(
+                'clicked', lambda *_a, page=page, pane=pane:
+                self._close_sidebar_pane(page, pane))
+            self._bind_sidebar_pointer(close, page, pane, has_children)
+            frame.pack_end(close, False, False, 0)
+            frame._close_btn = close
         frame._sidebar_page = page
         frame._sidebar_depth = row['depth']
         frame._sidebar_pane = None if row['pane'] is None else row['pane']
@@ -1271,13 +1287,30 @@ class Notebook(Container, Gtk.Notebook):
             return
         self._promote_terminal(self, term, page + 1)
 
+    def _sidebar_row_widget(self, page, pane):
+        """Return the sidebar row widget for (page, pane), or None."""
+        box = getattr(self, '_tab_rows', None)
+        if box is None:
+            return None
+        target_pane = None if pane is None or pane < 0 else pane
+        for child in box.get_children():
+            if getattr(child, '_sidebar_page', None) == page and \
+                    getattr(child, '_sidebar_pane', None) == target_pane:
+                return child
+        return None
+
     def _close_sidebar_pane(self, page, pane):
         """Close one child pane, asking first when a program is running."""
         term = self._sidebar_pane_terminal(page, pane)
         if term is None:
             return
+        row = self._sidebar_row_widget(page, pane)
+        anchor = getattr(row, '_close_btn', row)
         from .close_confirm import request_close_terminal
-        request_close_terminal(term)
+        try:
+            request_close_terminal(term, anchor_widget=anchor)
+        except TypeError:
+            request_close_terminal(term)
 
     def _close_sidebar_page(self, page):
         label = self.get_tab_label(self.get_nth_page(page))
@@ -1468,12 +1501,9 @@ class Notebook(Container, Gtk.Notebook):
                 child, parent.config['detachable_tabs'])
             parent.set_tab_reorderable(child, True)
             parent._pack_tab(child)
-            # The key was the original terminal, not the paned. After the
-            # first pane is lifted out, pop(paned) misses; still record the
-            # survivor so a later closetab does not KeyError.
-            if lat is None and maker.isinstance(child, 'Terminal'):
-                lat = getattr(child, 'uuid', None)
-            if lat is not None:
+            if maker.isinstance(child, 'Terminal'):
+                parent.last_active_term[child] = getattr(child, 'uuid', None)
+            elif lat is not None:
                 parent.last_active_term[child] = lat
             if lmt is not None and hasattr(parent, 'last_maximised_term') and parent.last_maximised_term is not None:
                 if not maker.isinstance(child, 'Terminal'):

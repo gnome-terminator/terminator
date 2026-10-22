@@ -814,7 +814,10 @@ class Titlebar(Gtk.EventBox):
     def on_close_clicked(self, *_args):
         """Close via the single confirmed close path (D17)"""
         from .close_confirm import request_close_terminal
-        request_close_terminal(self.terminal)
+        try:
+            request_close_terminal(self.terminal, anchor_widget=self.btn_close)
+        except TypeError:
+            request_close_terminal(self.terminal)
 
     # ---- Chrome config / tooltips ---------------------------------------
 

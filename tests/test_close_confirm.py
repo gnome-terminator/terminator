@@ -267,3 +267,189 @@ def test_empty_terminal_lists_close_without_a_dialog(monkeypatch):
     assert cc.confirm_close_terminals([]) is True
     assert cc.confirm_close_terminals([None]) is True
     assert seen['shell'] == 0 and seen['process'] == 0
+
+
+def test_show_process_close_popover_accept():
+    from gi.repository import Gtk, GLib
+    win = Gtk.Window()
+    btn = Gtk.Button(label="close")
+    win.add(btn)
+    win.show_all()
+
+    def on_idle():
+        pop = getattr(btn, '_close_confirm_popover', None)
+        if pop is not None:
+            pop._btn_close.clicked()
+            return False
+        return True
+
+    GLib.idle_add(on_idle)
+    term = type('Term', (), {'pid': 123})()
+    res = cc.show_process_close_popover(btn, [term], [(123, 'vim')])
+    assert res == Gtk.ResponseType.ACCEPT
+    win.destroy()
+
+
+def test_show_process_close_popover_cancel():
+    from gi.repository import Gtk, GLib
+    win = Gtk.Window()
+    btn = Gtk.Button(label="close")
+    win.add(btn)
+    win.show_all()
+
+    def on_idle():
+        pop = getattr(btn, '_close_confirm_popover', None)
+        if pop is not None:
+            pop._btn_cancel.clicked()
+            return False
+        return True
+
+    GLib.idle_add(on_idle)
+    term = type('Term', (), {'pid': 123})()
+    res = cc.show_process_close_popover(btn, [term], [(123, 'vim')])
+    assert res == Gtk.ResponseType.CANCEL
+    win.destroy()
+
+
+def test_show_process_close_popover_closed_signal():
+    from gi.repository import Gtk, GLib
+    win = Gtk.Window()
+    btn = Gtk.Button(label="close")
+    win.add(btn)
+    win.show_all()
+
+    def on_idle():
+        pop = getattr(btn, '_close_confirm_popover', None)
+        if pop is not None:
+            pop.popdown()
+            return False
+        return True
+
+    GLib.idle_add(on_idle)
+    term = type('Term', (), {'pid': 123})()
+    res = cc.show_process_close_popover(btn, [term], [(123, 'vim')])
+    assert res == Gtk.ResponseType.CANCEL
+    win.destroy()
+
+
+def test_show_process_close_popover_anchor_destroyed():
+    from gi.repository import Gtk, GLib
+    win = Gtk.Window()
+    btn = Gtk.Button(label="close")
+    win.add(btn)
+    win.show_all()
+
+    def on_idle():
+        pop = getattr(btn, '_close_confirm_popover', None)
+        if pop is not None:
+            btn.destroy()
+            return False
+        return True
+
+    GLib.idle_add(on_idle)
+    term = type('Term', (), {'pid': 123})()
+    res = cc.show_process_close_popover(btn, [term], [(123, 'vim')])
+    assert res == Gtk.ResponseType.CANCEL
+    win.destroy()
+
+
+def test_show_process_close_popover_position_sidebar():
+    from gi.repository import Gtk, GLib
+    win = Gtk.Window()
+    sidebar_box = Gtk.Box()
+    sidebar_box.get_style_context().add_class('terminator-tab-sidebar')
+    btn = Gtk.Button(label="close")
+    sidebar_box.add(btn)
+    win.add(sidebar_box)
+    win.show_all()
+
+    pos_seen = [None]
+    def on_idle():
+        pop = getattr(btn, '_close_confirm_popover', None)
+        if pop is not None:
+            pos_seen[0] = pop.get_position()
+            pop._btn_cancel.clicked()
+            return False
+        return True
+
+    GLib.idle_add(on_idle)
+    term = type('Term', (), {'pid': 123})()
+    cc.show_process_close_popover(btn, [term], [(123, 'vim')])
+    assert pos_seen[0] == Gtk.PositionType.RIGHT
+    win.destroy()
+
+
+def test_construct_confirm_close_with_processes_routes_to_popover(monkeypatch):
+    from gi.repository import Gtk
+    calls = []
+    monkeypatch.setattr(cc, 'should_confirm_processes', lambda terms: (True, [(123, 'vim')]))
+    monkeypatch.setattr(cc, 'show_process_close_popover',
+                        lambda anchor, terms, procs: calls.append(('popover', anchor)) or Gtk.ResponseType.ACCEPT)
+    monkeypatch.setattr(cc, 'show_process_close_dialog',
+                        lambda win, terms, procs: calls.append(('dialog', win)) or Gtk.ResponseType.ACCEPT)
+
+    class Container(object):
+        pass
+
+    anchor = object()
+    res = cc.construct_confirm_close_with_processes(Container(), 'window', 'child', anchor_widget=anchor)
+    assert res == Gtk.ResponseType.ACCEPT
+    assert calls == [('popover', anchor)]
+
+    calls[:] = []
+    res2 = cc.construct_confirm_close_with_processes(Container(), 'window', 'child', anchor_widget=None)
+    assert res2 == Gtk.ResponseType.ACCEPT
+    assert calls == [('dialog', 'window')]
+
+    calls[:] = []
+    def failing_popover(*_a):
+        raise RuntimeError('popover failed')
+    monkeypatch.setattr(cc, 'show_process_close_popover', failing_popover)
+    res3 = cc.construct_confirm_close_with_processes(Container(), 'window', 'child', anchor_widget=anchor)
+    assert res3 == Gtk.ResponseType.ACCEPT
+    assert calls == [('dialog', 'window')]
+
+
+def test_request_close_terminal_passes_anchor(monkeypatch):
+    from gi.repository import Gtk
+    seen = []
+
+    class FakeContainer(object):
+        def construct_confirm_close(self, window, child, anchor_widget=None):
+            seen.append((window, child, anchor_widget))
+            return Gtk.ResponseType.ACCEPT
+
+    class FakeTerminal(object):
+        def __init__(self):
+            self.closed = False
+            self.container = FakeContainer()
+        def get_toplevel(self):
+            return 'toplevel'
+        def get_parent(self):
+            return self.container
+        def close(self):
+            self.closed = True
+
+    anchor = object()
+    term = FakeTerminal()
+    assert cc.request_close_terminal(term, anchor_widget=anchor) is True
+    assert term.closed is True
+    assert seen == [('toplevel', term, anchor)]
+
+
+def test_close_sidebar_pane_passes_anchor(monkeypatch):
+    from terminatorlib.notebook import Notebook
+    nb = type('FakeNotebook', (object,), {})()
+    term = object()
+    row = type('FakeRow', (object,), {'_sidebar_page': 0, '_sidebar_pane': 1, '_close_btn': object()})()
+    box = type('FakeBox', (object,), {'get_children': lambda self: [row]})()
+    nb._tab_rows = box
+    nb._sidebar_pane_terminal = lambda page, pane: term
+    nb._sidebar_row_widget = Notebook._sidebar_row_widget.__get__(nb, type(nb))
+
+    passed_args = []
+    monkeypatch.setattr(cc, 'request_close_terminal',
+                        lambda terminal, anchor_widget=None: passed_args.append((terminal, anchor_widget)))
+
+    Notebook._close_sidebar_pane(nb, 0, 1)
+    assert passed_args == [(term, row._close_btn)]

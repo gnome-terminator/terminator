@@ -110,7 +110,7 @@
 
 - **恢复内容分隔线文案**（前景色 90，gettext）：`──── 以上为上次会话的输出（仅文字快照，进程未恢复）· 10-10 15:00 ────`；目录不存在 / 远程会话可追加说明行。**不**做首次「敏感信息」警告（私人机器覆盖）。
 - **字号档位变化**：无动画；`90%` 徽标 + popover（说明上下两分屏够高则 100%，仅窄/矮降档）+ 中央短提示。档位在**首次有效 size-allocate（宽高>0）后**计算；`scaled_zoom` 期间暂停 E。
-- **关闭有进程时确认（D17 已定）**：范围内存在**需确认的进程**（`terminal.pid` 自身或任一非 shell 后代，减去 `close_confirm_ignore`）时，弹**单个**模态 `Gtk.MessageDialog`（非 popover）；有进程时 **取代** `ask_before_closing`（合并文案），不叠两个框。无进程时仍走 `ask_before_closing`。
+- **关闭有进程时确认（D17 已定）**：范围内存在**需确认的进程**（`terminal.pid` 自身或任一非 shell 后代，减去 `close_confirm_ignore`）时提示。关闭布局分屏（`_Close Pane` / 关闭布局、标题栏 ✕、右键菜单关闭）优先使用贴靠锚点控件的模态 `Gtk.Popover`（`show_process_close_popover`）；整窗关闭/退出等全局场景使用单个模态 `Gtk.MessageDialog`；有进程时 **取代** `ask_before_closing`（合并文案），不叠两个框。无进程时仍走 `ask_before_closing`。
   - **排期**：关窗 / Ctrl+Shift+Q / 关终端 → **M1**；标题栏 ✕ → **M2**。
 - **命名一致性**：D 称"单分屏最大化"（菜单/按钮："最大化此分屏"/"还原分屏"，对应现有 "Maximize terminal"，Ctrl+Shift+X）、"Zoom terminal / 缩放终端"（带字号缩放，Ctrl+Shift+Z），与窗口最大化（命令行 `-m/--maximise`）区分；按钮 tooltip 写"最大化此分屏（Ctrl+Shift+X）"。E 在界面上称"自动字号"而非"缩放"，避免与 Zoom 混淆。
 - **标题栏**：保留左侧分组（group）图标与名称；新按钮在右侧；profile 关闭 `show_titlebar` 时按钮随之隐藏——右键仍可从终端区域弹菜单，文档说明这一取舍。
@@ -163,7 +163,7 @@
 | D14 | 还原快捷键 | **已定：`Shift+Esc` 开启**（默认 `<Shift>Escape`） |
 | D15 | 标题栏双击 | **已定：切换单分屏最大化**；编辑标题改到右键菜单 |
 | D16 | 放大期间 `Alt+方向键` | **已定：转移最大化**到目标分屏 |
-| D17 | 关闭时进程确认（pid+非 shell 后代−忽略名单） | **已定：开**，模态 `Gtk.MessageDialog` |
+| D17 | 关闭时进程确认（pid+非 shell 后代−忽略名单） | **已定：开**，分屏优先用 `Gtk.Popover`，整窗用模态 `Gtk.MessageDialog` |
 | D18 | E 最低档 | **已定：0.8**（tiers `['1.0','0.9','0.8']`） |
 | D19 | E 下 `Ctrl+0` | **已定：只重置基础字号**，自动档位保留 |
 | D20 | 标题栏密度 | **已定：标准**（24–26px） |

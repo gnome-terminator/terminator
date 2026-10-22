@@ -94,6 +94,20 @@ data.  It also won't rebuild the icon cache, so you may wish to:
 
 Where ${PREFIX} is the base install directory; e.g. /usr/local.
 
+## Running Tests
+
+Because the test suite creates GTK GUI components, running tests directly in headless or background environments can block. Use `xvfb-run` to execute `pytest`:
+
+    xvfb-run -a pytest
+
+To run a specific test file:
+
+    xvfb-run -a pytest tests/test_close_confirm.py
+
+To quickly verify Python syntax across all codebase files:
+
+    python3 -m compileall -f terminatorlib/ tests/ remotinator terminator
+
 ## Distributions
 
 [![Packaging status](https://repology.org/badge/tiny-repos/terminator.svg)](https://repology.org/project/terminator/versions)

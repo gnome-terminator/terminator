@@ -3524,7 +3524,12 @@ class Terminal(Gtk.VBox):
 
     def key_close_term(self):
         from .close_confirm import request_close_terminal
-        request_close_terminal(self)
+        btn = getattr(getattr(self, 'titlebar', None), 'btn_close', None)
+        anchor = btn if (btn is not None and getattr(btn, 'get_visible', lambda: False)()) else None
+        try:
+            request_close_terminal(self, anchor_widget=anchor)
+        except TypeError:
+            request_close_terminal(self)
 
     def _session_mark_dirty(self, reason='cwd'):
         try:

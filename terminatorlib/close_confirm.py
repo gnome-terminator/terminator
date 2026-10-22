@@ -343,6 +343,154 @@ def show_process_close_dialog(parent_window, terminals, procs):
     return response
 
 
+def show_process_close_popover(anchor_widget, terminals, procs):
+    """Single Popover anchored to anchor_widget; Cancel is default."""
+    from gi.repository import Gtk, GLib
+    from .translation import _
+
+    names = []
+    for pid, name in procs:
+        if pid is None:
+            names.append(name)
+        else:
+            names.append('%s (%s)' % (name, pid))
+    shown = names[:8]
+    extra = len(names) - len(shown)
+    proc_text = ', '.join(shown)
+    if extra > 0:
+        proc_text += _(' … and %d more') % extra
+
+    nterms = len(terminals)
+    if nterms > 1:
+        primary = _('Close terminals with running processes?')
+    else:
+        primary = _('Close terminal with running processes?')
+    secondary = _('The following process(es) are still running:\n%s\n\n'
+                  'Closing will terminate them.') % proc_text
+
+    try:
+        if hasattr(anchor_widget, 'get_realized') and not anchor_widget.get_realized():
+            toplevel = anchor_widget.get_toplevel()
+            if toplevel and hasattr(toplevel, 'realize'):
+                toplevel.realize()
+            anchor_widget.realize()
+    except Exception:
+        pass
+
+    popover = Gtk.Popover.new(anchor_widget)
+    popover.set_modal(True)
+
+    pos = Gtk.PositionType.BOTTOM
+    try:
+        w = anchor_widget
+        while w is not None:
+            if hasattr(w, 'get_style_context') and \
+                    'terminator-tab-sidebar' in w.get_style_context().list_classes():
+                pos = Gtk.PositionType.RIGHT
+                break
+            w = w.get_parent()
+    except Exception:
+        pass
+    popover.set_position(pos)
+
+    box = Gtk.Box.new(Gtk.Orientation.VERTICAL, 8)
+    box.set_border_width(12)
+
+    primary_label = Gtk.Label()
+    try:
+        primary_label.set_markup('<b>%s</b>' % GLib.markup_escape_text(primary))
+    except Exception:
+        primary_label.set_text(primary)
+    primary_label.set_halign(Gtk.Align.START)
+    primary_label.set_line_wrap(True)
+    primary_label.set_max_width_chars(32)
+    box.pack_start(primary_label, False, False, 0)
+
+    secondary_label = Gtk.Label(label=secondary)
+    secondary_label.set_halign(Gtk.Align.START)
+    secondary_label.set_line_wrap(True)
+    secondary_label.set_max_width_chars(36)
+    box.pack_start(secondary_label, False, False, 0)
+
+    bbox = Gtk.Box.new(Gtk.Orientation.HORIZONTAL, 8)
+    bbox.set_halign(Gtk.Align.END)
+    bbox.set_margin_top(4)
+
+    btn_cancel = Gtk.Button.new_with_mnemonic(_('_Cancel'))
+    btn_close = Gtk.Button.new_with_mnemonic(_('_Close'))
+    try:
+        btn_close.get_style_context().add_class('destructive-action')
+    except Exception:
+        pass
+
+    bbox.pack_start(btn_cancel, False, False, 0)
+    bbox.pack_start(btn_close, False, False, 0)
+    box.pack_start(bbox, False, False, 0)
+
+    box.show_all()
+    popover.add(box)
+
+    loop = GLib.MainLoop()
+    response = [Gtk.ResponseType.CANCEL]
+
+    def _on_close_clicked(_button):
+        response[0] = Gtk.ResponseType.ACCEPT
+        popover.popdown()
+
+    def _on_cancel_clicked(_button):
+        response[0] = Gtk.ResponseType.CANCEL
+        popover.popdown()
+
+    def _on_closed(_pop):
+        if loop.is_running():
+            loop.quit()
+
+    def _on_anchor_destroy(_widget):
+        popover.popdown()
+        if loop.is_running():
+            loop.quit()
+
+    btn_close.connect('clicked', _on_close_clicked)
+    btn_cancel.connect('clicked', _on_cancel_clicked)
+    popover.connect('closed', _on_closed)
+    popover.connect('destroy', _on_closed)
+    popover._btn_close = btn_close
+    popover._btn_cancel = btn_cancel
+    try:
+        anchor_widget._close_confirm_popover = popover
+    except Exception:
+        pass
+    h_anchor = None
+    try:
+        h_anchor = anchor_widget.connect('destroy', _on_anchor_destroy)
+    except Exception:
+        pass
+
+    popover.popup()
+    btn_cancel.grab_focus()
+
+    try:
+        loop.run()
+    finally:
+        try:
+            if getattr(anchor_widget, '_close_confirm_popover', None) is popover:
+                del anchor_widget._close_confirm_popover
+        except Exception:
+            pass
+        if h_anchor is not None:
+            try:
+                if anchor_widget.handler_is_connected(h_anchor):
+                    anchor_widget.disconnect(h_anchor)
+            except Exception:
+                pass
+        try:
+            popover.destroy()
+        except Exception:
+            pass
+
+    return response[0]
+
+
 def show_shell_close_dialog(parent_window, terminals):
     """ask_before_closing=always, and nothing to name: ask once for the group."""
     from gi.repository import Gtk
@@ -393,7 +541,7 @@ def _ask_before_closing():
         return 'multiple_terminals'
 
 
-def construct_confirm_close_with_processes(container, window, child):
+def construct_confirm_close_with_processes(container, window, child, anchor_widget=None):
     """Decide the close dialog by which processes are still running.
 
     A program other than the shell asks, and names that program.
@@ -411,6 +559,11 @@ def construct_confirm_close_with_processes(container, window, child):
 
     need, procs = should_confirm_processes(terminals)
     if need:
+        if anchor_widget is not None:
+            try:
+                return show_process_close_popover(anchor_widget, terminals, procs)
+            except Exception as ex:
+                dbg('show_process_close_popover failed: %s; falling back to dialog' % ex)
         return show_process_close_dialog(window, terminals, procs)
 
     if no_process_close_result(_ask_before_closing()) == 'accept':
@@ -418,10 +571,18 @@ def construct_confirm_close_with_processes(container, window, child):
     return None
 
 
-def request_close_terminal(terminal):
+def request_close_terminal(terminal, anchor_widget=None):
     """Confirm (D17 / ask_before_closing) then close. Returns True if closed."""
     from gi.repository import Gtk
     from .util import logical_parent
+
+    if anchor_widget is None:
+        titlebar = getattr(terminal, 'titlebar', None)
+        btn_close = getattr(titlebar, 'btn_close', None)
+        if btn_close is not None and getattr(btn_close, 'get_visible', lambda: False)():
+            anchor_widget = btn_close
+        elif isinstance(terminal, Gtk.Widget) and getattr(terminal, 'get_visible', lambda: False)():
+            anchor_widget = terminal
 
     # logical_parent skips Overlay / PaneFrame so an overlay-maximised
     # terminal resolves to its Paned/Notebook slot (not the Window).
@@ -430,8 +591,12 @@ def request_close_terminal(terminal):
         container = logical_parent(container)
 
     if container:
-        confirm = container.construct_confirm_close(
-            terminal.get_toplevel(), terminal)
+        try:
+            confirm = container.construct_confirm_close(
+                terminal.get_toplevel(), terminal, anchor_widget=anchor_widget)
+        except TypeError:
+            confirm = container.construct_confirm_close(
+                terminal.get_toplevel(), terminal)
         if confirm != Gtk.ResponseType.ACCEPT:
             dbg('request_close_terminal: user cancelled')
             return False
