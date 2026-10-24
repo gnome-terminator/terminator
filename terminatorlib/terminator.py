@@ -341,8 +341,18 @@ class Terminator(Borg):
                 if window not in self.prelayout_windows:
                     new_win_list.append(window)
 
+        # Hand the forwarded startup-notification token (if any) to the new
+        # window so GTK completes it when the window is shown.
+        startup_id = getattr(self, 'startup_id', None)
+        self.startup_id = None
+        if startup_id:
+            dbg('completing startup notification %s' % startup_id)
+
         # Make sure all new windows get bumped to the top
         for window in new_win_list:
+            if startup_id:
+                window.set_startup_id(startup_id)
+                startup_id = None
             window.show()
             window.grab_focus()
             try:
@@ -350,6 +360,21 @@ class Terminator(Borg):
             except (NameError,TypeError, AttributeError):
                 t = 0
             window.get_window().focus(t)
+
+        # No newly created window took the token (e.g. on a fresh start), so
+        # give it to the window we are about to present.
+        if startup_id:
+            target = None
+            if self.last_active_window:
+                target = self.find_window_by_uuid(self.last_active_window.urn)
+            if not target:
+                for window in self.windows:
+                    if not window.is_child_notebook():
+                        target = window
+                        break
+            if target:
+                target.set_startup_id(startup_id)
+                target.present_with_time(t)
 
         # Going by the docs, this should be all that's needed to ensure that the
         # last_active_window is focussed. 

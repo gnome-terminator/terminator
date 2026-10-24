@@ -73,6 +73,8 @@ class DBusService(Borg, dbus.service.Object):
     def new_window_cmdline(self, options=dbus.Dictionary()):
         """Create a new Window"""
         dbg('dbus method called: new_window with parameters %s'%(options))
+        options = dict(options)
+        self.terminator.startup_id = options.pop('startup_id', None)
         if options['configjson']:
             dbg(options['configjson'])
             configjson = ConfigJson()
@@ -92,11 +94,17 @@ class DBusService(Borg, dbus.service.Object):
     def new_tab_cmdline(self, options=dbus.Dictionary()):
         """Create a new tab"""
         dbg('dbus method called: new_tab with parameters %s'%(options))
+        options = dict(options)
+        startup_id = options.pop('startup_id', None)
         oldopts = self.terminator.config.options_get()
         oldopts.__dict__ = options
         self.terminator.config.options_set(oldopts)
         window = self.terminator.get_windows()[0]
         window.tab_new()
+        if startup_id:
+            # Complete the launcher's startup notification on this window
+            window.set_startup_id(startup_id)
+            window.present()
 
     @dbus.service.method(BUS_NAME, in_signature='a{ss}')
     def toggle_visibility_cmdline(self,options=dbus.Dictionary):

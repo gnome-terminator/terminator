@@ -103,6 +103,14 @@ if __name__ == '__main__':
                 if OPTIONS.working_directory is None:
                     OPTIONS.working_directory = ORIGCWD
                     dbus_options['working_directory'] = ORIGCWD
+                # Forward the startup-notification token GNOME/KDE gave this
+                # process (XDG activation on Wayland, DESKTOP_STARTUP_ID on X11)
+                # so the master process can complete it on the window it opens.
+                # Otherwise the launcher's busy cursor spins until it times out.
+                startup_id = os.environ.get('XDG_ACTIVATION_TOKEN') or \
+                             os.environ.get('DESKTOP_STARTUP_ID')
+                if startup_id:
+                    dbus_options['startup_id'] = startup_id
                 optionslist = dbus.Dictionary(dbus_options, signature='ss')
                 if OPTIONS.new_tab:
                     dbg('Requesting a new tab')
@@ -127,6 +135,11 @@ if __name__ == '__main__':
         MAKER = Factory()
         TERMINATOR.set_dbus_data(dbus_service)
         TERMINATOR.reconfigure()
+        # Complete the launcher's startup notification on our first window.
+        # os.environ is a snapshot from interpreter start, so the token is
+        # still here even if GDK has already removed it from the C env.
+        TERMINATOR.startup_id = os.environ.get('XDG_ACTIVATION_TOKEN') or \
+                                os.environ.get('DESKTOP_STARTUP_ID')
 
         try:
             dbg('Creating a terminal with layout: %s' % OPTIONS.layout)
