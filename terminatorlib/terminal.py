@@ -32,6 +32,7 @@ from . import plugin
 from terminatorlib.layoutlauncher import LayoutLauncher
 from . import regex
 from .scrollback import ScrollbackCache
+from . import clipboard_image
 from .altscreen import (AltScreenScrollbar, adjustment_scrollable,
                        scrollbar_should_show)
 
@@ -656,6 +657,15 @@ class Terminal(Gtk.VBox):
                            ('UTF8_STRING', 0, 0),
                            ('COMPOUND_TEXT', 0, 0),
                            ('text/uri-list', 0, 0)])
+        # Images come last: GTK picks the first destination target the
+        # source offers, and an image file dragged from a file manager
+        # offers both text/uri-list and image/png.  The path must win
+        # there; only a drag with no URI at all is saved as a PNG.
+        dsttargets.extend([('image/png', 0, 0),
+                           ('image/jpeg', 0, 0),
+                           ('image/bmp', 0, 0),
+                           ('image/tiff', 0, 0),
+                           ('image/gif', 0, 0)])
         # Convert to target entries
         srcvtetargets = [Gtk.TargetEntry.new(*tgt) for tgt in srcvtetargets]
         dsttargets = [Gtk.TargetEntry.new(*tgt) for tgt in dsttargets]
@@ -1839,11 +1849,15 @@ class Terminal(Gtk.VBox):
         except Exception:
             position = 'right'
         alt = getattr(self, 'altscreen', None)
+        alt_latched = bool(alt is not None and
+                           (alt.auto_hidden or alt.pending_hidden))
+        if alt is not None and alt.pending_hidden:
+            alt.sync_deferred = True
         want = scrollbar_should_show(
             position,
             self._adjustment_scrollable(),
             getattr(self, '_scrollbar_forced', None),
-            alt_auto_hidden=bool(alt is not None and alt.auto_hidden),
+            alt_auto_hidden=alt_latched,
             user_override=bool(alt is not None and alt.user_override))
         if want is None:
             return
@@ -1858,8 +1872,23 @@ class Terminal(Gtk.VBox):
             sb.show()
         else:
             forced = getattr(self, '_scrollbar_forced', None)
-            if (forced is None and sb.get_visible()
+            # A TUI can collapse the adjustment a moment before it switches
+            # the PTY to raw mode, so the debounced detector has not
+            # latched yet. Record this hide (with the width the VTE is
+            # about to gain) before the bar goes; otherwise a later
+            # apply() sees an invisible bar with no width and one
+            # scrollable-looking redraw shows it again, resizing the grid
+            # under the program.
+            latched = False
+            if forced is None and sb.get_visible() and alt is not None:
+                note = getattr(alt, 'note_bar_hidden', None)
+                if callable(note):
+                    latched = bool(note(sb.get_allocated_width()))
+            if (not latched and forced is None and sb.get_visible()
                     and self._fullscreen_app_may_hide()):
+                # Not confident yet (canonical command, or no evidence of
+                # content): let the debounced detector decide instead of
+                # hiding on a guess.
                 return
             sb.hide()
 
@@ -1885,7 +1914,8 @@ class Terminal(Gtk.VBox):
         """*shrug*"""
         if not drag_context.list_targets() == [Gdk.atom_intern('vte', False)] and \
            (Gtk.targets_include_text(drag_context.list_targets()) or
-           Gtk.targets_include_uri(drag_context.list_targets())):
+           Gtk.targets_include_uri(drag_context.list_targets()) or
+           Gtk.targets_include_image(drag_context.list_targets(), False)):
             # copy text from another widget
             return
         srcwidget = Gtk.drag_get_source_widget(drag_context)
@@ -2076,6 +2106,10 @@ class Terminal(Gtk.VBox):
                 term.feed(txt)
             return
 
+        if Gtk.targets_include_image(drag_context.list_targets(), False):
+            self._drop_image(selection_data)
+            return
+
         widgetsrc = data.terminator.terminals[int(selection_data.get_data())]
         srcvte = Gtk.drag_get_source_widget(drag_context)
         # check if computation requireds
@@ -2118,6 +2152,23 @@ class Terminal(Gtk.VBox):
         dstpaned.split_axis(dsthbox, pos in ['top', 'bottom'], None, widgetsrc, pos in ['bottom', 'right'])
         srcpaned.hoover()
         widgetsrc.ensure_visible_and_focussed()
+
+    def _drop_image(self, selection_data):
+        """Save a dropped image and feed its path to the target terminals."""
+        try:
+            pixbuf = selection_data.get_pixbuf()
+        except Exception as ex:
+            dbg('drop image: %s' % ex)
+            return
+        if pixbuf is None:
+            return
+        try:
+            path = clipboard_image.save_pixbuf(pixbuf)
+        except Exception as ex:
+            err('Could not save the dropped image: %s' % ex)
+            return
+        clipboard_image.prune()
+        self._paste_paths([path])
 
     def get_location(self, term, x, y):
         """Get our location within the terminal"""
@@ -2596,16 +2647,75 @@ class Terminal(Gtk.VBox):
 
 
     def paste_clipboard(self, primary=False, mouse=False):
-        """Paste one of the two clipboards"""
-        if not (mouse and self.config['disable_mouse_paste']):
-            for term in self.terminator.get_target_terms(self):
-                # Pasted text may contain a newline that runs a command.
-                term._snapshot_before_input()
-                if primary:
-                    term.vte.paste_primary()
-                else:
-                    term.vte.paste_clipboard()
+        """Paste one of the two clipboards.
+
+        VTE 0.68 only requests text, so an image-only clipboard (a
+        screenshot, "Copy image") would paste nothing.  Ask for the
+        targets first and, when there is no text but there is an image,
+        save it as a PNG and paste its path instead.
+        """
+        if mouse and self.config['disable_mouse_paste']:
+            return
+
+        clipboard = getattr(self, 'clipboard', None)
+        # The primary selection is text by convention, and asking for its
+        # targets first would add a round trip to middle-click paste (and
+        # may never answer where primary selection is unsupported).
+        if primary or clipboard is None:
+            self._paste_text(primary)
+        else:
+            clipboard.request_targets(self._on_paste_targets, (primary,))
+        if getattr(self, 'vte', None):
             self.vte.grab_focus()
+
+    def _on_paste_targets(self, clipboard, targets, _n_targets, data):
+        """Pick the text or image path once the clipboard answers."""
+        if not getattr(self, 'vte', None):
+            return
+        primary, = data
+        if targets and Gtk.targets_include_text(targets):
+            self._paste_text(primary)
+        elif targets and Gtk.targets_include_image(targets, False):
+            clipboard.request_image(self._on_paste_image, data)
+        else:
+            # No text and no image: let VTE try anyway, as before.
+            self._paste_text(primary)
+
+    def _on_paste_image(self, _clipboard, pixbuf, data):
+        """Save a clipboard image and paste its path."""
+        if pixbuf is None or not getattr(self, 'vte', None):
+            return
+        try:
+            path = clipboard_image.save_pixbuf(pixbuf)
+        except Exception as ex:
+            err('Could not save the clipboard image: %s' % ex)
+            return
+        clipboard_image.prune()
+        self._paste_paths([path])
+
+    def _paste_text(self, primary=False):
+        """Paste the clipboard's text into every target terminal."""
+        for term in self.terminator.get_target_terms(self):
+            if not getattr(term, 'vte', None):
+                continue
+            # Pasted text may contain a newline that runs a command.
+            term._snapshot_before_input()
+            if primary:
+                term.vte.paste_primary()
+            else:
+                term.vte.paste_clipboard()
+
+    def _paste_paths(self, paths):
+        """Paste shell-quoted paths into every target terminal."""
+        text = clipboard_image.paste_text(paths)
+        for term in self.terminator.get_target_terms(self):
+            vte = getattr(term, 'vte', None)
+            if vte is None:
+                continue
+            if hasattr(vte, 'paste_text'):
+                vte.paste_text(text)
+            else:
+                term.feed(text)
 
     def feed(self, text):
         """Feed the supplied text to VTE"""
@@ -2811,9 +2921,15 @@ class Terminal(Gtk.VBox):
             # keeps the VTE the same size, so subtracting again would
             # shrink it.
             alt = getattr(self, 'altscreen', None)
-            if (alt is not None and alt.auto_hidden and alt.hidden_width > 0
-                    and not self._scrollbar_slot_held()):
-                w = max(1, w - alt.hidden_width)
+            hidden = 0
+            if alt is not None and not self._scrollbar_slot_held():
+                effective = getattr(alt, 'effective_hidden_width', None)
+                if callable(effective):
+                    hidden = effective()
+                elif getattr(alt, 'auto_hidden', False):
+                    hidden = getattr(alt, 'hidden_width', 0)
+            if hidden > 0:
+                w = max(1, w - hidden)
         cols0, rows0 = cols_rows_from_base(w, h, *self._base_cell)
         if cols0 <= 0 or rows0 <= 0:
             return

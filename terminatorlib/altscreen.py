@@ -289,6 +289,20 @@ class AltScreenDetector(object):
                                    and raw is not False)
         return self.active
 
+    def undecided(self):
+        """True while this collapsed episode may still become a TUI.
+
+        A TUI can switch the alternate screen a moment before it puts the
+        PTY in raw mode. During the grace window ``active`` is still False
+        but the decision is not final, so a provisional hide must stay.
+        """
+        if self.active or self.episode_start is None:
+            return False
+        try:
+            return (self._clock() - self.episode_start) <= self.GRACE_S
+        except Exception:
+            return False
+
 
 def should_auto_hide(active, enabled, position):
     """Hide only when the user's config would otherwise show a scrollbar."""
@@ -303,6 +317,14 @@ class AltScreenScrollbar(object):
         self.detector = AltScreenDetector()
         self.auto_hidden = False
         self.hidden_width = 0
+        # A bar hidden by Terminal.sync_scrollbar while a non-shell program
+        # owns the PTY, before the debounced detector has decided. Keeps
+        # the bar from being shown again during that window.
+        self.pending_hidden = False
+        self.pending_hide_width = 0
+        # sync_scrollbar asked while pending_hidden owned the bar. Re-run
+        # it once the detector decides this was not a TUI.
+        self.sync_deferred = False
         self.user_override = False
         self._timer = None
         self._handlers = []
@@ -355,6 +377,14 @@ class AltScreenScrollbar(object):
             try:
                 if not adjustment_collapsed(adj.get_lower(), adj.get_upper(),
                                             adj.get_page_size()):
+                    if self.pending_hidden:
+                        # A TUI redraw (or VTE updating upper and page_size
+                        # one after the other) can look scrollable for one
+                        # sample. Let evaluate() decide on the settled
+                        # adjustment: it keeps the provisional hide for a
+                        # TUI and drops it for a canonical command.
+                        self.schedule()
+                        return
                     self.detector.had_history = True
                     # An inactive collapse ends here. A stale episode_start
                     # would make the next fullscreen miss GRACE_S.
@@ -496,18 +526,26 @@ class AltScreenScrollbar(object):
                 and not self.user_override)
         scroll = self._scroll_value()
         if hide and not self.auto_hidden:
+            width = 0
             if sb.get_visible():
                 try:
-                    self.hidden_width = max(0, int(sb.get_allocated_width()))
+                    width = max(0, int(sb.get_allocated_width()))
                 except Exception:
-                    self.hidden_width = 0
-            elif self.hidden_width <= 0:
-                # Nothing was on screen, so hiding changes no width.
-                return
+                    width = 0
+            elif self.hidden_width > 0:
+                # Terminal.sync_scrollbar or reconfigure() hid it first.
+                width = self.hidden_width
+            elif self.pending_hidden:
+                # sync_scrollbar hid it while the PTY was still canonical.
+                width = self.pending_hide_width
             # Record the hide before the bar disappears. A synchronous
             # size-allocate then subtracts hidden_width, and the font
             # tier does not flip just because the VTE grew.
             self.auto_hidden = True
+            self.hidden_width = width
+            self.pending_hidden = False
+            self.pending_hide_width = 0
+            self.sync_deferred = False
             if sb.get_visible():
                 sb.hide()
             self._hold_slot()
@@ -517,6 +555,9 @@ class AltScreenScrollbar(object):
             self._release_slot()
             self.auto_hidden = False
             self.hidden_width = 0
+            self.pending_hidden = False
+            self.pending_hide_width = 0
+            self.sync_deferred = False
             # Terminal.sync_scrollbar shows the bar only when the restored
             # buffer is actually taller than the window.
             sync = getattr(self.terminal, 'sync_scrollbar', None)
@@ -526,6 +567,75 @@ class AltScreenScrollbar(object):
                 sb.show()
             self._restore_scroll(scroll)
             dbg('altscreen: scrollbar visible=%s' % sb.get_visible())
+        elif not hide:
+            # The detector decided this is not a TUI (a canonical command
+            # cleared the screen, for example). Drop the provisional hide
+            # so the next scrollable sample can show the bar again.
+            if self.detector.undecided():
+                return
+            deferred = self.sync_deferred
+            self.pending_hidden = False
+            self.pending_hide_width = 0
+            self.sync_deferred = False
+            if deferred:
+                sync = getattr(self.terminal, 'sync_scrollbar', None)
+                if sync is not None:
+                    sync()
+
+    def note_bar_hidden(self, width):
+        """Terminal.sync_scrollbar is about to hide a visible bar.
+
+        The adjustment collapses a moment before a TUI switches the PTY to
+        raw mode, so the debounced detector has not latched yet. If a
+        non-shell program owns the foreground, record the hide now: the
+        later apply() would otherwise see an invisible bar with no width
+        and a single scrollable-looking redraw could show it again,
+        resizing the grid under the program.
+        """
+        if self.auto_hidden or self.user_override or not self.enabled():
+            return False
+        if self._config('scrollbar_position', 'right') in ('disabled',
+                                                           'hidden'):
+            return False
+        if foreground_busy(self._pty_fd(),
+                           getattr(self.terminal, 'pid', None)) is not True:
+            return False
+        # Same evidence the detector needs: a TUI in a brand-new terminal
+        # with nothing above the prompt is left alone, and a canonical
+        # command that merely cleared the screen must not latch.
+        if not (self.detector.had_history or self._cursor_beyond()):
+            return False
+        try:
+            width = max(0, int(width))
+        except (TypeError, ValueError):
+            width = 0
+        self.pending_hidden = True
+        self.pending_hide_width = width
+        self.sync_deferred = False
+        return True
+
+    def _cursor_beyond(self):
+        """The current screen's ring has scrolled: content was drawn."""
+        try:
+            adj = self._adj or self.terminal.vte.get_vadjustment()
+            page = adj.get_page_size()
+            row = self.terminal.vte.get_cursor_position()[1]
+            return page > 0 and row >= page
+        except Exception:
+            return False
+
+    def effective_hidden_width(self):
+        """Pixels the VTE gained from a bar that is off screen.
+
+        Includes the provisional hide made by Terminal.sync_scrollbar
+        before the detector latched, so the font tier does not flip for
+        the 150 ms in between.
+        """
+        if self.auto_hidden:
+            return self.hidden_width
+        if self.pending_hidden:
+            return self.pending_hide_width
+        return 0
 
     def _scroll_value(self):
         try:
@@ -576,12 +686,18 @@ class AltScreenScrollbar(object):
         self._release_slot()
         self.auto_hidden = False
         self.hidden_width = 0
+        self.pending_hidden = False
+        self.pending_hide_width = 0
+        self.sync_deferred = False
 
     def reconfigured(self):
         """Terminal.reconfigure() just set visibility from config."""
         width = self.hidden_width
         self._release_slot()
         self.auto_hidden = False
+        self.pending_hidden = False
+        self.pending_hide_width = 0
+        self.sync_deferred = False
         # apply() measures a visible bar.  If it is already hidden, the
         # saved width is what font and overlay math still subtract.
         self.hidden_width = width

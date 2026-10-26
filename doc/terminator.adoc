@@ -291,7 +291,9 @@ The following items relate to miscellaneous terminal related functions.
 Copy selected text to clipboard.
 
 *Ctrl+Shift+V*::
-Paste clipboard text.
+Paste clipboard text. If the clipboard holds only an image (a
+screenshot, or another program's *Copy image*), the image is saved as a
+PNG under the pasted-images cache and its shell-quoted path is pasted.
 
 *Ctrl+Shift+S*::
 Toggle __s__crollbar.
@@ -357,6 +359,10 @@ The saved session, with backups _session.json.prev_ and _session.json.prev2_.
 
 _$XDG_CACHE_HOME/terminator/scrollback/_ (normally _~/.cache/terminator/scrollback/_)::
 Scrollback cache, one file per terminal.
+
+_$XDG_CACHE_HOME/terminator/pasted-images/_ (normally _~/.cache/terminator/pasted-images/_)::
+Images pasted from the clipboard, as PNG files. Older files are removed
+after seven days, and at most 100 are kept.
 
 == AUTHORS
 Terminator was written by Chris Jones <\cmsj@tenshu.net> and others.

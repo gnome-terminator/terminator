@@ -472,6 +472,145 @@ def test_controller_reconfigure_reapplies(monkeypatch):
     assert term.scrollbar.visible and not ctl.auto_hidden
 
 
+def test_hide_latches_when_bar_was_already_hidden(monkeypatch):
+    """A fresh terminal, a cleared screen or a manual hide leaves the bar
+    invisible before vim starts. The episode must still latch, or one
+    scrollable-looking redraw shows the bar and resizes the grid."""
+    term, ctl, state = _ctl(monkeypatch, visible=False)
+    ctl.evaluate()
+    term.adj.upper = 24                  # enter alt screen
+    ctl.evaluate()
+    assert ctl.auto_hidden and ctl.hidden_width == 0
+    assert term.scrollbar.calls == []
+    term.adj.upper = 51                  # redraw blip
+    ctl.evaluate()
+    assert ctl.auto_hidden and ctl.detector.active
+    assert term.scrollbar.calls == []
+    state['busy'] = False                # vim exits
+    term.adj.upper = 51
+    ctl.evaluate()
+    assert not ctl.auto_hidden
+    ctl._cancel()
+
+
+def test_note_bar_hidden_keeps_width_for_the_latch(monkeypatch):
+    """sync_scrollbar hides the bar before raw mode is on. apply() must
+    inherit that width instead of losing it."""
+    term, ctl, _ = _ctl(monkeypatch)
+    assert ctl.note_bar_hidden(14)
+    assert ctl.pending_hidden and ctl.pending_hide_width == 14
+    assert ctl.effective_hidden_width() == 14
+    term.adj.upper = 24
+    ctl.evaluate()
+    assert ctl.auto_hidden and ctl.hidden_width == 14
+    assert not ctl.pending_hidden
+    assert ctl.effective_hidden_width() == 14
+
+
+def test_note_bar_hidden_ignores_shell_foreground(monkeypatch):
+    term, ctl, state = _ctl(monkeypatch)
+    state['busy'] = False                 # idle prompt: `clear`, not a TUI
+    assert not ctl.note_bar_hidden(14)
+    assert not ctl.pending_hidden
+
+
+def test_note_bar_hidden_needs_content_evidence(monkeypatch):
+    """A brand-new terminal has nothing to scroll, so hiding early would
+    only resize the grid for a program that never had a bar."""
+    term, ctl, _ = _ctl(monkeypatch)
+    term.vte.row = 0                      # cursor inside the first page
+    assert not ctl.detector.had_history
+    assert not ctl.note_bar_hidden(14)
+    assert not ctl.pending_hidden
+    ctl.detector.had_history = True
+    assert ctl.note_bar_hidden(14)
+
+
+def test_pending_hide_survives_grace_then_clears(monkeypatch):
+    """A provisional hide must not be dropped while the TUI may still be
+    switching to raw mode, but a canonical command must release it."""
+    term, ctl, state = _ctl(monkeypatch)
+    clock = Clock()
+    ctl.detector._clock = clock
+    assert ctl.note_bar_hidden(14)
+    state['raw'] = False
+    term.adj.upper = 24
+    ctl.evaluate()                        # inside grace: undecided
+    assert ctl.pending_hidden
+    clock.t += ctl.detector.GRACE_S + 1
+    ctl.evaluate()                        # canonical: not a TUI
+    assert not ctl.pending_hidden and not ctl.auto_hidden
+    assert ctl.effective_hidden_width() == 0
+
+
+def test_sync_scrollbar_records_the_hide(monkeypatch):
+    from terminatorlib.terminal import Terminal
+
+    class Stub(object):
+        pass
+
+    term, ctl, _ = _ctl(monkeypatch)
+    stub = Stub()
+    stub.config = term.config
+    stub.scrollbar = term.scrollbar
+    stub.altscreen = ctl
+    stub._scrollbar_forced = None
+    stub._adjustment_scrollable = lambda: False
+    stub._fullscreen_app_may_hide = lambda: False
+    stub._place_scrollbar = lambda: None
+    Terminal._sync_scrollbar(stub, stub.scrollbar)
+    assert not stub.scrollbar.visible
+    assert ctl.pending_hidden and ctl.pending_hide_width == 14
+
+
+def test_pending_hide_suppresses_a_redraw_show(monkeypatch):
+    from terminatorlib.terminal import Terminal
+
+    class Stub(object):
+        pass
+
+    term, ctl, _ = _ctl(monkeypatch)
+    ctl.pending_hidden = True
+    ctl.pending_hide_width = 14
+    stub = Stub()
+    stub.config = term.config
+    stub.scrollbar = term.scrollbar
+    stub.altscreen = ctl
+    stub._scrollbar_forced = None
+    stub._adjustment_scrollable = lambda: True
+    stub._fullscreen_app_may_hide = lambda: True
+    stub._place_scrollbar = lambda: None
+    term.scrollbar.visible = False
+    Terminal._sync_scrollbar(stub, stub.scrollbar)
+    assert not stub.scrollbar.visible
+    assert ctl.sync_deferred
+
+
+def test_pending_hide_survives_a_scrollable_sample(monkeypatch):
+    """VTE sets upper and page_size separately, so a TUI redraw can look
+    scrollable for one sample. The provisional hide must wait for the
+    debounced decision instead of being dropped by the fast path."""
+    term, ctl, state = _ctl(monkeypatch)
+    scheduled = []
+    monkeypatch.setattr(ctl, 'schedule', lambda: scheduled.append(1))
+    assert ctl.note_bar_hidden(14)
+    term.adj.upper = 51
+    ctl._on_change(term.adj)
+    assert scheduled == [1]
+    assert ctl.pending_hidden and ctl.pending_hide_width == 14
+
+
+def test_pending_hide_released_when_a_command_scrolls(monkeypatch):
+    term, ctl, state = _ctl(monkeypatch)
+    assert ctl.note_bar_hidden(14)
+    state['raw'] = False
+    state['busy'] = True
+    term.adj.upper = 51                  # canonical command output
+    ctl.evaluate()
+    assert not ctl.pending_hidden
+    assert ctl.effective_hidden_width() == 0
+
+
 def test_controller_child_exit_restores(monkeypatch):
     term, ctl, _ = _ctl(monkeypatch)
     ctl.evaluate()

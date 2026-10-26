@@ -1026,8 +1026,11 @@ Default value: *right*
 If true, the scrollbar is hidden automatically while a fullscreen program
 (one using the alternate screen, such as vim, less, htop or tmux) is running,
 and restored when it exits if the scrollback is still taller than the terminal.
-Its width stays reserved, so the program is not resized when the bar goes
-away or comes back.
+The bar's width goes to the terminal, so the program is resized once when it
+starts and once when it exits. The bar stays hidden for the whole run even if
+a redraw makes the buffer look scrollable, so it cannot resize the program
+again mid-session. This also holds when the bar was already off screen before
+the program started (a fresh terminal, a cleared screen, or a manual hide).
 Only applies when the scrollbar would otherwise be shown. +
 Default value: *True*
 

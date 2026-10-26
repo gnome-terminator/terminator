@@ -108,6 +108,23 @@ To quickly verify Python syntax across all codebase files:
 
     python3 -m compileall -f terminatorlib/ tests/ remotinator terminator
 
+## Pasting images
+
+VTE 0.68 (the version in Ubuntu 22.04, and what `libvte-2.91-0` provides
+on GNOME 42) only reads text from the clipboard.  Pasting a screenshot or
+another application's "Copy image" therefore used to insert nothing.
+
+Terminator now checks the clipboard targets before pasting.  When the
+clipboard has an image but no text, the image is written as a PNG under
+`~/.cache/terminator/pasted-images/` (mode 0600) and the shell-quoted path
+is pasted, with a trailing space, the same way "Paste as Filenames" works
+in GNOME Terminal.  A clipboard that also has text, such as a file copied
+in a file manager, still pastes that text.  Dropping an image with no URI
+onto a terminal saves it the same way.
+
+Pasted images older than seven days are pruned, and no more than 100 are
+kept.  The directory follows `XDG_CACHE_HOME`.
+
 ## Distributions
 
 [![Packaging status](https://repology.org/badge/tiny-repos/terminator.svg)](https://repology.org/project/terminator/versions)

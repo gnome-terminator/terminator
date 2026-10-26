@@ -440,7 +440,9 @@ Copy selected text to clipboard.
 .sp
 \fBCtrl+Shift+V\fP
 .RS 4
-Paste clipboard text.
+Paste clipboard text. If the clipboard holds only an image (a
+screenshot, or another program\(aqs \fBCopy image\fP), the image is saved as a
+PNG under the pasted\-images cache and its shell\-quoted path is pasted.
 .RE
 .sp
 \fBCtrl+Shift+S\fP
@@ -536,6 +538,12 @@ The saved session, with backups \fIsession.json.prev\fP and \fIsession.json.prev
 \fI$XDG_CACHE_HOME/terminator/scrollback/\fP (normally \fI~/.cache/terminator/scrollback/\fP)
 .RS 4
 Scrollback cache, one file per terminal.
+.RE
+.sp
+\fI$XDG_CACHE_HOME/terminator/pasted\-images/\fP (normally \fI~/.cache/terminator/pasted\-images/\fP)
+.RS 4
+Images pasted from the clipboard, as PNG files. Older files are removed
+after seven days, and at most 100 are kept.
 .RE
 .SH "AUTHORS"
 .sp

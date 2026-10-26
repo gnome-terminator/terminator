@@ -481,9 +481,15 @@ def vte_size_for_rect(terminal, rect, frame_chrome=None):
             slot_held = False
         # The gap between Terminal and VTE already includes a held slot.
         # Subtract only when the bar was hidden and the VTE actually grew.
-        if (alt is not None and alt.auto_hidden and alt.hidden_width > 0
-                and not slot_held):
-            w -= alt.hidden_width
+        hidden = 0
+        if alt is not None and not slot_held:
+            effective = getattr(alt, 'effective_hidden_width', None)
+            if callable(effective):
+                hidden = effective()
+            elif getattr(alt, 'auto_hidden', False):
+                hidden = getattr(alt, 'hidden_width', 0)
+        if hidden > 0:
+            w -= hidden
     except Exception:
         pass
     if frame_chrome:
