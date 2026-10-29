@@ -1356,6 +1356,10 @@ class Window(Container, Gtk.Window):
 
         widget = self.zoom_data['widget']
         if self.zoom_data['font_scale']:
+            # Still attached while the font is restored: a size-allocate
+            # from set_font must not run the scaler against the old grid.
+            if hasattr(widget, 'cancel_zoom_scale'):
+                widget.cancel_zoom_scale()
             widget.vte.set_font(self.zoom_data['old_font'])
             if hasattr(widget, 'resume_auto_font_scale'):
                 try:

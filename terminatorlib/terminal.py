@@ -56,6 +56,31 @@ def _autofont_toast_css():
         _AUTOFONT_TOAST_CSS = provider
     return _AUTOFONT_TOAST_CSS
 
+
+def zoom_font_scale_factor(old_w, old_h, new_w, new_h):
+    """Font multiplier for a scaled zoom, or None to keep waiting.
+
+    The text grows with the axis that grew. A two-way split only grows
+    one axis; scaling by the smaller one leaves the font unchanged.
+    None means the size is not usable yet (the pane is mid-reparent).
+    1.0 means stop without changing the font.
+    """
+    if old_w <= 1 or old_h <= 1 or new_w <= 1 or new_h <= 1:
+        return None
+    w_ratio = new_w / float(old_w)
+    h_ratio = new_h / float(old_h)
+    grown = max(w_ratio, h_ratio)
+    shrunk = min(w_ratio, h_ratio)
+    if grown < 1.02:
+        # A shrink during reparent is not the final size.
+        if shrunk < 0.98:
+            return None
+        return 1.0
+    # Stay just under the fit so the cell size does not round up and
+    # clip a row or a column. Cap a bogus 1px snapshot.
+    return min(8.0, grown * 0.97)
+
+
 # pylint: disable-msg=R0904
 class Terminal(Gtk.VBox):
     """Class implementing the VTE widget and its wrappings"""
@@ -2348,6 +2373,11 @@ class Terminal(Gtk.VBox):
             return
         dbg('base cell %s stale (now %s at scale %.3f)' %
             (self._base_cell, measured, scale))
+        # Scaled zoom swaps in a temporary FontDescription and puts
+        # font_scale back to 1. That cell is not the base font; recording
+        # it makes the next automatic tier treat the pane as huge type.
+        if getattr(self, '_auto_font_mode', None) == 'scaled_zoom':
+            return
         if abs(scale - 1.0) < 1e-6:
             self._base_cell = measured
         else:
@@ -2369,46 +2399,66 @@ class Terminal(Gtk.VBox):
     def get_zoom_data(self):
         """Return a dict of information for Window"""
         from .util import logical_parent
+        alloc = self.vte.get_allocation()
         data = {'old_font': self.vte.get_font().copy(),
                 'old_char_height': self.vte.get_char_height(),
                 'old_char_width': self.vte.get_char_width(),
-                'old_allocation': self.vte.get_allocation(),
+                'old_allocation': alloc,
+                # Integers, not the rectangle: get_allocation() can hand
+                # back storage that later resizes in place.
+                'old_alloc_width': int(alloc.width),
+                'old_alloc_height': int(alloc.height),
                 'old_columns': self.vte.get_column_count(),
                 'old_rows': self.vte.get_row_count(),
                 'old_parent': logical_parent(self) or self.get_parent()}
 
         return data
 
-    def zoom_scale(self, widget, allocation, old_data):
-        """Scale our font correctly based on how big we are not vs before"""
+    def cancel_zoom_scale(self):
+        """Drop the one-shot font scaler, if it is still connected."""
         self.cnxids.remove_signal(self, 'size-allocate')
         # FIXME: Is a zoom signal actually used anywhere?
         self.cnxids.remove_signal(self, 'zoom')
 
-        new_columns = self.vte.get_column_count()
-        new_rows = self.vte.get_row_count()
-        new_font = self.vte.get_font()
+    def zoom_scale(self, widget, allocation, old_data):
+        """Enlarge the font to match the axis this pane grew on.
 
-        dbg('Resized from %dx%d to %dx%d' % (
-             old_data['old_columns'],
-             old_data['old_rows'],
-             new_columns,
-             new_rows))
-
-        if new_rows == old_data['old_rows'] or \
-           new_columns == old_data['old_columns']:
-            dbg('One axis unchanged, not scaling')
+        A two-way split only grows one side. The previous formula took
+        the smaller side and gave up when either side was unchanged, so
+        the usual split filled the window and left the text the same size.
+        """
+        try:
+            alloc = self.vte.get_allocation()
+            new_w, new_h = int(alloc.width), int(alloc.height)
+        except Exception:
             return
-
-        scale_factor = min ( (new_columns / old_data['old_columns'] * 0.97),
-                             (new_rows / old_data['old_rows'] * 1.05) )
-
-        new_size = int(old_data['old_font'].get_size() * scale_factor)
-        if new_size == 0:
+        old_w = old_data.get('old_alloc_width')
+        old_h = old_data.get('old_alloc_height')
+        if not old_w or not old_h:
+            old = old_data.get('old_allocation')
+            if old is None:
+                return
+            old_w, old_h = int(old.width), int(old.height)
+        factor = zoom_font_scale_factor(old_w, old_h, new_w, new_h)
+        if factor is None:
+            dbg('zoom scale waiting: %sx%s -> %sx%s' % (
+                old_w, old_h, new_w, new_h))
+            return
+        # Disconnect before set_font: that allocates again, and a second
+        # pass would measure the already-scaled grid.
+        self.cancel_zoom_scale()
+        if factor <= 1.02:
+            dbg('zoom scale unchanged: %sx%s -> %sx%s' % (
+                old_w, old_h, new_w, new_h))
+            return
+        new_size = int(old_data['old_font'].get_size() * factor)
+        if new_size <= 0:
             err('refusing to set a zero sized font')
             return
+        new_font = self.vte.get_font()
         new_font.set_size(new_size)
-        dbg('setting new font: %s' % new_font)
+        dbg('zoom scale %sx%s -> %sx%s factor %.3f font %s' % (
+            old_w, old_h, new_w, new_h, factor, new_font))
         self.set_font(new_font)
 
     def is_zoomed(self):

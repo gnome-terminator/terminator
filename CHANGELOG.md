@@ -60,6 +60,7 @@ The five new features below are **on by default**. Each one can be turned off in
 
 **Fixes**
 
+- **Zoom terminal.** Ctrl+Shift+Z enlarges the font of a pane that only grew in one direction, which is every two-way split. It used to keep the old font whenever the column count or the row count stayed the same, so the pane filled the window and the text did not get bigger. The temporary zoom font is no longer stored as the automatic font-size base.
 - Splitting or closing a terminal inside a tab no longer crashes. This bug was also present upstream.
 - The `maximise` shortcut no longer raises an error.
 - Fixed the window title showing "None" at startup.
