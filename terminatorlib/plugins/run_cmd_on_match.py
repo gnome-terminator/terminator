@@ -16,6 +16,38 @@ from terminatorlib.util import get_config_dir, err, dbg, gerr
 
 AVAILABLE = ['RunCmdOnMatchMenu']
 
+def build_run_cmd_list(sections, load_handlers=None):
+    """Fresh regexp map. Unpositioned entries fill the lowest free keys.
+
+    load_handlers, when set, runs once on the finished non-empty map.
+    """
+    cmd_list = {}
+    noord_cmds = []
+    for part in sections:
+        s = sections[part]
+        if not ("regexp" in s and "command" in s):
+            dbg("Ignoring section %s" % s)
+            continue
+        regexp = s["regexp"]
+        command = s["command"]
+        enabled = s["enabled"] and s["enabled"] or False
+        entry = {'enabled' : enabled,
+                 'regexp' : regexp,
+                 'command' : command
+                }
+        if "position" in s:
+            cmd_list[int(s["position"])] = entry
+        else:
+            noord_cmds.append(entry)
+    for cmd in noord_cmds:
+        n = 0
+        while n in cmd_list:
+            n += 1
+        cmd_list[n] = cmd
+    if cmd_list and load_handlers is not None:
+        load_handlers(cmd_list)
+    return cmd_list
+
 # For example, open scripts names outputted by python in Vim at the given line number:
 # match = r'\B(/\S+?\.py)\S{2}\sline\s(\d+)' # Python's log file matching
 # cmd = "gvim --servername IDE --remote +{1} {0}"
@@ -92,31 +124,12 @@ class RunCmdOnMatchMenu(plugin.MenuItem):
       sections = config.plugin_get_config(self.__class__.__name__)
       if not isinstance(sections, dict):
           return
-      noord_cmds = []
-      for part in sections:
-        s = sections[part]
-        if not ("regexp" in s and "command" in s):
-          dbg("Ignoring section %s" % s)
-          continue
-        regexp = s["regexp"]
-        command = s["command"]
-        enabled = s["enabled"] and s["enabled"] or False
-        if "position" in s:
-          self.cmd_list[int(s["position"])] = {'enabled' : enabled,
-                                               'regexp' : regexp,
-                                               'command' : command
-                                              }
-        else:
-          noord_cmds.append(
-                              {'enabled' : enabled,
-                                'regexp' : regexp,
-                                'command' : command
-                              }
-                            )
-        for cmd in noord_cmds:
-            self.cmd_list[len(self.cmd_list)] = cmd
+      # force=True rebuilds this plugin; start from an empty map.
+      self.cmd_list = build_run_cmd_list(sections, self._install_loaded_cmds)
 
-        self._load_configured_handlers()
+    def _install_loaded_cmds(self, cmd_list):
+      self.cmd_list = cmd_list
+      self._load_configured_handlers()
 
 
     def callback(self, menuitems, menu, terminal):

@@ -32,12 +32,39 @@ dependencies yourself:
      FreeBSD:       py37-psutil py37-configobj keybinder-gtk3 py37-gobject3 gettext 
                     intltool libnotify vte3
 
-If you don't care about native language support or icons, Terminator
-should run just fine directly from this directory, just:
+If you don't care about icons, Terminator should run just fine directly
+from this directory, just:
 
     python3 terminator --help
 
 And go from there.  Manpages are available in the 'doc' directory.
+
+Translations also work when running from this directory: on start-up the
+catalogue for your language (`LANGUAGE`/`LC_ALL`/`LC_MESSAGES`/`LANG`) is
+compiled from `po/<lang>.po` into `build/locale/<lang>/LC_MESSAGES/` (only
+when the `.po` is newer) and used instead of any older system copy in
+`/usr/share/locale`.  `msgfmt` (package `gettext`) is used when installed,
+otherwise a built-in Python compiler (`setup.py build` uses the same
+fallback).  `zh_Hans` and `zh_SG` use the `zh_CN` catalogue; `zh_Hant` and
+`zh_MO` use `zh_TW`; `zh_HK` is completed from `zh_TW`; a bare `zh` follows
+the first Chinese locale asked for (Traditional for zh_TW/zh_HK/zh_MO/
+zh_Hant, otherwise Simplified).
+
+An installed Terminator finds its catalogues even when it was installed
+under a different prefix than Python's (e.g. `setup.py install` into
+`/usr/local` with `/usr/bin/python3`): it looks in `<prefix>/share/locale`
+for the package's prefix, the script's prefix (parent of `bin/`),
+`sys.prefix`, `sys.base_prefix`, `/usr/local` and `/usr`, in that order.
+
+Set `TERMINATOR_NO_SOURCE_LOCALE=1` (or `true`/`yes`) to disable both
+lookups and use the default gettext search path.
+
+> **Note:** the preferences dialog and other GTK widgets are translated by
+> the C library, which ignores `LANGUAGE` when the locale is `C`/`POSIX`, e.g.
+> `LANG=C LANGUAGE=zh_CN`, or when `zh_CN.UTF-8` is not generated and
+> `setlocale` falls back to `C`.  The result is a mixed Chinese/English UI.
+> Make sure `locale -a` lists `zh_CN.utf8` (Debian/Ubuntu:
+> `sudo locale-gen zh_CN.UTF-8`) and set `LANG=zh_CN.UTF-8`.
 
 > **Note:** Currently most distributions use `python3` as binaries for Python 3,
 > make sure to update either the shebangs, call the scripts with `python3` or
@@ -66,6 +93,37 @@ data.  It also won't rebuild the icon cache, so you may wish to:
      gtk-update-icon-cache -q -f ${PREFIX}/share/icons/hicolor
 
 Where ${PREFIX} is the base install directory; e.g. /usr/local.
+
+## Running Tests
+
+Because the test suite creates GTK GUI components, running tests directly in headless or background environments can block. Use `xvfb-run` to execute `pytest`:
+
+    xvfb-run -a pytest
+
+To run a specific test file:
+
+    xvfb-run -a pytest tests/test_close_confirm.py
+
+To quickly verify Python syntax across all codebase files:
+
+    python3 -m compileall -f terminatorlib/ tests/ remotinator terminator
+
+## Pasting images
+
+VTE 0.68 (the version in Ubuntu 22.04, and what `libvte-2.91-0` provides
+on GNOME 42) only reads text from the clipboard.  Pasting a screenshot or
+another application's "Copy image" therefore used to insert nothing.
+
+Terminator now checks the clipboard targets before pasting.  When the
+clipboard has an image but no text, the image is written as a PNG under
+`~/.cache/terminator/pasted-images/` (mode 0600) and the shell-quoted path
+is pasted, with a trailing space, the same way "Paste as Filenames" works
+in GNOME Terminal.  A clipboard that also has text, such as a file copied
+in a file manager, still pastes that text.  Dropping an image with no URI
+onto a terminal saves it the same way.
+
+Pasted images older than seven days are pruned, and no more than 100 are
+kept.  The directory follows `XDG_CACHE_HOME`.
 
 ## Distributions
 

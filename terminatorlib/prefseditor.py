@@ -8,7 +8,7 @@ write it to a config file
 """
 
 import os,sys,re
-from gi.repository import GObject, Gtk, Gdk
+from gi.repository import GObject, GLib, Gtk, Gdk
 
 from .util import dbg, err
 from . import config
@@ -26,14 +26,58 @@ def get_color_string(widcol):
 def color2hex(widget):
     """Pull the colour values out of a Gtk ColorPicker widget and return them
    as 8bit hex values, sinces its default behaviour is to give 16bit values"""
-    return get_color_string(widget.get_color())
+    return rgba2hex(widget)
 
 def rgba2hex(widget):
     return get_color_string(widget.get_rgba().to_color())
 
+def set_button_color(widget, spec):
+    """Set a Gtk.ColorChooser (ColorButton) from a colour string without the
+    deprecated Gtk.ColorButton.set_color (m26). Raises ValueError for an
+    unparsable spec so callers keep their fallback chain."""
+    rgba = Gdk.RGBA()
+    if not spec or not rgba.parse(spec):
+        raise ValueError('bad colour %r' % (spec,))
+    rgba.alpha = 1.0
+    widget.set_rgba(rgba)
+
+def set_button_font(widget, fontname):
+    """Gtk.FontChooser.set_font instead of deprecated FontButton.set_font_name."""
+    widget.set_font(fontname)
+
 NUM_PALETTE_COLORS = 16
 
 # FIXME: We need to check that we have represented all of Config() below
+def scrollback_cache_info_text(cache_dir, files, total_bytes, ttl_days, total_mb,
+                               max_kb=512):
+    """m18: cache info label text; 0 means off for TTL and total cap.
+
+    m26 (round2-ux P2-9): no raw config key names in the UI text.
+    """
+    try:
+        ttl_days = int(ttl_days)
+    except (TypeError, ValueError):
+        ttl_days = 0
+    try:
+        total_mb = int(total_mb)
+    except (TypeError, ValueError):
+        total_mb = 0
+    try:
+        max_kb = int(max_kb)
+    except (TypeError, ValueError):
+        max_kb = 0
+    ttl = (_('older than %d days is pruned') % ttl_days) if ttl_days > 0 \
+        else _('age pruning off')
+    cap = (_('total above %d MiB is pruned') % total_mb) if total_mb > 0 \
+        else _('total size cap off')
+    per_file = (_('the per-file size limit (%d KiB)') % max_kb) if max_kb > 0 \
+        else _('the cache line limit')
+    return (_('Cache: %s (%d file(s), %d KiB); %s; %s. '
+              '0 = off. Open terminals are never pruned at runtime; they are '
+              'limited only by %s.') %
+            (cache_dir, files, (total_bytes + 1023) // 1024, ttl, cap,
+             per_file))
+
 class PrefsEditor:
     """Class implementing the various parts of the preferences editor"""
     config = None
@@ -59,7 +103,8 @@ class PrefsEditor:
                          'solarized_dark': 8,
                          'gruvbox_light': 9,
                          'gruvbox_dark': 10,
-                         'custom': 11}
+                         'deep_teal': 11,
+                         'custom': 12}
     colourschemes = {'grey_on_black': ['#aaaaaa', '#000000'],
                      'black_on_yellow': ['#000000', '#ffffdd'],
                      'black_on_white': ['#000000', '#ffffff'],
@@ -70,7 +115,8 @@ class PrefsEditor:
                      'solarized_light': ['#657b83', '#fdf6e3'],
                      'solarized_dark': ['#839496', '#002b36'],
                      'gruvbox_light': ['#3c3836', '#fbf1c7'],
-                     'gruvbox_dark': ['#ebdbb2', '#282828']}
+                     'gruvbox_dark': ['#ebdbb2', '#282828'],
+                     'deep_teal': ['#c6d3d5', '#163841']}
     palettevalues = {'tango': 0,
                      'linux': 1,
                      'xterm': 2,
@@ -152,6 +198,7 @@ class PrefsEditor:
                         'detach_tab'       : _('Detach the tab into a new window'),
                         'toggle_zoom'      : _('Maximize terminal'),
                         'scaled_zoom'      : _('Zoom terminal'),
+                        'restore_maximised': _('Restore maximised pane'),
                         'next_tab'         : _('Switch to the next tab'),
                         'prev_tab'         : _('Switch to the previous tab'),
                         'switch_to_tab_1'  : _('Switch to the first tab'),
@@ -196,6 +243,37 @@ class PrefsEditor:
                         'help'             : _('Open the manual')
             }
 
+    # Notebook pages by stable name -> glade object id of the page child.
+    # Use names (e.g. cur_page='keybindings') instead of numeric indices so
+    # inserting pages (Session, ...) does not break callers.
+    PAGE_IDS = {
+        'global': 'vbox5',
+        'panes': 'panes_page_box',
+        'profiles': 'hpaned4',
+        'layouts': 'hpaned1',
+        'session': 'session_page_box',
+        'keybindings': 'vbox124',
+        'plugins': 'hpaned3',
+        'about': 'grid7',
+    }
+
+    def resolve_page(self, cur_page):
+        """Map a page name (or legacy int index) to a notebook page index."""
+        if isinstance(cur_page, int):
+            return cur_page
+        nb = self.builder.get_object('notebook1')
+        page_id = self.PAGE_IDS.get(str(cur_page), str(cur_page))
+        child = self.builder.get_object(page_id)
+        if child is None:
+            err('PrefsEditor: unknown page %r' % cur_page)
+            return 0
+        # m26: pages may be wrapped in a GtkScrolledWindow/Viewport
+        idx = nb.page_num(child)
+        while idx < 0 and child is not None:
+            child = child.get_parent()
+            idx = nb.page_num(child) if child is not None else -1
+        return idx if idx >= 0 else 0
+
     def __init__ (self, term, cur_page=0):
         self.config = config.Config()
         self.config.base.reload()
@@ -218,7 +296,15 @@ class PrefsEditor:
             return
 
         self.builder.add_from_string(gladedata)
+        self._connect_palette_pickers()
         self.window = self.builder.get_object('prefswin')
+        try:
+            # m26 (round2-ux P2-10): one source of truth for the version
+            from .version import APP_VERSION
+            self.builder.get_object('about_version_label').set_text(
+                _('Version: %s') % APP_VERSION)
+        except Exception as ex:
+            dbg('about version label: %s' % ex)
 
         icon_theme = Gtk.IconTheme.get_default()
         if icon_theme.lookup_icon('terminator-preferences', 48, 0):
@@ -232,6 +318,7 @@ class PrefsEditor:
         self.builder.connect_signals(self)
         self.layouteditor.prepare()
         self.window.show_all()
+        self._fit_to_screen()
         try:
             self.config.inhibit_save()
             self.set_values()
@@ -241,12 +328,85 @@ class PrefsEditor:
 
         guiget = self.builder.get_object
         nb = guiget('notebook1')
-        nb.set_current_page(cur_page)
+        nb.set_current_page(self.resolve_page(cur_page))
 
         self.config.base.save_config_with_suffix('_cur')
 
+    def _fit_to_screen(self):
+        """m26 (round2-ux P1-2): open at the natural size (every option of
+        the tallest tab visible, like upstream) but never taller/wider than
+        the monitor work area; the pages scroll below their natural size,
+        so the dialog stays usable on 1366x768 / 150 % screens."""
+        try:
+            # width: minimum (as upstream); height: natural
+            nat_w = self.window.get_preferred_width()[0]
+            nat_h = self.window.get_preferred_height()[1]
+            limit_w, limit_h = nat_w, nat_h
+            display = Gdk.Display.get_default()
+            gdkwin = None
+            try:
+                gdkwin = self.calling_window.get_window()
+            except Exception:
+                pass
+            monitor = None
+            if display is not None:
+                if gdkwin is not None:
+                    monitor = display.get_monitor_at_window(gdkwin)
+                if monitor is None:
+                    monitor = display.get_primary_monitor() or \
+                        display.get_monitor(0)
+            if monitor is not None:
+                area = monitor.get_workarea()
+                # leave room for the window decorations
+                limit_w, limit_h = area.width - 32, area.height - 64
+            self.window.resize(max(1, min(nat_w, limit_w)),
+                               max(1, min(nat_h, limit_h)))
+        except Exception as ex:
+            dbg('PrefsEditor fit to screen: %s' % ex)
+
     def on_destroy_event(self, _widget):
+        self.flush_debounced_save()
         self.config.base.remove_config_with_suffix('_cur')
+
+    # UI review P2-10: spin buttons fire value-changed per step (dozens/s
+    # while an arrow is held). The value goes into Config at once; the
+    # atomic write (+fsync) and expensive side effects are coalesced.
+    SPIN_SAVE_DELAY_MS = 300
+
+    def debounced_save(self, after=None):
+        """Save (and run after()) once the spin has been still for
+        SPIN_SAVE_DELAY_MS."""
+        pending = self.__dict__.setdefault('_spin_after', [])
+        if after is not None and after not in pending:
+            pending.append(after)
+        self._spin_dirty = True
+        sid = self.__dict__.get('_spin_save_id')
+        if sid:
+            GLib.source_remove(sid)
+        self._spin_save_id = GLib.timeout_add(self.SPIN_SAVE_DELAY_MS,
+                                              self._spin_save_fire)
+
+    def _spin_save_fire(self):
+        self._spin_save_id = None
+        self.flush_debounced_save()
+        return False
+
+    def flush_debounced_save(self):
+        """Write a pending debounced save now (timer fired / dialog closing)."""
+        sid = self.__dict__.get('_spin_save_id')
+        if sid:
+            GLib.source_remove(sid)
+        self._spin_save_id = None
+        if not self.__dict__.get('_spin_dirty'):
+            return
+        self._spin_dirty = False
+        pending, self._spin_after = self.__dict__.get('_spin_after') or [], []
+        self.config.save()
+        for cb in pending:
+            try:
+                cb()
+            except Exception as ex:
+                dbg('debounced prefs hook: %s' % ex)
 
     def on_applybutton_clicked(self, _button):
         """Apply configuration changes without closing the window"""
@@ -408,6 +568,46 @@ class PrefsEditor:
         widget = guiget('new_tab_after_current_checkbutton')
         widget.set_active(self.config['new_tab_after_current_tab'])
 
+        # Wave-style pane title bars (module C)
+        widget = guiget('titlebar_buttons_checkbutton')
+        widget.set_active(bool(self.config['titlebar_buttons']))
+        widget = guiget('titlebar_show_icon_checkbutton')
+        widget.set_active(bool(self.config['titlebar_show_icon']))
+        density = self.config['titlebar_density']
+        if density not in ('standard', 'compact'):
+            density = 'standard'
+        widget = guiget('titlebar_density_combo')
+        widget.set_active_id(density)
+        widget = guiget('pane_accent_colorbutton')
+        rgba = Gdk.RGBA()
+        if not rgba.parse(str(self.config['pane_accent_color'] or '')):
+            rgba.parse('#3fb950')
+        widget.set_rgba(rgba)
+
+        # Overlay maximise (module D)
+        widget = guiget('pane_overlay_maximise_checkbutton')
+        widget.set_active(bool(self.config['pane_overlay_maximise']))
+        motion = self.config['reduce_motion']
+        if motion not in ('system', 'on', 'off'):
+            motion = 'system'
+        guiget('reduce_motion_combo').set_active_id(motion)
+        guiget('pane_anim_expand_spinbutton').set_value(
+            int(self.config['pane_animation_expand_ms']))
+        guiget('pane_anim_restore_spinbutton').set_value(
+            int(self.config['pane_animation_restore_ms']))
+
+        # Auto font scale (module E, E6)
+        widget = guiget('auto_font_scale_checkbutton')
+        widget.set_active(bool(self.config['auto_font_scale']))
+        widget = guiget('auto_font_scale_badge_checkbutton')
+        widget.set_active(bool(self.config['auto_font_scale_show_badge']))
+        guiget('reading_measure_spinbutton').set_value(
+            int(self.config['reading_measure_min_cols']))
+        self._sync_auto_font_sensitivity()
+
+        ## Session tab (modules A + B)
+        self.set_session_values()
+
         #Always split with profile
         widget = guiget('always_split_with_profile')
         widget.set_active(self.config['always_split_with_profile'])
@@ -454,6 +654,8 @@ class PrefsEditor:
         layouts = self.config.list_layouts()
         if '__internal_json_layout__' in layouts:
             layouts.remove('__internal_json_layout__')
+        if '__last_session__' in layouts:
+            layouts.remove('__last_session__')
         self.layoutiters = {}
         for layout in layouts:
             if layout == 'default':
@@ -468,7 +670,14 @@ class PrefsEditor:
             layout_to_highlight = terminator.layoutname
         else:
             layout_to_highlight = 'default'
-        selection.select_iter(self.layoutiters[layout_to_highlight])
+        if layout_to_highlight not in self.layoutiters:
+            layout_to_highlight = 'default'
+        if layout_to_highlight in self.layoutiters:
+            selection.select_iter(self.layoutiters[layout_to_highlight])
+        else:
+            first = liststore.get_iter_first()
+            if first is not None:
+                selection.select_iter(first)
         # Now set up the selection changed handler for the layout itself
         widget = guiget('LayoutTreeView')
         selection = widget.get_selection()
@@ -500,22 +709,6 @@ class PrefsEditor:
 
             return False
 
-        def on_search(widget, text):
-            MAX_SEARCH_LEN = 10
-            self.keybind_filter_str = widget.get_text()
-            ln = len(self.keybind_filter_str)
-            #its a small list & we are eager for quick search, but limit
-            if (ln >=2 and ln < MAX_SEARCH_LEN):
-                dbg("filter search str: %s" % self.keybind_filter_str)
-                self.treemodelfilter.refilter()
-
-        def on_search_refilter(widget):
-            dbg("refilter")
-            self.treemodelfilter.refilter()
-
-        kbsearch.connect('key-press-event', on_search)
-        kbsearch.connect('backspace', on_search_refilter)
-
         liststore = widget.get_model()
         liststore.set_sort_column_id(0, Gtk.SortType.ASCENDING)
 
@@ -538,6 +731,12 @@ class PrefsEditor:
         self.treemodelfilter = liststore.filter_new()
         self.treemodelfilter.set_visible_func(filter_visible, act_to_key_map)
         widget.set_model(self.treemodelfilter)
+
+        def on_search_changed(widget):
+            self.keybind_filter_str = widget.get_text()
+            self.treemodelfilter.refilter()
+
+        kbsearch.connect('changed', on_search_changed)
 
         ## Plugins tab
         # Populate the plugin list
@@ -577,9 +776,9 @@ class PrefsEditor:
         if self.config['use_system_font'] == True:
             fontname = self.config.get_system_mono_font()
             if fontname is not None:
-                widget.set_font_name(fontname)
+                set_button_font(widget, fontname)
         else:
-            widget.set_font_name(self.config['font'])
+            set_button_font(widget, self.config['font'])
         # Allow bold text
         widget = guiget('allow_bold_checkbutton')
         widget.set_active(self.config['allow_bold'])
@@ -625,21 +824,21 @@ class PrefsEditor:
         # Cursor foreground
         widget = guiget('cursor_fg_color')
         try:
-            widget.set_color(Gdk.color_parse(self.config['cursor_fg_color']))
+            set_button_color(widget, self.config['cursor_fg_color'])
         except:
             try:
-                widget.set_color(Gdk.color_parse(self.config['background_color']))
+                set_button_color(widget, self.config['background_color'])
             except:
-                widget.set_color(Gdk.color_parse('#000000'))
+                set_button_color(widget, '#000000')
         # Cursor background
         widget = guiget('cursor_bg_color')
         try:
-            widget.set_color(Gdk.color_parse(self.config['cursor_bg_color']))
+            set_button_color(widget, self.config['cursor_bg_color'])
         except:
             try:
-                widget.set_color(Gdk.color_parse(self.config['foreground_color']))
+                set_button_color(widget, self.config['foreground_color'])
             except:
-                widget.set_color(Gdk.color_parse('#ffffff'))
+                set_button_color(widget, '#ffffff')
 
         ## Command tab
         # Login shell
@@ -663,14 +862,12 @@ class PrefsEditor:
             widget.set_active(0)
 
         ## Colors tab
-        # Use system colors
-        widget = guiget('use_theme_colors_checkbutton')
-        widget.set_active(self.config['use_theme_colors'])
         # Bold is bright
         widget = guiget('bold_text_is_bright_checkbutton')
         widget.set_active(self.config['bold_is_bright'])
-        # Colorscheme
-        widget = guiget('color_scheme_combobox')
+        # Identify the scheme before either combo signal can fire. The theme
+        # checkbox used to be set first, and its handler then painted the
+        # previous profile's built-in colours into the one being loaded.
         scheme = None
         for ascheme in self.colourschemes:
             forecol = self.colourschemes[ascheme][0]
@@ -682,28 +879,20 @@ class PrefsEditor:
         if scheme not in self.colorschemevalues:
             if self.config['foreground_color'] in [None, ''] or \
                self.config['background_color'] in [None, '']:
-                scheme = 'grey_on_black'
+                scheme = 'deep_teal'
             else:
                 scheme = 'custom'
-        # NOTE: The scheme is set in the GUI widget after the fore/back colours
-        # Foreground color
         widget = guiget('foreground_colorbutton')
         widget.set_events(Gdk.EventMask.BUTTON_PRESS_MASK)
-
-        if scheme == 'custom':
-            widget.set_sensitive(True)
-        else:
-            widget.set_sensitive(False)
-        # Background color
         widget = guiget('background_colorbutton')
         widget.set_events(Gdk.EventMask.BUTTON_PRESS_MASK)
-        if scheme == 'custom':
-            widget.set_sensitive(True)
-        else:
-            widget.set_sensitive(False)
-        # Now actually set the scheme
+        # Scheme index first, then the theme-colors checkbox. An unchanged
+        # index emits nothing, so sensitivity is applied again afterwards.
         widget = guiget('color_scheme_combobox')
         widget.set_active(self.colorschemevalues[scheme])
+        widget = guiget('use_theme_colors_checkbutton')
+        widget.set_active(self.config['use_theme_colors'])
+        self._apply_color_scheme_sensitivity()
         # Palette scheme
         widget = guiget('palette_combobox')
         palette = None
@@ -720,9 +909,6 @@ class PrefsEditor:
         for palette_id in range(0, NUM_PALETTE_COLORS):
             widget = self.get_palette_widget(palette_id)
             widget.set_events(Gdk.EventMask.BUTTON_PRESS_MASK)
-            def on_palette_click(event, data, widget=widget):
-                self.edit_palette_button(widget)
-            widget.connect('button-press-event', on_palette_click)
         self.load_palette()
         # Now set the palette selector widget
         widget = guiget('palette_combobox')
@@ -822,6 +1008,9 @@ class PrefsEditor:
         # Scroll on keystroke
         widget = guiget('scroll_on_keystroke_checkbutton')
         widget.set_active(self.config['scroll_on_keystroke'])
+        # Hide scrollbar while a fullscreen (alternate screen) app runs
+        widget = guiget('scrollbar_hide_in_alt_screen_checkbutton')
+        widget.set_active(self.config['scrollbar_hide_in_alt_screen'])
 
         ## Compatibility tab
         # Backspace key
@@ -853,7 +1042,7 @@ class PrefsEditor:
             'title_receive_fg_color', 'title_receive_bg_color',
             'title_inactive_fg_color', 'title_inactive_bg_color']:
             widget = guiget(bit)
-            widget.set_color(Gdk.color_parse(self.config[bit]))
+            set_button_color(widget, self.config[bit])
         # Hide size text from the title bar
         widget = guiget('title_hide_sizetextcheck')
         widget.set_active(self.config['title_hide_sizetext'])
@@ -866,9 +1055,9 @@ class PrefsEditor:
         if self.config['title_use_system_font'] == True:
             fontname = self.config.get_system_prop_font()
             if fontname is not None:
-                widget.set_font_name(fontname)
+                set_button_font(widget, fontname)
         else:
-            widget.set_font_name(self.config['title_font'])
+            set_button_font(widget, self.config['title_font'])
 
     def set_layout(self, layout_name):
         """Set a layout"""
@@ -1052,6 +1241,11 @@ class PrefsEditor:
         self.config['scroll_on_keystroke'] = widget.get_active()
         self.config.save()
 
+    def on_scrollbar_hide_in_alt_screen_checkbutton_toggled(self, widget):
+        """Auto-hide scrollbar in alternate screen setting changed"""
+        self.config['scrollbar_hide_in_alt_screen'] = widget.get_active()
+        self.config.save()
+
     def on_scroll_on_output_checkbutton_toggled(self, widget):
         """Scroll on output setting changed"""
         self.config['scroll_on_output'] = widget.get_active()
@@ -1211,16 +1405,17 @@ class PrefsEditor:
         cr.fill()
 
     def on_foreground_colorbutton_click(self, event, data):
+        guiget = self.builder.get_object
+        scheme_widget = guiget('color_scheme_combobox')
+        saved_scheme = scheme_widget.get_active()
+        saved_fore = self.config['foreground_color']
+        saved_back = self.config['background_color']
         dialog = Gtk.ColorChooserDialog("Choose Terminal Text Color")
-        fg = self.config['foreground_color']
-        dialog.set_rgba(Gdk.RGBA.from_color(Gdk.color_parse(self.config['foreground_color'])))
+        dialog.set_rgba(Gdk.RGBA.from_color(Gdk.color_parse(saved_fore)))
         dialog.connect('notify::rgba', self.on_foreground_colorpicker_color_change)
         res = dialog.run()
         if res != Gtk.ResponseType.OK:
-            self.config['foreground_color'] = fg
-            self.config.save()
-            terminator = Terminator()
-            terminator.reconfigure()
+            self._restore_color_scheme_snapshot(saved_scheme, saved_fore, saved_back)
         dialog.destroy()
 
     def on_foreground_colorpicker_color_change(self, widget, color):
@@ -1229,6 +1424,8 @@ class PrefsEditor:
         self.config.save()
         terminator = Terminator()
         terminator.reconfigure()
+        self._note_custom_scheme_if_needed()
+        self.builder.get_object('foreground_colorbutton').queue_draw()
 
     def on_background_colorbutton_draw(self, widget, cr):
         width = widget.get_allocated_width()
@@ -1242,16 +1439,17 @@ class PrefsEditor:
         cr.fill()
 
     def on_background_colorbutton_click(self, event, data):
+        guiget = self.builder.get_object
+        scheme_widget = guiget('color_scheme_combobox')
+        saved_scheme = scheme_widget.get_active()
+        saved_fore = self.config['foreground_color']
+        saved_back = self.config['background_color']
         dialog = Gtk.ColorChooserDialog("Choose Terminal Background Color")
-        orig = self.config['background_color']
         dialog.connect('notify::rgba', self.on_background_colorpicker_color_change)
-        dialog.set_rgba(Gdk.RGBA.from_color(Gdk.color_parse(orig)))
+        dialog.set_rgba(Gdk.RGBA.from_color(Gdk.color_parse(saved_back)))
         res = dialog.run()
         if res != Gtk.ResponseType.OK:
-            self.config['background_color'] = orig
-            self.config.save()
-            terminator = Terminator()
-            terminator.reconfigure()
+            self._restore_color_scheme_snapshot(saved_scheme, saved_fore, saved_back)
         dialog.destroy()
 
     def on_background_colorpicker_color_change(self, widget, color):
@@ -1260,6 +1458,8 @@ class PrefsEditor:
         self.config.save()
         terminator = Terminator()
         terminator.reconfigure()
+        self._note_custom_scheme_if_needed()
+        self.builder.get_object('background_colorbutton').queue_draw()
 
     def get_palette_widget(self, palette_id):
         """Returns the palette widget for the given palette ID."""
@@ -1312,6 +1512,19 @@ class PrefsEditor:
         for palette_id in range(0, NUM_PALETTE_COLORS):
             color = Gdk.color_parse(colourpalette[palette_id])
             self.load_palette_color(palette_id, color)
+
+    def _connect_palette_pickers(self):
+        """Connect each palette swatch once. Profile reloads must not stack handlers."""
+        if getattr(self, '_palette_pickers_connected', False):
+            return
+        self._palette_pickers_connected = True
+        for palette_id in range(0, NUM_PALETTE_COLORS):
+            widget = self.get_palette_widget(palette_id)
+            widget.connect('button-press-event', self._on_palette_picker_press)
+
+    def _on_palette_picker_press(self, widget, event):
+        self.edit_palette_button(widget)
+        return False
 
     def edit_palette_button(self, widget):
         """When the palette colorbutton is clicked, open a dialog to
@@ -1408,12 +1621,12 @@ class PrefsEditor:
 
     def on_font_selector_font_set(self, widget):
         """Font changed"""
-        self.config['font'] = widget.get_font_name()
+        self.config['font'] = widget.get_font()
         self.config.save()
 
     def on_title_font_selector_font_set(self, widget):
         """Titlebar Font changed"""
-        self.config['title_font'] = widget.get_font_name()
+        self.config['title_font'] = widget.get_font()
         self.config.save()
 
     def on_title_receive_bg_color_color_set(self, widget):
@@ -1557,6 +1770,303 @@ class PrefsEditor:
             value = 'normal'
         self.config['window_state'] = value
         self.config.save()
+    # ---- Pane title bars (module C) --------------------------------------
+
+    def on_titlebar_buttons_checkbutton_toggled(self, widget):
+        """Show/hide the gear/maximise/close buttons in pane title bars"""
+        self.config['titlebar_buttons'] = widget.get_active()
+        self.config.save()
+        Terminator().reconfigure()
+
+    def on_titlebar_show_icon_checkbutton_toggled(self, widget):
+        """Show/hide the terminal/grouping icon in pane title bars"""
+        self.config['titlebar_show_icon'] = widget.get_active()
+        self.config.save()
+        Terminator().reconfigure()
+
+    def on_titlebar_density_combo_changed(self, widget):
+        """Title bar density changed"""
+        value = widget.get_active_id()
+        if value not in ('standard', 'compact'):
+            value = 'standard'
+        self.config['titlebar_density'] = value
+        self.config.save()
+        Terminator().reconfigure()
+
+    def on_pane_accent_colorbutton_color_set(self, widget):
+        """Focused pane accent colour changed"""
+        self.config['pane_accent_color'] = rgba2hex(widget)
+        self.config.save()
+        Terminator().reconfigure()
+
+    # ---- Overlay maximise (module D) -------------------------------------
+
+    def on_pane_overlay_maximise_checkbutton_toggled(self, widget):
+        """Overlay maximise on/off (off = classic reparent zoom)"""
+        self.config['pane_overlay_maximise'] = widget.get_active()
+        self.config.save()
+
+    def on_reduce_motion_combo_changed(self, widget):
+        """Reduce motion: system / on / off"""
+        value = widget.get_active_id()
+        if value not in ('system', 'on', 'off'):
+            value = 'system'
+        self.config['reduce_motion'] = value
+        self.config.save()
+
+    def on_pane_anim_expand_spinbutton_value_changed(self, widget):
+        """Maximise animation duration in ms"""
+        self.config['pane_animation_expand_ms'] = int(widget.get_value())
+        self.debounced_save()
+
+    def on_pane_anim_restore_spinbutton_value_changed(self, widget):
+        """Restore animation duration in ms"""
+        self.config['pane_animation_restore_ms'] = int(widget.get_value())
+        self.debounced_save()
+
+    # ---- Auto font scale (module E) --------------------------------------
+
+    def _sync_auto_font_sensitivity(self):
+        guiget = self.builder.get_object
+        on = bool(guiget('auto_font_scale_checkbutton').get_active())
+        for name in ('auto_font_scale_badge_checkbutton',
+                     'reading_measure_label', 'reading_measure_spinbutton'):
+            guiget(name).set_sensitive(on)
+
+    @staticmethod
+    def _notify_auto_font_terminals():
+        for term in list(Terminator().terminals):
+            hook = getattr(term, 'on_auto_font_config_changed', None)
+            if callable(hook):
+                try:
+                    hook()
+                except Exception as ex:
+                    dbg('auto font config change: %s' % ex)
+
+    def on_auto_font_scale_checkbutton_toggled(self, widget):
+        """Per-pane automatic font scaling on/off"""
+        self.config['auto_font_scale'] = widget.get_active()
+        self.config.save()
+        self._sync_auto_font_sensitivity()
+        self._notify_auto_font_terminals()
+
+    def on_auto_font_scale_badge_checkbutton_toggled(self, widget):
+        """Show/hide the font scale badge"""
+        self.config['auto_font_scale_show_badge'] = widget.get_active()
+        self.config.save()
+        self._notify_auto_font_terminals()
+
+    def on_reading_measure_spinbutton_value_changed(self, widget):
+        """Reading measure (minimum columns)"""
+        self.config['reading_measure_min_cols'] = int(widget.get_value())
+        self.debounced_save(self._notify_auto_font_terminals)
+
+    # ---- Session page (modules A + B) -------------------------------------
+
+    def set_session_values(self):
+        """Populate the Session page from Config() and on-disk state"""
+        guiget = self.builder.get_object
+        guiget('restore_last_session_checkbutton').set_active(
+            bool(self.config['restore_last_session']))
+        guiget('scrollback_cache_checkbutton').set_active(
+            bool(self.config['scrollback_cache']))
+        try:
+            lines = int(self.config['scrollback_cache_lines'])
+        except (TypeError, ValueError):
+            lines = 2000
+        guiget('scrollback_cache_lines_spinbutton').set_value(lines)
+        self.update_session_sensitivity()
+        self.update_session_info()
+
+        legacy = guiget('session_legacy_plugin_label')
+        enabled = self.config['enabled_plugins'] or []
+        if any(name in enabled for name in ('SaveLastSessionLayout',
+                                            'SaveUserSessionLayout')):
+            legacy.show()
+        else:
+            legacy.hide()
+
+    def update_session_sensitivity(self):
+        guiget = self.builder.get_object
+        cache_on = guiget('scrollback_cache_checkbutton').get_active()
+        guiget('scrollback_cache_lines_label').set_sensitive(cache_on)
+        guiget('scrollback_cache_lines_spinbutton').set_sensitive(cache_on)
+        # Round-2 P2-3: only the instance that owns the session may clear or
+        # replace it (the info label explains why when it is not ours).
+        owner = self._session_owner()
+        for name in ('session_restore_prev_button', 'session_clear_button'):
+            button = guiget(name)
+            if button is not None:
+                button.set_sensitive(owner)
+
+    @staticmethod
+    def _session_owner():
+        try:
+            from .session import SessionManager
+            return SessionManager().is_owner()
+        except Exception as ex:
+            dbg('session owner check: %s' % ex)
+            return False
+
+    def _refuse_if_not_owner(self):
+        if self._session_owner():
+            return False
+        self.update_session_info(_('Another Terminator instance owns the '
+                                   'session, so this one does not write it.'))
+        return True
+
+    def update_session_info(self, notice=None):
+        """Refresh the read-only session / cache info labels"""
+        import json
+        import time
+        from .session import SessionManager, count_terminals_in_layout
+        from .util import get_cache_dir
+        guiget = self.builder.get_object
+        sess = SessionManager()
+        path = sess.session_path()
+        lines = [_('Session file: %s') % path]
+        if os.path.isfile(path):
+            saved = time.strftime('%Y-%m-%d %H:%M:%S',
+                                  time.localtime(os.path.getmtime(path)))
+            count = None
+            try:
+                with open(path, 'r', encoding='utf-8') as fh:
+                    data = json.load(fh)
+                count = count_terminals_in_layout(data.get('layout') or {})
+            except Exception as ex:
+                dbg('session info: %s' % ex)
+            if count is None:
+                lines.append(_('Last saved %s (unreadable)') % saved)
+            else:
+                lines.append(_('Last saved %s, %d terminal(s)') % (saved, count))
+        else:
+            lines.append(_('No session saved yet'))
+        if os.path.isfile(path + '.prev'):
+            lines.append(_('A previous session is available'))
+        if not sess.is_owner():
+            lines.append(_('Another Terminator instance owns the session, '
+                           'so this one does not write it.'))
+        elif not sess.is_writer():
+            lines.append(_('Automatic saving is paused until Terminator '
+                           'restarts.'))
+        if sess.skip_next_armed():
+            lines.append(_('The next plain launch will not restore this '
+                           'session.'))
+        if notice:
+            lines.append(notice)
+        guiget('session_info_label').set_text('\n'.join(lines))
+
+        cache_dir = os.path.join(get_cache_dir(), 'scrollback')
+        total = 0
+        files = 0
+        if os.path.isdir(cache_dir):
+            for name in os.listdir(cache_dir):
+                fpath = os.path.join(cache_dir, name)
+                if name.endswith('.txt') and os.path.isfile(fpath):
+                    files += 1
+                    total += os.path.getsize(fpath)
+        guiget('scrollback_cache_info_label').set_text(
+            scrollback_cache_info_text(
+                cache_dir, files, total,
+                self.config['scrollback_cache_ttl_days'],
+                self.config['scrollback_cache_total_mb'],
+                self.config['scrollback_cache_max_kb']))
+
+    def on_restore_last_session_checkbutton_toggled(self, widget):
+        """Restore-last-session toggled"""
+        self.config['restore_last_session'] = widget.get_active()
+        self.config.save()
+
+    def on_scrollback_cache_checkbutton_toggled(self, widget):
+        """Scrollback cache toggled: takes effect immediately"""
+        self.config['scrollback_cache'] = widget.get_active()
+        self.config.save()
+        self.update_session_sensitivity()
+        try:
+            from .scrollback import ScrollbackCache
+            ScrollbackCache().reconfigure()
+        except Exception as ex:
+            err('Unable to reconfigure scrollback cache: %s' % ex)
+        self.update_session_info()
+
+    def on_scrollback_cache_lines_spinbutton_value_changed(self, widget):
+        """Number of cached lines per terminal changed"""
+        self.config['scrollback_cache_lines'] = int(widget.get_value())
+        self.debounced_save()
+
+    def on_session_save_as_layout_button_clicked(self, _button):
+        """Save the live session (with working directories) as a layout"""
+        import time
+        guiget = self.builder.get_object
+        from .session import strip_live_ids
+        # A layout is a template: live terminal uuids would give terminals
+        # opened from it duplicate uuids (shared scrollback cache files).
+        current_layout = strip_live_ids(
+            Terminator().describe_layout(save_cwd=True))
+        treeview = guiget('layoutlist')
+        model = treeview.get_model()
+        values = [r[0] for r in model]
+        base = _('Session %s') % time.strftime('%Y-%m-%d %H%M')
+        name = base
+        i = 0
+        while name in values:
+            i += 1
+            name = '%s %d' % (base, i)
+        if self.config.add_layout(name, current_layout):
+            model.append([name, True])
+            self.config.save()
+            self.update_session_info(_('Saved as layout "%s"') % name)
+
+    def _confirm(self, primary, secondary):
+        dialog = Gtk.MessageDialog(transient_for=self.window, modal=True,
+                                   message_type=Gtk.MessageType.QUESTION,
+                                   buttons=Gtk.ButtonsType.NONE,
+                                   text=primary)
+        dialog.format_secondary_text(secondary)
+        dialog.add_button(_('_Cancel'), Gtk.ResponseType.CANCEL)
+        dialog.add_button(_('_OK'), Gtk.ResponseType.OK)
+        dialog.set_default_response(Gtk.ResponseType.CANCEL)
+        res = dialog.run()
+        dialog.destroy()
+        return res == Gtk.ResponseType.OK
+
+    def on_session_restore_prev_button_clicked(self, _button):
+        """Copy session.json.prev over session.json for the next launch"""
+        from .session import SessionManager
+        if self._refuse_if_not_owner():
+            return
+        sess = SessionManager()
+        if not os.path.isfile(sess.session_path() + '.prev'):
+            self.update_session_info(_('There is no previous session.'))
+            return
+        if not self._confirm(
+                _('Use the previous session next time?'),
+                _('The current saved session will be replaced. Automatic '
+                  'saving stops until Terminator restarts so that the next '
+                  'launch opens the previous session.')):
+            return
+        if sess.restore_prev_session():
+            self.update_session_info(_('The previous session will be '
+                                       'restored next time.'))
+        else:
+            self.update_session_info(_('Could not restore the previous '
+                                       'session.'))
+
+    def on_session_clear_button_clicked(self, _button):
+        """Delete saved session files and scrollback cache"""
+        from .session import SessionManager
+        if self._refuse_if_not_owner():
+            return
+        if not self._confirm(
+                _('Clear the saved session and scrollback cache?'),
+                _('Terminator will start with the default layout next time. '
+                  'Automatic saving stops until Terminator restarts.')):
+            return
+        sess = SessionManager()
+        sess.suspend_writes('clear session')
+        sess.clear_session_files()
+        self.update_session_info(_('Session and cache cleared.'))
+
     def on_askbeforeclose_changed(self, widget):
         """Ask Before Close changed"""
         selected = widget.get_active()
@@ -1633,8 +2143,10 @@ class PrefsEditor:
 
     def on_layoutaddbutton_clicked(self, _button):
         """Add a new layout to the list"""
+        from .session import strip_live_ids
         terminator = Terminator()
-        current_layout = terminator.describe_layout()
+        # Round-2 P1-3: no live uuids in a layout (see save-as-layout)
+        current_layout = strip_live_ids(terminator.describe_layout())
         guiget = self.builder.get_object
 
         treeview = guiget('layoutlist')
@@ -1658,8 +2170,10 @@ class PrefsEditor:
 
     def on_layoutrefreshbutton_clicked(self, _button):
         """Refresh the terminals status and update"""
+        from .session import strip_live_ids
         terminator = Terminator()
-        current_layout = terminator.describe_layout()
+        # Round-2 P1-3: no live uuids in a layout (see save-as-layout)
+        current_layout = strip_live_ids(terminator.describe_layout())
 
         guiget = self.builder.get_object
         treeview = guiget('layoutlist')
@@ -1743,9 +2257,9 @@ class PrefsEditor:
         if self.config['use_system_font'] == True:
             fontname = self.config.get_system_mono_font()
             if fontname is not None:
-                widget.set_font_name(fontname)
+                set_button_font(widget, fontname)
         else:
-            widget.set_font_name(self.config['font'])
+            set_button_font(widget, self.config['font'])
 
     def on_title_system_font_checkbutton_toggled(self, checkbox):
         """Toggling the title_use_system_font checkbox needs to alter the
@@ -1761,9 +2275,9 @@ class PrefsEditor:
         if self.config['title_use_system_font'] == True:
             fontname = self.config.get_system_prop_font()
             if fontname is not None:
-                widget.set_font_name(fontname)
+                set_button_font(widget, fontname)
         else:
-            widget.set_font_name(self.config['title_font'])
+            set_button_font(widget, self.config['title_font'])
 
     def on_reset_compatibility_clicked(self, widget):
         """Reset the confusing and annoying backspace/delete options to the
@@ -1879,7 +2393,8 @@ class PrefsEditor:
         if oldname == newtext or oldname == 'default':
             return
         dbg('Changing %s to %s' % (oldname, newtext))
-        self.config.rename_profile(oldname, newtext)
+        if not self.config.rename_profile(oldname, newtext):
+            return
         self.config.save()
 
         widget = self.builder.get_object('profilelist')
@@ -1916,7 +2431,8 @@ class PrefsEditor:
         if oldname == newtext or oldname == 'default':
             return
         dbg('Changing %s to %s' % (oldname, newtext))
-        self.config.rename_layout(oldname, newtext)
+        if not self.config.rename_layout(oldname, newtext):
+            return
         self.config.save()
 
         widget = self.builder.get_object('layoutlist')
@@ -1930,28 +2446,77 @@ class PrefsEditor:
         if oldname == self.layouteditor.layout_name:
             self.layouteditor.layout_name = newtext
 
+    def _colorscheme_name(self):
+        active = self.builder.get_object('color_scheme_combobox').get_active()
+        for key in self.colorschemevalues:
+            if self.colorschemevalues[key] == active:
+                return key
+        return None
+
+    def _color_pickers_clickable(self):
+        theme = self.builder.get_object('use_theme_colors_checkbutton').get_active()
+        return self._colorscheme_name() == 'custom' and not theme
+
+    def _set_color_button_sensitivity(self):
+        guiget = self.builder.get_object
+        clickable = self._color_pickers_clickable()
+        fore = guiget('foreground_colorbutton')
+        back = guiget('background_colorbutton')
+        fore.set_sensitive(clickable)
+        back.set_sensitive(clickable)
+        fore.queue_draw()
+        back.queue_draw()
+
+    def _apply_color_scheme_sensitivity(self):
+        theme_on = self.builder.get_object('use_theme_colors_checkbutton').get_active()
+        self.builder.get_object('color_scheme_combobox').set_sensitive(not theme_on)
+        self._set_color_button_sensitivity()
+
+    def _note_custom_scheme_if_needed(self):
+        name = self._colorscheme_name()
+        if name not in self.colourschemes:
+            return
+        fore, back = self.colourschemes[name]
+        got_fore = self.config['foreground_color']
+        got_back = self.config['background_color']
+        if got_fore.lower() != fore or got_back.lower() != back:
+            self.builder.get_object('color_scheme_combobox').set_active(
+                    self.colorschemevalues['custom'])
+
+    def _restore_color_scheme_snapshot(self, scheme_idx, fore, back):
+        # Restore the index first. A built-in scheme's changed handler would
+        # otherwise paint over the colours we are about to put back.
+        self.builder.get_object('color_scheme_combobox').set_active(scheme_idx)
+        self.config['foreground_color'] = fore
+        self.config['background_color'] = back
+        self.config.save()
+        Terminator().reconfigure()
+        self.builder.get_object('foreground_colorbutton').queue_draw()
+        self.builder.get_object('background_colorbutton').queue_draw()
+
     def on_color_scheme_combobox_changed(self, widget):
         """Update the fore/background colour pickers"""
-        value = None
         guiget = self.builder.get_object
+        value = None
         active = widget.get_active()
 
         for key in list(self.colorschemevalues.keys()):
             if self.colorschemevalues[key] == active:
                 value = key
 
-        fore = guiget('foreground_colorbutton')
-        back = guiget('background_colorbutton')
-        fore.set_sensitive(True)
-        back.set_sensitive(True)
-
-        forecol = None
-        backcol = None
         if value in self.colourschemes:
             forecol = self.colourschemes[value][0]
             backcol = self.colourschemes[value][1]
             self.config['foreground_color'] = forecol
             self.config['background_color'] = backcol
+
+        fore = guiget('foreground_colorbutton')
+        back = guiget('background_colorbutton')
+        clickable = self._color_pickers_clickable()
+        fore.set_sensitive(clickable)
+        back.set_sensitive(clickable)
+        fore.queue_draw()
+        back.queue_draw()
         self.config.save()
         terminator = Terminator()
         terminator.reconfigure()
@@ -1966,8 +2531,8 @@ class PrefsEditor:
         back = guiget('background_colorbutton')
 
         if active:
-            for widget in [scheme, fore, back]:
-                widget.set_sensitive(False)
+            for colour_widget in (scheme, fore, back):
+                colour_widget.set_sensitive(False)
         else:
             scheme.set_sensitive(True)
             self.on_color_scheme_combobox_changed(scheme)
@@ -2028,7 +2593,7 @@ class PrefsEditor:
         if duplicate_bindings:
             dialog = Gtk.MessageDialog(
                 transient_for=self.window,
-                flags=Gtk.DialogFlags.MODAL,
+                modal=True,
                 message_type=Gtk.MessageType.ERROR,
                 buttons=Gtk.ButtonsType.CLOSE,
                 text="Duplicate Key Bindings Are Not Allowed",
@@ -2105,6 +2670,7 @@ class LayoutEditor:
         """Initialise ourself"""
         self.config = config.Config()
         self.builder = builder
+        self._updating_profiles = False
 
     def prepare(self, layout=None):
         """Do the things we can't do in __init__"""
@@ -2155,18 +2721,32 @@ class LayoutEditor:
 
     def update_profiles(self):
         """Update the list of profiles"""
-        self.profile_ids_to_profile = {}
-        self.profile_profile_to_ids= {}
-        chooser = self.builder.get_object('layout_profile_chooser')
+        self._updating_profiles = True
+        try:
+            self.profile_ids_to_profile = {}
+            self.profile_profile_to_ids = {}
+            chooser = self.builder.get_object('layout_profile_chooser')
+            chooser.remove_all()
 
-        profiles = self.config.list_profiles()
-        profiles.sort()
-        i = 0
-        for profile in profiles:
-            self.profile_ids_to_profile[i] = profile
-            self.profile_profile_to_ids[profile] = i
-            chooser.append_text(profile)
-            i = i + 1
+            profiles = self.config.list_profiles()
+            profiles.sort()
+            for i, profile in enumerate(profiles):
+                self.profile_ids_to_profile[i] = profile
+                self.profile_profile_to_ids[profile] = i
+                chooser.append_text(profile)
+
+            if self.layout_name and self.layout_item:
+                layout = self.config.layout_get_config(self.layout_name) or {}
+                layout_item = layout.get(self.layout_item)
+                if layout_item and layout_item.get('type') == 'Terminal':
+                    profile = layout_item.get('profile', '')
+                    if profile is None or profile == '':
+                        chooser.set_active(0)
+                    elif profile in self.profile_profile_to_ids:
+                        chooser.set_active(
+                                self.profile_profile_to_ids[profile])
+        finally:
+            self._updating_profiles = False
 
     def on_layout_selection_changed(self, selection):
         """A different layout was selected"""
@@ -2242,9 +2822,11 @@ class LayoutEditor:
 
     def on_layout_profile_chooser_changed(self, widget):
         """A new profile has been selected for this item"""
-        if not self.layout_item:
+        if getattr(self, '_updating_profiles', False) or not self.layout_item:
             return
         profile = widget.get_active_text()
+        if profile is None:
+            return
         layout = self.config.layout_get_config(self.layout_name)
         layout[self.layout_item]['profile'] = profile
         self.config.save()

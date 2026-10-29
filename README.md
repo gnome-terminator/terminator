@@ -1,97 +1,42 @@
-Terminator
-==========
+TerminatorX
+===========
 
-Started by Chris Jones <cmsj@tenshu.net> in 2007, maintained from 2014 to 2020 by Stephen Boddy, currently maintained by Matt Rose. Terminator has had contributions from countless others listed in the [AUTHORS](AUTHORS) file
+![TerminatorX](data/screenshots/terminator.png)
 
-## Description
+## 简介
 
-Terminator was originally developed by Chris Jones in 2007 as a simple, 300-ish line python script.  Since then, it has become The Robot Future of Terminals.  Originally inspired by projects like quadkonsole and gnome-multi-term and more recently by projects like Iterm2, and Tilix, It lets you combine and recombine terminals to suit the style you like.  If you live at the command-line, or are logged into 10 different remote machines at once, you should definitely try out Terminator.
+TerminatorX 在一个窗口里放多个终端。标签和窗格排在左侧，拖动可以重排、把一个标签嵌到另一个下面，或把窗格拉成自己的标签。一个窗格可以盖住其余窗格，左侧的标签列表还留在外面，再退回来。底下的终端是 VTE，和 GNOME Terminal 用的是同一个组件，shell、回滚和转义序列都走那套实现。窗口本身很薄：白色标题栏、窗格之间一条 1px 的线，只有在分割之后才出现窗格标题栏。
 
-When you run **`Terminator`**, you will get a terminal in a window, just like almost 
-every other terminal emulator available. There is also a titlebar which will
-update as shells/programs inside the terminal tell it to. Also on the titlebar
-is a small button that opens the grouping menu. From here you can put terminals
-into groups, which allows you to control multiple terminals simultaneously.
+命令名仍是 `terminator`。问题与改动请发到 https://github.com/TIIEHenry/TerminatorX/issues 。
 
-## New home on GitHub
+## 功能
 
-In April of 2020 we started moving **`Terminator`** to GitHub. A new team wanted to continue the work of the original authors.
+下面这些都默认开着。细节见 [CHANGELOG.md](CHANGELOG.md) 和 `man terminator_config`。
 
-You can find the project on https://github.com/gnome-terminator/terminator
+| 功能 | 怎么关掉 |
+|---|---|
+| 自动保存并恢复布局、标签和工作目录；关掉仍在运行的程序前会询问 | 首选项 > 会话，`restore_last_session = False`，或单次启动加 `terminator --no-restore` |
+| 回滚缓存在 `~/.cache/terminator/scrollback/`，恢复后再放出来 | 首选项 > 会话，`scrollback_cache = False` |
+| 窗格标题栏上的菜单、最大化和关闭 | 首选项 > 窗格，`titlebar_buttons = False` |
+| 单个窗格盖住其余窗格（Ctrl+Shift+Return，Shift+Esc 收回，或双击标题栏） | 首选项 > 窗格，`pane_overlay_maximise = False` |
+| 窗格变窄时，字体按 100% / 90% / 80% 缩小 | 首选项 > 窗格，`auto_font_scale = False`，或点标题栏上的比例 |
+| 全屏程序（vim、less、htop、tmux）运行时藏起滚动条，腾出的宽度交给终端 | 首选项 > 配置文件 > 滚动，`scrollbar_hide_in_alt_screen = False` |
 
-## Installing
+完整菜单里可以勾选「下次启动不恢复」：先退出，再启动，下一次普通启动会开一个新窗口。外接屏拔掉以后，落在已经不存在的屏幕上的窗口会回到主显示器。
 
-Terminator is available for most (if not all) Linux distributions from the distribution's repository of binary packages.  It is also available on FreeBSD.   Please search your repository for `terminator`  If you want to find information on how to enable an updated package repository for your OS, build from source, or want to run the bleeding-edge master version, you can follow the instructions in [INSTALL.md](https://github.com/gnome-terminator/terminator/blob/master/INSTALL.md)
+## 原项目
 
+TerminatorX 基于 [gnome-terminator/terminator](https://github.com/gnome-terminator/terminator) 2.1.6。下面这些是上游的说明：
 
-#### Quick Start:
+- [上游仓库](https://github.com/gnome-terminator/terminator)
+- [由来、快捷键与参与方式](https://github.com/gnome-terminator/terminator/blob/master/README.md)
+- [文档](https://gnome-terminator.readthedocs.io/en/latest/)
+- [从源码安装](INSTALL.md)
+- [翻译](TRANSLATION.md)
+- [许可与署名](debian/copyright)（本仓库 GPL v2 only）
 
-Create more terminals by:  
- - horizontal split: `Ctrl-Shift-o`
- - vertical split: `Ctrl-Shift-e`
+## English
 
-Shift focus to:  
- - next terminal: `Ctrl-Shift-n`
- - previous terminal: `Ctrl-Shift-p`
+TerminatorX keeps several terminals in one window. Tabs and panes are a list on the left: drag to reorder, nest a tab under another, or lift a pane out into its own tab. A pane can open over the others and come back. The tab list stays where it is. The terminal is VTE, the widget GNOME Terminal uses. The frame is thin: a white header bar, a 1px line between panes, and a pane titlebar only when the window is split.
 
-New tab: `Ctrl-Shift-t`
-
-New window: `Ctrl-Shift-i`
-
-Close terminal or tab:  
- - `Ctrl-Shift-w`
- - or right mouse click -> Close  
-
-Close window with all it's terminals and tabs: `Ctrl-Shift-q`
-
-Reset zoom: `Ctrl-0`
-
-Terminator Preferences menu:  
- - right mouse click -> Preferences  
-
-These and more modifiable shortcuts in:  
- - right mouse click -> Preferences -> Keybindings tab  
-
-Web Documentation: 
- - press `F1` or at https://gnome-terminator.readthedocs.io/en/latest/
-
-More info about shortcuts and cli config in man pages:  
- - `man terminator`
- - `man terminator_config`
-
-## Contributing
-
-Any help is welcome with the Terminator project.
-
-* [Open issues for bugs or enhancements](https://github.com/gnome-terminator/terminator/issues/new)
-* [Join our chat room on gitter.im for general questions](https://gitter.im/gnome-terminator/community)
-* [Help translating Terminator](TRANSLATION.md)
-
-You can find old bugs and questions in the launchpad project, but please don't post anything new there.
-
-* https://answers.launchpad.net/terminator
-* https://bugs.launchpad.net/terminator
-
-## Origins
-
-Terminator began by shamelessly copying code from the vte-demo.py in the vte 
-widget package, and the gedit terminal plugin (which was fantastically 
-useful at figuring out vte's API).
-
-vte-demo.py was not my code and is copyright its original author. While it 
-does not contain any specific licensing information in it, the VTE package 
-appears to be licenced under LGPL v2.
-
-The original version 0.1 release of Terminator was on Saturday, 28 July 2007.
- [Here is the archived Terminator 0.1 release announcement](http://cmsj.net/2007/07/28/terminator-01-released.html)
-
-## Licensing
-
-The gedit terminal plugin is part of the gedit-plugins package, which is 
-licenced under GPL v2 or later.
-
-I am thus licensing Terminator as GPL v2 only.
-
-Cristian Grada provided the old icon under the same licence.
-Cory Kontros provided the new icon under the CC-by-SA licence.
-For other authorship information, see debian/copyright
+The command is still `terminator`. The table above lists what this fork adds. The full menu can skip the next plain launch once ("Don't restore next launch"). On X11, a window restored onto a monitor that is no longer connected moves to the primary display. Upstream history, shortcuts and licensing are in the links under 原项目.

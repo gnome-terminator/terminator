@@ -140,6 +140,9 @@ class Terminator(Borg):
             dbg('no windows remain, quitting')
             Gtk.main_quit()
 
+        from .session import try_mark_dirty
+        try_mark_dirty('deregister_window')
+
     def register_launcher_window(self, window):
         """Register a new launcher window widget"""
         if window not in self.launcher_windows:
@@ -171,6 +174,11 @@ class Terminator(Borg):
         dbg('de-registering %s:%s' %
                 (id(terminal), type(terminal)))
         self.terminals.remove(terminal)
+        try:
+            from .session import try_mark_dirty
+            try_mark_dirty('deregister_terminal')
+        except Exception:
+            pass
 
         if len(self.terminals) == 0:
             dbg('no terminals remain, destroying all windows')
@@ -223,6 +231,26 @@ class Terminator(Borg):
         self.prelayout_windows = self.windows[:]
 
         layout = copy.deepcopy(self.config.layout_get_config(layoutname))
+        if layout:
+            # Drop malformed entries (non-dict / no string type) instead of
+            # crashing on layout[obj]['type'].lower() below.
+            for obj in list(layout.keys()):
+                node = layout[obj]
+                if not isinstance(node, dict) or \
+                        not isinstance(node.get('type'), str):
+                    err('ignoring malformed layout entry %r' % (obj,))
+                    del layout[obj]
+        if layout:
+            try:
+                from .session import SESSION_LAYOUT_NAME, remap_layout_uuids
+                if layoutname != SESSION_LAYOUT_NAME:
+                    # Round-2 P1-3: a user layout is a template.  Uuids
+                    # stored in it (upstream "Add/Save layout") may belong
+                    # to running terminals or to cached scrollback; give
+                    # every terminal a fresh one (focus refs follow).
+                    remap_layout_uuids(layout)
+            except Exception as ex:
+                dbg('layout uuid remap failed: %s' % ex)
         if not layout:
             # User specified a non-existent layout. default to one Terminal
             err('layout %s not defined' % layout)
@@ -238,6 +266,7 @@ class Terminator(Borg):
             count = count + 1
             if count == 1000:
                 err('hit maximum loop boundary. THIS IS VERY LIKELY A BUG')
+            attached = 0
             for obj in list(layout.keys()):
                 if layout[obj]['type'].lower() == 'window':
                     hierarchy[obj] = {}
@@ -251,6 +280,7 @@ class Terminator(Borg):
 
                     objects[obj] = hierarchy[obj]
                     del(layout[obj])
+                    attached = attached + 1
                 else:
                     # Now examine children to see if their parents exist yet
                     if 'parent' not in layout[obj]:
@@ -271,8 +301,20 @@ class Terminator(Borg):
                         objects[layout[obj]['parent']]['children'][obj] = childobj
                         objects[obj] = childobj
                         del(layout[obj])
+                        attached = attached + 1
+            # No node attached this pass: leftovers never will.
+            if attached == 0:
+                break
+
+        for obj in list(layout.keys()):
+            err('Unable to attach layout object %s to parent %r' % (
+                obj, layout[obj].get('parent')))
 
         layout = hierarchy
+        if not layout:
+            # No Window survived. Same fallback as a missing layout.
+            self.new_window()
+            return
 
         for windef in layout:
             if layout[windef]['type'] != 'Window':
@@ -280,17 +322,44 @@ class Terminator(Borg):
                 raise(ValueError)
             dbg('Creating a window')
             window, terminal = self.new_window()
+            # Positions only on X11. Wayland leaves placement to the
+            # compositor and keeps a saved position in the file until the
+            # next save. A position that misses every connected monitor
+            # (an unplugged display) is moved onto the primary workarea.
+            position = None
             if 'position' in layout[windef]:
-                parts = layout[windef]['position'].split(':')
+                parts = str(layout[windef]['position']).split(':')
                 if len(parts) == 2:
-                    window.move(int(parts[0]), int(parts[1]))
+                    try:
+                        position = (int(parts[0]), int(parts[1]))
+                    except ValueError:
+                        dbg('ignoring bad window position %r' %
+                            layout[windef]['position'])
+            size = None
             if 'size' in layout[windef]:
                 parts = layout[windef]['size']
-                winx = int(parts[0])
-                winy = int(parts[1])
-                if winx > 1 and winy > 1:
-                    window.resize(winx, winy)
-            if 'title' in layout[windef]:
+                try:
+                    winx = int(parts[0])
+                    winy = int(parts[1])
+                except (IndexError, TypeError, ValueError):
+                    dbg('ignoring bad window size %r' % (parts,))
+                else:
+                    if winx > 1 and winy > 1:
+                        size = (winx, winy)
+            covers = (str(layout[windef].get('maximised', '')) == 'True' or
+                      str(layout[windef].get('fullscreen', '')) == 'True')
+            if window.can_set_position():
+                position, size = window.fit_restored_geometry(
+                    position, size, shrink=not covers)
+                if position:
+                    window.move(position[0], position[1])
+            if size:
+                window.resize(size[0], size[1])
+            # Only user-set titles (title_forced marker) are re-applied.
+            # Legacy upstream layouts stored the dynamic focused-terminal
+            # title here; forcing it would pin the window title forever.
+            if layout[windef].get('title') and \
+                    str(layout[windef].get('title_forced', '')) == 'True':
                 window.title.force_title(layout[windef]['title'])
             if 'maximised' in layout[windef]:
                 if layout[windef]['maximised'] == 'True':
@@ -345,11 +414,9 @@ class Terminator(Borg):
         for window in new_win_list:
             window.show()
             window.grab_focus()
-            try:
-                t = GdkX11.x11_get_server_time(window.get_window())
-            except (NameError,TypeError, AttributeError):
-                t = 0
-            window.get_window().focus(t)
+            t = window._server_time()  # m34: 0 off X11
+            if window.get_window() is not None:
+                window.get_window().focus(t)
 
         # Going by the docs, this should be all that's needed to ensure that the
         # last_active_window is focussed. 
@@ -357,6 +424,43 @@ class Terminator(Borg):
             window = self.find_window_by_uuid(self.last_active_window.urn)
             window.present_with_time(t)
         self.prelayout_windows = None
+        try:
+            from .session import SessionManager
+            sess = SessionManager()
+            sess.mark_dirty('layout_done')
+            if sess.restored_this_run:
+                sess.schedule_clear_restoring()
+        except Exception:
+            pass
+        # Module D: restore overlay-maximised panes from session (no animation)
+        try:
+            seen_windows = set()
+            for terminal in self.terminals:
+                if not getattr(terminal, '_restore_maximised', False):
+                    continue
+                terminal._restore_maximised = False
+                win = terminal.get_toplevel()
+                if not hasattr(win, 'overlay_maximise'):
+                    continue
+                maker = Factory()
+                top_child = win.get_child()
+                if maker.isinstance(top_child, 'Notebook'):
+                    page_num = top_child.page_num_descendant(terminal)
+                    if page_num >= 0:
+                        page = top_child.get_nth_page(page_num)
+                        if not hasattr(top_child, 'last_maximised_term') or top_child.last_maximised_term is None:
+                            top_child.last_maximised_term = {}
+                        top_child.last_maximised_term[page] = terminal.uuid
+                        if page_num != top_child.get_current_page():
+                            continue
+                if win in seen_windows:
+                    continue
+                seen_windows.add(win)
+                # Deferred until the window is allocated and only for the
+                # current tab (UI review P1-2)
+                win._ensure_overlay().maximise_when_ready(terminal)
+        except Exception as ex:
+            dbg('layout_done overlay restore: %s' % ex)
 
     def on_gtk_theme_name_notify(self, settings, prop):
         """Reconfigure if the gtk theme name changes"""
@@ -364,6 +468,277 @@ class Terminator(Borg):
         if new_gtk_theme_name != self.cur_gtk_theme_name:
             self.cur_gtk_theme_name = new_gtk_theme_name
             self.reconfigure()
+
+    def pane_accent_color(self):
+        """Return a validated pane accent colour string"""
+        default = '#3fb950'
+        try:
+            value = self.config['pane_accent_color']
+        except Exception:
+            return default
+        rgba = Gdk.RGBA()
+        if not value or not rgba.parse(str(value)):
+            err('Invalid pane_accent_color %r, using %s' % (value, default))
+            return default
+        return str(value)
+
+    def tab_bar_css(self):
+        """Tab strip.
+
+        The default is a light list down the left side, the same kind of
+        row as Cursor's sidebar. ``tab_position = top`` keeps the dark
+        chip strip.
+        """
+        return """
+            .terminator-terminal-window notebook.terminator-notebook header.top {
+                background-color: #161616;
+                background-image: none;
+                border: none;
+                border-image: none;
+                box-shadow: none;
+                padding: 0 6px;
+                min-height: 36px; }
+            .terminator-terminal-window notebook.terminator-notebook header.top tabs {
+                background-color: transparent;
+                background-image: none;
+                border: none; }
+            .terminator-terminal-window notebook.terminator-notebook header.top tab {
+                background-color: transparent;
+                background-image: none;
+                border-style: none;
+                border-image: none;
+                border-radius: 0;
+                box-shadow: inset -1px 0 0 rgba(255,255,255,0.16);
+                margin: 5px 2px;
+                padding: 2px 12px;
+                min-height: 0;
+                color: #b0b0b0;
+                font-weight: normal; }
+            .terminator-terminal-window notebook.terminator-notebook header.top tab:hover {
+                background-color: #2a2a2a;
+                border-radius: 8px;
+                box-shadow: none;
+                color: #f2f2f2; }
+            .terminator-terminal-window notebook.terminator-notebook header.top tab:checked,
+            .terminator-terminal-window notebook.terminator-notebook header.top tab:checked:hover {
+                background-color: #2d2d2d;
+                border-radius: 8px;
+                box-shadow: none;
+                color: #f2f2f2; }
+            .terminator-terminal-window notebook.terminator-notebook header.top tab label {
+                color: #b0b0b0; }
+            .terminator-terminal-window notebook.terminator-notebook header.top tab:hover label,
+            .terminator-terminal-window notebook.terminator-notebook header.top tab:checked label {
+                color: #f2f2f2; }
+            .terminator-terminal-window notebook.terminator-notebook header.top button.terminator-tab-add {
+                color: #c8c8c8; }
+            .terminator-terminal-window notebook.terminator-notebook header.top button.terminator-tab-add:hover {
+                background-color: #2a2a2a;
+                color: #ffffff; }
+
+            .terminator-terminal-window .terminator-tab-sidebar {
+                background-color: #f3f3f3;
+                background-image: none;
+                border: none;
+                border-image: none;
+                box-shadow: none;
+                /* No right padding: the scrollbar sits on the list's edge. */
+                padding: 6px 0 0 6px;
+                min-width: 240px; }
+            .terminator-terminal-window .terminator-tab-sidebar scrolledwindow {
+                border: none;
+                margin: 0;
+                padding: 0; }
+            .terminator-terminal-window .terminator-tab-sidebar scrollbar.vertical {
+                margin: 0;
+                padding: 0;
+                border: none; }
+            /* The theme draws the bar inside a transparent border, which
+               leaves a gap before the terminal. Drop the right border so
+               the bar meets the edge. */
+            .terminator-terminal-window .terminator-tab-sidebar scrollbar.vertical slider {
+                margin: 0;
+                border-style: solid;
+                border-color: transparent;
+                border-width: 2px 0 2px 2px;
+                background-clip: padding-box;
+                min-width: 6px; }
+            .terminator-terminal-window .terminator-tab-sidebar tabs {
+                background-color: transparent;
+                background-image: none;
+                border: none; }
+            .terminator-terminal-window .terminator-tab-sidebar tab {
+                background-color: transparent;
+                background-image: none;
+                border-style: none;
+                border-image: none;
+                border-radius: 0;
+                box-shadow: none;
+                margin: 0;
+                padding: 0;
+                min-height: 0;
+                min-width: 0;
+                color: transparent;
+                font-weight: normal; }
+            .terminator-terminal-window .terminator-tab-sidebar treeview.terminator-tab-tree,
+            .terminator-terminal-window .terminator-tab-sidebar treeview.terminator-tab-tree.view {
+                background-color: #f3f3f3;
+                background-image: none;
+                color: #1d1d1f;
+                border: none; }
+            .terminator-terminal-window .terminator-tab-sidebar treeview.terminator-tab-tree row {
+                background-color: transparent;
+                color: #1d1d1f;
+                border: none;
+                padding: 3px 4px; }
+            .terminator-terminal-window .terminator-tab-sidebar treeview.terminator-tab-tree row:selected,
+            .terminator-terminal-window .terminator-tab-sidebar treeview.terminator-tab-tree row:selected:focus,
+            .terminator-terminal-window .terminator-tab-sidebar treeview.terminator-tab-tree row:selected:backdrop {
+                background-color: #e4e4e6;
+                background-image: none;
+                color: #1d1d1f; }
+            .terminator-terminal-window .terminator-tab-sidebar .terminator-tab-folder {
+                color: #8e8e93;
+                font-size: smaller; }
+            .terminator-terminal-window .terminator-tab-sidebar tab:checked .terminator-tab-folder {
+                color: #6e6e73; }
+            .terminator-terminal-window .terminator-tab-sidebar tab:hover {
+                background-color: #ececee; }
+            .terminator-terminal-window .terminator-tab-sidebar tab:checked,
+            .terminator-terminal-window .terminator-tab-sidebar tab:checked:hover {
+                background-color: #e4e4e6;
+                color: #1d1d1f; }
+            .terminator-terminal-window .terminator-tab-sidebar tab label {
+                color: #3a3a3c; }
+            .terminator-terminal-window .terminator-tab-sidebar tab:checked label {
+                color: #1d1d1f; }
+            .terminator-terminal-window .terminator-tab-sidebar button.terminator-tab-close {
+                color: #6e6e73; }
+            .terminator-terminal-window .terminator-tab-sidebar box.terminator-tab-row {
+                background-color: transparent;
+                border-radius: 6px;
+                padding: 1px 4px;
+                margin-top: 1px;
+                margin-bottom: 1px; }
+            .terminator-terminal-window .terminator-tab-sidebar box.terminator-tab-row:hover {
+                background-color: #ececee; }
+            .terminator-terminal-window .terminator-tab-sidebar box.terminator-tab-row.current,
+            .terminator-terminal-window .terminator-tab-sidebar box.terminator-tab-row.current:hover {
+                background-color: #e4e4e6; }
+            .terminator-terminal-window .terminator-tab-sidebar box.terminator-tab-row label {
+                color: #1d1d1f; }
+            .terminator-terminal-window .terminator-tab-sidebar button.terminator-tab-row-main {
+                background-color: transparent;
+                background-image: none;
+                border: none;
+                box-shadow: none;
+                padding: 2px 4px; }
+            .terminator-terminal-window .terminator-tab-sidebar button.terminator-tab-row-main:hover {
+                background-color: transparent;
+                background-image: none; }
+            .terminator-terminal-window .terminator-tab-sidebar button.terminator-tab-row-main:active,
+            .terminator-terminal-window .terminator-tab-sidebar button.terminator-tab-row-main:active:hover {
+                background-color: #d8d8dc;
+                background-image: none; }
+            .terminator-terminal-window .terminator-tab-sidebar button.terminator-tab-action {
+                background-color: transparent;
+                background-image: none;
+                border: none;
+                box-shadow: none;
+                border-radius: 6px;
+                padding: 2px;
+                min-width: 22px;
+                min-height: 22px; }
+            .terminator-terminal-window .terminator-tab-sidebar button.terminator-tab-action:hover {
+                background-color: #e4e4e6; }
+            .terminator-terminal-window .terminator-tab-sidebar button.terminator-tab-action:active,
+            .terminator-terminal-window .terminator-tab-sidebar button.terminator-tab-action:active:hover {
+                background-color: #d2d2d6; }
+            .terminator-terminal-window .terminator-tab-sidebar image.terminator-tab-close-mark,
+            .terminator-terminal-window .terminator-tab-sidebar image.terminator-tab-lock-mark {
+                color: #1d1d1f;
+                opacity: 1; }
+            .terminator-terminal-window .terminator-tab-sidebar .terminator-tab-toolbar {
+                min-width: 220px;
+                margin: 0 2px 6px 2px; }
+            .terminator-terminal-window .terminator-tab-sidebar .terminator-tab-toolbar button {
+                background-color: transparent;
+                background-image: none;
+                border: none;
+                box-shadow: none;
+                color: #6e6e73;
+                border-radius: 6px;
+                margin: 0 2px;
+                padding: 2px;
+                min-width: 24px;
+                min-height: 24px; }
+            .terminator-terminal-window .terminator-tab-sidebar .terminator-tab-toolbar button:hover {
+                background-color: #e4e4e6;
+                color: #1d1d1f; }
+            .terminator-terminal-window .terminator-tab-sidebar .terminator-tab-toolbar button:active,
+            .terminator-terminal-window .terminator-tab-sidebar .terminator-tab-toolbar button:active:hover {
+                background-color: #d8d8dc;
+                color: #1d1d1f; }
+            .terminator-terminal-window .terminator-tab-sidebar .terminator-tab-toolbar button:disabled {
+                color: #c7c7cc;
+                background-color: transparent; }
+
+            .terminator-terminal-window notebook.terminator-notebook button.terminator-tab-close {
+                background: transparent;
+                background-image: none;
+                border: none;
+                box-shadow: none;
+                padding: 0;
+                margin: 0 0 0 6px;
+                min-width: 14px;
+                min-height: 14px; }
+            .terminator-terminal-window notebook.terminator-notebook button.terminator-tab-add {
+                background: transparent;
+                background-image: none;
+                border: none;
+                box-shadow: none;
+                border-radius: 8px;
+                margin: 4px 2px;
+                padding: 0;
+                min-width: 28px;
+                min-height: 28px; }
+            """
+
+    def pane_chrome_css(self):
+        """CSS for the Wave-style titlebar and the focused-pane border"""
+        accent = self.pane_accent_color()
+        # The accent itself is stroked from Terminal._draw_focus_border.
+        # A CSS border here used to stay on every pane: `transparent` has
+        # nothing behind it on the terminal box, so GTK paints that 1px black.
+        return """
+            .terminator-terminal-window .terminator-term-focused,
+            .terminator-terminal-window .terminator-term-unfocused {
+                border: none; }
+
+            .terminator-terminal-window .pane-maximised {
+                border: 2px solid %(accent)s;
+                border-radius: 8px;
+                padding: 2px;
+                box-shadow: 0 8px 24px rgba(0,0,0,0.45); }
+
+            button.titlebar-btn {
+                padding: 0px; min-height: 0px; min-width: 0px;
+                margin: 0 1px;
+                color: #1d1d1f; }
+            button.titlebar-btn:hover { color: #000000; }
+            button.titlebar-btn-close { margin-left: 1px; }
+            button.titlebar-btn-close:hover { color: #f85149; }
+            button.titlebar-badge {
+                padding: 0px 4px; min-height: 0px; font-size: smaller;
+                color: #1d1d1f; }
+
+            .titlebar-density-standard { min-height: 24px; }
+            .titlebar-density-compact { min-height: 20px; }
+            .titlebar-density-standard button.titlebar-btn {
+                min-width: 24px; min-height: 24px; }
+            .titlebar-density-compact button.titlebar-btn {
+                min-width: 20px; min-height: 20px; }
+            """ % {'accent': accent}
 
     def reconfigure(self):
         """Update configuration for the whole application"""
@@ -382,9 +757,8 @@ class Terminator(Borg):
             .terminator-terminal-window {
                 background-color: alpha(@theme_bg_color,0); }
 
-            .terminator-terminal-window .notebook.header,
-            .terminator-terminal-window notebook header {
-                background-color: @theme_bg_color; }
+            .terminator-terminal-window notebook header.top {
+                background-color: #161616; }
 
             .terminator-terminal-window .pane-separator {
                 background-color: @theme_bg_color; }
@@ -402,6 +776,11 @@ class Terminator(Borg):
                 border-radius: 0px;
                 background-color: transparent; }
             """
+
+        # Pane chrome (titlebar buttons, focus border). Shared with the
+        # overlay maximise module (D), which appends to this same string.
+        css += self.pane_chrome_css()
+        css += self.tab_bar_css()
 
         # Add per profile snippets for setting the background of the HBox
         template = """
@@ -472,15 +851,71 @@ class Terminator(Borg):
                     self.style_providers.append(style_provider)
                     break
 
-        # Size the GtkPaned splitter handle size.
-        css = ""
-        if self.config['handle_size'] in range(0, 21):
-            css += """
-                .terminator-terminal-window separator {
-                    min-height: %spx;
-                    min-width: %spx; 
-                }
-                """ % (self.config['handle_size'],self.config['handle_size'])
+        # Flat 1px split. wide_handle used to draw a grooved gutter
+        # (about 5px: two edges and a trough) between panes.
+        try:
+            handle = int(self.config['handle_size'])
+        except (TypeError, ValueError):
+            handle = 1
+        if handle not in range(0, 21):
+            handle = 1
+        css = """
+            .terminator-terminal-window separator {
+                background-image: none;
+                background-color: #161b22;
+                border: none;
+                box-shadow: none;
+                margin: 0;
+                padding: 0;
+                min-height: %spx;
+                min-width: %spx;
+            }
+            """ % (handle, handle)
+        # White window header, same ground as the pane titlebars.
+        # Titlebutton (min/max/close) is left to the theme so the
+        # traffic lights keep their own colours.
+        css += """
+            headerbar.terminator-header-bar {
+                background-color: #ffffff;
+                background-image: none;
+                color: #1d1d1f;
+                box-shadow: none;
+            }
+            headerbar.terminator-header-bar .title {
+                color: #1d1d1f;
+            }
+            headerbar.terminator-header-bar button.terminator-header-btn {
+                color: #1d1d1f;
+                background-color: transparent;
+                background-image: none;
+                border: none;
+                box-shadow: none;
+            }
+            headerbar.terminator-header-bar button.terminator-header-btn:hover {
+                color: #000000;
+                background-color: rgba(0, 0, 0, 0.06);
+                background-image: none;
+            }
+            headerbar.terminator-header-bar button.terminator-header-btn:checked,
+            headerbar.terminator-header-bar button.terminator-header-btn:checked:hover {
+                background-color: rgba(0, 0, 0, 0.10);
+                background-image: none;
+                border-radius: 8px;
+                box-shadow: none;
+                color: #1d1d1f;
+            }
+            /* The pane-split rule above matches every separator in the
+               window, including the line before the traffic lights. That
+               line stays the header colour. */
+            headerbar.terminator-header-bar separator {
+                background-color: #ffffff;
+                background-image: none;
+                border: none;
+                box-shadow: none;
+                min-width: 0;
+                min-height: 0;
+            }
+            """
         style_provider = Gtk.CssProvider()
         style_provider.load_from_data(css.encode('utf-8'))
         self.style_providers.append(style_provider)
@@ -495,7 +930,19 @@ class Terminator(Borg):
 
         # Cause all the terminals to reconfigure
         for terminal in self.terminals:
+            titlebar = getattr(terminal, 'titlebar', None)
+            # Widget.destroy() leaves the terminal registered. Its titlebar
+            # is no longer packed, and Button.get_image() on those buttons
+            # segfaults inside GTK.
+            if titlebar is not None:
+                try:
+                    if titlebar.get_parent() is None:
+                        continue
+                except Exception:
+                    continue
             terminal.reconfigure()
+            if titlebar is not None and hasattr(titlebar, 'apply_chrome_config'):
+                titlebar.apply_chrome_config()
 
         # Reparse our keybindings
         self.keybindings.configure(self.config['keybindings'])
@@ -507,15 +954,9 @@ class Terminator(Borg):
             if maker.isinstance(child, 'Notebook'):
                 child.configure()
 
-        # Update blur hint on all windows
-        should_blur = False
-        for profile in profiles.values():
-            if (profile.get('background_blur', False) and
-                    profile.get('background_type', 'solid') in ('transparent', 'image')):
-                should_blur = True
-                break
+        # Each window blurs only for a profile one of its terminals uses.
         for window in self.windows:
-            window.set_blur_behind(should_blur)
+            window.sync_blur_hint()
 
         # Update window decoration style (handles 'auto' mode)
         decoration_style = self.config['window_decoration_style']
@@ -538,10 +979,43 @@ class Terminator(Borg):
             self.groups.append(name)
 
     def closegroupedterms(self, group):
-        """Close all terminals in a group"""
-        for terminal in self.terminals[:]:
-            if terminal.group == group:
-                terminal.close()
+        """Close all terminals in a group (process-aware confirm first)"""
+        members = [t for t in self.terminals[:] if t.group == group]
+        try:
+            from .close_confirm import confirm_close_terminals
+            if not confirm_close_terminals(members):
+                dbg('closegroupedterms: user cancelled')
+                return False
+        except Exception as ex:
+            dbg('closegroupedterms confirm failed: %s' % ex)
+            try:
+                from .util import gerr
+                gerr('Could not confirm closing terminals: %s' % ex)
+            except Exception:
+                err('closegroupedterms confirm failed: %s' % ex)
+            return False
+        # Hidden panes of a legacy zoom are detached from the window; put
+        # them back so close-term reaches a parent that is in a window.
+        hidden = [t for t in members if t.get_toplevel() not in self.windows]
+        if hidden:
+            from .zoomguard import leave_legacy_zoom_all
+            leave_legacy_zoom_all(self.windows, reason='closegroupedterms')
+        if members and not [t for t in self.terminals if t not in members]:
+            # Round-2 P2-7: the group covers every terminal, i.e. this quits.
+            # Save the whole layout once, up front (like closing the last
+            # window), instead of finalizing mid-loop with one pane left.
+            try:
+                from .session import SessionManager
+                SessionManager().finalize()
+            except Exception as ex:
+                dbg('closegroupedterms finalize: %s' % ex)
+        for terminal in members:
+            # Same path as exit / Ctrl+Shift+W: the parent removes and
+            # deregisters the terminal and then calls close() exactly once
+            # (calling close() directly re-entered through close-term).
+            if terminal in self.terminals:
+                terminal.emit('close-term')
+        return True
 
     def group_hoover(self):
         """Clean out unused groups"""
@@ -590,6 +1064,8 @@ class Terminator(Borg):
             terminals.extend(win_terminals)
 
         for term in self.get_target_terms(widget):
+            if term not in terminals:
+                continue
             idx = terminals.index(term)
             term.feed(numstr.encode() % (idx + 1))
 
@@ -630,6 +1106,15 @@ class Terminator(Borg):
         """We just moved focus to a new terminal"""
         for terminal in self.terminals:
             terminal.titlebar.update(widget)
+        try:
+            top = widget.get_toplevel()
+            if (top is not None and hasattr(top, 'is_child_notebook')
+                    and top.is_child_notebook()):
+                note = top.get_child()
+                if hasattr(note, 'note_pane_focus'):
+                    note.note_pane_focus(widget)
+        except Exception:
+            pass
         return
 
     def focus_left(self, widget):

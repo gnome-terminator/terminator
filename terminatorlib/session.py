@@ -1,0 +1,1777 @@
+# Terminator by Chris Jones <cmsj@tenshu.net>
+# GPL v2 only
+"""session.py - SessionManager for layout/cwd save and restore."""
+
+from __future__ import print_function
+
+import errno
+import glob
+import fcntl
+import hashlib
+import json
+import os
+import tempfile
+import time
+from copy import deepcopy
+from datetime import datetime, timezone
+
+from .borg import Borg
+from .util import dbg, err, get_state_dir
+
+
+def tighten_dir(path):
+    """chmod an existing private dir to 0700 when we own it (P2-9)."""
+    try:
+        st = os.stat(path)
+        if st.st_uid == os.geteuid() and (st.st_mode & 0o077):
+            os.chmod(path, 0o700)
+    except OSError as ex:
+        dbg('tighten_dir %s: %s' % (path, ex))
+
+SESSION_LAYOUT_NAME = '__last_session__'
+SESSION_VERSION = 1
+QUIT_ALL_WINDOW_GRACE_S = 10.0
+SAVE_BACKOFF_MAX_S = 300
+PERIODIC_MARK_DIRTY_S = 60
+# m37: retry a debounced save this often while a maximise animation runs
+ANIM_DEFER_MS = 120
+ANIM_DEFER_MAX = 10
+# m33: idle periodic ticks skip describe; force a safety-net save every N
+PERIODIC_FORCE_EVERY = 10
+RESTORING_CLEAR_DELAY_S = 10
+# m31: marker line flagging a crash-fallback restore (second crash -> empty)
+FALLBACK_MARKER_FLAG = 'fallback'
+
+
+def _now_iso():
+    try:
+        return datetime.now().astimezone().isoformat(timespec='seconds')
+    except Exception:
+        return datetime.now(timezone.utc).isoformat(timespec='seconds')
+
+
+def stringify_leaves(obj):
+    """Recursively stringify layout leaves for ConfigObj-compatible types.
+
+    Sequences become lists of stringified elements (never str(tuple)).
+    Bools become 'True'/'False'. UUID-like objects become str().
+    """
+    if obj is None:
+        return None
+    if isinstance(obj, bool):
+        return 'True' if obj else 'False'
+    if isinstance(obj, (str, int, float)):
+        return str(obj)
+    if isinstance(obj, dict):
+        return {str(k): stringify_leaves(v) for k, v in obj.items()}
+    if isinstance(obj, (list, tuple)):
+        return [stringify_leaves(x) for x in obj]
+    # uuid.UUID and other objects
+    return str(obj)
+
+
+def layout_change_hash(layout):
+    """Stable hash of layout alone (saved_at must not participate)."""
+    canonical = json.dumps(layout, sort_keys=True, separators=(',', ':'),
+                           ensure_ascii=False)
+    return hashlib.sha256(canonical.encode('utf-8')).hexdigest()
+
+
+def count_terminals_in_layout(layout):
+    if not layout:
+        return 0
+    n = 0
+    for node in layout.values():
+        if isinstance(node, dict) and node.get('type') == 'Terminal':
+            n += 1
+    return n
+
+
+def collect_terminal_uuids(layout):
+    uuids = set()
+    if not layout:
+        return uuids
+    for node in layout.values():
+        if isinstance(node, dict) and node.get('type') == 'Terminal':
+            uid = node.get('uuid')
+            if uid:
+                uuids.add(str(uid))
+    return uuids
+
+
+def _flag_is_true(value):
+    return str(value).strip().lower() == 'true'
+
+
+def _layout_child_order(node):
+    try:
+        return int(node.get('order', 0))
+    except (TypeError, ValueError):
+        return 0
+
+
+def retain_locked_tabs(layout):
+    """Drop notebook pages that are not locked.
+
+    A page is locked when the notebook's ``locked`` list says so. Missing
+    entries are unlocked, so an older session file loses its tabs on the
+    next clean launch. Windows that are not a notebook — one terminal, or
+    splits with no tab list — are kept. A window whose tabs were all
+    dropped is removed, and so is anything that hung under a dropped page.
+    """
+    if not isinstance(layout, dict):
+        return {}
+    layout = deepcopy(layout)
+
+    def kids(parent):
+        found = []
+        for name, node in layout.items():
+            if isinstance(node, dict) and node.get('parent') == parent:
+                found.append((name, node))
+        found.sort(key=lambda item: _layout_child_order(item[1]))
+        return found
+
+    def subtree(name):
+        names = []
+        for child_name, _node in kids(name):
+            names.append(child_name)
+            names.extend(subtree(child_name))
+        return names
+
+    drop = set()
+    for nb_name, node in list(layout.items()):
+        if not isinstance(node, dict) or node.get('type') != 'Notebook':
+            continue
+        pages = kids(nb_name)
+        flags = node.get('locked')
+        if not isinstance(flags, (list, tuple)):
+            flags = []
+        kept = []
+        for index, (child_name, child) in enumerate(pages):
+            flag = flags[index] if index < len(flags) else 'False'
+            if _flag_is_true(flag):
+                kept.append((index, child_name, child))
+            else:
+                drop.add(child_name)
+                drop.update(subtree(child_name))
+        if not kept:
+            drop.add(nb_name)
+            drop.update(subtree(nb_name))
+            parent = node.get('parent')
+            parent_node = layout.get(parent)
+            if (isinstance(parent_node, dict) and
+                    parent_node.get('type') == 'Window'):
+                siblings = [name for name, _child in kids(parent)
+                            if name != nb_name]
+                if not siblings:
+                    drop.add(parent)
+            continue
+
+        def pick(seq):
+            if not isinstance(seq, (list, tuple)):
+                return seq
+            return [seq[old] if old < len(seq) else None
+                    for old, _name, _child in kept]
+
+        if 'labels' in node:
+            node['labels'] = pick(node['labels'])
+        lat = node.get('last_active_term')
+        if isinstance(lat, (list, tuple)):
+            node['last_active_term'] = pick(lat)
+        lmt = node.get('last_maximised_term')
+        if isinstance(lmt, (list, tuple)):
+            node['last_maximised_term'] = pick(lmt)
+        node['locked'] = ['True'] * len(kept)
+        try:
+            active = int(node.get('active_page', 0))
+        except (TypeError, ValueError):
+            active = 0
+        kept_indexes = [old for old, _name, _child in kept]
+        if active in kept_indexes:
+            node['active_page'] = str(kept_indexes.index(active))
+        else:
+            node['active_page'] = '0'
+        for new_order, (_old, _name, child) in enumerate(kept):
+            child['order'] = str(new_order)
+
+    for name in drop:
+        layout.pop(name, None)
+    changed = True
+    while changed:
+        changed = False
+        for name, node in list(layout.items()):
+            if not isinstance(node, dict):
+                layout.pop(name, None)
+                changed = True
+                continue
+            parent = node.get('parent') or ''
+            if parent and parent not in layout:
+                layout.pop(name, None)
+                changed = True
+    return layout
+
+
+def layout_after_exit_policy(data, layout):
+    """Layout to rebuild after the previous process ended.
+
+    A live snapshot (``exit`` is ``live``: still running, or killed before
+    the final save) comes back whole. Anything else, including a session
+    written before tab locks existed, is a clean exit and keeps only
+    locked tabs.
+    """
+    if str((data or {}).get('exit') or '') == 'live':
+        return layout
+    return retain_locked_tabs(layout)
+
+
+def plain_launch_action(data, layout):
+    """What a plain launch opens from a session file.
+
+    ``session`` rebuilds the layout the exit policy kept. ``fresh`` is a
+    clean exit that kept no terminals: open one new window. The configured
+    default layout is not a stand-in for that empty session, or an unlocked
+    tab would come back as the saved startup layout. ``layout`` means there
+    was no session file, so the caller uses the configured layout.
+    """
+    if not data:
+        return 'layout', None
+    kept = layout_after_exit_policy(data, layout)
+    if count_terminals_in_layout(kept) == 0:
+        return 'fresh', None
+    return 'session', kept
+
+
+def sanitize_layout(layout, missing_dirs=None):
+    """Sanitize a loaded session layout for restore.
+
+    Missing directories become ~; command keys removed; values stringified.
+    Malformed nodes (non-dict, or without a string ``type``) are dropped so
+    Terminator.create_layout cannot crash on them.
+    missing_dirs (if a list) is appended with paths that were rewritten.
+
+    Window titles: session.json only ever contained user-set ("Set window
+    title") titles -- earlier builds stripped titles at save time and
+    describe_layout now only emits persisted forced titles -- so a Window
+    ``title`` is kept and marked ``title_forced`` (older session files lack
+    the marker).
+    """
+    if missing_dirs is None:
+        missing_dirs = []
+    if not isinstance(layout, dict):
+        return {}
+    # Validate before stringify_leaves (it would turn type 3 into '3')
+    layout = {k: v for k, v in layout.items()
+              if isinstance(v, dict) and isinstance(v.get('type'), str)}
+    layout = stringify_leaves(deepcopy(layout)) if layout else {}
+    home = os.path.expanduser('~')
+    for name in list(layout.keys()):
+        node = layout[name]
+        if not isinstance(node, dict) or not isinstance(node.get('type'), str) \
+                or not node.get('type'):
+            dbg('sanitize_layout: dropping malformed node %r' % (name,))
+            del layout[name]
+            continue
+        if node.get('type') == 'Terminal':
+            node.pop('command', None)
+            directory = node.get('directory')
+            if directory:
+                expanded = os.path.expanduser(directory)
+                if not os.path.isdir(expanded):
+                    missing_dirs.append(directory)
+                    node['directory'] = home
+                else:
+                    node['directory'] = expanded
+        if node.get('type') == 'Window':
+            if node.get('title'):
+                node['title_forced'] = 'True'
+            else:
+                node.pop('title', None)
+                node.pop('title_forced', None)
+    # A dropped node must not leave its split and terminals behind. Repeat
+    # so a child whose parent is removed in the same pass is removed too.
+    # Empty-parent roots stay.
+    changed = True
+    while changed:
+        changed = False
+        for name, node in list(layout.items()):
+            if not isinstance(node, dict):
+                continue
+            parent = node.get('parent') or ''
+            if parent and parent not in layout:
+                dbg('sanitize_layout: dropping orphan %r' % (name,))
+                del layout[name]
+                changed = True
+    return layout
+
+
+def is_explicit_launch(options):
+    """True when a launch asked for something other than a plain window.
+
+    -e/-x commands, an explicit -l NAME (not the synthetic default) or
+    --config-json.  Windows created by such launches are not part of the
+    saved session (restoring them as plain shells would be wrong), but they
+    no longer prevent the process from saving the plain windows.
+    --working-directory alone is a plain window in another directory (a
+    DBus follower always forwards its cwd), so it does not count.
+    """
+    def opt(name):
+        value = getattr(options, name, None)
+        if isinstance(value, str) and value in ('', 'None', 'False'):
+            return None
+        return value
+    layout_from_default = bool(opt('layout_from_default'))
+    layout = opt('layout')
+    explicit_layout = (layout is not None and not layout_from_default and
+                       layout not in ('default', SESSION_LAYOUT_NAME))
+    has_command = bool(opt('command') or opt('execute'))
+    has_configjson = bool(opt('configjson'))
+    return bool(explicit_layout or has_command or has_configjson)
+
+
+LIVE_ID_KEYS = ('uuid', 'last_active_term', 'last_maximised_term', 'maximised_pane')
+
+
+def strip_live_ids(layout):
+    """Turn a described live layout into a reusable template (in place).
+
+    Live terminal uuids in a saved layout would give terminals opened from
+    it later the uuids of running ones, which share one scrollback cache
+    file (round-2 P1-3).
+    """
+    for node in (layout or {}).values():
+        if isinstance(node, dict):
+            for key in LIVE_ID_KEYS:
+                node.pop(key, None)
+    return layout
+
+
+def remap_layout_uuids(layout, new_uuid=None):
+    """Give every terminal of a (non-session) layout a fresh uuid (in place).
+
+    last_active_term references (a string on Window, a list on Notebook) are
+    rewritten with the same mapping so focus restore keeps working; ones that
+    point at no terminal of the layout are dropped.
+    """
+    import uuid as uuidmod
+    if new_uuid is None:
+        new_uuid = lambda: str(uuidmod.uuid4())
+    mapping = {}
+    for node in (layout or {}).values():
+        if not isinstance(node, dict):
+            continue
+        old = node.get('uuid')
+        if node.get('type') == 'Terminal' and old not in (None, ''):
+            fresh = mapping.get(str(old))
+            if fresh is None:
+                fresh = mapping[str(old)] = new_uuid()
+            node['uuid'] = fresh
+    for node in (layout or {}).values():
+        if not isinstance(node, dict) or 'last_active_term' not in node:
+            continue
+        lat = node['last_active_term']
+        if isinstance(lat, (list, tuple)):
+            node['last_active_term'] = [mapping.get(str(v), '') for v in lat]
+        elif lat not in (None, '') and str(lat) in mapping:
+            node['last_active_term'] = mapping[str(lat)]
+        else:
+            node.pop('last_active_term', None)
+    for node in (layout or {}).values():
+        if not isinstance(node, dict) or 'last_maximised_term' not in node:
+            continue
+        lmt = node['last_maximised_term']
+        if isinstance(lmt, (list, tuple)):
+            node['last_maximised_term'] = [mapping.get(str(v), '') for v in lmt]
+        elif lmt not in (None, '') and str(lmt) in mapping:
+            node['last_maximised_term'] = mapping[str(lmt)]
+        else:
+            node.pop('last_maximised_term', None)
+    return mapping
+
+
+def _is_window(widget):
+    try:
+        from .window import Window
+        return isinstance(widget, Window)
+    except Exception:
+        return False
+
+
+def terminal_is_excluded(terminal):
+    """True when the terminal's window is left out of the session.
+
+    m26 (a): the answer is recorded on the terminal every time it is asked
+    while the terminal is still inside a Window.  The fallback close path
+    (Terminal.close -> finalize(closing=self)) runs after the pane has been
+    detached, when get_toplevel() returns the pane itself; the recorded value
+    is used then, so a -e pane can't slip through and write its cache.
+    """
+    try:
+        toplevel = terminal.get_toplevel()
+    except Exception:
+        toplevel = None
+    if toplevel is not None and _is_window(toplevel):
+        excluded = bool(getattr(toplevel, '_session_excluded', False))
+        try:
+            terminal._session_window_excluded = excluded
+        except Exception:
+            pass
+        return excluded
+    if toplevel is not None and getattr(toplevel, '_session_excluded', None) \
+            is not None:
+        return bool(toplevel._session_excluded)
+    return bool(getattr(terminal, '_session_window_excluded', False))
+
+
+def _record_window_exclusion(window, excluded):
+    try:
+        terms = window.get_terminals()
+    except Exception:
+        terms = []
+    for term in terms or []:
+        try:
+            term._session_window_excluded = excluded
+        except Exception:
+            pass
+    return terms or []
+
+
+def note_window_grown(window):
+    """The user split / added a tab in an excluded window (round-2 P2-5).
+
+    `terminator -e htop` then split: the window has become ordinary work, so
+    it joins the session from now on (the command pane restores as a plain
+    shell in its directory).  Ignored while a layout is being built.
+
+    m26 (b): the window's existing panes are marked dirty in the scrollback
+    cache so the output they produced while excluded gets cached too.
+    """
+    try:
+        from .terminator import Terminator
+        if Terminator().doing_layout:
+            return
+    except Exception:
+        pass
+    if window is not None and getattr(window, '_session_excluded', False):
+        dbg('session: excluded window grew, now included')
+        window._session_excluded = False
+        terms = _record_window_exclusion(window, False)
+        try:
+            from .scrollback import ScrollbackCache
+            cache = ScrollbackCache()
+            for term in terms:
+                cache.mark_dirty(term)
+        except Exception as ex:
+            dbg('note_window_grown mark scrollback dirty: %s' % ex)
+        try_mark_dirty('excluded window grew')
+
+
+def merge_window_fragments(layout, fragments):
+    """D5: append buffered (already closed) windows to a live layout.
+
+    Each fragment is a self-contained ``{name: node}`` tree describing one
+    window (names from an independent describe, so they collide with the
+    live layout).  Every node gets a fresh, non-colliding name and its
+    ``parent`` is rewritten accordingly; the windows are appended as new
+    top-level windows.
+    """
+    merged = dict(layout)
+    used = set(merged)
+    live_has_window = any(isinstance(n, dict) and n.get('type') == 'Window'
+                          for n in merged.values())
+    for idx, frag in enumerate(fragments or []):
+        if not frag:
+            continue
+        mapping = {}
+        for name in frag:
+            new = 'd5w%d_%s' % (idx, name)
+            while new in used:
+                new += '_'
+            used.add(new)
+            mapping[name] = new
+        for name, node in frag.items():
+            if not isinstance(node, dict):
+                continue
+            node = stringify_leaves(deepcopy(node))
+            parent = node.get('parent') or ''
+            if parent:
+                if parent not in mapping:
+                    # Dangling parent: drop rather than attach to a live node
+                    continue
+                node['parent'] = mapping[parent]
+            if node.get('type') == 'Window' and live_has_window:
+                # The live window keeps focus on restore
+                node['last_active_window'] = 'False'
+            merged[mapping[name]] = node
+    return merged
+
+
+class SessionManager(Borg):
+    """Persist and restore layout + cwd session state."""
+
+    _timer = None
+    _periodic_timer = None
+    _last_change_hash = None
+    _lock_fd = None
+    _owns_session = None
+    final_saving = None
+    restored_this_run = None
+    _closing_buffer = None
+    _write_failures = None
+    _events_since_save = True
+    _idle_ticks = 0
+    _disabled = None
+    _loaded_session_uuids = None
+    _finalize_done = None
+    _crash_skipped = None
+    # m31 crash fallback state
+    crash_fallback_ok = False
+    # True when a rotated .prev/.prev2 was the crash source and session.json
+    # was left in place as the layout written during that restore.
+    _prefer_rotated_session = False
+    safe_restore = False
+    _fallback_restore = False
+    _crashed_sources = ()
+    _missing_dirs_notice = None
+    _signals_installed = None
+    _buffer_timer = None
+    _config = None
+    _rotated_this_run = None
+    _loaded_from = None
+    # m25: save requests dropped during layout / legacy zoom are replayed.
+    # NOTE: these _pending_* flags are diagnostic only (dbg/tests); the
+    # replay itself is driven by mark_dirty() from the layout-end / unzoom
+    # call sites, not by reading these flags.
+    _pending_after_layout = None
+    _pending_after_zoom = None
+    # m28: set once the GDK display is closed / lost. From then on the
+    # widget tree is being torn down abnormally and must never be saved.
+    _display_lost = None
+    _display_handler = None
+
+    def __init__(self):
+        Borg.__init__(self, self.__class__.__name__)
+        self.prepare_attributes()
+
+    def prepare_attributes(self):
+        if self._timer is None:
+            self._timer = None
+        if self._periodic_timer is None:
+            self._periodic_timer = None
+        if self._last_change_hash is None:
+            self._last_change_hash = None
+        if self._lock_fd is None:
+            self._lock_fd = None
+        if self._owns_session is None:
+            self._owns_session = False
+        if self.final_saving is None:
+            self.final_saving = False
+        if self.restored_this_run is None:
+            self.restored_this_run = False
+        if self._closing_buffer is None:
+            self._closing_buffer = None
+        if self._write_failures is None:
+            self._write_failures = 0
+        if self._disabled is None:
+            self._disabled = False
+        if self._loaded_session_uuids is None:
+            self._loaded_session_uuids = None
+        if self._finalize_done is None:
+            self._finalize_done = False
+        if self._crash_skipped is None:
+            self._crash_skipped = False
+        if self._missing_dirs_notice is None:
+            self._missing_dirs_notice = None
+        if self._signals_installed is None:
+            self._signals_installed = False
+        if self._display_lost is None:
+            self._display_lost = False
+        if self._buffer_timer is None:
+            self._buffer_timer = None
+        if self._config is None:
+            self._config = None
+        if self._rotated_this_run is None:
+            self._rotated_this_run = False
+        if getattr(self, '_skip_suspended', None) is None:
+            self._skip_suspended = False
+
+    # --- paths ----------------------------------------------------------
+
+    def state_dir(self):
+        path = get_state_dir()
+        try:
+            os.makedirs(path, mode=0o700, exist_ok=True)
+            tighten_dir(path)
+        except OSError as ex:
+            err('SessionManager.state_dir: %s' % ex)
+        return path
+
+    def session_path(self):
+        custom = ''
+        try:
+            custom = self._get_config_value('session_file', '') or ''
+        except Exception:
+            custom = ''
+        if custom:
+            return os.path.expanduser(custom)
+        return os.path.join(self.state_dir(), 'session.json')
+
+    def lock_path(self):
+        return os.path.join(self.state_dir(), 'session.lock')
+
+    def restoring_path(self):
+        return os.path.join(self.state_dir(), 'restoring')
+
+    def _get_config_value(self, key, default=None):
+        try:
+            from .config import Config
+            cfg = Config()
+            if key in cfg:
+                return cfg[key]
+        except Exception:
+            pass
+        return default
+
+    def _delay_ms(self):
+        try:
+            return int(self._get_config_value('session_save_delay_ms', 1500) or 1500)
+        except (TypeError, ValueError):
+            return 1500
+
+    # --- lock / ownership -----------------------------------------------
+
+    def acquire_lock(self):
+        """Non-blocking exclusive flock on session.lock. Returns True on success."""
+        if self._lock_fd is not None:
+            return True
+        try:
+            fd = os.open(self.lock_path(), os.O_CREAT | os.O_RDWR, 0o600)
+            fcntl.flock(fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            self._lock_fd = fd
+            dbg('SessionManager: acquired session lock')
+            return True
+        except (OSError, IOError) as ex:
+            dbg('SessionManager: could not acquire lock: %s' % ex)
+            try:
+                if 'fd' in locals():
+                    os.close(fd)
+            except Exception:
+                pass
+            self._lock_fd = None
+            return False
+
+    def set_owner_from_options(self, options):
+        """Decide session ownership (D10, revised in m21).
+
+        The lock holder owns the session regardless of its own launch
+        options.  Previously a first instance started with -e/-x/-l NAME/
+        --working-directory took the lock but never wrote, so every later
+        plain window (arriving over DBus into that process) went unsaved for
+        the whole run.  Now such explicit windows are merely excluded from
+        the saved layout (see exclude_windows), and launch options only
+        affect whether the last session is *restored*.
+        --no-restore skips restore only; the owner still writes.
+        """
+        if self._lock_fd is None:
+            self._owns_session = False
+            return
+        self._owns_session = True
+        dbg('SessionManager: this process owns the session')
+
+    def exclude_windows(self, windows):
+        """Leave windows created by an explicit launch out of the session."""
+        for window in windows or []:
+            try:
+                window._session_excluded = True
+            except Exception:
+                pass
+            _record_window_exclusion(window, True)
+
+    def is_writer(self):
+        return bool(self._owns_session and self._lock_fd is not None and
+                    not self._disabled)
+
+    def is_owner(self):
+        """Same ownership as writer, ignoring temporary _disabled."""
+        return bool(self._owns_session and self._lock_fd is not None)
+
+    def writes_suspended(self):
+        """True after suspend_writes (prefs clear / use-previous)."""
+        return bool(self._disabled)
+
+    def suspend_writes(self, reason=''):
+        """Stop writing session.json (and scrollback) for the rest of this run.
+
+        Used by the preferences "clear" / "use previous session" actions so
+        that the running instance does not overwrite the result at exit.
+        """
+        dbg('SessionManager.suspend_writes: %s' % reason)
+        self._disabled = True
+        if self._timer is not None:
+            try:
+                from gi.repository import GLib
+                GLib.source_remove(self._timer)
+            except Exception:
+                pass
+            self._timer = None
+        try:
+            from .scrollback import ScrollbackCache
+            ScrollbackCache().stop(join_timeout=1.0)
+        except Exception as ex:
+            dbg('SessionManager.suspend_writes scrollback: %s' % ex)
+
+    def resume_writes(self, reason=''):
+        """Undo suspend_writes for this run and start the cache again."""
+        if not self._disabled:
+            return
+        dbg('SessionManager.resume_writes: %s' % reason)
+        self._disabled = False
+        try:
+            from .scrollback import ScrollbackCache
+            ScrollbackCache().start()
+        except Exception as ex:
+            dbg('SessionManager.resume_writes scrollback: %s' % ex)
+
+    def skip_next_path(self):
+        return os.path.join(self.state_dir(), 'skip-next-restore')
+
+    def skip_next_armed(self):
+        """True when this run asked the next plain launch not to restore.
+
+        Does not create the state directory; opening a menu must not do that.
+        """
+        return os.path.isfile(os.path.join(get_state_dir(), 'skip-next-restore'))
+
+    def arm_skip_next_restore(self):
+        """Skip the next plain launch once, and stop this run from saving.
+
+        The session file stays. The next plain launch deletes the mark and
+        opens a new window; later launches save and restore as usual.
+        """
+        path = self.skip_next_path()
+        try:
+            fd = os.open(path, os.O_CREAT | os.O_WRONLY | os.O_TRUNC, 0o600)
+            os.close(fd)
+        except OSError as ex:
+            err('SessionManager.arm_skip_next_restore: %s' % ex)
+            return False
+        self.suspend_writes('skip next restore')
+        self._skip_suspended = True
+        return True
+
+    def _drop_skip_next_marker(self):
+        try:
+            os.unlink(self.skip_next_path())
+            return True
+        except OSError:
+            return False
+
+    def cancel_skip_next_restore(self):
+        """Remove the one-shot mark and resume saving if that mark suspended it.
+
+        A clear or "use previous session" also suspends writes. Unchecking
+        the menu must not start saving again after those.
+        """
+        if not self.skip_next_armed():
+            return False
+        if not self._drop_skip_next_marker():
+            return False
+        if getattr(self, '_skip_suspended', False):
+            self._skip_suspended = False
+            self.resume_writes('cancel skip next restore')
+        return True
+
+    def consume_skip_next_restore(self):
+        """True once, when a previous run marked this launch to skip restore."""
+        if not self.skip_next_armed():
+            return False
+        if not self._drop_skip_next_marker():
+            err('SessionManager.consume_skip_next_restore: marker remains')
+            return False
+        dbg('SessionManager: consumed skip-next-restore')
+        return True
+
+    # --- dirty / flush --------------------------------------------------
+
+    def _any_legacy_zoom(self):
+        try:
+            from .terminator import Terminator
+            from .zoomguard import any_legacy_zoom
+            # Overlay maximise should NOT skip; only legacy/scaled zoom
+            return any_legacy_zoom(Terminator().windows)
+        except Exception as ex:
+            dbg('SessionManager._any_legacy_zoom: %s' % ex)
+        return False
+
+    def mark_dirty(self, reason=''):
+        """Schedule a debounced save. Existing timer is not reset."""
+        if reason != 'periodic':
+            self._events_since_save = True
+        try:
+            from .terminator import Terminator
+            if Terminator().doing_layout:
+                # m25: remember; layout_done() replays one save
+                self._pending_after_layout = True
+                return
+        except Exception:
+            pass
+        if self.final_saving or not self.is_writer():
+            return
+        if self._check_display_lost():
+            return
+        if self._any_legacy_zoom():
+            # m25: legacy zoom detaches other panes; defer until unzoom
+            self._pending_after_zoom = True
+            dbg('SessionManager.mark_dirty deferred (legacy zoom): %s' % reason)
+            return
+        self._pending_after_layout = False
+        self._pending_after_zoom = False
+        if self._timer is not None:
+            return
+        delay = max(100, self._delay_ms())
+        if self._write_failures:
+            # Back off after write failures (unwritable session_file)
+            backoff = min(SAVE_BACKOFF_MAX_S,
+                          2 ** min(self._write_failures, 9)) * 1000
+            delay = max(delay, int(backoff))
+        try:
+            from gi.repository import GLib
+            self._timer = GLib.timeout_add(delay, self._flush)
+            dbg('SessionManager.mark_dirty(%s) timer %dms' % (reason, delay))
+        except Exception as ex:
+            err('SessionManager.mark_dirty: %s' % ex)
+            # Fall back to immediate flush without GLib
+            self._flush()
+
+    def _overlay_animating(self):
+        """m37: a pane maximise/restore animation is running somewhere."""
+        try:
+            from .terminator import Terminator
+            for window in Terminator().windows:
+                ov = getattr(window, '_overlay', None)
+                if ov is not None and ov.is_animating():
+                    return True
+        except Exception as ex:
+            dbg('SessionManager._overlay_animating: %s' % ex)
+        return False
+
+    def _flush(self):
+        self._timer = None
+        # m37: don't describe/write the session in the middle of a maximise
+        # animation (a dropped frame); retry right after it. The animation
+        # watchdog bounds this, the counter is a second safety net.
+        deferrals = getattr(self, '_anim_deferrals', 0) or 0
+        if deferrals < ANIM_DEFER_MAX and self._overlay_animating():
+            self._anim_deferrals = deferrals + 1
+            try:
+                from gi.repository import GLib
+                self._timer = GLib.timeout_add(ANIM_DEFER_MS, self._flush)
+                return False
+            except Exception as ex:
+                dbg('SessionManager._flush defer: %s' % ex)
+        self._anim_deferrals = 0
+        try:
+            self.save_now(final=False)
+        except Exception as ex:
+            err('SessionManager._flush: %s' % ex)
+        return False
+
+    def _ensure_periodic(self):
+        if self._periodic_timer is not None or not self.is_writer():
+            return
+        try:
+            from gi.repository import GLib
+            self._periodic_timer = GLib.timeout_add_seconds(
+                PERIODIC_MARK_DIRTY_S, self._periodic_tick)
+        except Exception as ex:
+            dbg('SessionManager periodic timer: %s' % ex)
+
+    def _periodic_tick(self):
+        if not self.is_writer() or self.final_saving:
+            self._periodic_timer = None
+            return False
+        # m33: skip the O(panes) describe when nothing was marked dirty
+        # since the last successful save (idle CPU); still force one every
+        # PERIODIC_FORCE_EVERY ticks for changes that emit no event.
+        self._idle_ticks = (getattr(self, '_idle_ticks', 0) or 0) + 1
+        if (not getattr(self, '_events_since_save', True)
+                and self._idle_ticks < PERIODIC_FORCE_EVERY):
+            return True
+        self._idle_ticks = 0
+        self.mark_dirty('periodic')
+        return True
+
+    # --- describe / save ------------------------------------------------
+
+    def _describe_current(self):
+        from .terminator import Terminator
+        term = Terminator()
+        # Refresh paned ratios before describe when possible
+        try:
+            for window in term.windows:
+                self._refresh_ratios(window)
+        except Exception as ex:
+            dbg('SessionManager ratio refresh: %s' % ex)
+        return self._describe_windows(
+            [w for w in term.windows
+             if not getattr(w, '_session_excluded', False)])
+
+    @staticmethod
+    def _describe_windows(windows):
+        layout = {}
+        count = 0
+        for window in windows:
+            count = window.describe_layout(count, '', layout, 0, True)
+        return layout
+
+    def _refresh_ratios(self, widget):
+        maker = None
+        try:
+            from .factory import Factory
+            maker = Factory()
+        except Exception:
+            return
+        try:
+            if hasattr(widget, 'ratio') and hasattr(widget, 'ratio_by_position'):
+                if hasattr(widget, 'get_realized') and widget.get_realized():
+                    new_ratio = widget.ratio_by_position(
+                        widget.get_length(), widget.get_handlesize(),
+                        widget.get_position())
+                    if new_ratio is not None:
+                        widget.ratio = new_ratio
+        except Exception:
+            pass
+        try:
+            children = widget.get_children() if hasattr(widget, 'get_children') else []
+            for child in children:
+                if child is not None:
+                    self._refresh_ratios(child)
+        except Exception:
+            pass
+
+    def save_now(self, final=False):
+        """Write session.json. Requires is_writer() even when final=True."""
+        if not self.is_writer():
+            dbg('SessionManager.save_now: not writer, skip (final=%s)' % final)
+            return False
+        if self._check_display_lost():
+            # m28: X connection gone / display closed: windows are being
+            # destroyed without a user close; keep the last good file.
+            err('SessionManager.save_now: display lost, keeping previous '
+                'session file (final=%s)' % final)
+            return False
+        if not final and self._any_legacy_zoom():
+            # m25: a timer scheduled before zoom must not write the
+            # detached (one-pane) tree; replay after unzoom instead.
+            self._pending_after_zoom = True
+            dbg('SessionManager.save_now: legacy zoom, deferred')
+            return False
+        if final and self._any_legacy_zoom():
+            # m25: finalize() unzooms first; if that failed the tree is
+            # still detached (one pane). Keep the last good file instead.
+            err('SessionManager.save_now: still zoomed at final save, '
+                'keeping previous session file')
+            return False
+        try:
+            layout = self._describe_current()
+        except Exception as ex:
+            err('SessionManager.save_now describe: %s' % ex)
+            return False
+
+        fragments = []
+        if final and self._closing_buffer:
+            fragments = list(self._closing_buffer.get('windows') or [])
+        if count_terminals_in_layout(layout) == 0 and not fragments:
+            dbg('SessionManager.save_now: 0 terminals, not writing')
+            return False
+
+        layout = stringify_leaves(layout)
+        # Window titles: Container.describe_layout only emits user-set
+        # (persisted) forced titles, marked title_forced, so they are kept.
+        if fragments:
+            # D5: windows closed in the last few seconds; renamed so their
+            # node names cannot collide with the live layout (P0-1).
+            layout = merge_window_fragments(layout, fragments)
+
+        if count_terminals_in_layout(layout) == 0:
+            dbg('SessionManager.save_now: still 0 terminals after merge')
+            return False
+
+        # A normal exit keeps locked tabs only. The file written while the
+        # process is still running stays complete, so a kill restores it.
+        dropped = set()
+        if final:
+            before_ids = collect_terminal_uuids(layout)
+            layout = retain_locked_tabs(layout)
+            dropped = before_ids - collect_terminal_uuids(layout)
+
+        change = layout_change_hash(layout)
+        if not final and change == self._last_change_hash:
+            dbg('SessionManager.save_now: unchanged, skip')
+            self._events_since_save = False
+            return True
+
+        payload = {
+            'version': SESSION_VERSION,
+            'saved_at': _now_iso(),
+            'terminator_version': self._terminator_version(),
+            # live: crash / kill should restore every tab.
+            # clean: a normal exit already dropped unlocked tabs.
+            'exit': 'clean' if final else 'live',
+            'layout': layout,
+        }
+        path = self.session_path()
+        try:
+            before_replace = None
+            if not self._rotated_this_run:
+                # Keep the previous run's session as .prev before the first
+                # write of this run (a failed/partial restore or
+                # --no-restore must not silently replace it).
+                # m26 P1-1: rotate only once the new file is fully written
+                # (tmp + fsync), so a failed first write (ENOSPC/EIO/quota)
+                # leaves session.json untouched.
+                before_replace = self._rotate_session
+            self._atomic_write_json(path, payload,
+                                    before_replace=before_replace)
+            if before_replace is not None:
+                self._rotated_this_run = True
+            self._last_change_hash = change
+            self._write_failures = 0
+            self._events_since_save = False
+            if final:
+                self._clean_dropped_uuids = dropped
+            dbg('SessionManager.save_now: wrote %s (final=%s)' % (path, final))
+            return True
+        except OSError as ex:
+            self._write_failures += 1
+            err('SessionManager.save_now write failed (%d): %s' %
+                (self._write_failures, ex))
+            return False
+
+    def _terminator_version(self):
+        try:
+            from .version import APP_VERSION
+            return APP_VERSION
+        except Exception:
+            return 'unknown'
+
+    def _rotate_session(self, path):
+        prev = path + '.prev'
+        prev2 = path + '.prev2'
+        if not os.path.exists(path):
+            return
+        try:
+            if os.path.exists(prev):
+                os.replace(prev, prev2)
+                self._retarget_marker(path, {'.prev': '.prev2',
+                                             '.prev2': None})
+            if os.path.exists(path):
+                os.replace(path, prev)
+                self._retarget_marker(path, {'': '.prev'})
+        except OSError as ex:
+            dbg('SessionManager rotate: %s' % ex)
+
+    def _read_marker(self):
+        """Return the crash marker's lines, or None if there is none."""
+        try:
+            with open(self.restoring_path(), 'r', encoding='utf-8') as fh:
+                return fh.read().splitlines()
+        except FileNotFoundError:
+            return None
+        except (OSError, UnicodeDecodeError) as ex:
+            dbg('SessionManager marker read: %s' % ex)
+            return None
+
+    def _retarget_marker(self, path, moves):
+        """m27: keep the restore marker's source name pointing at the file
+        that actually holds the session being restored.
+
+        A save during restore (marker present) rotates session.json -> .prev
+        -> .prev2; without this a crash would quarantine the wrong file and
+        leave the real source to be restored again (crash loop). moves maps
+        a suffix of path ('' = session.json itself) to its new suffix, or
+        None if that file was overwritten.
+        """
+        lines = self._read_marker()
+        if not lines:
+            return
+        base = os.path.basename(path)
+        cur = lines[1].strip() if len(lines) > 1 else ''
+        if not cur:
+            # Legacy/no-source marker: the source was session.json itself.
+            cur = base
+        if not cur.startswith(base):
+            return
+        suffix = cur[len(base):]
+        if suffix not in moves:
+            return
+        target = moves[suffix]
+        new_lines = [lines[0] if lines else _now_iso()]
+        # '-' = source overwritten; must not read as a legacy (no-source)
+        # marker on the next rotation.
+        new_lines.append(base + target if target is not None else '-')
+        # m31: keep extra marker lines (e.g. the fallback flag).
+        new_lines.extend(lines[2:])
+        marker = self.restoring_path()
+        tmp = marker + '.tmp'
+        try:
+            with open(tmp, 'w', encoding='utf-8') as fh:
+                fh.write('\n'.join(new_lines) + '\n')
+            os.chmod(tmp, 0o600)
+            os.replace(tmp, marker)
+        except OSError as ex:
+            dbg('SessionManager marker retarget: %s' % ex)
+            try:
+                os.unlink(tmp)
+            except OSError:
+                pass
+
+    def _atomic_write_json(self, path, payload, before_replace=None):
+        """Write payload to a tmp file, fsync, then os.replace onto path.
+
+        before_replace(path), if given, runs after the tmp file is fully on
+        disk and before it replaces path (m26 P1-1: rotation of the old
+        session must not happen before the new one is known to be written).
+        """
+        directory = os.path.dirname(path) or '.'
+        os.makedirs(directory, mode=0o700, exist_ok=True)
+        fd, tmp = tempfile.mkstemp(dir=directory, suffix='.tmp',
+                                   prefix='.session-')
+        try:
+            os.fchmod(fd, 0o600)
+            with os.fdopen(fd, 'w', encoding='utf-8') as fh:
+                json.dump(payload, fh, ensure_ascii=False, indent=2)
+                fh.flush()
+                os.fsync(fh.fileno())
+            if before_replace is not None:
+                before_replace(path)
+            os.replace(tmp, path)
+            try:
+                dirfd = os.open(directory, os.O_RDONLY)
+                try:
+                    os.fsync(dirfd)
+                finally:
+                    os.close(dirfd)
+            except OSError:
+                pass
+        except Exception:
+            try:
+                os.unlink(tmp)
+            except OSError:
+                pass
+            raise
+
+    # --- load / crash marker --------------------------------------------
+
+    def load(self):
+        """Load session.json, falling back to .prev / .prev2.
+
+        An unreadable/invalid session.json is quarantined (.bad/.corrupt) and,
+        like a missing one, the newest valid rotated copy is used instead
+        (m26 P1-1: a failed first write of a run, e.g. disk full, must not
+        make the next launch restore nothing). Returns None if none is valid.
+        """
+        path = self.session_path()
+        self._loaded_from = None
+        self._fallback_restore = False
+        self.safe_restore = False
+        for candidate in (path, path + '.prev', path + '.prev2'):
+            data = self._load_file(candidate)
+            if data is not None:
+                self._loaded_from = candidate
+                if candidate != path:
+                    err('SessionManager.load: session.json missing/invalid, '
+                        'using %s' % os.path.basename(candidate))
+                else:
+                    dbg('SessionManager.load: using %s' % candidate)
+                return data
+        return None
+
+    def _load_file(self, path):
+        """Parse one session file; invalid files are quarantined → None."""
+        if not os.path.isfile(path):
+            return None
+        try:
+            with open(path, 'r', encoding='utf-8') as fh:
+                data = json.load(fh)
+        except Exception as ex:
+            err('SessionManager.load: parse failed: %s' % ex)
+            self._quarantine(path, '.bad')
+            return None
+        if not isinstance(data, dict):
+            err('SessionManager.load: not a session object (%s)' %
+                type(data).__name__)
+            self._quarantine(path, '.corrupt')
+            return None
+        version = data.get('version')
+        try:
+            version = int(version)
+        except (TypeError, ValueError):
+            version = None
+        if version is None or version > SESSION_VERSION:
+            err('SessionManager.load: unsupported version %r' % version)
+            self._quarantine(path, '.bad')
+            return None
+        if 'layout' not in data or not isinstance(data['layout'], dict):
+            err('SessionManager.load: missing layout')
+            self._quarantine(path, '.corrupt')
+            return None
+        return data
+
+    def _quarantine(self, path, suffix):
+        try:
+            os.replace(path, path + suffix)
+        except OSError as ex:
+            dbg('SessionManager quarantine: %s' % ex)
+
+    def restore_failed(self, ex=None):
+        """create_layout of the restored session blew up: keep a copy of
+        the file as .bad (the following writes would replace it) and do not
+        try to feed caches for uuids that never got a terminal."""
+        err('SessionManager: restoring the last session failed: %s' % ex)
+        path = self.session_path()
+        src = getattr(self, '_loaded_from', None) or path
+        # m27: a save during restore may have rotated the source file; the
+        # crash marker tracks where it lives now ('-' = overwritten).
+        lines = self._read_marker()
+        if lines and len(lines) > 1 and lines[1].strip():
+            name = os.path.basename(lines[1].strip())
+            base = os.path.basename(path)
+            if name in (base, base + '.prev', base + '.prev2'):
+                src = os.path.join(os.path.dirname(path), name)
+            elif name == '-':
+                src = None
+        try:
+            if src and os.path.isfile(src):
+                import shutil
+                shutil.copy2(src, path + '.bad')
+                if src != path:
+                    # m26 review: a rotated fallback that failed to restore
+                    # must not be retried on every launch.
+                    os.replace(src, src + '.bad')
+        except OSError as e:
+            dbg('SessionManager.restore_failed copy: %s' % e)
+        self.restored_this_run = False
+        self.clear_restoring_now()
+
+    def sanitize_layout(self, layout):
+        missing = []
+        result = sanitize_layout(layout, missing_dirs=missing)
+        if missing:
+            self._missing_dirs_notice = missing
+        return result
+
+    def begin_restore(self):
+        path = self.restoring_path()
+        try:
+            with open(path, 'w', encoding='utf-8') as fh:
+                fh.write(_now_iso())
+                fh.write('\n')
+                # m26 post-review: remember which file is being restored so
+                # a hard crash quarantines it (a rotated .prev would
+                # otherwise be retried, crash-looping every other launch).
+                src = getattr(self, '_loaded_from', None)
+                if src or self._fallback_restore:
+                    fh.write(os.path.basename(src or ''))
+                    fh.write('\n')
+                if self._fallback_restore:
+                    # m31: a crash during a fallback restore must go empty.
+                    fh.write(FALLBACK_MARKER_FLAG)
+                    fh.write('\n')
+            os.chmod(path, 0o600)
+        except OSError as ex:
+            err('SessionManager.begin_restore: %s' % ex)
+
+    def clear_restoring_now(self):
+        path = self.restoring_path()
+        try:
+            if os.path.exists(path):
+                os.unlink(path)
+        except OSError as ex:
+            dbg('SessionManager.clear_restoring_now: %s' % ex)
+
+    def schedule_clear_restoring(self):
+        try:
+            from gi.repository import GLib
+            GLib.timeout_add_seconds(RESTORING_CLEAR_DELAY_S,
+                                     self._clear_restoring_cb)
+        except Exception as ex:
+            dbg('SessionManager.schedule_clear_restoring: %s' % ex)
+            self.clear_restoring_now()
+
+    def _clear_restoring_cb(self):
+        self.clear_restoring_now()
+        return False
+
+    def check_crash_marker(self):
+        """True if restoring marker still present (previous restore crashed).
+
+        The crashed source is quarantined as *.crashed. m31: unless the
+        crashed restore was itself a fallback restore, crash_fallback_ok is
+        set so the caller may use load_crash_fallback() instead of starting
+        empty; a second crash (fallback flag in the marker) never falls back.
+        """
+        path = self.restoring_path()
+        self.crash_fallback_ok = False
+        self._prefer_rotated_session = False
+        self._crashed_sources = []
+        if not os.path.exists(path):
+            return False
+        session = self.session_path()
+        src = None
+        was_fallback = False
+        try:
+            with open(path, 'r', encoding='utf-8') as fh:
+                lines = fh.read().splitlines()
+            if len(lines) > 1:
+                name = os.path.basename(lines[1].strip())
+                base = os.path.basename(session)
+                if name in (base + '.prev', base + '.prev2'):
+                    src = os.path.join(os.path.dirname(session), name)
+            was_fallback = FALLBACK_MARKER_FLAG in [l.strip() for l in lines[2:]]
+        except (OSError, ValueError) as ex:
+            # ValueError: undecodable marker (UnicodeDecodeError) must not
+            # abort startup (m27).
+            dbg('SessionManager crash marker read: %s' % ex)
+        # A marker that names .prev/.prev2, and is not itself a fallback,
+        # crashed the rotated source. The session.json still on disk is the
+        # layout saved during that restore, so leave it.
+        if src and not was_fallback:
+            victims = (src,)
+            self._prefer_rotated_session = True
+        else:
+            victims = (session, src)
+        for victim in victims:
+            if victim and os.path.isfile(victim):
+                dest = self._quarantine_crashed(victim)
+                if dest:
+                    self._crashed_sources.append(dest)
+        self.clear_restoring_now()
+        self._crash_skipped = True
+        self.crash_fallback_ok = not was_fallback
+        if was_fallback:
+            err('SessionManager: fallback restore crashed too; '
+                'starting with an empty window')
+        return True
+
+    def _quarantine_crashed(self, victim):
+        """Rename victim to *.crashed without clobbering an older one."""
+        dest = victim + '.crashed'
+        n = 1
+        while os.path.exists(dest):
+            dest = '%s.crashed.%d' % (victim, n)
+            n += 1
+        try:
+            os.replace(victim, dest)
+            return dest
+        except OSError as ex:
+            dbg('SessionManager crash rename: %s' % ex)
+            return None
+
+    def load_crash_fallback(self):
+        """m31: after a crash marker, restore the newest good candidate.
+
+        When the marker named a rotated .prev/.prev2 and was not itself a
+        fallback, session.json is the layout written during that restore and
+        is tried first. Otherwise the order is .prev, then .prev2 (full
+        restore), then the quarantined *.crashed file in safe mode (layout
+        and cwd only: no scrollback replay; commands are already stripped by
+        sanitize_layout). The restore is flagged as a fallback so a second
+        crash goes empty. None if nothing usable.
+        """
+        path = self.session_path()
+        self._loaded_from = None
+        self._fallback_restore = False
+        self.safe_restore = False
+        if not getattr(self, 'crash_fallback_ok', False):
+            return None
+        # The flag, not "the file still exists", decides whether session.json
+        # is the post-rotation layout. A rename that failed must not qualify.
+        ordered = []
+        if getattr(self, '_prefer_rotated_session', False):
+            ordered.append(path)
+        ordered.extend((path + '.prev', path + '.prev2'))
+        for candidate in ordered:
+            data = self._load_file(candidate)
+            if data is not None:
+                self._loaded_from = candidate
+                self._fallback_restore = True
+                err('SessionManager: previous restore crashed, falling back '
+                    'to %s' % os.path.basename(candidate))
+                return data
+        # newest quarantine first (a stale older *.crashed may exist and
+        # push this run's copy to *.crashed.N).
+        crashed = list(getattr(self, '_crashed_sources', None) or [])
+        for candidate in crashed:
+            data = self._load_file(candidate)
+            if data is not None:
+                self._loaded_from = candidate
+                self._fallback_restore = True
+                self.safe_restore = True
+                err('SessionManager: previous restore crashed, restoring '
+                    'layout only (no scrollback) from %s' %
+                    os.path.basename(candidate))
+                return data
+        return None
+
+    def clear_session_files(self):
+        path = self.session_path()
+        for candidate in [path, path + '.prev', path + '.prev2',
+                          path + '.bad', path + '.corrupt', path + '.crashed',
+                          self.restoring_path(), self.skip_next_path()] + sorted(
+                              glob.glob(glob.escape(path) + '*.crashed*')):
+            try:
+                if os.path.exists(candidate):
+                    os.unlink(candidate)
+            except OSError as ex:
+                dbg('SessionManager.clear_session_files: %s' % ex)
+        try:
+            from .scrollback import ScrollbackCache
+            ScrollbackCache().clear_all()
+        except Exception as ex:
+            dbg('SessionManager clear scrollback: %s' % ex)
+        self._last_change_hash = None
+        self._loaded_session_uuids = None
+        self._skip_suspended = False
+
+    def restore_prev_session(self):
+        """Copy session.json.prev over session.json for next launch.
+
+        Suspend writes only after that copy is in place, so a failed
+        replace leaves this process saving the layout it already had.
+        """
+        path = self.session_path()
+        prev = path + '.prev'
+        if not os.path.isfile(prev):
+            return False
+        try:
+            with open(prev, 'r', encoding='utf-8') as fh:
+                data = json.load(fh)
+            if not isinstance(data, dict) or \
+                    not isinstance(data.get('layout'), dict):
+                raise ValueError('malformed %s' % prev)
+        except Exception as ex:
+            err('SessionManager.restore_prev_session: %s' % ex)
+            return False
+        try:
+            self._atomic_write_json(path, data)
+        except Exception as ex:
+            err('SessionManager.restore_prev_session: %s' % ex)
+            return False
+        self._drop_skip_next_marker()
+        self._skip_suspended = False
+        self.suspend_writes('restore previous session')
+        return True
+
+    # --- D5 buffer / will_persist ---------------------------------------
+
+    def note_window_closing(self, window):
+        """Capture a self-contained layout of a window about to close (D5)."""
+        if not self.is_writer() or self.final_saving:
+            return
+        if getattr(window, '_session_excluded', False):
+            return
+        if self._check_display_lost():
+            return
+        # Round-2 P2-1: a legacy (scaled) zoom hides the other panes; unzoom
+        # like finalize() does so the fragment holds the whole window.
+        from .zoomguard import leave_zoom
+        leave_zoom(window, legacy=True, overlay=False,
+                   reason='note_window_closing')
+        try:
+            self._refresh_ratios(window)
+        except Exception:
+            pass
+        try:
+            fragment = stringify_leaves(self._describe_windows([window]))
+        except Exception as ex:
+            err('SessionManager.note_window_closing describe: %s' % ex)
+            return
+        if count_terminals_in_layout(fragment) == 0:
+            return
+        uuids = collect_terminal_uuids(fragment)
+
+        if self._closing_buffer is None:
+            self._closing_buffer = {
+                'deadline': time.time() + QUIT_ALL_WINDOW_GRACE_S,
+                'windows': [],
+                'uuids': set(),
+            }
+        else:
+            self._closing_buffer['deadline'] = (
+                time.time() + QUIT_ALL_WINDOW_GRACE_S)
+        self._closing_buffer['windows'].append(fragment)
+        self._closing_buffer['uuids'].update(uuids)
+        self._arm_buffer_timeout()
+        dbg('SessionManager.note_window_closing: %d nodes, %d uuids' %
+            (len(fragment), len(uuids)))
+
+    def _arm_buffer_timeout(self):
+        if self._buffer_timer is not None:
+            try:
+                from gi.repository import GLib
+                GLib.source_remove(self._buffer_timer)
+            except Exception:
+                pass
+            self._buffer_timer = None
+        try:
+            from gi.repository import GLib
+            self._buffer_timer = GLib.timeout_add_seconds(
+                int(QUIT_ALL_WINDOW_GRACE_S) + 1, self._buffer_timeout_cb)
+        except Exception as ex:
+            dbg('SessionManager buffer timer: %s' % ex)
+
+    def _buffer_timeout_cb(self):
+        self._buffer_timer = None
+        buf = self._closing_buffer
+        if not buf:
+            return False
+        if time.time() < buf.get('deadline', 0):
+            # Reschedule remainder
+            remaining = max(1, int(buf['deadline'] - time.time()) + 1)
+            try:
+                from gi.repository import GLib
+                self._buffer_timer = GLib.timeout_add_seconds(
+                    remaining, self._buffer_timeout_cb)
+            except Exception:
+                pass
+            return False
+        discard = set(buf.get('uuids') or set())
+        # Keep uuids still open. If the list itself cannot be read, drop
+        # nothing: the buffer may still name a terminal that is open.
+        try:
+            from .terminator import Terminator
+            still = set()
+            for term in Terminator().terminals:
+                if getattr(term, 'uuid', None) is not None:
+                    still.add(str(term.uuid))
+            discard -= still
+        except Exception:
+            discard = set()
+        if discard:
+            try:
+                from .scrollback import ScrollbackCache
+                ScrollbackCache().discard_uuids(discard)
+            except Exception as ex:
+                dbg('SessionManager discard_uuids: %s' % ex)
+        self._closing_buffer = None
+        dbg('SessionManager D5 buffer expired, discarded %d uuids' %
+            len(discard))
+        return False
+
+    def will_persist(self, terminal):
+        """Whether this terminal's uuid will appear in the next restored session."""
+        uuid_obj = getattr(terminal, 'uuid', None)
+        if uuid_obj is None:
+            return False
+        uid = str(uuid_obj)
+        # Round-2 P2-4: terminals of excluded (-e / -x / -l NAME) windows are
+        # never restored, so their caches must not be kept either.
+        if terminal_is_excluded(terminal):
+            return False
+        if self.final_saving and self.is_writer():
+            # Unlocked tabs were omitted from the clean session file.
+            dropped = getattr(self, '_clean_dropped_uuids', None) or ()
+            if uid in dropped:
+                return False
+            return True
+        if (self._closing_buffer and
+                uid in (self._closing_buffer.get('uuids') or set())):
+            return True
+        # Still-open terminal during normal run → closing that one terminal
+        # alone should NOT persist (B deletes). Caller asks at close time:
+        # if terminal is being closed and not in D5/final, return False.
+        # Convention from design: "uuid 属于仍打开窗口且 is_writer（常规运行中
+        # close 某终端 → False）". So open terminals that are NOT being
+        # closed aren't asked; when asked at close, only final/D5 → True.
+        return False
+
+    def session_uuids(self):
+        if self._loaded_session_uuids is None:
+            return None
+        return set(self._loaded_session_uuids)
+
+    # --- finalize / signals ---------------------------------------------
+
+    def finalize(self, closing=None):
+        """Final save + scrollback flush, once per run.
+
+        closing: a terminal that is being closed and has already been
+        deregistered (Terminal.close fallback); it is flushed together with
+        the registered ones so its latest output is not lost (round-2 P1-2).
+        """
+        if self._finalize_done:
+            return
+        self._finalize_done = True
+        try:
+            if self.is_writer():
+                self.final_saving = True
+                try:
+                    # Legacy zoom: unzoom before describe so tree is complete
+                    self._unzoom_legacy_all()
+                except Exception as ex:
+                    dbg('SessionManager unzoom on finalize: %s' % ex)
+                try:
+                    self.save_now(final=True)
+                except Exception as ex:
+                    err('SessionManager.finalize save: %s' % ex)
+                self.clear_restoring_now()
+            try:
+                from .scrollback import ScrollbackCache
+                cache = ScrollbackCache()
+                if self.is_writer() and not self._check_display_lost():
+                    # m28: after display loss the VTEs may already be
+                    # unrealized/half destroyed; keep the last flushed caches.
+                    cache.flush_all(sync=True, final=True,
+                                    extra=[closing] if closing else None)
+                    dropped = getattr(self, '_clean_dropped_uuids', None)
+                    if dropped:
+                        cache.discard_uuids(dropped)
+                cache.stop(join_timeout=1.0)
+            except Exception as ex:
+                dbg('scrollback finalize: %s' % ex)
+            try:
+                from .terminator import Terminator
+                from .zoomguard import leave_overlay_all
+                leave_overlay_all(Terminator().windows, reason='finalize')
+            except Exception as ex:
+                dbg('overlay restore on finalize: %s' % ex)
+        finally:
+            if self._closing_buffer is not None:
+                self._closing_buffer = None
+            if self._timer is not None:
+                try:
+                    from gi.repository import GLib
+                    GLib.source_remove(self._timer)
+                except Exception:
+                    pass
+                self._timer = None
+
+    # --- m28: display loss guard ---------------------------------------
+
+    @staticmethod
+    def _display_is_closed(display):
+        try:
+            return bool(display.is_closed())
+        except Exception:
+            return False
+
+    def _check_display_lost(self):
+        """True if the display is (or was) lost. Sticky once set.
+
+        Only an explicitly closed default display counts; a missing default
+        display (unit tests, headless helpers) is not treated as lost so the
+        normal save path keeps working without GDK.
+        """
+        if self._display_lost:
+            return True
+        try:
+            from gi.repository import Gdk
+            display = Gdk.Display.get_default()
+        except Exception:
+            return False
+        if display is not None and self._display_is_closed(display):
+            self.note_display_lost('display is_closed')
+            return True
+        return False
+
+    def note_display_lost(self, reason=''):
+        """Freeze session writes: the display went away under us."""
+        if self._display_lost:
+            return
+        self._display_lost = True
+        err('SessionManager: display lost (%s); session autosave frozen' %
+            reason)
+        # Drop the pending debounce timer and the D5 buffer: anything
+        # captured from here on reflects the teardown, not the user's layout.
+        if self._timer is not None:
+            try:
+                from gi.repository import GLib
+                GLib.source_remove(self._timer)
+            except Exception:
+                pass
+            self._timer = None
+        self._closing_buffer = None
+
+    def _on_display_closed(self, display, is_error=False):
+        self.note_display_lost('closed signal, is_error=%s' % is_error)
+
+    def watch_display(self, display=None):
+        """Connect to GdkDisplay::closed (idempotent)."""
+        if self._display_handler is not None:
+            return True
+        try:
+            if display is None:
+                from gi.repository import Gdk
+                display = Gdk.Display.get_default()
+            if display is None:
+                return False
+            self._display_handler = (display, display.connect(
+                'closed', self._on_display_closed))
+            return True
+        except Exception as ex:
+            dbg('SessionManager.watch_display: %s' % ex)
+            return False
+
+    def _unzoom_legacy_all(self):
+        from .terminator import Terminator
+        from .zoomguard import leave_legacy_zoom_all
+        leave_legacy_zoom_all(Terminator().windows, reason='finalize')
+
+    def install_signal_handlers(self):
+        if self._signals_installed:
+            return
+        self._signals_installed = True
+        # Warn if legacy session plugins are enabled
+        try:
+            from .config import Config
+            enabled = Config()['enabled_plugins'] or []
+            for name in ('SaveLastSessionLayout', 'SaveUserSessionLayout'):
+                if name in enabled:
+                    err('SessionManager: plugin %s is enabled; prefer built-in '
+                        'session restore and disable the plugin' % name)
+        except Exception:
+            pass
+        try:
+            import signal
+            from gi.repository import GLib
+            for sig in (signal.SIGTERM, signal.SIGHUP, signal.SIGINT):
+                try:
+                    GLib.unix_signal_add(GLib.PRIORITY_DEFAULT, sig,
+                                         self._on_unix_signal, sig)
+                except AttributeError:
+                    # Older bindings
+                    try:
+                        from gi.repository import GLibUnix
+                        GLibUnix.signal_add(GLib.PRIORITY_DEFAULT, sig,
+                                            self._on_unix_signal, sig)
+                    except Exception as ex:
+                        dbg('unix_signal_add fallback: %s' % ex)
+        except Exception as ex:
+            err('SessionManager.install_signal_handlers: %s' % ex)
+        self.watch_display()
+        self._ensure_periodic()
+
+    def _on_unix_signal(self, sig):
+        dbg('SessionManager: got signal %s' % sig)
+        try:
+            self.finalize()
+        except Exception as ex:
+            err('SessionManager signal finalize: %s' % ex)
+        try:
+            from gi.repository import Gtk
+            Gtk.main_quit()
+        except Exception as ex:
+            err('SessionManager signal main_quit: %s' % ex)
+        try:
+            from gi.repository import GLib
+            return GLib.SOURCE_REMOVE
+        except Exception:
+            return False
+
+
+def try_mark_dirty(reason=''):
+    """Convenience for call sites that should never raise."""
+    try:
+        SessionManager().mark_dirty(reason)
+    except Exception as ex:
+        dbg('try_mark_dirty: %s' % ex)

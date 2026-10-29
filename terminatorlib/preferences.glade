@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Generated with glade 3.38.2 -->
 <interface>
-  <requires lib="gtk+" version="3.10"/>
+  <requires lib="gtk+" version="3.22"/>
   <object class="GtkListStore" id="AskBeforeCloseListStore">
     <columns>
       <!-- column-name askwhenclose -->
@@ -111,6 +111,9 @@
       </row>
       <row>
         <col id="0" translatable="yes">Gruvbox dark</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Deep teal</col>
       </row>
       <row>
         <col id="0" translatable="yes">Custom</col>
@@ -304,6 +307,30 @@
       <column type="gboolean"/>
     </columns>
   </object>
+  <object class="GtkAdjustment" id="PaneAnimExpandAdjustment">
+    <property name="upper">1000</property>
+    <property name="step-increment">10</property>
+    <property name="page-increment">50</property>
+  </object>
+  <object class="GtkAdjustment" id="PaneAnimRestoreAdjustment">
+    <property name="upper">1000</property>
+    <property name="step-increment">10</property>
+    <property name="page-increment">50</property>
+  </object>
+  <object class="GtkAdjustment" id="ReadingMeasureMinColsAdjustment">
+    <property name="lower">20</property>
+    <property name="upper">200</property>
+    <property name="value">60</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="ScrollbackCacheLinesAdjustment">
+    <property name="lower">100</property>
+    <property name="upper">100000</property>
+    <property name="value">2000</property>
+    <property name="step-increment">100</property>
+    <property name="page-increment">1000</property>
+  </object>
   <object class="GtkAdjustment" id="ScrollbackAdjustmend">
     <property name="upper">10000000</property>
     <property name="step-increment">1</property>
@@ -470,6 +497,18 @@
             <property name="visible">True</property>
             <property name="can-focus">True</property>
             <child>
+              <object class="GtkScrolledWindow" id="global_page_scroller">
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="hscrollbar-policy">never</property>
+                <property name="propagate-natural-width">True</property>
+                <property name="propagate-natural-height">True</property>
+                <child>
+                  <object class="GtkViewport" id="global_page_viewport">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="shadow-type">none</property>
+                    <child>
               <object class="GtkBox" id="vbox5">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
@@ -1444,7 +1483,7 @@
                                     <property name="width">2</property>
                                   </packing>
                                 </child>
-                              </object>
+                                </object>
                               <packing>
                                 <property name="expand">True</property>
                                 <property name="fill">True</property>
@@ -1468,6 +1507,10 @@
                   </packing>
                 </child>
               </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
             </child>
             <child type="tab">
               <object class="GtkLabel" id="label1">
@@ -1476,6 +1519,417 @@
                 <property name="label" translatable="yes">Global</property>
               </object>
               <packing>
+                <property name="tab-fill">False</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkScrolledWindow" id="panes_page_scroller">
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="hscrollbar-policy">never</property>
+                <property name="propagate-natural-width">True</property>
+                <property name="propagate-natural-height">True</property>
+                <child>
+                  <object class="GtkViewport" id="panes_page_viewport">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="shadow-type">none</property>
+                    <child>
+              <object class="GtkBox" id="panes_page_box">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="border-width">18</property>
+                <property name="orientation">vertical</property>
+                <property name="spacing">18</property>
+                <child>
+                  <object class="GtkBox" id="panes_title_box">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="orientation">vertical</property>
+                    <child>
+                      <object class="GtkLabel" id="panes_title_label">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="label" translatable="yes">&lt;b&gt;Title bars&lt;/b&gt;</property>
+                        <property name="use-markup">True</property>
+                        <property name="xalign">0</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkGrid" id="panes_title_grid">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="margin-start">12</property>
+                        <property name="margin-top">6</property>
+                        <property name="row-spacing">8</property>
+                        <property name="column-spacing">12</property>
+                        <child>
+                          <object class="GtkCheckButton" id="titlebar_buttons_checkbutton">
+                            <property name="label" translatable="yes">Show buttons in terminal title bars</property>
+                            <property name="visible">True</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">False</property>
+                            <property name="xalign">0</property>
+                            <property name="draw-indicator">True</property>
+                            <property name="tooltip-text" translatable="yes">Settings, maximise and close buttons on each pane title bar (right-click menu stays available)</property>
+                            <signal name="toggled" handler="on_titlebar_buttons_checkbutton_toggled" swapped="no"/>
+                          </object>
+                          <packing>
+                            <property name="left-attach">0</property>
+                            <property name="top-attach">0</property>
+                            <property name="width">2</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkCheckButton" id="titlebar_show_icon_checkbutton">
+                            <property name="label" translatable="yes">Show icon at the left of terminal title bars</property>
+                            <property name="visible">True</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">False</property>
+                            <property name="xalign">0</property>
+                            <property name="draw-indicator">True</property>
+                            <property name="tooltip-text" translatable="yes">Terminal and grouping icons on each pane title bar. When hidden, grouping stays available from the right-click menu and the group shortcuts.</property>
+                            <signal name="toggled" handler="on_titlebar_show_icon_checkbutton_toggled" swapped="no"/>
+                          </object>
+                          <packing>
+                            <property name="left-attach">0</property>
+                            <property name="top-attach">1</property>
+                            <property name="width">2</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="titlebar_density_label">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="label" translatable="yes">Title bar density:</property>
+                            <property name="xalign">0</property>
+                          </object>
+                          <packing>
+                            <property name="left-attach">0</property>
+                            <property name="top-attach">2</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkComboBoxText" id="titlebar_density_combo">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="hexpand">True</property>
+                            <property name="active-id">standard</property>
+                            <items>
+                              <item id="standard" translatable="yes">Standard</item>
+                              <item id="compact" translatable="yes">Compact</item>
+                            </items>
+                            <signal name="changed" handler="on_titlebar_density_combo_changed" swapped="no"/>
+                          </object>
+                          <packing>
+                            <property name="left-attach">1</property>
+                            <property name="top-attach">2</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="pane_accent_color_label">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="label" translatable="yes">Focused pane accent colour:</property>
+                            <property name="xalign">0</property>
+                          </object>
+                          <packing>
+                            <property name="left-attach">0</property>
+                            <property name="top-attach">3</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkColorButton" id="pane_accent_colorbutton">
+                            <property name="visible">True</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">True</property>
+                            <property name="halign">start</property>
+                            <property name="title" translatable="yes">Focused pane accent colour</property>
+                            <property name="rgba">rgb(63,185,80)</property>
+                            <signal name="color-set" handler="on_pane_accent_colorbutton_color_set" swapped="no"/>
+                          </object>
+                          <packing>
+                            <property name="left-attach">1</property>
+                            <property name="top-attach">3</property>
+                          </packing>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkBox" id="panes_max_box">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="orientation">vertical</property>
+                    <child>
+                      <object class="GtkLabel" id="panes_max_label">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="label" translatable="yes">&lt;b&gt;Maximise&lt;/b&gt;</property>
+                        <property name="use-markup">True</property>
+                        <property name="xalign">0</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkGrid" id="panes_max_grid">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="margin-start">12</property>
+                        <property name="margin-top">6</property>
+                        <property name="row-spacing">8</property>
+                        <property name="column-spacing">12</property>
+                        <child>
+                          <object class="GtkCheckButton" id="pane_overlay_maximise_checkbutton">
+                            <property name="label" translatable="yes">Maximise panes as an overlay (animated)</property>
+                            <property name="visible">True</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">False</property>
+                            <property name="xalign">0</property>
+                            <property name="draw-indicator">True</property>
+                            <property name="tooltip-text" translatable="yes">Maximise one pane over the others inside the window; off uses the classic zoom</property>
+                            <signal name="toggled" handler="on_pane_overlay_maximise_checkbutton_toggled" swapped="no"/>
+                          </object>
+                          <packing>
+                            <property name="left-attach">0</property>
+                            <property name="top-attach">0</property>
+                            <property name="width">2</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="reduce_motion_label">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="label" translatable="yes">Reduce motion:</property>
+                            <property name="xalign">0</property>
+                          </object>
+                          <packing>
+                            <property name="left-attach">0</property>
+                            <property name="top-attach">1</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkComboBoxText" id="reduce_motion_combo">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="hexpand">True</property>
+                            <property name="active-id">system</property>
+                            <items>
+                              <item id="system" translatable="yes">Follow system</item>
+                              <item id="on" translatable="yes">On (no zoom animation)</item>
+                              <item id="off" translatable="yes">Off</item>
+                            </items>
+                            <signal name="changed" handler="on_reduce_motion_combo_changed" swapped="no"/>
+                          </object>
+                          <packing>
+                            <property name="left-attach">1</property>
+                            <property name="top-attach">1</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="pane_anim_expand_label">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="label" translatable="yes">Maximise animation (ms):</property>
+                            <property name="xalign">0</property>
+                          </object>
+                          <packing>
+                            <property name="left-attach">0</property>
+                            <property name="top-attach">2</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkSpinButton" id="pane_anim_expand_spinbutton">
+                            <property name="visible">True</property>
+                            <property name="can-focus">True</property>
+                            <property name="halign">start</property>
+                            <property name="adjustment">PaneAnimExpandAdjustment</property>
+                            <property name="numeric">True</property>
+                            <signal name="value-changed" handler="on_pane_anim_expand_spinbutton_value_changed" swapped="no"/>
+                          </object>
+                          <packing>
+                            <property name="left-attach">1</property>
+                            <property name="top-attach">2</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="pane_anim_restore_label">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="label" translatable="yes">Restore animation (ms):</property>
+                            <property name="xalign">0</property>
+                          </object>
+                          <packing>
+                            <property name="left-attach">0</property>
+                            <property name="top-attach">3</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkSpinButton" id="pane_anim_restore_spinbutton">
+                            <property name="visible">True</property>
+                            <property name="can-focus">True</property>
+                            <property name="halign">start</property>
+                            <property name="adjustment">PaneAnimRestoreAdjustment</property>
+                            <property name="numeric">True</property>
+                            <signal name="value-changed" handler="on_pane_anim_restore_spinbutton_value_changed" swapped="no"/>
+                          </object>
+                          <packing>
+                            <property name="left-attach">1</property>
+                            <property name="top-attach">3</property>
+                          </packing>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkBox" id="panes_font_box">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="orientation">vertical</property>
+                    <child>
+                      <object class="GtkLabel" id="panes_font_label">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="label" translatable="yes">&lt;b&gt;Font scaling&lt;/b&gt;</property>
+                        <property name="use-markup">True</property>
+                        <property name="xalign">0</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkGrid" id="panes_font_grid">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="margin-start">12</property>
+                        <property name="margin-top">6</property>
+                        <property name="row-spacing">8</property>
+                        <property name="column-spacing">12</property>
+                        <child>
+                          <object class="GtkCheckButton" id="auto_font_scale_checkbutton">
+                            <property name="label" translatable="yes">Automatically shrink font in small panes</property>
+                            <property name="visible">True</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">False</property>
+                            <property name="xalign">0</property>
+                            <property name="draw-indicator">True</property>
+                            <property name="tooltip-text" translatable="yes">Each terminal steps its font down (100% / 90% / 80%) when it has fewer columns or rows than the reading measure</property>
+                            <signal name="toggled" handler="on_auto_font_scale_checkbutton_toggled" swapped="no"/>
+                          </object>
+                          <packing>
+                            <property name="left-attach">0</property>
+                            <property name="top-attach">0</property>
+                            <property name="width">2</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkCheckButton" id="auto_font_scale_badge_checkbutton">
+                            <property name="label" translatable="yes">Show font scale badge in title bar</property>
+                            <property name="visible">True</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">False</property>
+                            <property name="xalign">0</property>
+                            <property name="draw-indicator">True</property>
+                            <property name="tooltip-text" translatable="yes">Show a percent badge when a pane is scaled below 100% or locked</property>
+                            <signal name="toggled" handler="on_auto_font_scale_badge_checkbutton_toggled" swapped="no"/>
+                          </object>
+                          <packing>
+                            <property name="left-attach">0</property>
+                            <property name="top-attach">1</property>
+                            <property name="width">2</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="reading_measure_label">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="label" translatable="yes">Reading measure (min columns):</property>
+                            <property name="xalign">0</property>
+                          </object>
+                          <packing>
+                            <property name="left-attach">0</property>
+                            <property name="top-attach">2</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkSpinButton" id="reading_measure_spinbutton">
+                            <property name="visible">True</property>
+                            <property name="can-focus">True</property>
+                            <property name="halign">start</property>
+                            <property name="adjustment">ReadingMeasureMinColsAdjustment</property>
+                            <property name="numeric">True</property>
+                            <signal name="value-changed" handler="on_reading_measure_spinbutton_value_changed" swapped="no"/>
+                          </object>
+                          <packing>
+                            <property name="left-attach">1</property>
+                            <property name="top-attach">2</property>
+                          </packing>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">2</property>
+                  </packing>
+                </child>
+              </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child type="tab">
+              <object class="GtkLabel" id="panes_tab_label">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="label" translatable="yes">Panes</property>
+              </object>
+              <packing>
+                <property name="position">1</property>
                 <property name="tab-fill">False</property>
               </packing>
             </child>
@@ -2364,7 +2818,7 @@
                                         <property name="halign">start</property>
                                         <property name="margin-top">3</property>
                                         <property name="model">ColourSchemeListStore</property>
-                                        <property name="active">2</property>
+                                        <property name="active">11</property>
                                         <signal name="changed" handler="on_color_scheme_combobox_changed" swapped="no"/>
                                         <child>
                                           <object class="GtkCellRendererText" id="cellrenderertext6"/>
@@ -3239,7 +3693,7 @@
                       </packing>
                     </child>
                     <child>
-                      <!-- n-columns=2 n-rows=5 -->
+                      <!-- n-columns=2 n-rows=6 -->
                       <object class="GtkGrid" id="grid14">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
@@ -3413,6 +3867,25 @@
                           <packing>
                             <property name="left-attach">1</property>
                             <property name="top-attach">4</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkCheckButton" id="scrollbar_hide_in_alt_screen_checkbutton">
+                            <property name="label" translatable="yes">Hide scrollbar in _fullscreen apps (vim, less, htop…)</property>
+                            <property name="use-action-appearance">False</property>
+                            <property name="visible">True</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">False</property>
+                            <property name="tooltip-text" translatable="yes">Automatically hide the scrollbar while a program uses the alternate screen, and restore it when the program exits.</property>
+                            <property name="use-underline">True</property>
+                            <property name="xalign">0</property>
+                            <property name="draw-indicator">True</property>
+                            <signal name="toggled" handler="on_scrollbar_hide_in_alt_screen_checkbutton_toggled" swapped="no"/>
+                          </object>
+                          <packing>
+                            <property name="left-attach">0</property>
+                            <property name="top-attach">5</property>
+                            <property name="width">2</property>
                           </packing>
                         </child>
                       </object>
@@ -3849,7 +4322,7 @@
                 </child>
               </object>
               <packing>
-                <property name="position">1</property>
+                <property name="position">2</property>
               </packing>
             </child>
             <child type="tab">
@@ -3859,7 +4332,7 @@
                 <property name="label" translatable="yes">Profiles</property>
               </object>
               <packing>
-                <property name="position">1</property>
+                <property name="position">2</property>
                 <property name="tab-fill">False</property>
               </packing>
             </child>
@@ -4139,7 +4612,7 @@
                 </child>
               </object>
               <packing>
-                <property name="position">2</property>
+                <property name="position">3</property>
               </packing>
             </child>
             <child type="tab">
@@ -4149,7 +4622,304 @@
                 <property name="label" translatable="yes">Layouts</property>
               </object>
               <packing>
-                <property name="position">2</property>
+                <property name="position">3</property>
+                <property name="tab-fill">False</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkScrolledWindow" id="session_page_scroller">
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="hscrollbar-policy">never</property>
+                <property name="propagate-natural-width">True</property>
+                <property name="propagate-natural-height">True</property>
+                <child>
+                  <object class="GtkViewport" id="session_page_viewport">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="shadow-type">none</property>
+                    <child>
+              <object class="GtkBox" id="session_page_box">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="border-width">18</property>
+                <property name="orientation">vertical</property>
+                <property name="spacing">18</property>
+                <child>
+                  <object class="GtkBox" id="session_section_box">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="orientation">vertical</property>
+                    <property name="spacing">6</property>
+                    <child>
+                      <object class="GtkLabel" id="session_section_label">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="label" translatable="yes">&lt;b&gt;Session&lt;/b&gt;</property>
+                        <property name="use-markup">True</property>
+                        <property name="xalign">0</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkBox" id="session_section_inner">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="margin-start">12</property>
+                        <property name="orientation">vertical</property>
+                        <property name="spacing">6</property>
+                        <child>
+                          <object class="GtkCheckButton" id="restore_last_session_checkbutton">
+                            <property name="label" translatable="yes">Restore last session on startup (layout and working directories)</property>
+                            <property name="visible">True</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">False</property>
+                            <property name="tooltip-text" translatable="yes">The session is saved automatically whenever the layout or a working directory changes. Launching with -l, -e, -x, --working-directory, -j or --no-restore does not restore it.</property>
+                            <property name="xalign">0</property>
+                            <property name="active">True</property>
+                            <property name="draw-indicator">True</property>
+                            <signal name="toggled" handler="on_restore_last_session_checkbutton_toggled" swapped="no"/>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="session_info_label">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="label">-</property>
+                            <property name="wrap">True</property>
+                            <property name="selectable">True</property>
+                            <property name="xalign">0</property>
+                            <style>
+                              <class name="dim-label"/>
+                            </style>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkButtonBox" id="session_buttonbox">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="spacing">6</property>
+                            <property name="layout-style">start</property>
+                            <child>
+                              <object class="GtkButton" id="session_save_as_layout_button">
+                                <property name="label" translatable="yes">Save as layout</property>
+                                <property name="visible">True</property>
+                                <property name="can-focus">True</property>
+                                <property name="receives-default">False</property>
+                                <property name="tooltip-text" translatable="yes">Store the current windows, splits and working directories as a new named layout</property>
+                                <signal name="clicked" handler="on_session_save_as_layout_button_clicked" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkButton" id="session_restore_prev_button">
+                                <property name="label" translatable="yes">Use previous session next time</property>
+                                <property name="visible">True</property>
+                                <property name="can-focus">True</property>
+                                <property name="receives-default">False</property>
+                                <property name="tooltip-text" translatable="yes">Replace the saved session with the one from before the last exit. Automatic saving is paused until Terminator restarts.</property>
+                                <signal name="clicked" handler="on_session_restore_prev_button_clicked" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkButton" id="session_clear_button">
+                                <property name="label" translatable="yes">Clear session and cache…</property>
+                                <property name="visible">True</property>
+                                <property name="can-focus">True</property>
+                                <property name="receives-default">False</property>
+                                <property name="tooltip-text" translatable="yes">Delete the saved session and cached scrollback. Automatic saving is paused until Terminator restarts.</property>
+                                <signal name="clicked" handler="on_session_clear_button_clicked" swapped="no"/>
+                                <style>
+                                  <class name="destructive-action"/>
+                                </style>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">2</property>
+                              </packing>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">2</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="session_legacy_plugin_label">
+                            <property name="can-focus">False</property>
+                            <property name="no-show-all">True</property>
+                            <property name="label" translatable="yes">A legacy session plugin (SaveLastSessionLayout / SaveUserSessionLayout) is enabled. Built-in session restore replaces it; consider disabling it on the Plugins tab.</property>
+                            <property name="wrap">True</property>
+                            <property name="xalign">0</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">3</property>
+                          </packing>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkBox" id="scrollback_cache_section_box">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="orientation">vertical</property>
+                    <property name="spacing">6</property>
+                    <child>
+                      <object class="GtkLabel" id="scrollback_cache_section_label">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="label" translatable="yes">&lt;b&gt;Scrollback cache&lt;/b&gt;</property>
+                        <property name="use-markup">True</property>
+                        <property name="xalign">0</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <!-- n-columns=2 n-rows=3 -->
+                      <object class="GtkGrid" id="scrollback_cache_grid">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="margin-start">12</property>
+                        <property name="row-spacing">6</property>
+                        <property name="column-spacing">12</property>
+                        <child>
+                          <object class="GtkCheckButton" id="scrollback_cache_checkbutton">
+                            <property name="label" translatable="yes">Restore recent terminal output (read-only cache)</property>
+                            <property name="visible">True</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">False</property>
+                            <property name="tooltip-text" translatable="yes">Periodically saves the last lines of each terminal (with colours) and replays them above the new prompt after a session restore. It is only a cache: running programs are not restored.</property>
+                            <property name="xalign">0</property>
+                            <property name="active">True</property>
+                            <property name="draw-indicator">True</property>
+                            <signal name="toggled" handler="on_scrollback_cache_checkbutton_toggled" swapped="no"/>
+                          </object>
+                          <packing>
+                            <property name="left-attach">0</property>
+                            <property name="top-attach">0</property>
+                            <property name="width">2</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="scrollback_cache_lines_label">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="label" translatable="yes">Lines kept per terminal:</property>
+                            <property name="xalign">0</property>
+                          </object>
+                          <packing>
+                            <property name="left-attach">0</property>
+                            <property name="top-attach">1</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkSpinButton" id="scrollback_cache_lines_spinbutton">
+                            <property name="visible">True</property>
+                            <property name="can-focus">True</property>
+                            <property name="halign">start</property>
+                            <property name="adjustment">ScrollbackCacheLinesAdjustment</property>
+                            <property name="climb-rate">100</property>
+                            <property name="numeric">True</property>
+                            <property name="value">2000</property>
+                            <signal name="value-changed" handler="on_scrollback_cache_lines_spinbutton_value_changed" swapped="no"/>
+                          </object>
+                          <packing>
+                            <property name="left-attach">1</property>
+                            <property name="top-attach">1</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="scrollback_cache_info_label">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="label">-</property>
+                            <property name="wrap">True</property>
+                            <property name="selectable">True</property>
+                            <property name="xalign">0</property>
+                            <style>
+                              <class name="dim-label"/>
+                            </style>
+                          </object>
+                          <packing>
+                            <property name="left-attach">0</property>
+                            <property name="top-attach">2</property>
+                            <property name="width">2</property>
+                          </packing>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+              </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="position">4</property>
+              </packing>
+            </child>
+            <child type="tab">
+              <object class="GtkLabel" id="session_tab_label">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="label" translatable="yes">Session</property>
+              </object>
+              <packing>
+                <property name="position">4</property>
                 <property name="tab-fill">False</property>
               </packing>
             </child>
@@ -4236,7 +5006,7 @@
                 </child>
               </object>
               <packing>
-                <property name="position">3</property>
+                <property name="position">5</property>
               </packing>
             </child>
             <child type="tab">
@@ -4246,7 +5016,7 @@
                 <property name="label" translatable="yes">Keybindings</property>
               </object>
               <packing>
-                <property name="position">3</property>
+                <property name="position">5</property>
                 <property name="tab-fill">False</property>
               </packing>
             </child>
@@ -4315,7 +5085,7 @@
                 </child>
               </object>
               <packing>
-                <property name="position">4</property>
+                <property name="position">6</property>
               </packing>
             </child>
             <child type="tab">
@@ -4325,7 +5095,7 @@
                 <property name="label" translatable="yes">Plugins</property>
               </object>
               <packing>
-                <property name="position">4</property>
+                <property name="position">6</property>
                 <property name="tab-fill">False</property>
               </packing>
             </child>
@@ -4377,7 +5147,7 @@
                           <object class="GtkLabel" id="label26">
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
-                            <property name="label" translatable="yes">Terminator</property>
+                            <property name="label" translatable="yes">TerminatorX</property>
                             <attributes>
                               <attribute name="size" value="30000"/>
                             </attributes>
@@ -4411,7 +5181,7 @@
                           <object class="GtkLabel" id="about_version_label">
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
-                            <property name="label" translatable="yes">Version: 2.1.6</property>
+                            <property name="label">Version: 2.1.6+fork.1</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -4497,7 +5267,7 @@ Much of the behavior of Terminator is based on GNOME Terminal, and we are adding
                 </child>
               </object>
               <packing>
-                <property name="position">5</property>
+                <property name="position">7</property>
               </packing>
             </child>
             <child type="tab">
@@ -4507,7 +5277,7 @@ Much of the behavior of Terminator is based on GNOME Terminal, and we are adding
                 <property name="label" translatable="yes">About</property>
               </object>
               <packing>
-                <property name="position">5</property>
+                <property name="position">7</property>
                 <property name="tab-fill">False</property>
               </packing>
             </child>
@@ -4541,7 +5311,7 @@ Much of the behavior of Terminator is based on GNOME Terminal, and we are adding
             </child>
             <child>
               <object class="GtkButton" id="restoreconfigbutton">
-                <property name="label">Discard Changes</property>
+                <property name="label" translatable="yes">Discard Changes</property>
                 <property name="use-action-appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>

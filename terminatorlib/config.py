@@ -84,15 +84,15 @@ DEFAULTS = {
         'global_config':   {
             'dbus'                  : True,
             'focus'                 : 'click',
-            'handle_size'           : -1,
+            'handle_size'           : 1,
             'geometry_hinting'      : False,
             'window_state'          : 'normal',
             'borderless'            : False,
             'extra_styling'         : True,
-            'tab_position'          : 'top',
+            'tab_position'          : 'left',
             'broadcast_default'     : 'group',
             'close_button_on_tab'   : True,
-            'scroll_tabbar'         : False,
+            'scroll_tabbar'         : True,
             'homogeneous_tabbar'    : True,
             'hide_from_taskbar'     : False,
             'always_on_top'         : False,
@@ -106,6 +106,26 @@ DEFAULTS = {
                                        'LaunchpadCodeURLHandler',
                                        'APTURLHandler'],
             'ask_before_closing'    : 'multiple_terminals',
+            'restore_last_session'  : True,
+            'session_save_delay_ms' : 1500,
+            'session_file'          : '',
+            'close_confirm_ignore'  : ['gitstatusd', 'ssh-agent', 'gpg-agent', 'dbus-daemon'],
+            'titlebar_buttons'      : True,
+            'titlebar_show_icon'    : False,
+            'titlebar_density'      : 'standard',
+            'pane_accent_color'     : '#3fb950',
+            'pane_overlay_maximise' : True,
+            'pane_animation_expand_ms': 200,
+            'pane_animation_restore_ms': 160,
+            'reduce_motion'         : 'system',
+            'auto_font_scale'       : True,
+            'auto_font_scale_show_badge': True,
+            'auto_font_scale_tiers' : ['1.0', '0.9', '0.8'],
+            'reading_measure_min_cols': 60,
+            'reading_measure_ideal_cols': 0,
+            'auto_font_scale_min_rows': 8,
+            'auto_font_scale_hysteresis': 0.08,
+            'auto_font_scale_delay_ms': 150,
             'always_split_with_profile': False,
             'putty_paste_style'     : False,
             'putty_paste_style_source_clipboard': False,
@@ -114,19 +134,41 @@ DEFAULTS = {
             'clear_select_on_copy'  : False,
             'cell_width'            : 1.0,
             'cell_height'           : 1.0,
-            'case_sensitive'        : True,
+            'case_sensitive'        : False,
+            'search_whole_word'     : False,
+            'search_regex'          : False,
+            'search_wrap'           : True,
             'invert_search'         : False,
             'link_single_click'     : False,
             'title_at_bottom'       : False,
+            # Desktop window title: 'focused' follows the last-focused
+            # terminal (OSC titles from other panes are ignored);
+            # 'fixed' always shows window_title_fixed.
+            'window_title_mode'     : 'focused',
+            'window_title_fixed'    : 'TerminatorX',
             'detachable_tabs'       : True,
 
             'new_tab_after_current_tab': False,
-            'window_decoration_style': 'auto',
+            # light: white header bar (traffic-light buttons stay the
+            # theme's light set). auto follows the terminal background,
+            # which turns the header dark on the deep-teal profile.
+            'window_decoration_style': 'light',
+
+            # Scrollback text cache (module B) — defaults ON
+            'scrollback_cache'            : True,
+            'scrollback_cache_color'      : True,
+            'scrollback_cache_lines'      : 2000,
+            'scrollback_cache_interval_s' : 20,
+            'scrollback_cache_max_kb'     : 512,
+            'scrollback_cache_total_mb'   : 20,
+            'scrollback_cache_ttl_days'   : 7,
+            'scrollback_cache_exclude_profiles': [],
+            'scrollback_cache_exclude_commands': [],
         },
         'keybindings': {
             'zoom'             : '',
             'unzoom'           : '',
-            'maximise'         : '',
+            'maximise'         : '<Shift><Control>Return',
             'open_debug_tab'   : '',
             'zoom_in'          : '<Control>plus',
             'zoom_out'         : '<Control>minus',
@@ -170,6 +212,7 @@ DEFAULTS = {
             'move_tab_left'    : '<Shift><Control>Page_Up',
             'toggle_zoom'      : '<Shift><Control>x',
             'scaled_zoom'      : '<Shift><Control>z',
+            'restore_maximised': '<Shift>Escape',
             'next_tab'         : '<Control>Page_Down',
             'prev_tab'         : '<Control>Page_Up',
             'switch_to_tab_1'  : '',
@@ -221,7 +264,7 @@ DEFAULTS = {
                 'visible_bell'          : False,
                 'urgent_bell'           : False,
                 'icon_bell'             : True,
-                'background_color'      : '#000000',
+                'background_color'      : '#163841',
                 'background_darkness'   : 0.5,
                 'background_type'       : 'solid',
                 'background_image'      : '',
@@ -240,16 +283,17 @@ DEFAULTS = {
                 'term'                  : 'xterm-256color',
                 'colorterm'             : 'truecolor',
                 'font'                  : 'Mono 10',
-                'foreground_color'      : '#aaaaaa',
+                'foreground_color'      : '#c6d3d5',
                 'show_titlebar'         : True,
                 'scrollbar_position'    : "right",
+                'scrollbar_hide_in_alt_screen': True,
                 'scroll_on_keystroke'   : True,
                 'scroll_on_output'      : False,
                 'scrollback_lines'      : 500,
                 'scrollback_infinite'   : False,
                 'disable_mousewheel_zoom': False,
                 'exit_action'           : 'close',
-                'palette'               : '#2e3436:#cc0000:#4e9a06:#c4a000:\
+                'palette'               : '#000000:#cc0000:#4e9a06:#c4a000:\
 #3465a4:#75507b:#06989a:#d3d7cf:#555753:#ef2929:#8ae234:#fce94f:\
 #729fcf:#ad7fa8:#34e2e2:#eeeeec',
                 'word_chars'            : '-,./?%&#:_',
@@ -260,8 +304,6 @@ DEFAULTS = {
                 'use_system_font'       : True,
                 'use_theme_colors'      : False,
                 'bold_is_bright'        : False,
-                'cell_height'           : 1.0,
-                'cell_width'            : 1.0,
                 'force_no_bell'         : False,
                 'copy_on_selection'     : False,
                 'split_to_group'        : False,
@@ -269,12 +311,15 @@ DEFAULTS = {
                 'http_proxy'            : '',
                 # Titlebar
                 'title_hide_sizetext'     : False,
-                'title_transmit_fg_color' : '#ffffff',
-                'title_transmit_bg_color' : '#c80003',
+                # White bars, same as the window header. The focus ring
+                # uses this background; the receive (group/broadcast)
+                # colour stays distinct.
+                'title_transmit_fg_color' : '#1d1d1f',
+                'title_transmit_bg_color' : '#ffffff',
                 'title_receive_fg_color'  : '#ffffff',
                 'title_receive_bg_color'  : '#0076c9',
-                'title_inactive_fg_color' : '#000000',
-                'title_inactive_bg_color' : '#c0bebf',
+                'title_inactive_fg_color' : '#6e6e73',
+                'title_inactive_bg_color' : '#ffffff',
                 'title_use_system_font'   : True,
                 'title_font'              : 'Sans 9'
             },
@@ -344,6 +389,8 @@ class Config(object):
 
     def del_profile(self, profile):
         """Delete a profile"""
+        if profile == 'default':
+            return
         if profile == self.profile:
             # FIXME: We should solve this problem by updating terminals when we
             # remove a profile
@@ -357,12 +404,21 @@ class Config(object):
             self.options_set(options)
 
     def rename_profile(self, profile, newname):
-        """Rename a profile"""
-        if profile in self.base.profiles:
-            self.base.profiles[newname] = self.base.profiles[profile]
-            del(self.base.profiles[profile])
-            if profile == self.profile:
-                self.profile = newname
+        """Rename a profile. Return False when the rename is refused."""
+        if profile not in self.base.profiles:
+            return False
+        if newname == profile:
+            return True
+        if profile == 'default':
+            return False
+        from .configjson import JSON_PROFILE_NAME
+        if newname == JSON_PROFILE_NAME or newname in self.base.profiles:
+            return False
+        self.base.profiles[newname] = self.base.profiles[profile]
+        del self.base.profiles[profile]
+        if profile == self.profile:
+            self.profile = newname
+        return True
 
     def list_profiles(self):
         """List all configured profiles"""
@@ -382,24 +438,44 @@ class Config(object):
             del(self.base.layouts[layout])
 
     def rename_layout(self, layout, newname):
-        """Rename a layout"""
-        if layout in self.base.layouts:
-            self.base.layouts[newname] = self.base.layouts[layout]
-            del(self.base.layouts[layout])
+        """Rename a layout. Return False when the rename is refused."""
+        if layout not in self.base.layouts:
+            return False
+        if newname == layout:
+            return True
+        from .configjson import JSON_LAYOUT_NAME
+        if (newname in (JSON_LAYOUT_NAME, '__last_session__') or
+                newname in self.base.layouts):
+            return False
+        self.base.layouts[newname] = self.base.layouts[layout]
+        del self.base.layouts[layout]
+        return True
 
     def list_layouts(self):
         """List all configured layouts"""
-        return(list(self.base.layouts.keys()))
+        return([name for name in self.base.layouts.keys()
+                if name not in ('__last_session__', '__internal_json_layout__')])
 
     def connect_gsetting_callbacks(self):
         """Get system settings and create callbacks for changes"""
         dbg("GSetting connects for system changes")
-        # Have to preserve these to self, or callbacks don't happen
-        self.gsettings_interface=Gio.Settings.new('org.gnome.desktop.interface')
-        self.gsettings_interface.connect("changed::font-name", self.on_gsettings_change_event)
-        self.gsettings_interface.connect("changed::monospace-font-name", self.on_gsettings_change_event)
-        self.gsettings_wm=Gio.Settings.new('org.gnome.desktop.wm.preferences')
-        self.gsettings_wm.connect("changed::focus-mode", self.on_gsettings_change_event)
+        # Have to preserve these to self, or callbacks don't happen.
+        # Gio.Settings.new() aborts the process (g_error) if the schema is
+        # not installed, so only connect to schemas that exist.
+        source = Gio.SettingsSchemaSource.get_default()
+        def _has_schema(schema_id):
+            return source is not None and source.lookup(schema_id, True) is not None
+        if _has_schema('org.gnome.desktop.interface'):
+            self.gsettings_interface=Gio.Settings.new('org.gnome.desktop.interface')
+            self.gsettings_interface.connect("changed::font-name", self.on_gsettings_change_event)
+            self.gsettings_interface.connect("changed::monospace-font-name", self.on_gsettings_change_event)
+        else:
+            dbg('gsettings schema org.gnome.desktop.interface missing; skipping')
+        if _has_schema('org.gnome.desktop.wm.preferences'):
+            self.gsettings_wm=Gio.Settings.new('org.gnome.desktop.wm.preferences')
+            self.gsettings_wm.connect("changed::focus-mode", self.on_gsettings_change_event)
+        else:
+            dbg('gsettings schema org.gnome.desktop.wm.preferences missing; skipping')
 
     def get_system_prop_font(self):
         """Look up the system font"""
@@ -439,7 +515,7 @@ class Config(object):
         """Look up the system focus setting"""
         if self.system_focus is not None:
             return(self.system_focus)
-        elif 'org.gnome.desktop.interface' not in Gio.Settings.list_schemas():
+        elif 'org.gnome.desktop.wm.preferences' not in Gio.Settings.list_schemas():
             return
         else:
             gsettings=Gio.Settings.new('org.gnome.desktop.wm.preferences')
@@ -513,32 +589,77 @@ class Config(object):
         return(self.base.set_layout(layout, tree))
 
     def copy_layout_item(self, src_layout, dst_layout, item):
+        def uuid_of(section):
+            raw = section.get('uuid', None)
+            if raw is None:
+                return None
+            text = str(raw)
+            if text == '':
+                return None
+            return text
+
         items = {}
         for child in src_layout:
-            section   = src_layout[child]
-            sec_type  = section.get('type', None)
-            if sec_type != 'Terminal':
+            section = src_layout[child]
+            if section.get('type', None) != 'Terminal':
                 continue
-
-            cp_item = section.get(item, None)
-            uuid    = str(section.get('uuid', None))
-            if cp_item:
-                items[uuid] = cp_item
+            uid = uuid_of(section)
+            if uid is not None and item in section:
+                items[uid] = section[item]
 
         dbg("items to be copied:%s" % items)
         for child in dst_layout:
-            section   = dst_layout[child]
-            sec_type  = section.get('type', None)
-            if sec_type != 'Terminal':
+            section = dst_layout[child]
+            if section.get('type', None) != 'Terminal':
                 continue
+            uid = uuid_of(section)
+            if uid is not None and uid in items:
+                dbg("update layout item:(%s) with value:(%s)"
+                                            % (item, items[uid]))
+                section[item] = items[uid]
 
-            uuid       = str(section.get('uuid', None))
-            update_item = items.get(uuid, None)
-            if uuid and update_item:
-               dbg("update layout item:(%s) with value:(%s)"
-                                            % (item, update_item))
-               section[item] = update_item
 
+
+def atomic_write_config(filename, parser):
+    """Write parser to filename atomically (temp file + fsync + os.replace).
+
+    Resolves symlinks first so a dotfiles-managed symlink keeps pointing at
+    its target, and preserves the existing file's permission bits.  A crash
+    mid-write leaves the old config intact instead of a truncated file.
+    """
+    import tempfile
+    target = os.path.realpath(filename)
+    directory = os.path.dirname(target) or '.'
+    mode = None
+    if os.path.exists(target):
+        mode = os.stat(target).st_mode & 0o7777
+    else:
+        # mkstemp creates 0600; match what open() would give a new file
+        umask = os.umask(0); os.umask(umask)
+        mode = 0o666 & ~umask
+    fd, tmp = tempfile.mkstemp(prefix='.config.', suffix='.tmp', dir=directory)
+    try:
+        with os.fdopen(fd, 'wb') as fh:
+            parser.write(fh)
+            fh.flush()
+            os.fsync(fh.fileno())
+        if mode is not None:
+            os.chmod(tmp, mode)
+        os.replace(tmp, target)
+        try:
+            dfd = os.open(directory, os.O_RDONLY)
+            try:
+                os.fsync(dfd)
+            finally:
+                os.close(dfd)
+        except OSError:
+            pass
+    except BaseException:
+        try:
+            os.unlink(tmp)
+        except OSError:
+            pass
+        raise
 
 class ConfigBase(Borg):
     """Class to provide access to our user configuration"""
@@ -595,6 +716,7 @@ class ConfigBase(Borg):
                 'int': 'integer',
                 'str': 'string',
                 'bool': 'boolean',
+                'float': 'float',
                 }
 
         section = {}
@@ -608,7 +730,7 @@ class ConfigBase(Borg):
 
             keytype = '%s(default=%s)' % (keytype, value)
 
-            if key == 'custom_url_handler':
+            if key in ('custom_url_handler', 'session_file'):
                 keytype = 'string(default="")'
 
             section[key] = keytype
@@ -654,7 +776,9 @@ class ConfigBase(Borg):
 
         configspec = ConfigObj(configspecdata)
         if DEBUG == True:
-            configspec.write(open('/tmp/terminator_configspec_debug.txt', 'wb'))
+            # Upstream dumped this to a fixed /tmp path (symlink-followable,
+            # leaked fd); log it instead.
+            dbg('configspec: %s' % configspecdata)
         return(configspec)
 
     def load(self):
@@ -712,6 +836,9 @@ class ConfigBase(Borg):
                         # FIXME: Should this be outside the loop?
                         section[profile] = copy(DEFAULTS['profiles']['default'])
                     section[profile].update(parser[section_name][profile])
+                    # Profile copies of these keys shadow the global values.
+                    section[profile].pop('cell_width', None)
+                    section[profile].pop('cell_height', None)
             elif section_name == 'plugins':
                 if section_name not in parser:
                     continue
@@ -847,6 +974,8 @@ class ConfigBase(Borg):
         for layout in self.layouts:
             if layout == JSON_LAYOUT_NAME:
                 continue
+            if layout == '__last_session__':
+                continue
             dbg('Processing layout: %s' % layout)
             parser['layouts'][layout] = self.layouts[layout]
 
@@ -865,25 +994,28 @@ class ConfigBase(Borg):
             else: 
                 filename = os.path.join(config_dir,'config')
 
-            if not os.path.isfile(filename):
-                open(filename, 'a').close()
-
-            backup_file = filename + '~'
-            if os.path.exists(filename):
-                shutil.copy2(filename, backup_file)
-
-            with open(filename, 'wb') as fh:
-                parser.write(fh)
-
-            os.remove(backup_file)
+            atomic_write_config(filename, parser)
         except Exception as ex:
             err('ConfigBase::save: Unable to save config: %s' % ex)
 
     def get_item(self, key, profile='default', plugin=None, default=None):
         """Look up a configuration item"""
+        if plugin is not None:
+            plugtree = self.plugins.get(plugin)
+            if plugtree is not None and key in plugtree:
+                dbg('%s found in plugin %s: %s' % (
+                        key, plugin, plugtree[key]))
+                return(plugtree[key])
+            elif default:
+                return default
+            else:
+                raise KeyError('ConfigBase::get_item: unknown key %s' % key)
+
         if profile not in self.profiles:
             # Hitting this generally implies a bug
             profile = 'default'
+        if profile not in self.profiles:
+            self.profiles['default'] = copy(DEFAULTS['profiles']['default'])
 
         if key in self.global_config:
             dbg('%s found in globals: %s' %
@@ -895,10 +1027,6 @@ class ConfigBase(Borg):
             return(self.profiles[profile][key])
         elif key == 'keybindings':
             return(self.keybindings)
-        elif plugin and plugin in self.plugins and key in self.plugins[plugin]:
-            dbg('%s found in plugin %s: %s' % (
-                    key, plugin, self.plugins[plugin][key]))
-            return(self.plugins[plugin][key])
         elif default:
             return default
         else:
@@ -909,16 +1037,21 @@ class ConfigBase(Borg):
         dbg('Setting %s=%s (profile=%s, plugin=%s)' %
                 (key, value, profile, plugin))
 
+        if plugin is not None:
+            if plugin not in self.plugins:
+                self.plugins[plugin] = {}
+            self.plugins[plugin][key] = value
+            return(True)
+
+        if profile == 'default' and profile not in self.profiles:
+            self.profiles['default'] = copy(DEFAULTS['profiles']['default'])
+
         if key in self.global_config:
             self.global_config[key] = value
         elif key in self.profiles[profile]:
             self.profiles[profile][key] = value
         elif key == 'keybindings':
             self.keybindings = value
-        elif plugin is not None:
-            if plugin not in self.plugins:
-                self.plugins[plugin] = {}
-            self.plugins[plugin][key] = value
         else:
             raise KeyError('ConfigBase::set_item: unknown key %s' % key)
 

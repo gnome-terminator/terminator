@@ -1,5 +1,5 @@
 [Desktop Entry]
-_Name=Terminator
+_Name=TerminatorX
 _Comment=Multiple terminals in one window
 TryExec=terminator
 Exec=terminator

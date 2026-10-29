@@ -4,15 +4,63 @@
 variants"""
 
 import time
-from gi.repository import GObject, Gtk, Gdk
+from gi.repository import GLib, GObject, Gtk, Gdk
 
-from .util import dbg, err,  enumerate_descendants
+from .util import dbg, err, enumerate_descendants, logical_parent
 from .terminator import Terminator
 from .factory import Factory
-from .container import Container
+from .container import Container, window_terminal_signals
 
 # pylint: disable-msg=R0921
 # pylint: disable-msg=E1101
+
+def _restore_overlay_before_collapse(paned, closing):
+    """P0-1 guard: a sibling of the overlay-maximised pane is closing and
+    this Paned (an ancestor of the maximised pane's slot) is about to
+    collapse/re-parent. Snap-restore first so the structural change happens
+    on the plain tree, not under the temporary Gtk.Overlay."""
+    try:
+        window = paned.get_toplevel()
+        is_ov = getattr(window, 'is_overlay_maximised', None)
+        if not callable(is_ov) or not is_ov():
+            return False
+        if window.is_maximised_pane(closing):
+            return False
+        placeholder = window._overlay.placeholder()
+        if placeholder is None or not placeholder.is_ancestor(paned):
+            return False
+        from .zoomguard import leave_zoom
+        return leave_zoom(window, legacy=False, overlay=True,
+                          reason='paned-collapse', quiet=False)
+    except Exception as ex:
+        dbg('overlay restore before collapse: %s' % ex)
+        return False
+
+
+def _schedule_auto_font_on_widget(widget):
+    """Ask terminals under widget to re-evaluate auto font scale (E)."""
+    if widget is None:
+        return
+    if hasattr(widget, 'schedule_auto_font_scale'):
+        try:
+            widget.schedule_auto_font_scale()
+            return
+        except Exception:
+            pass
+    if hasattr(widget, 'get_visible_terminals'):
+        try:
+            terms = widget.get_visible_terminals()
+        except Exception:
+            return
+        for term in terms:
+            if hasattr(term, 'schedule_auto_font_scale'):
+                try:
+                    term.schedule_auto_font_scale()
+                except Exception:
+                    pass
+
+
+
 class Paned(Container):
     """Base class for Paned Containers"""
 
@@ -55,7 +103,9 @@ class Paned(Container):
             sibling.spawn_child()
             if widget.group and self.config['split_to_group']:
                 sibling.set_group(None, widget.group)
-        elif self.config['always_split_with_profile']:
+        elif (self.config['always_split_with_profile'] and
+              hasattr(sibling, 'force_set_profile') and
+              hasattr(widget, 'get_profile')):
             sibling.force_set_profile(None, widget.get_profile())
 
         self.add(container)
@@ -67,64 +117,48 @@ class Paned(Container):
 
         for terminal in order:
             container.add(terminal)
+        # self.children is appended as slots empty out, so it can disagree
+        # with child1/child2. The sidebar walks children.
+        self.children[:] = [child for child in (self.get_child1(),
+                                                self.get_child2()) if child]
+        container.children[:] = [child for child in (container.get_child1(),
+                                                     container.get_child2())
+                                 if child]
 
         self.show_all()
-        sibling.grab_focus()
+        if hasattr(sibling, 'grab_focus'):
+            sibling.grab_focus()
         
         while Gtk.events_pending():
             Gtk.main_iteration_do(False)
         self.get_toplevel().set_pos_by_ratio = False
+        try:
+            from .session import try_mark_dirty
+            try_mark_dirty('paned.split_axis')
+        except Exception:
+            pass
+        _schedule_auto_font_on_widget(self)
 
 
     def add(self, widget, metadata=None):
         """Add a widget to the container"""
         if len(self.children) == 0:
             self.pack1(widget, False, True)
-            self.children.append(widget)
         elif len(self.children) == 1:
             if self.get_child1():
                 self.pack2(widget, False, True)
             else:
                 self.pack1(widget, False, True)
-            self.children.append(widget)
         else:
             raise ValueError('Paned widgets can only have two children')
 
+        self.children[:] = [child for child in (self.get_child1(),
+                                                self.get_child2()) if child]
+
         if self.maker.isinstance(widget, 'Terminal'):
             top_window = self.get_toplevel()
-            signals = {'close-term': self.wrapcloseterm,
-                    'split-auto': self.split_auto,
-                    'split-horiz': self.split_horiz,
-                    'split-vert': self.split_vert,
-                    'title-change': self.propagate_title_change,
-                    'resize-term': self.resizeterm,
-                    'size-allocate': self.new_size,
-                    'zoom': top_window.zoom,
-                    'tab-change': top_window.tab_change,
-                    'group-all': top_window.group_all,
-                    'group-all-toggle': top_window.group_all_toggle,
-                    'ungroup-all': top_window.ungroup_all,
-                    'group-win': top_window.group_win,
-                    'group-win-toggle': top_window.group_win_toggle,
-                    'ungroup-win': top_window.ungroup_win,
-                    'group-tab': top_window.group_tab,
-                    'group-tab-toggle': top_window.group_tab_toggle,
-                    'ungroup-tab': top_window.ungroup_tab,
-                    'move-tab': top_window.move_tab,
-                    'detach-tab': top_window.detach_tab_to_new_window,
-                    'maximise': [top_window.zoom, False],
-                    'tab-new': [top_window.tab_new, widget],
-                    'navigate': top_window.navigate_terminal,
-                    'rotate-cw': [top_window.rotate, True],
-                    'rotate-ccw': [top_window.rotate, False]}
-
-            for signal in signals:
-                args = []
-                handler = signals[signal]
-                if isinstance(handler, list):
-                    args = handler[1:]
-                    handler = handler[0]
-                self.connect_child(widget, signal, handler, *args)
+            self.connect_terminal_signals(
+                widget, self.terminal_signals(top_window, widget))
 
             if metadata and \
                'had_focus' in metadata and \
@@ -166,6 +200,14 @@ class Paned(Container):
                     while Gtk.events_pending():
                         Gtk.main_iteration_do(False)
                     self.do_redistribute(*self.last_balance_args)
+            _schedule_auto_font_on_widget(self)
+            # m33 review: a divider drag must mark the session dirty
+            # explicitly so the idle periodic skip can never delay it.
+            try:
+                from .session import try_mark_dirty
+                try_mark_dirty('paned.drag')
+            except Exception:
+                pass
         return False
 
     def set_autoresize(self, autoresize):
@@ -184,21 +226,21 @@ class Paned(Container):
         maker = Factory()
         #1 Find highest ancestor of the same type => ha
         highest_ancestor = self
-        while type(highest_ancestor.get_parent()) == type(highest_ancestor):
-            highest_ancestor = highest_ancestor.get_parent()
+        while type(logical_parent(highest_ancestor)) == type(highest_ancestor):
+            highest_ancestor = logical_parent(highest_ancestor)
 
         highest_ancestor.set_autoresize(False)
         
         # (1b) If Super modifier, redistribute higher sections too
         if recurse_up:
-            grandfather=highest_ancestor.get_parent()
+            grandfather=logical_parent(highest_ancestor)
             if maker.isinstance(grandfather, 'VPaned') or \
                maker.isinstance(grandfather, 'HPaned') :
                 grandfather.do_redistribute(recurse_up, recurse_down)
 
         highest_ancestor._do_redistribute(recurse_up, recurse_down)
 
-        GObject.idle_add(highest_ancestor.set_autoresize, True)
+        GLib.idle_add(highest_ancestor.set_autoresize, True)
     
     def _do_redistribute(self, recurse_up=False, recurse_down=False):
         maker = Factory()
@@ -249,7 +291,66 @@ class Paned(Container):
         Gtk.Paned.remove(self, widget)
         self.disconnect_child(widget)
         self.children.remove(widget)
+        try:
+            from .session import try_mark_dirty
+            try_mark_dirty('paned.remove')
+        except Exception:
+            pass
+        _schedule_auto_font_on_widget(self)
         return(True)
+
+    def swap_child(self, old_widget, new_widget):
+        """Replace old with new in the same pack slot; keep self.children order.
+
+        Terminal → reconnect signals via add path pieces; Placeholder → pack
+        only (no connect_child). Used by module D overlay maximise.
+        """
+        if old_widget not in self.children:
+            raise ValueError('swap_child: %s is not a child of %s' %
+                             (old_widget, self))
+        maker = self.maker
+        slot1 = (self.get_child1() is old_widget)
+        # Preserve resize/shrink props if available
+        resize = shrink = None
+        try:
+            resize = self.child_get_property(old_widget, 'resize')
+            shrink = self.child_get_property(old_widget, 'shrink')
+        except Exception:
+            pass
+
+        Gtk.Paned.remove(self, old_widget)
+        self.disconnect_child(old_widget)
+        idx = self.children.index(old_widget)
+        self.children[idx] = new_widget
+
+        if slot1:
+            self.pack1(new_widget, False if resize is None else bool(resize),
+                       True if shrink is None else bool(shrink))
+        else:
+            self.pack2(new_widget, False if resize is None else bool(resize),
+                       True if shrink is None else bool(shrink))
+
+        if maker.isinstance(new_widget, 'Terminal'):
+            # Reuse the signal table from add()
+            top_window = self.get_toplevel()
+            self.connect_terminal_signals(
+                new_widget, self.terminal_signals(top_window, new_widget))
+        elif isinstance(new_widget, Gtk.Paned):
+            try:
+                self.connect_child(new_widget, 'resize-term', self.resizeterm)
+                self.connect_child(new_widget, 'size-allocate', self.new_size)
+            except TypeError:
+                pass
+        # Placeholder / other: pack only
+        new_widget.show_all()
+        self.children[:] = [child for child in (self.get_child1(),
+                                                self.get_child2()) if child]
+        try:
+            from .session import try_mark_dirty
+            try_mark_dirty('paned.swap_child')
+        except Exception:
+            pass
+        return True
 
     def get_children(self):
         """Return an ordered list of our children"""
@@ -272,9 +373,22 @@ class Paned(Container):
         except:
             return 0
 
+    def terminal_signals(self, top_window, widget):
+        """Signal table for a Terminal child (add and swap_child)."""
+        signals = window_terminal_signals(top_window, widget)
+        signals.update({'close-term': self.wrapcloseterm,
+                        'split-auto': self.split_auto,
+                        'split-horiz': self.split_horiz,
+                        'split-vert': self.split_vert,
+                        'title-change': self.propagate_title_change,
+                        'resize-term': self.resizeterm,
+                        'size-allocate': self.new_size})
+        return signals
+
     def wrapcloseterm(self, widget):
         """A child terminal has closed, so this container must die"""
         dbg('Called on %s' % widget)
+        _restore_overlay_before_collapse(self, widget)
 
         if self.closeterm(widget):
             # At this point we only have one child, which is the surviving term
@@ -294,6 +408,11 @@ class Paned(Container):
                     notebook.set_last_active_term(first_term_sibling.uuid)
                     notebook.clean_last_active_term()
                     self.get_toplevel().last_active_term = None
+                if hasattr(notebook, 'last_maximised_term') and notebook.last_maximised_term is not None:
+                    if notebook.last_maximised_term.get(nth_page) == widget.uuid:
+                        notebook.last_maximised_term.pop(nth_page, None)
+                    if hasattr(notebook, 'clean_last_maximised_term'):
+                        notebook.clean_last_maximised_term()
                 if cur_tabnum != tabnum:
                     focus_sibling = False
             elif self.get_toplevel().last_active_term != widget.uuid:
@@ -302,7 +421,7 @@ class Paned(Container):
             self.remove(sibling)
 
             metadata = None
-            parent = self.get_parent()
+            parent = logical_parent(self)
             metadata = parent.get_child_metadata(self)
             dbg('metadata obtained for %s: %s' % (self, metadata))
             parent.remove(self)
@@ -313,10 +432,25 @@ class Paned(Container):
             if focus_sibling:
                 first_term_sibling.grab_focus()
             elif not sibling.get_toplevel().is_child_notebook():
+                last = sibling.get_toplevel().last_active_term
+                urn = getattr(last, 'urn', None)
                 try:
-                    Terminator().find_terminal_by_uuid(sibling.get_toplevel().last_active_term.urn).grab_focus()
+                    if urn is None:
+                        raise AttributeError
+                    Terminator().find_terminal_by_uuid(urn).grab_focus()
                 except AttributeError:
-                    dbg('cannot find terminal with uuid: %s' % sibling.get_toplevel().last_active_term.urn)
+                    dbg('cannot find terminal with uuid: %s' % urn)
+            # Closing a pane that did not have focus leaves the survivor
+            # focused without a new focus-in, so clear a border that only
+            # mattered while another pane was visible.
+            target = first_term_sibling
+            if not hasattr(target, 'refresh_visible_focus_chrome'):
+                kids = enumerate_descendants(sibling)[1]
+                target = kids[0] if kids else None
+            if target is not None and hasattr(target, 'refresh_visible_focus_chrome'):
+                target.refresh_visible_focus_chrome()
+            if target is not None and hasattr(target, 'refresh_titlebars_maximise_state'):
+                target.refresh_titlebars_maximise_state()
         else:
             dbg("self.closeterm failed")
 
@@ -324,7 +458,7 @@ class Paned(Container):
         """Check that we still have a reason to exist"""
         if len(self.children) == 1:
             dbg('We only have one child, die')
-            parent = self.get_parent()
+            parent = logical_parent(self)
             child = self.children[0]
             self.remove(child)
             parent.replace(self, child)
@@ -479,6 +613,21 @@ class Paned(Container):
             self.set_position_by_ratio()
         else:
             self.set_position(self.get_position())
+        # UI review P2-4: children re-allocate on every titlebar label
+        # change; only a real geometry change is worth a session describe.
+        try:
+            geom = (self.get_position(), self.get_allocated_width(),
+                    self.get_allocated_height())
+        except Exception:
+            geom = None
+        if geom is not None and geom == getattr(self, '_dirty_geom', None):
+            return
+        self._dirty_geom = geom
+        try:
+            from .session import try_mark_dirty
+            try_mark_dirty('paned.new_size')
+        except Exception:
+            pass
     
     def position_by_ratio(self, total_size, handle_size, ratio):
         non_separator_size = max(total_size - handle_size, 0)
@@ -496,13 +645,46 @@ class Paned(Container):
         # For reasons unknown to me, self.ratio often changes when the following loop is executed
         ratio = self.ratio
 
-        # Fix for strange race condition where every so often get_length returns 1. (LP:1655027)
-        while self.terminator.doing_layout and self.get_length() == 1:
-            while Gtk.events_pending():
-                Gtk.main_iteration()
+        # A length of 1 during layout is not yet the real allocation
+        # (LP:1655027). An empty event queue must not spin, and setting the
+        # position from that length pins the bar at 0.
+        steps = 0
+        limit = 50
+        while (self.terminator.doing_layout and self.get_length() == 1
+               and steps < limit and Gtk.events_pending()):
+            Gtk.main_iteration()
+            steps += 1
 
         self.ratio = ratio
-        self.set_pos(self.position_by_ratio(self.get_length(), self.get_handlesize(), self.ratio))
+        if self.get_length() > 1:
+            self._cancel_deferred_ratio()
+            self.set_pos(self.position_by_ratio(
+                self.get_length(), self.get_handlesize(), ratio))
+            return
+        self._defer_ratio_until_sized(ratio)
+
+    def _cancel_deferred_ratio(self):
+        sid = getattr(self, '_ratio_size_id', None)
+        if not sid:
+            return
+        try:
+            self.disconnect(sid)
+        except Exception:
+            pass
+        self._ratio_size_id = None
+
+    def _defer_ratio_until_sized(self, ratio):
+        self._cancel_deferred_ratio()
+
+        def _on_size(_widget, _alloc):
+            if self.get_length() <= 1:
+                return
+            self._cancel_deferred_ratio()
+            self.ratio = ratio
+            self.set_pos(self.position_by_ratio(
+                self.get_length(), self.get_handlesize(), ratio))
+
+        self._ratio_size_id = self.connect('size-allocate', _on_size)
 
     def set_position(self, pos):
         newratio = self.ratio_by_position(self.get_length(), self.get_handlesize(), pos)
@@ -516,7 +698,7 @@ class HPaned(Paned, Gtk.HPaned):
         """Class initialiser"""
         Paned.__init__(self)
         GObject.GObject.__init__(self)
-        self.props.wide_handle = True
+        self.props.wide_handle = False
         self.register_signals(HPaned)
         self.cnxids.new(self, 'button-press-event', self.on_button_press)
         self.cnxids.new(self, 'button-release-event', self.on_button_release)
@@ -534,7 +716,7 @@ class VPaned(Paned, Gtk.VPaned):
         """Class initialiser"""
         Paned.__init__(self)
         GObject.GObject.__init__(self)
-        self.props.wide_handle = True
+        self.props.wide_handle = False
         self.register_signals(VPaned)
         self.cnxids.new(self, 'button-press-event', self.on_button_press)
         self.cnxids.new(self, 'button-release-event', self.on_button_release)

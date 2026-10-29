@@ -11,6 +11,34 @@ from .util import dbg, err
 from .translation import _
 from .signalman import Signalman
 
+def window_terminal_signals(top_window, widget, rotate=True, zoom=True):
+    """Window-level Terminal signal handlers shared by every container
+    (Window, Window overlay frame, Paned, Notebook). Single source of truth
+    so the copies cannot drift (UI review P2-3); callers add their own
+    container-specific entries (close-term, split-*, title-change, ...)."""
+    signals = {'tab-change': top_window.tab_change,
+               'group-all': top_window.group_all,
+               'group-all-toggle': top_window.group_all_toggle,
+               'ungroup-all': top_window.ungroup_all,
+               'group-win': top_window.group_win,
+               'group-win-toggle': top_window.group_win_toggle,
+               'ungroup-win': top_window.ungroup_win,
+               'group-tab': top_window.group_tab,
+               'group-tab-toggle': top_window.group_tab_toggle,
+               'ungroup-tab': top_window.ungroup_tab,
+               'move-tab': top_window.move_tab,
+               'detach-tab': top_window.detach_tab_to_new_window,
+               'tab-new': [top_window.tab_new, widget],
+               'navigate': top_window.navigate_terminal}
+    if rotate:
+        signals['rotate-cw'] = [top_window.rotate, True]
+        signals['rotate-ccw'] = [top_window.rotate, False]
+    if zoom:
+        signals['zoom'] = top_window.zoom
+        signals['maximise'] = [top_window.zoom, False]
+    return signals
+
+
 # pylint: disable-msg=R0921
 class Container(object):
     """Base class for Terminator Containers"""
@@ -54,6 +82,15 @@ class Container(object):
         self.cnxids.new(widget, signal, handler, *args)
         return
 
+    def connect_terminal_signals(self, widget, signals):
+        """Connect a {signal: handler | [handler, *args]} table to widget."""
+        for signal, handler in signals.items():
+            args = []
+            if isinstance(handler, list):
+                args = handler[1:]
+                handler = handler[0]
+            self.connect_child(widget, signal, handler, *args)
+
     def disconnect_child(self, widget):
         """De-register the signals for a child"""
         self.cnxids.remove_widget(widget)
@@ -67,8 +104,17 @@ class Container(object):
         child is .remove()d and .add()ed"""
         return None
 
+    @staticmethod
+    def _note_user_split(widget):
+        try:
+            from .session import note_window_grown
+            note_window_grown(widget.get_toplevel())
+        except Exception as ex:
+            dbg('note_window_grown: %s' % ex)
+
     def split_auto(self, widget, cwd=None):
         """Split this container automatically"""
+        self._note_user_split(widget)
         width  = widget.get_allocation().width
         height = widget.get_allocation().height
         dbg("split as per current dimenstions:(%s %s)" % (width, height))
@@ -79,10 +125,12 @@ class Container(object):
 
     def split_horiz(self, widget, cwd=None):
         """Split this container horizontally"""
+        self._note_user_split(widget)
         return(self.split_axis(widget, True, cwd))
 
     def split_vert(self, widget, cwd=None):
         """Split this container vertically"""
+        self._note_user_split(widget)
         return(self.split_axis(widget, False, cwd))
 
     def split_axis(self, widget, vertical=True, cwd=None, sibling=None, siblinglast=None):
@@ -121,15 +169,33 @@ class Container(object):
 
     def closeterm(self, widget):
         """Handle the closure of a terminal"""
+        # m26 (a): record whether this pane's window is excluded from the
+        # session while it is still attached; after remove() its toplevel is
+        # the pane itself and the window can no longer be found.
+        try:
+            from .session import terminal_is_excluded
+            terminal_is_excluded(widget)
+        except Exception as ex:
+            dbg('closeterm record exclusion: %s' % ex)
         try:
             if self.get_property('term_zoomed'):
                 # We're zoomed, so unzoom and then start closing again
                 dbg('terminal zoomed, unzooming')
-                self.unzoom(widget)
-                widget.close()
-                return(True)
+                from .zoomguard import leave_zoom
+                # Window.closeterm already left an overlay maximise; this is
+                # the legacy-zoom case (m26: same helper as every close path).
+                if leave_zoom(self, reason='container-closeterm',
+                              quiet=False):
+                    widget.close()
+                    return(True)
+                # m26 review: nothing could be undone (stale term_zoomed);
+                # re-closing would recurse forever, so fall through to the
+                # normal close path instead.
+                err('closeterm: term_zoomed set but no zoom to leave')
         except TypeError:
             pass
+
+        self._session_before_last_close(widget)
 
         if not self.remove(widget):
             dbg('self.remove() failed for %s' % widget)
@@ -139,6 +205,51 @@ class Container(object):
         widget.close()
         self.terminator.group_hoover()
         return(True)
+
+    def _session_before_last_close(self, widget):
+        """Capture the session while `widget` is still in the tree.
+
+        Round-2 P1-2: the last terminal of the run is closing (exit,
+        Ctrl+Shift+W, titlebar X).  Finalize while it is still in the tree
+        and registered: the final save then describes what was open (this
+        pane, fresh cwd) and its latest output is flushed synchronously
+        before the cache stops.  Deregistering first destroys the window,
+        and finalize would see 0 terminals.
+
+        m26 (e2e 2b): the same holds for the last terminal of a window when
+        other windows remain (its shell exited): the window is destroyed
+        only after the terminal was removed, so Window.on_destroy_event's
+        D5 note_window_closing saw 0 terminals and the window was lost.
+        Buffer its fragment now, like Ctrl+Shift+Q does before teardown.
+        """
+        try:
+            from .session import SessionManager
+            if self.terminator.terminals == [widget]:
+                SessionManager().finalize()
+                return
+            window = widget.get_toplevel()
+            if window is None or window not in self.terminator.windows:
+                return
+            if getattr(window, '_session_destroy_handled', False) or \
+                    getattr(window, 'isDestroyed', False):
+                return  # on_destroy_event already described the window
+            if [t for t in window.get_terminals() if t is not widget]:
+                return  # not the last terminal of its window
+            remaining = [w for w in self.terminator.windows
+                         if w is not window
+                         and not getattr(w, 'isDestroyed', False)
+                         and not getattr(w, '_session_destroy_handled', False)]
+            sess = SessionManager()
+            if not remaining:
+                # Last window, but stray registered terminals elsewhere:
+                # same as the last terminal of the run.
+                sess.finalize()
+            else:
+                sess.note_window_closing(window)
+        except Exception as ex:
+            import traceback
+            err('session capture before last close: %s\n%s'
+                % (ex, traceback.format_exc()))
 
     def resizeterm(self, widget, keyname):
         """Handle a keyboard event requesting a terminal resize"""
@@ -152,15 +263,38 @@ class Container(object):
         """Unzoom a terminal"""
         raise NotImplementedError('unzoom')
 
-    def construct_confirm_close(self, window, child):
+    def construct_confirm_close(self, window, child, anchor_widget=None):
         """Create a confirmation dialog for closing things"""
         maker = Factory()
 
+        # D17: process-running confirmation takes priority
+        try:
+            from .close_confirm import construct_confirm_close_with_processes
+            proc_result = construct_confirm_close_with_processes(
+                self, window, child, anchor_widget=anchor_widget)
+            if proc_result is not None:
+                return proc_result
+        except Exception as ex:
+            from .util import dbg
+            dbg('construct_confirm_close processes: %s' % ex)
+
         has_multiple_terms = False
-        if not maker.isinstance(child, 'Terminal'):
+        if maker.isinstance(child, 'Window'):
+            try:
+                from .close_confirm import window_has_multiple_terminals as _hmt
+                has_multiple_terms = _hmt(child)
+            except Exception:
+                has_multiple_terms = True
+        elif not maker.isinstance(child, 'Terminal'):
             has_multiple_terms = True
         elif maker.isinstance(self, 'Window'):
-            has_multiple_terms = self.is_zoomed()
+            # Overlay maximise also sets term_zoomed; count real terminals
+            # instead of treating any zoom as "multiple".
+            try:
+                from .close_confirm import window_has_multiple_terminals as _hmt
+                has_multiple_terms = _hmt(self)
+            except Exception:
+                has_multiple_terms = self.is_zoomed()
 
         # skip this dialog if applicable
         if self.config['ask_before_closing'] == 'never':
@@ -195,7 +329,7 @@ the tab will also close all terminals within it.')
         c_all.get_children()[0].get_children()[0].get_children()[1].set_label(
                 confirm_button_text)
     
-        primary = Gtk.Label(label=_('<big><b>' + big_label_text + '</b></big>'))
+        primary = Gtk.Label(label='<big><b>' + big_label_text + '</b></big>')
         primary.set_use_markup(True)
         primary.set_alignment(0, 0.5)
 
@@ -234,8 +368,9 @@ the tab will also close all terminals within it.')
 
     def propagate_title_change(self, widget, title):
         """Pass a title change up the widget stack"""
+        from .util import logical_parent
         maker = Factory()
-        parent = self.get_parent()
+        parent = logical_parent(self)
         title = widget.get_window_title()
 
         if maker.isinstance(self, 'Notebook'):
@@ -257,12 +392,16 @@ the tab will also close all terminals within it.')
         for child in self.get_offspring():
             if not child:
                 continue
-            if maker.isinstance(child, 'Terminal'):
+            if getattr(child, 'is_pane_placeholder', False):
+                # Module D: report the floating terminal at its slot geometry
+                if child.terminal is not None:
+                    terminals[child.terminal] = child.slot_allocation()
+            elif maker.isinstance(child, 'Terminal'):
                 terminals[child] = child.get_allocation()
             elif maker.isinstance(child, 'Container'):
                 terminals.update(child.get_visible_terminals())
             else:
-                err('Unknown child type %s' % type(child))
+                dbg('Unknown child type %s, skipping' % type(child))
 
         return(terminals)
 
@@ -279,7 +418,12 @@ the tab will also close all terminals within it.')
         layout['parent'] = parent
         layout['order'] = child_order
 
-        if hasattr(self, 'get_position'):
+        # m34: a Window's position is meaningless on Wayland (clients
+        # cannot place toplevels; get_position() returns junk), so it is
+        # not saved there.  Size, maximised/fullscreen and layout are.
+        can_pos = getattr(self, 'can_set_position', None)
+        if hasattr(self, 'get_position') and \
+                (can_pos is None or can_pos()):
             position = self.get_position()
             if hasattr(position, '__iter__'):
                 position = ':'.join([str(x) for x in position])
@@ -297,23 +441,56 @@ the tab will also close all terminals within it.')
         if hasattr(self, 'get_size'):
             layout['size'] = self.get_size()
 
-        if hasattr(self, 'title'):
-            layout['title'] = self.title.text
+        # Only a user-forced window title is part of the layout; the dynamic
+        # (focused-terminal) title would otherwise be re-applied with
+        # force_title() on load and pin the window title forever.
+        title = getattr(self, 'title', None)
+        # CLI -T titles are forced but not persisted (persist=False).
+        if title is not None and getattr(title, 'forced', False) \
+                and getattr(title, 'persist', False) \
+                and getattr(title, 'text', None):
+            layout['title'] = title.text
+            # Marker: upstream layouts carry the *dynamic* title under
+            # 'title'; only marked titles are re-applied on load.
+            layout['title_forced'] = True
 
         if mytype == 'Notebook':
             labels = []
+            locked = []
             last_active_term = []
+            last_maximised_term = []
+            win = self.get_toplevel()
+            if hasattr(win, 'is_overlay_maximised') and win.is_overlay_maximised():
+                overlay_data = getattr(getattr(win, '_overlay', None), 'data', None)
+                if overlay_data and overlay_data.get('terminal'):
+                    cur_p = self.get_nth_page(self.get_current_page())
+                    if cur_p is not None:
+                        if not hasattr(self, 'last_maximised_term') or self.last_maximised_term is None:
+                            self.last_maximised_term = {}
+                        self.last_maximised_term[cur_p] = overlay_data['terminal'].uuid
             for tabnum in range(0, self.get_n_pages()):
                 page = self.get_nth_page(tabnum)
                 label = self.get_tab_label(page)
                 labels.append(label.get_custom_label())
-                last_active_term.append(self.last_active_term[self.get_nth_page(tabnum)])
+                getter = getattr(label, 'get_locked', None)
+                locked.append('True' if callable(getter) and getter() else 'False')
+                lat_map = getattr(self, 'last_active_term', {}) or {}
+                lat_val = lat_map.get(page, '')
+                last_active_term.append(lat_val if lat_val else '')
+                lmt_map = getattr(self, 'last_maximised_term', {}) or {}
+                m_uuid = lmt_map.get(page, '')
+                last_maximised_term.append(m_uuid if m_uuid else '')
             layout['labels'] = labels
+            layout['locked'] = locked
             layout['last_active_term'] = last_active_term
+            if any(last_maximised_term):
+                layout['last_maximised_term'] = last_maximised_term
             layout['active_page'] = self.get_current_page()
         else:
             if hasattr(self, 'last_active_term') and self.last_active_term is not None:
                 layout['last_active_term'] = self.last_active_term
+            if getattr(self, 'last_maximised_term', None) is not None:
+                layout['last_maximised_term'] = self.last_maximised_term
 
         if mytype == 'Window':
             if self.uuid == self.terminator.last_active_window:

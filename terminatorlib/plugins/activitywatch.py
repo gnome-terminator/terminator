@@ -6,6 +6,7 @@ import time
 import gi
 from gi.repository import Gtk
 from gi.repository import GObject
+from gi.repository import GLib
 
 from terminatorlib.config import Config
 import terminatorlib.plugin as plugin
@@ -67,10 +68,14 @@ class ActivityWatch(plugin.MenuItem):
                                              self.notify, terminal)
 
     def unwatch(self, _widget, terminal):
-        """Stop watching a terminal"""
-        vte = terminal.get_vte()
-        vte.disconnect(self.watches[terminal])
-        del(self.watches[terminal])
+        """Stop watching a terminal (no-op if it is not watched)"""
+        handler = self.watches.pop(terminal, None)
+        if handler is None:
+            return
+        try:
+            terminal.get_vte().disconnect(handler)
+        except Exception as ex:
+            dbg('activitywatch unwatch disconnect: %s' % ex)
 
     def notify(self, _vte, terminal):
         """Notify that a terminal did something"""
@@ -80,7 +85,7 @@ class ActivityWatch(plugin.MenuItem):
         if terminal.vte.has_focus():
             return True
 
-        note = Notify.Notification.new(_('Terminator'), _('Activity in: %s') % 
+        note = Notify.Notification.new(_('TerminatorX'), _('Activity in: %s') % 
                                   terminal.get_window_title(), 'terminator')
 
         this_time = time.mktime(time.gmtime())
@@ -131,17 +136,21 @@ class InactivityWatch(plugin.MenuItem):
         vte = terminal.get_vte()
         self.watches[terminal] = vte.connect('contents-changed',
                                              self.reset_timer, terminal)
-        timeout_id = GObject.timeout_add(watch_interval, self.check_times, terminal)
+        timeout_id = GLib.timeout_add(watch_interval, self.check_times, terminal)
         self.timers[terminal] = timeout_id
         dbg('timer %s added for %s' %(timeout_id, terminal))
 
     def unwatch(self, _vte, terminal):
-        """Unwatch a terminal"""
-        vte = terminal.get_vte()
-        vte.disconnect(self.watches[terminal])
-        del(self.watches[terminal])
-        GObject.source_remove(self.timers[terminal])
-        del(self.timers[terminal])
+        """Unwatch a terminal (no-op if it is not watched)"""
+        handler = self.watches.pop(terminal, None)
+        timeout_id = self.timers.pop(terminal, None)
+        if handler is not None:
+            try:
+                terminal.get_vte().disconnect(handler)
+            except Exception as ex:
+                dbg('inactivitywatch unwatch disconnect: %s' % ex)
+        if timeout_id:
+            GLib.source_remove(timeout_id)
 
     def reset_timer(self, _vte, terminal):
         """Reset the last-changed time for a terminal"""
@@ -159,7 +168,7 @@ class InactivityWatch(plugin.MenuItem):
         dbg('seconds since last activity: %f (%s)' % (time_now - self.last_activities[terminal], terminal))
         if time_now - self.last_activities[terminal] >= inactive_period:
             del(self.last_activities[terminal])
-            note = Notify.Notification.new(_('Terminator'), _('Silence in: %s') % 
+            note = Notify.Notification.new(_('TerminatorX'), _('Silence in: %s') % 
                                          terminal.get_window_title(), 'terminator')
             note.show()
 

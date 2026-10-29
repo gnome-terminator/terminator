@@ -37,6 +37,17 @@ class TerminatorDist(Distribution):
     Distribution.__init__(self, *args)
 
 
+def _python_msgfmt(po, mo):
+  """terminatorlib/pocompile.py, loaded by path (no GTK import needed)"""
+  import importlib.util
+  path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                      'terminatorlib', 'pocompile.py')
+  spec = importlib.util.spec_from_file_location('_terminator_pocompile', path)
+  module = importlib.util.module_from_spec(spec)
+  spec.loader.exec_module(module)
+  module.compile_po_python(po, mo)
+
+
 class BuildData(build):
   def run (self):
     build.run (self)
@@ -59,9 +70,15 @@ class BuildData(build):
             if rc != 0:
               raise Warning("msgfmt returned %d" % rc)
           except Exception as e:
-            error("Building gettext files failed. Ensure you have gettext installed. Alternatively, try setup.py --without-gettext [build|install]")
-            error("Error: %s" % str(e))
-            sys.exit(1)
+            # m35: msgfmt (package gettext) is often missing on desktops;
+            # use the bundled pure-Python compiler instead.
+            info('msgfmt unavailable (%s); using the Python compiler' % e)
+            try:
+              _python_msgfmt(po, mo)
+            except Exception as e2:
+              error("Building gettext files failed. Ensure you have gettext installed. Alternatively, try setup.py --without-gettext [build|install]")
+              error("Error: %s; Python compiler: %s" % (str(e), str(e2)))
+              sys.exit(1)
 
       TOP_BUILDDIR='.'
       INTLTOOL_MERGE='intltool-merge'
@@ -204,6 +221,11 @@ setup(name=APP_NAME,
                   ('share/icons/hicolor/24x24/apps', glob.glob('data/icons/hicolor/24x24/apps/*.png')),
                   ('share/icons/hicolor/32x32/apps', glob.glob('data/icons/hicolor/32x32/apps/*.png')),
                   ('share/icons/hicolor/48x48/apps', glob.glob('data/icons/hicolor/48x48/apps/*.png')),
+                  ('share/icons/hicolor/scalable/actions', [
+                      'data/icons/hicolor/scalable/actions/terminator-tab-close-symbolic.svg',
+                      'data/icons/hicolor/scalable/actions/terminator-tab-lock-symbolic.svg',
+                      'data/icons/hicolor/scalable/actions/terminator-tab-unlock-symbolic.svg',
+                  ]),
                   ('share/icons/hicolor/16x16/actions', glob.glob('data/icons/hicolor/16x16/actions/*.png')),
                   ('share/icons/hicolor/16x16/status', glob.glob('data/icons/hicolor/16x16/status/*.png')),
                   ('share/icons/HighContrast/scalable/apps', glob.glob('data/icons/HighContrast/scalable/apps/*.svg')),

@@ -35,8 +35,8 @@ try:
     from gi.repository import Gtk, Gdk, GLib
 
     if Gdk.Display.get_default() == None:
-        print('You need to run terminator in an X environment. ' \
-              'Make sure $DISPLAY is properly set')
+        print('You need to run terminator in a graphical (X11 or Wayland) '
+              'session. Make sure $DISPLAY or $WAYLAND_DISPLAY is properly set')
         sys.exit(1)
 
 except ImportError:
@@ -61,6 +61,11 @@ if __name__ == '__main__':
     GLib.set_prgname(APP_NAME)
 
     OPTIONS,dbus_options = terminatorlib.optionparse.parse_options()
+    try:
+        from terminatorlib.util import display_manager
+        dbg('display backend: %s' % display_manager())
+    except Exception:
+        pass
     if OPTIONS.configjson:
         configjson = ConfigJson()
         layoutname = configjson.extend_config(OPTIONS.configjson)
@@ -128,12 +133,118 @@ if __name__ == '__main__':
         TERMINATOR.set_dbus_data(dbus_service)
         TERMINATOR.reconfigure()
 
+        # Session restore / ownership (module A)
+        sess = None
+        restoring = False
+        open_fresh = False
         try:
-            dbg('Creating a terminal with layout: %s' % OPTIONS.layout)
-            TERMINATOR.create_layout(OPTIONS.layout)
+            from terminatorlib.session import (SessionManager,
+                                               SESSION_LAYOUT_NAME,
+                                               is_explicit_launch,
+                                               plain_launch_action)
+            from terminatorlib.config import Config
+            sess = SessionManager()
+            got_lock = sess.acquire_lock()
+            sess.set_owner_from_options(OPTIONS)
+            sess.install_signal_handlers()
+            if getattr(OPTIONS, 'clear_session', False):
+                if got_lock:
+                    sess.clear_session_files()
+                else:
+                    err('--clear-session ignored: another Terminator instance '
+                        'owns the session')
+            cfg = Config()
+            plain_launch = (
+                got_lock
+                and getattr(OPTIONS, 'layout_from_default', False)
+                and not OPTIONS.command and not OPTIONS.execute
+                and not OPTIONS.working_directory and not OPTIONS.configjson
+            )
+            # One-shot from the full menu. Consumed on this plain launch
+            # even when restore is already off, so the mark cannot fire later.
+            skip_once = plain_launch and sess.consume_skip_next_restore()
+            if skip_once:
+                dbg('session restore skipped: one-shot mark from the previous run')
+            want_restore = (
+                (cfg['restore_last_session'] or getattr(OPTIONS, 'restore', False))
+                and plain_launch
+                and not getattr(OPTIONS, 'no_restore', False)
+                and not skip_once
+            )
+            if want_restore:
+                if sess.check_crash_marker():
+                    sess._crash_skipped = True
+                    # m31: fall back to .prev/.prev2, else the quarantined
+                    # file in safe mode; a second crash goes empty.
+                    data = sess.load_crash_fallback()
+                    if not data:
+                        dbg('session restore skipped: crash marker present')
+                else:
+                    data = sess.load()
+                if data:
+                    layout = sess.sanitize_layout(data['layout'])
+                    action, layout = plain_launch_action(data, layout)
+                    if action == 'fresh':
+                        # A clean exit that kept nothing must not fall through
+                        # to [layouts][default]. That layout is the old split.
+                        dbg('session restore skipped: clean exit kept no tabs')
+                        data = None
+                        open_fresh = True
+                if data:
+                    sess.begin_restore()
+                    cfg.base.layouts[SESSION_LAYOUT_NAME] = layout
+                    sess._loaded_session_uuids = set()
+                    for node in layout.values():
+                        if isinstance(node, dict) and node.get('type') == 'Terminal':
+                            uid = node.get('uuid')
+                            if uid:
+                                sess._loaded_session_uuids.add(str(uid))
+                    OPTIONS.layout = SESSION_LAYOUT_NAME
+                    sess.restored_this_run = True
+                    restoring = True
+                    dbg('restoring last session (%d terminals)' %
+                        len(sess._loaded_session_uuids))
+        except Exception as ex:
+            open_fresh = False
+            err('session setup failed: %s' % ex)
+
+        # B: start scrollback cache after lock/load, before create_layout.
+        # Own try: a session setup failure must not disable the cache.
+        try:
+            from terminatorlib.scrollback import ScrollbackCache
+            ScrollbackCache().start()
+        except Exception as ex:
+            err('ScrollbackCache.start: %s' % ex)
+
+        windows_before = list(TERMINATOR.windows)
+        try:
+            if open_fresh:
+                dbg('clean exit kept no tabs; opening a new window')
+                TERMINATOR.new_window()
+            else:
+                dbg('Creating a terminal with layout: %s' % OPTIONS.layout)
+                TERMINATOR.create_layout(OPTIONS.layout)
         except (KeyError,ValueError) as ex:
             err('layout creation failed, creating a window ("%s")' % ex)
-            TERMINATOR.new_window()
+            if restoring and sess is not None:
+                sess.restore_failed(ex)
+            if not [w for w in TERMINATOR.windows if w not in windows_before]:
+                TERMINATOR.new_window()
+        except Exception as ex:
+            # A malformed restored session must never stop startup
+            err('layout creation crashed, creating a window ("%s")' % ex)
+            if restoring and sess is not None:
+                sess.restore_failed(ex)
+            if not [w for w in TERMINATOR.windows if w not in windows_before]:
+                TERMINATOR.new_window()
+        try:
+            if sess is not None and is_explicit_launch(OPTIONS):
+                # -e/-x/-l NAME windows are not part of the session, but
+                # the process still saves later plain windows (P1-5).
+                sess.exclude_windows(
+                    [w for w in TERMINATOR.windows if w not in windows_before])
+        except Exception as ex:
+            dbg('session exclude windows: %s' % ex)
         TERMINATOR.layout_done()
 
     if OPTIONS.debug and OPTIONS.debug >= 2:
@@ -149,4 +260,16 @@ if __name__ == '__main__':
         Gtk.main()
     except KeyboardInterrupt:
         pass
+    finally:
+        # Exit paths that bypass the last-window/last-terminal hooks
+        # (Ctrl+C, a stray main_quit) must still do the final save and the
+        # synchronous scrollback flush.  finalize() is idempotent.
+        # Not covered: losing the display connection makes GDK call C exit(),
+        # which skips this block; only the debounced/periodic saves protect
+        # that case.
+        try:
+            from terminatorlib.session import SessionManager
+            SessionManager().finalize()
+        except Exception as ex:
+            err('session finalize at exit: %s' % ex)
 

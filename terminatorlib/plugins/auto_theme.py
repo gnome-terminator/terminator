@@ -11,6 +11,7 @@ License: GPLv2
 # import os
 from gi.repository import Gtk
 from gi.repository import Gdk
+from gi.repository import GLib
 import terminatorlib.plugin as plugin
 from terminatorlib.config import Config
 from terminatorlib.translation import _
@@ -29,6 +30,20 @@ except (ImportError, ValueError):
 
 # Every plugin you want Terminator to load *must* be listed in 'AVAILABLE'
 
+def restore_autotheme_preview(mgr, profiles, mode, scheme):
+    """Undo a settings preview. Monitor stays down across set_color_scheme."""
+    mgr.change_cb = None
+    try:
+        mgr.teardown_theme_monitor()
+        mgr.mode = mode
+        Handy.StyleManager.get_default().set_color_scheme(scheme)
+        alive = plugin.Terminator().terminals
+        for term, profile in profiles:
+            if term in alive:
+                term.set_profile(None, profile)
+    finally:
+        mgr.setup_theme_monitor()
+
 ## disable log
 # print = lambda *a:None
 
@@ -45,31 +60,35 @@ class AutoTheme(plugin.MenuItem):
     change_cb = None
 
     conn_handle = None
+    # One apply for the process. force=True rebuilds the plugin per terminal;
+    # unload must not clear these or the idle is lost between terminals.
+    _applied_once = False
+    _apply_source = None
 
     def __init__(self):
         plugin.MenuItem.__init__(self)
         self.__class__.load_config()
         self.setup_theme_monitor()
+        if not AutoTheme._applied_once and AutoTheme._apply_source is None:
+            AutoTheme._apply_source = GLib.idle_add(AutoTheme._apply_saved_once)
+
+    @staticmethod
+    def _apply_saved_once():
+        AutoTheme._apply_source = None
+        AutoTheme._applied_once = True
+        # Light/dark before Handy, so set_color_scheme cannot change the probe.
+        is_dark = AutoTheme.mode=='Dark' or AutoTheme.mode=='Auto' and AutoTheme.is_dark_theme()
+        AutoTheme.change_theme(is_dark)
+        AutoTheme.teardown_theme_monitor()
+        Handy.StyleManager.get_default().set_color_scheme(AutoTheme.to_variant(AutoTheme.variant))
+        AutoTheme.setup_theme_monitor()
+        return False
 
     ## on menu_show
     def callback(self, menuitems, menu, terminal):
         item = Gtk.CheckMenuItem(_(' -  AutoTheme'))
-        # item.set_active(True)
         item.connect("toggled", self.do_menu_toggle, terminal)
         menuitems.append(item)
-        # print('AutoTheme __init__..')
-
-        # AutoTheme.load_config()
-        ## load mode stat
-        mode = AutoTheme.mode=='Dark' or AutoTheme.mode=='Auto' and AutoTheme.is_dark_theme()
-        print('load mode:', mode)
-        AutoTheme.change_theme(mode)
-
-        ## load variant stat
-        self.teardown_theme_monitor()  ## don't mess up with terminal profile
-        style_manager = Handy.StyleManager.get_default()
-        style_manager.set_color_scheme(AutoTheme.to_variant(AutoTheme.variant))
-        self.setup_theme_monitor()
 
     @staticmethod
     def setup_theme_monitor():
@@ -170,16 +189,23 @@ class AutoTheme(plugin.MenuItem):
         print('profiles:', cls.list)
         cls.load_config()
 
+        profiles = [(term, term.get_profile()) for term in plugin.Terminator().terminals]
+        saved_mode = AutoTheme.mode
+        saved_scheme = Handy.StyleManager.get_default().get_color_scheme()
+
         dialog = MySettingDialog(None, cls)
-        # dialog.set_list(cls.list)
-        # dialog.set_list_sel(cls.light, cls.dark)
-        # dialog.set_mode_sel(cls.mode)
+        dialog._restore_profiles = profiles
+        dialog._restore_mode = saved_mode
+        dialog._restore_scheme = saved_scheme
 
         response = dialog.run()
+        cls.finish_menu_dialog(dialog, response)
+        dialog.destroy()
+
+    @classmethod
+    def finish_menu_dialog(cls, dialog, response):
         if response == Gtk.ResponseType.OK:
             cls.save_config(dialog.light_sel, dialog.dark_sel, dialog.mode_sel, dialog.variant_sel)
-
-        dialog.destroy()
 
 
 class MySettingDialog(Gtk.Dialog):
@@ -450,12 +476,17 @@ class MySettingDialog(Gtk.Dialog):
 
     def on_dialog_response(self, dialog, response_id):
         # print('== on response:', response_id)
-        self.mgr.change_cb = None
         self.light_sel = self.light_combo.get_active_text()
         self.dark_sel  = self.dark_combo.get_active_text()
         if response_id == Gtk.ResponseType.OK:
-            pass
+            self.mgr.change_cb = None
+            return
         # elif response_id == Gtk.ResponseType.CANCEL:
-        else:
-            print("-- Cancel/close clicked.")
+        print("-- Cancel/close clicked.")
+        restore_autotheme_preview(
+            self.mgr,
+            self._restore_profiles,
+            self._restore_mode,
+            self._restore_scheme,
+        )
 
