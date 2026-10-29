@@ -65,6 +65,12 @@ Consequences:
 Evaluation is debounced (``DEBOUNCE_MS``) so short-lived commands such as
 ``clear`` have exited before we look at the foreground group, and so a
 burst of adjustment changes results in at most one show/hide.
+
+VTE also emits ``changed`` once per adjustment field, so a fullscreen
+redraw can set ``upper`` before ``page_size`` and look scrollable for
+one signal. Showing the bar for that signal changes the column count
+and the program's viewport jumps. While a raw non-shell owns the
+foreground, that show waits until the adjustment has settled.
 """
 
 import os
@@ -325,6 +331,9 @@ class AltScreenScrollbar(object):
         # sync_scrollbar asked while pending_hidden owned the bar. Re-run
         # it once the detector decides this was not a TUI.
         self.sync_deferred = False
+        # evaluate() sets this around the settled show, so hold_show
+        # does not defer that retry.
+        self._allow_show = False
         self.user_override = False
         self._timer = None
         self._handlers = []
@@ -377,12 +386,15 @@ class AltScreenScrollbar(object):
             try:
                 if not adjustment_collapsed(adj.get_lower(), adj.get_upper(),
                                             adj.get_page_size()):
-                    if self.pending_hidden:
+                    if self.pending_hidden or (
+                            self.sync_deferred and not self._allow_show):
                         # A TUI redraw (or VTE updating upper and page_size
                         # one after the other) can look scrollable for one
                         # sample. Let evaluate() decide on the settled
                         # adjustment: it keeps the provisional hide for a
                         # TUI and drops it for a canonical command.
+                        # Clearing the episode here would also forget a
+                        # show that sync_scrollbar is still holding.
                         self.schedule()
                         return
                     self.detector.had_history = True
@@ -560,9 +572,8 @@ class AltScreenScrollbar(object):
             self.sync_deferred = False
             # Terminal.sync_scrollbar shows the bar only when the restored
             # buffer is actually taller than the window.
-            sync = getattr(self.terminal, 'sync_scrollbar', None)
-            if sync is not None:
-                sync()
+            if getattr(self.terminal, 'sync_scrollbar', None) is not None:
+                self._sync_after_decision()
             elif position not in ('disabled', 'hidden'):
                 sb.show()
             self._restore_scroll(scroll)
@@ -578,9 +589,51 @@ class AltScreenScrollbar(object):
             self.pending_hide_width = 0
             self.sync_deferred = False
             if deferred:
-                sync = getattr(self.terminal, 'sync_scrollbar', None)
-                if sync is not None:
-                    sync()
+                self._sync_after_decision()
+
+    def hold_show(self):
+        """Keep a hidden bar hidden through this adjustment signal.
+
+        VTE writes ``upper`` and ``page_size`` as separate ``changed``
+        emissions. The first can look scrollable while a raw-mode program
+        is redrawing. Showing the bar for that emission resizes the grid
+        and the program's viewport jumps. The show is retried from
+        ``evaluate`` once this signal has returned. A canonical command
+        (``raw`` false) and the idle shell still show immediately.
+        """
+        if self._allow_show or self.detached or self.user_override:
+            return False
+        if not self.enabled():
+            return False
+        if self._config('scrollbar_position', 'right') in ('disabled',
+                                                           'hidden'):
+            return False
+        fd = self._pty_fd()
+        pid = getattr(self.terminal, 'pid', None)
+        if foreground_busy(fd, pid) is not True:
+            return False
+        if tty_raw(fd) is False:
+            return False
+        self.sync_deferred = True
+        # After the current emission. upper and page_size in the same
+        # VTE update have both been applied by then.
+        self.schedule(0)
+        return True
+
+    def _sync_after_decision(self):
+        """Show the bar now that evaluate() has seen the settled range.
+
+        ``hold_show`` returns immediately while this flag is set, so the
+        retry cannot defer itself again.
+        """
+        sync = getattr(self.terminal, 'sync_scrollbar', None)
+        if sync is None:
+            return
+        self._allow_show = True
+        try:
+            sync()
+        finally:
+            self._allow_show = False
 
     def note_bar_hidden(self, width):
         """Terminal.sync_scrollbar is about to hide a visible bar.

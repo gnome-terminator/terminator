@@ -563,6 +563,109 @@ def test_sync_scrollbar_records_the_hide(monkeypatch):
     assert ctl.pending_hidden and ctl.pending_hide_width == 14
 
 
+def test_hold_show_only_while_a_raw_program_is_in_front(monkeypatch):
+    term, ctl, state = _ctl(monkeypatch, visible=False)
+    scheduled = []
+    monkeypatch.setattr(ctl, 'schedule',
+                        lambda delay_ms=None: scheduled.append(delay_ms))
+    assert ctl.hold_show() is True
+    assert ctl.sync_deferred and scheduled == [0]
+    ctl.sync_deferred = False
+    state['raw'] = False                 # ping, make
+    assert ctl.hold_show() is False
+    state['raw'] = True
+    state['busy'] = False                # the shell
+    assert ctl.hold_show() is False
+    state['busy'] = None                 # foreground unknown
+    assert ctl.hold_show() is False
+
+
+def test_sync_scrollbar_does_not_show_on_a_raw_glitch(monkeypatch):
+    """One scrollable signal while a raw program is in front must not
+    show the bar. That show is the resize that jumps the viewport."""
+    from terminatorlib.terminal import Terminal
+
+    term, ctl, _ = _ctl(monkeypatch, visible=False)
+    monkeypatch.setattr(ctl, 'schedule', lambda delay_ms=None: None)
+    term._scrollbar_forced = None
+    term._adjustment_scrollable = lambda: True
+    term._fullscreen_app_may_hide = lambda: True
+    term._place_scrollbar = lambda: None
+    term.altscreen = ctl
+    Terminal._sync_scrollbar(term, term.scrollbar)
+    assert not term.scrollbar.visible
+    assert ctl.sync_deferred
+    assert term.scrollbar.calls == []
+
+
+def test_settled_scrollable_buffer_shows_the_bar(monkeypatch):
+    """Once evaluate() has seen a range that stayed scrollable, the
+    deferred show proceeds. ssh and other raw programs still get a bar."""
+    from terminatorlib.terminal import Terminal
+
+    term, ctl, _ = _ctl(monkeypatch, visible=False)
+    term.adj.upper = 80
+
+    def sync(*_args):
+        Terminal._sync_scrollbar(term, term.scrollbar)
+
+    term.sync_scrollbar = sync
+    term._scrollbar_forced = None
+    term._adjustment_scrollable = lambda: True
+    term._fullscreen_app_may_hide = lambda: False
+    term._place_scrollbar = lambda: None
+    term.altscreen = ctl
+    ctl.sync_deferred = True
+    ctl.evaluate()
+    assert term.scrollbar.visible
+    assert term.scrollbar.calls == ['show']
+
+
+def test_held_show_does_not_end_the_collapsed_episode(monkeypatch):
+    term, ctl, _ = _ctl(monkeypatch)
+    ctl.detector.update(True, True, raw=False)
+    assert ctl.detector.episode_start is not None
+    ctl.sync_deferred = True
+    scheduled = []
+    monkeypatch.setattr(ctl, 'schedule',
+                        lambda delay_ms=None: scheduled.append(delay_ms))
+    term.adj.upper = 80
+    ctl._on_change(term.adj)
+    assert ctl.detector.episode_start is not None
+    assert ctl.detector.had_history is False
+    assert scheduled == [None]
+
+
+def test_sync_hide_puts_the_scroll_position_back(monkeypatch):
+    """Hiding from sync_scrollbar clamps the adjustment to 0. That is
+    the jump; the value from before the hide has to be put back."""
+    from terminatorlib.terminal import Terminal
+
+    term, ctl, _ = _ctl(monkeypatch)
+    term.adj.value = 12.0
+    term.adj.get_value = lambda: term.adj.value
+
+    def set_value(value):
+        term.adj.value = value
+
+    term.adj.set_value = set_value
+    real_hide = term.scrollbar.hide
+
+    def hide():
+        real_hide()
+        term.adj.value = 0.0
+
+    term.scrollbar.hide = hide
+    term._scrollbar_forced = None
+    term._adjustment_scrollable = lambda: False
+    term._fullscreen_app_may_hide = lambda: False
+    term._place_scrollbar = lambda: None
+    term.altscreen = ctl
+    Terminal._sync_scrollbar(term, term.scrollbar)
+    assert not term.scrollbar.visible
+    assert term.adj.value == 12.0
+
+
 def test_pending_hide_suppresses_a_redraw_show(monkeypatch):
     from terminatorlib.terminal import Terminal
 

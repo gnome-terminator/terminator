@@ -1878,6 +1878,7 @@ class Terminal(Gtk.VBox):
                            (alt.auto_hidden or alt.pending_hidden))
         if alt is not None and alt.pending_hidden:
             alt.sync_deferred = True
+        pin = alt._scroll_value() if alt is not None else (None, None)
         want = scrollbar_should_show(
             position,
             self._adjustment_scrollable(),
@@ -1887,6 +1888,13 @@ class Terminal(Gtk.VBox):
         if want is None:
             return
         if want:
+            # A raw-mode redraw can look scrollable for the one signal
+            # where VTE has updated upper and not yet page_size. Showing
+            # the bar on that signal resizes the grid under the program.
+            if (not sb.get_visible()
+                    and getattr(self, '_scrollbar_forced', None) is not True
+                    and alt is not None and alt.hold_show()):
+                return
             self._place_scrollbar()
             if alt is not None and alt.auto_hidden:
                 release = getattr(alt, '_release_slot', None)
@@ -1894,7 +1902,10 @@ class Terminal(Gtk.VBox):
                     release()
                 alt.auto_hidden = False
                 alt.hidden_width = 0
+            was_visible = sb.get_visible()
             sb.show()
+            if not was_visible and pin[0] is not None:
+                alt._restore_scroll(pin)
         else:
             forced = getattr(self, '_scrollbar_forced', None)
             # A TUI can collapse the adjustment a moment before it switches
@@ -1909,13 +1920,16 @@ class Terminal(Gtk.VBox):
                 note = getattr(alt, 'note_bar_hidden', None)
                 if callable(note):
                     latched = bool(note(sb.get_allocated_width()))
-            if (not latched and forced is None and sb.get_visible()
+            was_visible = sb.get_visible()
+            if (not latched and forced is None and was_visible
                     and self._fullscreen_app_may_hide()):
                 # Not confident yet (canonical command, or no evidence of
                 # content): let the debounced detector decide instead of
                 # hiding on a guess.
                 return
             sb.hide()
+            if was_visible and pin[0] is not None:
+                alt._restore_scroll(pin)
 
     def toggle_widget_visibility(self, widget):
         """Show or hide a widget"""
