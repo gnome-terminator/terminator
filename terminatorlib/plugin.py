@@ -33,6 +33,7 @@ from .terminator import Terminator
 class Plugin(object):
     """Definition of our base plugin class"""
     capabilities = None
+    description = ""
 
     def __init__(self):
         """Class initialiser."""

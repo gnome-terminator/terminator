@@ -7,6 +7,7 @@ AVAILABLE = ['InsertTermName']
 class InsertTermName(plugin.MenuItem):
    capabilities = ['terminal_menu']
    config = None
+   description = "Adds context menu entry item that pastes current terminal name"
 
    def __init__(self):
       plugin.MenuItem.__init__(self)

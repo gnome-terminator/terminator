@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.38.2 -->
+<!-- Generated with glade 3.40.0 -->
 <interface>
-  <requires lib="gtk+" version="3.10"/>
+  <requires lib="gtk+" version="3.16"/>
   <object class="GtkListStore" id="AskBeforeCloseListStore">
     <columns>
       <!-- column-name askwhenclose -->
@@ -4154,8 +4154,9 @@
               </packing>
             </child>
             <child>
-              <object class="GtkVBox" id="vbox124">
+              <object class="GtkBox" id="vbox124">
                 <property name="can-focus">False</property>
+                <property name="orientation">vertical</property>
                 <child>
                   <object class="GtkEntry" id="keybindingsearchentry">
                     <property name="visible">True</property>
@@ -4303,10 +4304,35 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="pluginpanelabel">
+                  <!-- n-columns=1 n-rows=10 -->
+                  <object class="GtkGrid" id="pluginpanel">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
-                    <property name="label" translatable="yes">This plugin has no configuration options</property>
+                    <property name="row-homogeneous">True</property>
+                    <property name="column-homogeneous">True</property>
+                    <child>
+                      <object class="GtkLabel" id="pluginpanedescription">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="label">[plugin.description]</property>
+                      </object>
+                      <packing>
+                        <property name="left-attach">0</property>
+                        <property name="top-attach">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="pluginpanelabel">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="label" translatable="yes">This plugin has no configuration options</property>
+                      </object>
+                      <packing>
+                        <property name="left-attach">0</property>
+                        <property name="top-attach">1</property>
+                        <property name="height">9</property>
+                      </packing>
+                    </child>
                   </object>
                   <packing>
                     <property name="resize">True</property>

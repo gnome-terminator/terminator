@@ -1867,8 +1867,15 @@ class PrefsEditor:
         self.config['enabled_plugins'] = enabled_plugins
         self.config.save()
 
-    def set_plugin(self, plugin):
+    def set_plugin(self, name):
         """Show the preferences for the selected plugin, if any"""
+        dbg("set_plugin: %s" % name)
+
+        pluginpanedescription = self.builder.get_object('pluginpanedescription')
+        plugin = self.registry.available_plugins[name]
+        desc = plugin.description or "This plugin has no description"
+        pluginpanedescription.set_text(desc)
+
         pluginpanelabel = self.builder.get_object('pluginpanelabel')
         pluginconfig = self.config.plugin_get_config(plugin)
         # FIXME: Implement this, we need to auto-construct a UI for the plugin
