@@ -116,6 +116,7 @@ class PluginRegistry(borg.Borg):
                         err('PluginRegistry::load_plugins: Importing plugin %s \
 failed: %s' % (plugin, ex))
 
+        self.available_plugins = dict(sorted(self.available_plugins.items()))
         self.done = True
 
     def get_plugin_instance(self, plugin):
