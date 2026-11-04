@@ -1634,7 +1634,7 @@ class PrefsEditor:
     def on_layoutaddbutton_clicked(self, _button):
         """Add a new layout to the list"""
         terminator = Terminator()
-        current_layout = terminator.describe_layout()
+        current_layout = terminator.describe_layout(save_cwd = True)
         guiget = self.builder.get_object
 
         treeview = guiget('layoutlist')
