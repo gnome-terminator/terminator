@@ -1,3 +1,4 @@
+# 验收：TX-06.1。
 # Terminator - autofont pure-function unit tests (no GTK)
 """Tests for terminatorlib.autofont (M2b / E)."""
 

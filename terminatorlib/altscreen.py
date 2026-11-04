@@ -34,10 +34,10 @@ PTY itself).  What *is* observable:
 Rule: hide when the adjustment is collapsed, a non-shell process owns the
 foreground, the PTY is raw (or unknown), and there is evidence of content.
 The decision is taken at the start of such an episode (1 s grace) and kept
-until the episode ends.  The hidden bar's width goes to the VTE, so the
-program reaches the pane edge.  That is one resize when it starts and one
-when it exits.  ``hidden_width`` is still recorded so the font tier does
-not follow those extra columns.  The bar stays hidden for the whole
+until the episode ends.  The hidden bar keeps an invisible slot of the same
+width, so entering or leaving a fullscreen program does not resize the VTE
+or send an avoidable SIGWINCH.  ``hidden_width`` is still recorded for the
+font and pane layout calculations.  The bar stays hidden for the whole
 episode: showing it again for a redraw would resize the grid under the
 program.
 
@@ -715,13 +715,18 @@ class AltScreenScrollbar(object):
             note()
 
     def _hold_slot(self):
-        """Give the hidden bar's pixels to the VTE.
+        """Keep the hidden bar's width allocated to avoid a VTE resize.
 
-        A reserved slot is the empty profile-coloured strip beside a
-        fullscreen program. ``hidden_width`` stays set for font and
-        overlay math. Drop a leftover slot so that strip cannot remain.
+        Hiding a Gtk widget normally gives its pixels to the VTE. That
+        changes the column count and makes a TUI redraw visibly jump. The
+        terminal supplies a same-width, non-drawing slot for the duration
+        of the alternate-screen episode; the slot is released on exit.
         """
-        self._release_slot()
+        hold = getattr(self.terminal, 'hold_scrollbar_slot', None)
+        if callable(hold) and self.hidden_width > 0:
+            hold(self.hidden_width)
+        else:
+            self._release_slot()
 
     def _release_slot(self):
         release = getattr(self.terminal, 'release_scrollbar_slot', None)

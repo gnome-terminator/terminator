@@ -1,3 +1,4 @@
+# 验收：TX-03.1。
 """M14: scrollback cache keeps colours (VTE HTML export -> SGR -> feed)."""
 
 from __future__ import print_function

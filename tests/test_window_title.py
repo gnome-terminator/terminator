@@ -1,3 +1,4 @@
+# 验收：TX-08.1、TX-08.2。
 """Tests for top-level window title ownership and coalescing (WindowTitle)."""
 
 import os

@@ -17,6 +17,8 @@ from terminatorlib.session import (
     SessionManager,
     collect_terminal_uuids,
     count_terminals_in_layout,
+    launch_is_plain,
+    launch_wants_restore,
     layout_change_hash,
     sanitize_layout,
     stringify_leaves,
@@ -266,6 +268,40 @@ def test_set_owner_from_options(state_home):
     sm.set_owner_from_options(o2)
     # m21 (P1-5): explicit options no longer block saving; the lock holder
     # owns the session and only the explicit windows are excluded.
+    assert sm.is_writer()
+
+
+class _Launch(object):
+    def __init__(self, **kw):
+        self.layout_from_default = True
+        self.command = None
+        self.execute = None
+        self.working_directory = None
+        self.configjson = None
+        self.restore = False
+        self.no_restore = False
+        for key, value in kw.items():
+            setattr(self, key, value)
+
+
+def test_launch_wants_restore_skips_flags_but_lock_holder_still_writes(state_home):
+    """验收：TX-01.2。--no-restore 和关掉恢复都不读会话；锁的持有者仍可写。"""
+    plain = _Launch()
+    assert launch_is_plain(True, plain) is True
+    assert launch_wants_restore(True, plain, True, False) is True
+    assert launch_wants_restore(False, plain, True, False) is False
+    skipped = _Launch(no_restore=True)
+    assert launch_wants_restore(True, skipped, True, False) is False
+    forced = _Launch(no_restore=False, restore=True)
+    assert launch_wants_restore(False, forced, True, False) is True
+    assert launch_is_plain(True, _Launch(working_directory='/tmp')) is False
+    assert launch_is_plain(True, _Launch(command='htop')) is False
+    assert launch_is_plain(False, plain) is False
+    assert launch_wants_restore(True, plain, True, True) is False
+    _reset_session_borg()
+    sm = SessionManager()
+    assert sm.acquire_lock()
+    sm.set_owner_from_options(skipped)
     assert sm.is_writer()
 
 

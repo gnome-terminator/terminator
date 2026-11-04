@@ -28,7 +28,7 @@ The five new features below are **on by default**. Each one can be turned off in
   - Small panes step down through 100% / 90% / 80% based on a 60-column reading measure (width first, then a minimum of 8 rows). A pane taking at least 45% of its window or tab (either pane of any two-pane split) always stays at 100%.
   - A titlebar badge shows the current scale and lets you lock the font size for a terminal.
   - Config keys: `auto_font_scale*`, `reading_measure_*`.
-- **Hide the scrollbar in fullscreen programs.** While a program uses the alternate screen (vim, less, htop, tmux) the scrollbar is hidden and that width goes to the terminal. Config key: `scrollbar_hide_in_alt_screen`.
+- **Hide the scrollbar in fullscreen programs.** While a program uses the alternate screen (vim, less, htop, tmux) the scrollbar is hidden while a same-width invisible slot keeps the terminal grid stable. Config key: `scrollbar_hide_in_alt_screen`.
 - **The window title follows the focused pane.** Title changes from other panes no longer overwrite the window title. Config keys: `window_title_mode` (`focused`/`fixed`) and `window_title_fixed`.
 
 **Behaviour changes when upgrading**
@@ -86,6 +86,7 @@ The five new features below are **on by default**. Each one can be turned off in
 - **Window blur.** The blur hint follows the focused terminal.
 - **remotinator.** `new_tab -x` runs that command in the new tab. Set-tab-title updates the page that holds the terminal. A D-Bus string prints as one line. A remote new window or new tab puts the process command line back afterwards.
 - **Alternate screen.** Leaving the inactive fast path ends that scrollbar episode. Entering a TUI now latches the hidden scrollbar even when the bar was already off screen (a fresh terminal, a cleared screen, a manual hide) or the PTY had not switched to raw mode yet. Before, the width was not recorded, so one scrollable-looking redraw showed the bar again and resized the grid: the flash and jump when opening vim, less or htop. The provisional hide also keeps the font tier from flipping during the 150 ms before the detector confirms the program.
+- **Alternate screen geometry.** The hidden scrollbar keeps an invisible slot of the same width for the whole TUI episode, so entering or leaving vim, less or htop does not resize the VTE or flash the terminal.
 - **Scrollbar.** A raw-mode redraw can look scrollable for one adjustment signal, before VTE has updated `page_size`. The bar stays hidden through that signal and is shown only after the range has settled. Showing or hiding it puts the previous scroll position back, so the viewport does not jump.
 - **Titles and Find.** Confirming a title without changing the text does not lock a custom title. Reopening Find keeps the previous pattern, and a non-ASCII regular expression is compiled in full. The bell icon does not stack timers.
 - **Preferences.** A missing layout name falls back to `default`. Keybinding search filters on the whole string as it is typed. Loading a profile does not paint the previous profile's colours onto it. Cancelling a colour dialog restores the colours that were open. Renaming a profile or layout onto a reserved or existing name is refused. The `default` profile cannot be deleted.

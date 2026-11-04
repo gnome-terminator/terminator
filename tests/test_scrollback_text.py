@@ -1,3 +1,4 @@
+# 验收：TX-03.3。
 #!/usr/bin/env python
 # GPL v2 only
 """Unit tests for terminatorlib.scrollback_text (gi-free)."""

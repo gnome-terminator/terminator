@@ -1,3 +1,4 @@
+# 验收：TX-07.1、TX-07.2。
 """M8: auto-hide scrollbar while a fullscreen TUI uses the alternate screen."""
 
 import os
@@ -335,8 +336,8 @@ def test_leaving_fullscreen_notifies_terminal(monkeypatch):
     assert notes == ['exit']
 
 
-def test_hide_gives_scrollbar_width_to_vte(monkeypatch):
-    """Hiding the bar leaves no empty strip. The VTE takes that width."""
+def test_hide_keeps_scrollbar_width_in_a_slot(monkeypatch):
+    """Hiding the bar keeps its width so the VTE grid does not resize."""
     term, ctl, state = _ctl(monkeypatch)
     held = []
     term.hold_scrollbar_slot = lambda width: held.append(width)
@@ -344,17 +345,17 @@ def test_hide_gives_scrollbar_width_to_vte(monkeypatch):
     ctl.evaluate()
     term.adj.upper = 24
     ctl.evaluate()
-    assert held == ['release']
+    assert held == [14]
     assert ctl.auto_hidden and ctl.hidden_width == 14
     state['busy'] = False
     term.adj.upper = 51
     ctl.evaluate()
-    assert held == ['release', 'release']
+    assert held == [14, 'release']
     assert not ctl.auto_hidden
     assert ctl.hidden_width == 0
 
 
-def test_reconfigure_keeps_width_without_a_slot(monkeypatch):
+def test_reconfigure_rebuilds_the_hidden_slot(monkeypatch):
     term, ctl, _ = _ctl(monkeypatch)
     held = []
     term.hold_scrollbar_slot = lambda width: held.append(width)
@@ -363,8 +364,7 @@ def test_reconfigure_keeps_width_without_a_slot(monkeypatch):
     term.adj.upper = 24
     ctl.evaluate()
     ctl.reconfigured()
-    assert held == ['release', 'release', 'release']
-    assert 14 not in held
+    assert held == [14, 'release', 14]
     assert ctl.auto_hidden and ctl.hidden_width == 14
 
 
@@ -445,16 +445,16 @@ def test_tui_redraw_does_not_show_scrollbar(monkeypatch):
     term.adj.upper = 24
     ctl.evaluate()
     assert ctl.auto_hidden and ctl.hidden_width == 14
-    assert held == ['release']
+    assert held == [14]
     term.adj.upper = 51                  # redraw blip
     ctl.evaluate()
     assert ctl.auto_hidden and ctl.detector.active
-    assert held == ['release']
+    assert held == [14]
     assert term.scrollbar.calls == ['hide']
     state['busy'] = False
     ctl.evaluate()
     assert not ctl.auto_hidden
-    assert held == ['release', 'release']
+    assert held == [14, 'release']
     ctl._cancel()
 
 
@@ -804,7 +804,7 @@ def test_prefs_glade_has_checkbox():
 
 # --- real VTE --------------------------------------------------------------
 
-def _run_real_vte(script, duration_ms=3600):
+def _run_real_vte(script, duration_ms=3600, include_columns=False):
     import gi
     gi.require_version('Gtk', '3.0')
     gi.require_version('Vte', '2.91')
@@ -820,14 +820,30 @@ def _run_real_vte(script, duration_ms=3600):
             self.scrollbar = Gtk.Scrollbar.new(
                 Gtk.Orientation.VERTICAL, self.vte.get_vadjustment())
             self.scrollbar.set_no_show_all(True)
-            box = Gtk.Box.new(Gtk.Orientation.HORIZONTAL, 0)
-            box.pack_start(self.vte, True, True, 0)
-            box.pack_start(self.scrollbar, False, True, 0)
+            self.box = Gtk.Box.new(Gtk.Orientation.HORIZONTAL, 0)
+            self.box.pack_start(self.vte, True, True, 0)
+            self.box.pack_start(self.scrollbar, False, True, 0)
             self.scrollbar.show()
             self.win = Gtk.Window()
-            self.win.add(box)
+            self.win.add(self.box)
             self.win.show_all()
             self.pid = None
+            self._slot = None
+
+        def hold_scrollbar_slot(self, width):
+            if width <= 0:
+                return
+            if self._slot is None:
+                self._slot = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+                self._slot.set_no_show_all(True)
+                self.box.pack_start(self._slot, False, False, 0)
+            self._slot.set_size_request(width, -1)
+            self.box.reorder_child(self._slot, self.box.get_children().index(self.scrollbar))
+            self._slot.show()
+
+        def release_scrollbar_slot(self):
+            if self._slot is not None:
+                self._slot.hide()
 
     term = RealTerm()
     ctl = AltScreenScrollbar(term)
@@ -839,8 +855,11 @@ def _run_real_vte(script, duration_ms=3600):
     t0 = time.monotonic()
 
     def sample():
-        samples.append((round(time.monotonic() - t0, 2),
-                        term.scrollbar.get_visible()))
+        sample = (round(time.monotonic() - t0, 2),
+                  term.scrollbar.get_visible())
+        if include_columns:
+            sample += (term.vte.get_column_count(),)
+        samples.append(sample)
         return True
 
     GLib.timeout_add(100, sample)
@@ -890,6 +909,15 @@ def test_real_vte_clear_and_canonical_command_never_hide():
         'sh -c \'sleep 1.5; echo done\'; sleep 0.5', duration_ms=3000)
     vis = [v for _, v in samples]
     assert all(vis), samples
+
+
+@needs_display
+def test_real_vte_alt_screen_keeps_column_count_stable():
+    samples = _run_real_vte(
+        'set -m; seq 60; sleep 0.8; %s; sleep 1.2' % _TUI,
+        include_columns=True)
+    cols = [columns for _, _, columns in samples]
+    assert cols and len(set(cols)) == 1, samples
 
 
 def test_detach_stops_timers_and_handlers(monkeypatch):

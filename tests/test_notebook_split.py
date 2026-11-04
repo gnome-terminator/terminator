@@ -1,3 +1,4 @@
+# 验收：TX-09.1。
 """Real-widget tests: splitting / closing inside tabs (M7)."""
 import pytest
 from gi.repository import Gtk

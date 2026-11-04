@@ -1,3 +1,4 @@
+# 验收：TX-06.2。
 """m25: per-terminal font size + auto-font lock survive session round trip."""
 import pytest
 from gi.repository import Pango

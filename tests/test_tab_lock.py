@@ -1,3 +1,4 @@
+# 验收：TX-01.4、TX-01.5。
 """Tab lock: a normal exit keeps locked tabs; a kill keeps every tab."""
 
 import json

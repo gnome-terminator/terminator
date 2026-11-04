@@ -1,3 +1,4 @@
+# 验收：TX-05.2。
 # GPL v2 only
 """Unit tests for module D (Wave overlay maximise) — pure helpers + hooks."""
 

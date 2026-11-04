@@ -1,3 +1,4 @@
+# 验收：TX-05.1、TX-09.2。
 """M23: UI review fixes (overlay maximise robustness, timers, signal table,
 prefs debounce, altscreen throttling, titlebar button colour)."""
 import time

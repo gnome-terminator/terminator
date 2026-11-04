@@ -135,6 +135,10 @@ def _run_create_layout(monkeypatch, layout):
         create_layout=lambda d: None,
         title=types.SimpleNamespace(force_title=lambda t: None),
         can_set_position=lambda: Window.can_set_position(fake),
+        # This double has no monitors. Fitting must not move the saved
+        # position; the real method is covered on Window.
+        fit_restored_geometry=lambda position, size, shrink=True: (
+            position, size),
         get_display=lambda: fake.display,
         ismaximised=False, isfullscreen=False)
     fake.display = None

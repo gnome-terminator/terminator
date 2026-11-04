@@ -1778,9 +1778,9 @@ class Terminal(Gtk.VBox):
     def hold_scrollbar_slot(self, width):
         """Keep ``width`` pixels where the scrollbar was.
 
-        The fullscreen hide path does not call this. A visible slot is
-        the empty strip beside a TUI; that path records
-        ``altscreen.hidden_width`` and lets the VTE take the pixels.
+        The alternate-screen controller uses this slot while the scrollbar
+        is hidden. Keeping the allocation stable avoids a column change and
+        SIGWINCH when a fullscreen program starts or exits.
         """
         try:
             width = int(width or 0)
@@ -2979,11 +2979,9 @@ class Terminal(Gtk.VBox):
                 h = self.vte.get_allocated_height()
             except Exception:
                 return
-            # Fullscreen hide gives the bar's width to the VTE and does
-            # not reserve a slot.  Subtract it so the font tier does not
-            # flip for the duration of the program.  A held slot already
-            # keeps the VTE the same size, so subtracting again would
-            # shrink it.
+            # The alternate-screen controller keeps the bar's width in an
+            # invisible slot. A held slot keeps the VTE allocation stable,
+            # so do not subtract that width from the font calculation.
             alt = getattr(self, 'altscreen', None)
             hidden = 0
             if alt is not None and not self._scrollbar_slot_held():

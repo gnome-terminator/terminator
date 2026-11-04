@@ -1,3 +1,4 @@
+# 验收：TX-05.1。
 """Follow-up slot tests: dirty hooks, scrollback suspend, restart handler."""
 
 from __future__ import print_function

@@ -141,6 +141,8 @@ if __name__ == '__main__':
             from terminatorlib.session import (SessionManager,
                                                SESSION_LAYOUT_NAME,
                                                is_explicit_launch,
+                                               launch_is_plain,
+                                               launch_wants_restore,
                                                plain_launch_action)
             from terminatorlib.config import Config
             sess = SessionManager()
@@ -154,23 +156,14 @@ if __name__ == '__main__':
                     err('--clear-session ignored: another Terminator instance '
                         'owns the session')
             cfg = Config()
-            plain_launch = (
-                got_lock
-                and getattr(OPTIONS, 'layout_from_default', False)
-                and not OPTIONS.command and not OPTIONS.execute
-                and not OPTIONS.working_directory and not OPTIONS.configjson
-            )
+            plain_launch = launch_is_plain(got_lock, OPTIONS)
             # One-shot from the full menu. Consumed on this plain launch
             # even when restore is already off, so the mark cannot fire later.
             skip_once = plain_launch and sess.consume_skip_next_restore()
             if skip_once:
                 dbg('session restore skipped: one-shot mark from the previous run')
-            want_restore = (
-                (cfg['restore_last_session'] or getattr(OPTIONS, 'restore', False))
-                and plain_launch
-                and not getattr(OPTIONS, 'no_restore', False)
-                and not skip_once
-            )
+            want_restore = launch_wants_restore(
+                cfg['restore_last_session'], OPTIONS, got_lock, skip_once)
             if want_restore:
                 if sess.check_crash_marker():
                     sess._crash_skipped = True

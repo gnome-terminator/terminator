@@ -304,6 +304,35 @@ def sanitize_layout(layout, missing_dirs=None):
     return layout
 
 
+def launch_is_plain(got_lock, options):
+    """True when this process may load the last session.
+
+    The lock is held, no layout was named, and the launch did not pass a
+    command, ``--working-directory`` or ``--configjson``. ``--no-restore``
+    is not decided here.
+    """
+    return bool(
+        got_lock
+        and getattr(options, 'layout_from_default', False)
+        and not getattr(options, 'command', None)
+        and not getattr(options, 'execute', None)
+        and not getattr(options, 'working_directory', None)
+        and not getattr(options, 'configjson', None))
+
+
+def launch_wants_restore(restore_last_session, options, got_lock, skip_once):
+    """Whether this launch should read session.json.
+
+    A false ``restore_last_session`` or ``--no-restore`` skips the read.
+    Neither flag stops the lock holder from writing the session later.
+    """
+    return bool(
+        (restore_last_session or getattr(options, 'restore', False))
+        and launch_is_plain(got_lock, options)
+        and not getattr(options, 'no_restore', False)
+        and not skip_once)
+
+
 def is_explicit_launch(options):
     """True when a launch asked for something other than a plain window.
 

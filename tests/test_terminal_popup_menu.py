@@ -1,3 +1,4 @@
+# 验收：TX-04.1、TX-04.3。
 """Tests for terminal context menu actions."""
 
 import os

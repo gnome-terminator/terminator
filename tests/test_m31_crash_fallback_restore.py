@@ -1,3 +1,4 @@
+# 验收：TX-01.5。
 """m31: after a crash marker, fall back instead of starting empty."""
 import json
 import os

@@ -1,3 +1,4 @@
+# 验收：TX-02.1、TX-02.2、TX-02.3。
 # Terminator - close_confirm unit tests (process rules; no dialog)
 """Tests for D17 process detection without showing GTK dialogs."""
 

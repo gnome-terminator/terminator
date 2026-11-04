@@ -1,3 +1,4 @@
+# 验收：TX-04.2、TX-06.2。
 """Unit tests for the Wave-style titlebar chrome (sub-plan C)."""
 
 import os

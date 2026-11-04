@@ -1,3 +1,4 @@
+# 验收：TX-03.2。
 """m13: interval flush is fair (no starvation by a chatty terminal) and Enter
 snapshots history before a fullscreen TUI hides the normal screen."""
 import types

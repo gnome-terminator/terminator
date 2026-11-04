@@ -1,3 +1,4 @@
+# 验收：TX-01.1。
 """m21: end-to-end session save -> load -> sanitize -> create_layout under
 Xvfb with real widgets (covers splits, cwd, uuids, user window title, the
 D5 two-window close buffer and legacy layout titles)."""
