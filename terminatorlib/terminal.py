@@ -3062,12 +3062,20 @@ class Terminal(Gtk.VBox):
         except Exception:
             return (0, 0)
 
-    def _auto_font_keeps_full_size(self, pane_w, pane_h):
+    def _auto_font_keeps_full_size(self, pane_w, pane_h, page=None):
         """m26 P1-3: panes taking >= ~45% of their page (any 2-pane split)
-        stay at 100% whatever the reading measure says."""
+        stay at 100% whatever the reading measure says.
+
+        page=(w, h) is for a caller that predicts a size while the pane has
+        no parent (overlay maximise and restore). Without it the page is
+        unknown, the rule is skipped, and the predicted tier can differ
+        from the one chosen once the pane is in the window."""
         from .autofont import keeps_full_size
         try:
-            page_w, page_h = self._auto_font_page_size()
+            if page is not None:
+                page_w, page_h = page
+            else:
+                page_w, page_h = self._auto_font_page_size()
         except Exception:
             return False
         return keeps_full_size(pane_w, pane_h, page_w, page_h)
@@ -3177,8 +3185,11 @@ class Terminal(Gtk.VBox):
         self._auto_font_mode = 'run'
         self.update_auto_font_scale(force=True, avail=avail)
 
-    def compute_tier_for_size(self, w, h):
-        """Return the scale D should apply for destination pixels (no VTE write)."""
+    def compute_tier_for_size(self, w, h, page=None):
+        """Return the scale D should apply for destination pixels (no VTE write).
+
+        page=(w, h) is the area the pane shares, for a pane that is not in
+        a window while D predicts its destination."""
         from .autofont import cols_rows_from_base, select_font_tier
         if not self._auto_font_enabled():
             return 1.0
@@ -3194,7 +3205,7 @@ class Terminal(Gtk.VBox):
         cols0, rows0 = cols_rows_from_base(w, h, *self._base_cell)
         if cols0 <= 0 or rows0 <= 0:
             return tiers[self._font_tier] if self._font_tier < len(tiers) else 1.0
-        if self._auto_font_keeps_full_size(w, h):
+        if self._auto_font_keeps_full_size(w, h, page=page):
             return tiers[0]
         idx = select_font_tier(
             cols0, rows0, self._font_tier, tiers,

@@ -60,6 +60,10 @@ The five new features below are **on by default**. Each one can be turned off in
 
 **Fixes**
 
+- **Maximising and restoring a pane.** A full-screen program no longer changes its row count a moment after the pane maximises or returns to its slot.
+  - The font size chosen for the destination now counts the size of the page the pane shares. The pane has no parent while that size is predicted, so the "big enough pane stays at 100%" rule was skipped and the font was corrected about 200 ms later, which changed the number of rows.
+  - On restore, the font is recomputed from the slot size. It used to use the still-maximised size, which could undo the font just chosen.
+- **Divider double-click.** Double-clicking a divider to balance the panes now balances once. Any left-button release within a second afterwards, such as the start of the next drag, used to balance again and made the panes jump.
 - **Zoom terminal.** Ctrl+Shift+Z enlarges the font of a pane that only grew in one direction, which is every two-way split. It used to keep the old font whenever the column count or the row count stayed the same, so the pane filled the window and the text did not get bigger. The temporary zoom font is no longer stored as the automatic font-size base.
 - Splitting or closing a terminal inside a tab no longer crashes. This bug was also present upstream.
 - The `maximise` shortcut no longer raises an error.

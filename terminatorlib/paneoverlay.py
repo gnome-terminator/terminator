@@ -1209,8 +1209,13 @@ class OverlayController(object):
                 dbg('resume_auto_font_scale: %s' % ex)
 
     @staticmethod
-    def _apply_tier_for_rect(terminal, rect, frame_chrome=0):
-        """Same-frame tier for the destination size (one SIGWINCH)."""
+    def _apply_tier_for_rect(terminal, rect, frame_chrome=0, page=None):
+        """Same-frame tier for the destination size (one SIGWINCH).
+
+        The terminal has no parent at both call sites that matter, so it
+        cannot measure its page. Pass page=(w, h), or this tier skips the
+        keep-full-size rule and the arrival recompute changes the row count
+        a moment later."""
         if terminal is None or rect is None:
             return
         compute = getattr(terminal, 'compute_tier_for_size', None)
@@ -1219,7 +1224,10 @@ class OverlayController(object):
             return
         try:
             w, h = vte_size_for_rect(terminal, rect, frame_chrome)
-            scale = compute(w, h)
+            if page is None:
+                scale = compute(w, h)
+            else:
+                scale = compute(w, h, page=page)
             apply(scale, toast=False)
         except Exception as ex:
             dbg('apply_font_tier_scale: %s' % ex)
@@ -1359,11 +1367,14 @@ class OverlayController(object):
             'emitted': False,
             'press_on_dim': False,
             'ready_at': 0.0,
+            'page': (main_alloc.width, main_alloc.height),
         }
         window.set_property('term_zoomed', True)
 
         # 3) same-frame E tier at the frame's final size, then reparent
-        self._apply_tier_for_rect(terminal, dst_rect, FRAME_CHROME_PX)
+        self._apply_tier_for_rect(
+            terminal, dst_rect, FRAME_CHROME_PX,
+            page=(main_alloc.width, main_alloc.height))
         frame.set_terminal(terminal)
         # Arrived margins exclude the tab list. size-allocate keeps them
         # in step when the window or the list changes width.
@@ -1775,8 +1786,25 @@ class OverlayController(object):
                 if alloc.width > 1 and alloc.height > 1 else data['src_rect']
         except Exception:
             slot = data['src_rect']
+        slot_avail = None
         if not dying:
-            self._apply_tier_for_rect(terminal, slot)
+            # Prefer the live size; the one recorded at maximise time covers
+            # a main widget that has not been allocated yet.
+            page = data.get('page')
+            try:
+                main_alloc_now = main.get_allocation()
+                if main_alloc_now.width > 1 and main_alloc_now.height > 1:
+                    page = (main_alloc_now.width, main_alloc_now.height)
+            except Exception:
+                pass
+            self._apply_tier_for_rect(terminal, slot, page=page)
+            # The resume below must use this slot size too. Right after the
+            # swap the VTE allocation is still the maximised one, and a
+            # forced recompute from it undid the tier chosen above.
+            try:
+                slot_avail = vte_size_for_rect(terminal, slot)
+            except Exception:
+                slot_avail = None
 
         root_terminal = False
         removed_placeholder = False
@@ -1860,7 +1888,7 @@ class OverlayController(object):
                     terminal.grab_focus()
                 except Exception:
                     pass
-            self._resume_font(terminal)
+            self._resume_font(terminal, avail=slot_avail)
         if emitted:
             self._emit_changed(terminal, False)
 

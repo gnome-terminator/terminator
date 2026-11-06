@@ -262,6 +262,26 @@ def test_divider_release_marks_session_dirty(monkeypatch):
     assert marks == ['paned.drag']
 
 
+def test_divider_balance_runs_once_per_double_click(monkeypatch):
+    import time
+    from terminatorlib import paned
+    monkeypatch.setattr(sess, 'try_mark_dirty', lambda r='': None)
+    monkeypatch.setattr(paned, '_schedule_auto_font_on_widget',
+                        lambda w: None, raising=False)
+    monkeypatch.setattr(paned.Gtk, 'events_pending', lambda: False)
+    calls = []
+    fake = types.SimpleNamespace(
+        last_balance_time=time.time(), last_balance_args=(False, False),
+        do_redistribute=lambda *a: calls.append(a))
+    ev = types.SimpleNamespace(button=1)
+    paned.Paned.on_button_release(fake, None, ev)
+    n = len(calls)
+    assert n > 0
+    # the next release, still inside one second, must not balance again
+    paned.Paned.on_button_release(fake, None, ev)
+    assert len(calls) == n
+
+
 # post-review: placeholder must not draw a HiDPI snapshot scale x too large
 class _PB(object):
     def __init__(self, w):

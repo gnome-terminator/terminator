@@ -200,6 +200,62 @@ def test_restore_swap_failure_uses_same_slot(win, monkeypatch):
     assert getattr(t, '_overlay_placeholder', None) is None
 
 
+def test_restore_resumes_font_with_slot_size(win, monkeypatch):
+    """Restore must resume auto font with the slot size. Without avail the
+    forced recompute reads the still-maximised VTE allocation and undoes
+    the tier just applied for the slot."""
+    t = _pane(win)
+    assert win.overlay_maximise(t, animate=False)
+    seen = []
+    monkeypatch.setattr(t, 'resume_auto_font_scale',
+                        lambda avail=None: seen.append(avail))
+    assert win.overlay_restore(animate=False)
+    assert len(seen) == 1
+    assert seen[0] is not None
+    w, h = seen[0]
+    assert w >= 1 and h >= 1
+
+
+def test_maximise_predicts_tier_with_page_size(win, monkeypatch):
+    """The terminal has no parent while D predicts the maximised tier, so it
+    cannot measure its page. Without page= the keep-full-size rule is
+    skipped and the arrival recompute changes the row count afterwards."""
+    t = _pane(win)
+    seen = []
+    real = type(t).compute_tier_for_size
+
+    def spy(self, w, h, page=None):
+        seen.append(page)
+        return real(self, w, h, page=page)
+    monkeypatch.setattr(type(t), 'compute_tier_for_size', spy)
+    assert win.overlay_maximise(t, animate=False)
+    assert seen and seen[0] is not None
+    assert seen[0][0] > 1 and seen[0][1] > 1
+
+
+def test_restore_predicts_tier_with_page_size(win, monkeypatch):
+    t = _pane(win)
+    assert win.overlay_maximise(t, animate=False)
+    seen = []
+    real = type(t).compute_tier_for_size
+
+    def spy(self, w, h, page=None):
+        seen.append(page)
+        return real(self, w, h, page=page)
+    monkeypatch.setattr(type(t), 'compute_tier_for_size', spy)
+    assert win.overlay_restore(animate=False)
+    assert seen and seen[0] is not None
+
+
+def test_keeps_full_size_uses_given_page():
+    from terminatorlib.terminal import Terminal
+    fake = type('F', (), {'_auto_font_page_size':
+                          lambda self: (0, 0)})()
+    keep = Terminal._auto_font_keeps_full_size
+    assert keep(fake, 800, 500, page=(900, 560)) is True
+    assert keep(fake, 800, 500) is False
+
+
 def test_restore_unknown_parent_rolls_back(win, monkeypatch):
     t = _pane(win)
     assert win.overlay_maximise(t, animate=False)

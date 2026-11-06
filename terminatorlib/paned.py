@@ -195,6 +195,9 @@ class Paned(Container):
         """Handle button presses on a Pane"""
         if event.button == 1:
             if self.last_balance_time > (time.time() - 1):
+                # One double-click balances once. Without this reset, any
+                # release within a second (the next drag) balanced again.
+                self.last_balance_time = 0
                 # Dumb loop still needed, or some terms get squished on a Super rebalance
                 for i in range(3):
                     while Gtk.events_pending():
