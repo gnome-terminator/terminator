@@ -39,6 +39,9 @@ class Notebook(Container, Gtk.Notebook):
         self.connect('scroll-event', self.on_scroll_event)
         self.connect('create-window', self.create_window_detach)
         self.connect_after('drag-failed', self.on_tab_drag_failed)
+        # Ungrouped, GTK switches page under our own tab drag and segfaults drawing
+        # the dragged label; unique per notebook as cross-window drops skip newtab().
+        self.set_group_name('terminator-notebook-%x' % id(self))
         self.configure()
 
         self.set_can_focus(False)
