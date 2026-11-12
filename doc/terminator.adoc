@@ -113,6 +113,27 @@ If this is specified and Terminator is already running, DBus will be
 used to toggle Terminator window visibility. Usable under Wayland to
 replace hide keyboad shortcut.
 
+*--restore*::
+Restore the last saved session even if *restore_last_session* is
+disabled in the configuration. As with the automatic restore, this has
+no effect together with *-l*, *-e*, *-x*, *--working-directory* or
+*-j*, or when another Terminator process already owns the session.
+
+*--no-restore*::
+Do not restore the last session for this launch; start with the default
+layout instead. This run still saves the session automatically, so the
+previously saved session is replaced.
++
+The full terminal menu item *Don't restore next launch* is different:
+it pauses saving in the running process, and the next plain launch
+opens a new window once. Uncheck it to keep saving. Opening another
+window while this process is still running does not consume the mark.
+
+*--clear-session*::
+Delete the saved session (including its backups) and the scrollback
+cache before starting. Terminator then continues to start normally,
+with the default layout.
+
 == KEYBINDINGS
 The following default keybindings can be used to control Terminator.
 Most of these keybindings can be changed in the Preferences.
@@ -217,9 +238,16 @@ The following items relate to helping to focus on a specific terminal.
 *F11*::
 Toggle window to fullscreen.
 
-*Ctrl+Shift+X*::
+*Ctrl+Shift+Return* or *Ctrl+Shift+X*::
 Toggle between showing all terminals and only showing the current one
-(maximise).
+(maximise). By default the terminal is shown as an animated overlay
+above the dimmed layout (see *pane_overlay_maximise* in
+*terminator_config*(5)). Double-clicking a terminal's titlebar or
+clicking its maximise button does the same.
+
+*Shift+Escape*::
+Restore the maximised terminal. Only active while a terminal is
+maximised.
 
 *Ctrl+Shift+Z*::
 Toggle between showing all terminals and only showing a scaled version
@@ -263,7 +291,9 @@ The following items relate to miscellaneous terminal related functions.
 Copy selected text to clipboard.
 
 *Ctrl+Shift+V*::
-Paste clipboard text.
+Paste clipboard text. If the clipboard holds only an image (a
+screenshot, or another program's *Copy image*), the image is saved as a
+PNG under the pasted-images cache and its shell-quoted path is pasted.
 
 *Ctrl+Shift+S*::
 Toggle __s__crollbar.
@@ -295,13 +325,44 @@ Rename window title.
 Rename tab title.
 
 *Ctrl+Alt+X*::
-Rename terminal title.
+Rename terminal title. (Double-clicking the titlebar maximises the
+terminal; renaming is also available from the titlebar's right-click
+menu.)
 
 *Super+1*::
 Insert terminal number, i.e. 1 to 12.
 
 *Super+0*::
 Insert padded terminal number, i.e. 01 to 12.
+
+== SESSIONS
+By default (*restore_last_session* = True) Terminator saves its windows,
+tabs, splits, working directories and maximised terminal automatically
+while it runs. A plain *terminator* launch restores locked tabs, and any
+window that has no tab list. The lock is on each tab's row in the
+sidebar; the tab menu has the same switch, *Keep for next launch*. A
+normal exit forgets unlocked tabs. If Terminator is killed or crashes,
+the next launch restores every tab that was still open. Only the
+first Terminator process owns the session; launches with *-l*, *-e*,
+*-x*, *--working-directory* or *-j* do not restore it. Windows opened
+with *-l*, *-e*, *-x* or *-j* are left out of the saved session, and
+their scrollback is not cached, until you split them or open a tab in
+them. When the last terminal of a window with no tab list is closed or
+exits, the session keeps that window, so the next launch reopens it. The
+last lines of each terminal are cached and shown again after a restore
+(*scrollback_cache*). Closing a terminal, tab or window that still has
+programs running asks for confirmation.
+
+== FILES
+_$XDG_STATE_HOME/terminator/session.json_ (normally _~/.local/state/terminator/session.json_)::
+The saved session, with backups _session.json.prev_ and _session.json.prev2_.
+
+_$XDG_CACHE_HOME/terminator/scrollback/_ (normally _~/.cache/terminator/scrollback/_)::
+Scrollback cache, one file per terminal.
+
+_$XDG_CACHE_HOME/terminator/pasted-images/_ (normally _~/.cache/terminator/pasted-images/_)::
+Images pasted from the clipboard, as PNG files. Older files are removed
+after seven days, and at most 100 are kept.
 
 == AUTHORS
 Terminator was written by Chris Jones <\cmsj@tenshu.net> and others.

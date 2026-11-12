@@ -8,7 +8,12 @@ be added to /etc/profile.d) and you need to ensure `__vte_prompt_command` is
 executed on `PROMPT_COMMAND` in Bash or in `precmd_functions` in Zsh.
 
 This plugin also relies on the widely distributed vte patches to wire in a 
-`notification_received` signal to catch the OSC escape sequence in the prompt
+`notification_received` signal to catch the OSC escape sequence in the prompt.
+
+On upstream VTE the plugin never loads. ``notification-received`` came
+from Fedora patches that were never merged, and Fedora 41 removed them.
+VTE 0.78 reports shell command boundaries as termprops instead. This
+plugin does not use those, and it is not part of the agent-state path.
 
 Code is adapted from https://github.com/x4lldux/terminator-long-cmd-notify
 Thanks to @xll4dux on Github for the code and his permission to use it
@@ -33,7 +38,7 @@ class CommandNotify(plugin.Plugin):
 
     def __init__(self):
         self.update_watched()
-        Notify.init('Terminator')
+        Notify.init('TerminatorX')
         return None
 
     def update_watched(self):
@@ -56,7 +61,7 @@ class CommandNotify(plugin.Plugin):
         def add_watch(self):
             self.update_watched()
             return False
-        GObject.idle_add(add_watch, self)
+        GLib.idle_add(add_watch, self)
         return True
 
     def notification_received(self, vte, summary, body, _terminator_term):

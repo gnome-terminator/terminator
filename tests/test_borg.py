@@ -33,6 +33,7 @@ from terminatorlib.borg import Borg
 
 
 class TestBorg(Borg):
+    __test__ = False
     attribute = None
 
     def __init__(self):
@@ -45,6 +46,7 @@ class TestBorg(Borg):
 
 
 class TestBorg2(Borg):
+    __test__ = False
     attribute = None
 
     def __init__(self):

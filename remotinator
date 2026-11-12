@@ -32,6 +32,16 @@ except ImportError:
     sys.exit(1)
 from terminatorlib.translation import _
 
+def print_result(result):
+    """唯一的结果打印。str 必须先于 list，否则 dbus.String 会被按字符拼接。"""
+    if isinstance(result, str):
+        print(result)
+        return
+    if isinstance(result, (list, tuple)):
+        print('\n'.join(str(item) for item in result))
+        return
+    print(result)  # None -> None
+
 APP_NAME='remotinator'
 
 COMMANDS={
@@ -47,6 +57,7 @@ COMMANDS={
     'get_tab':              [True,  _('Get the UUID of a parent tab')],
     'get_tab_title':        [True,  _('Get the title of a parent tab')],
     'set_tab_title':        [True,  _('Set the title of a parent tab')],
+    'set_agent_state':      [True,  _('Set an agent state on a terminal')],
     'bg_img':               [True,  _('Set the background image')],
     'bg_img_all':           [False, _('Set the background image for all terminals')],
     'switch_profile':       [True,  _('Switch current terminal profile')],
@@ -88,6 +99,12 @@ if __name__ == '__main__':
     parser.add_argument('-t', '--tab-title', dest='tab-title', type=str, default="Missing Tab Title! Use -t argument!",
                 help=_('Tab name to set. Only used with "set_tab_title" command.'))
 
+    parser.add_argument('-s', '--state', dest='state', type=str, default=argparse.SUPPRESS,
+                help=_('Agent state: idle, working, blocked, done, error, or clear'))
+
+    parser.add_argument('-m', '--message', dest='message', type=str, default=argparse.SUPPRESS,
+                help=_('Short message shown with that state'))
+
     parser.add_argument('-T', '--title', dest='title', type=str, default=argparse.SUPPRESS,
                 help=_('Tab name to set.'))
 
@@ -105,9 +122,9 @@ if __name__ == '__main__':
     if uuid_required:
         uuid = options.get('uuid', os.environ.get('TERMINATOR_UUID'))
         if uuid:
-            print(str(func(uuid, options)))
+            print_result(func(uuid, options))
         else:
             err("$TERMINATOR_UUID is not set, or passed as an option.")
             sys.exit(1)
     else:
-        print(str(func(options)))
+        print_result(func(options))

@@ -1,5 +1,6 @@
 include .gitignore
 include data/terminator.appdata.xml.in data/terminator.desktop.in
-include tests/*
+recursive-include tests *
+global-exclude __pycache__/* *.py[co]
 include INSTALL.md README.md
 exclude po/.intltool-merge-cache

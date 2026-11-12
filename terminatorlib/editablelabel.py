@@ -32,15 +32,22 @@ class EditableLabel(Gtk.EventBox):
     _autotext = None
     _custom = None
     _entry = None
+    _edit_base = None
     _entry_handler_id = None
 
     __gsignals__ = {
             'edit-done': (GObject.SignalFlags.RUN_LAST, None, ()),
+            'double-clicked': (GObject.SignalFlags.RUN_LAST, None, ()),
     }
 
-    def __init__(self, text = ""):
-        """ Class initialiser"""
+    _double_click_edit = True
+
+    def __init__(self, text = "", double_click_edit=True):
+        """ Class initialiser
+        double_click_edit: when False a left double-click emits
+        'double-clicked' instead of starting an edit (D15)."""
         GObject.GObject.__init__(self) 
+        self._double_click_edit = double_click_edit
 
         self._entry_handler_id = []
         self._label = Gtk.Label(label=text, ellipsize='end')
@@ -73,7 +80,8 @@ class EditableLabel(Gtk.EventBox):
             return False
         self.remove (self._label)
         self._entry = Gtk.Entry ()
-        self._entry.set_text (self._label.get_text ())
+        self._edit_base = self._label.get_text()
+        self._entry.set_text(self._edit_base)
         self._entry.show ()
         self.add (self._entry)
         sig = self._entry.connect ("focus-out-event", self._entry_to_label)
@@ -94,6 +102,10 @@ class EditableLabel(Gtk.EventBox):
         if event.button != 1:
             return False
         if event.type == Gdk.EventType._2BUTTON_PRESS:
+            if not self._double_click_edit:
+                if not self.editing():
+                    self.emit('double-clicked')
+                return(True)
             self.edit()
             return(True)
         return(False)
@@ -118,15 +130,14 @@ class EditableLabel(Gtk.EventBox):
     def _on_entry_activated (self, widget):
         # pylint: disable-msg=W0613
         """get the text entered in Gtk.Entry"""
-        entry = self._entry.get_text ()
-        label = self._label.get_text ()
+        entry = self._entry.get_text()
         if entry == '':
             self._custom = False
-            self.set_text (self._autotext)
-        elif entry != label:
+            self.set_text('' if self._autotext is None else self._autotext)
+        elif entry != self._edit_base:
             self._custom = True
-            self._label.set_text (entry)
-        self._entry_to_label (None, None)
+            self._label.set_text(entry)
+        self._entry_to_label(None, None)
 
     def _on_entry_keypress (self, widget, event):
         # pylint: disable-msg=W0613
@@ -155,6 +166,11 @@ class EditableLabel(Gtk.EventBox):
 
     def set_custom(self):
         """Set the customness of the string to True"""
+        self._custom = True
+
+    def set_custom_text(self, text):
+        """Show text as the custom label; do not touch _autotext."""
+        self._label.set_text(text)
         self._custom = True
 
     def modify_font(self, fontdesc):

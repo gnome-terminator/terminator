@@ -48,6 +48,16 @@ def reset_config_keybindings():
     conf_base.prepare_attributes()
 
 
+def _path_of(liststore, action):
+    """Row path of an action; rows are sorted by action name."""
+    row = liststore.get_iter_first()
+    while row is not None:
+        if liststore.get_value(row, 0) == action:
+            return str(liststore.get_path(row))
+        row = liststore.iter_next(row)
+    raise KeyError(action)
+
+
 def test_non_empty_default_keybinding_accels_are_distinct():
     """
     Tests that all non-empty key binding accelerators defined in
@@ -68,17 +78,17 @@ def test_non_empty_default_keybinding_accels_are_distinct():
     "accel_params,expected",
     [
         # 1) 'edit_tab_title' Ctrl+Alt+A
-        (("10", 97, CONTROL_ALT_MOD, 38), False,),
+        (("edit_tab_title", 97, CONTROL_ALT_MOD, 38), False,),
         # 2) 'edit_terminal_title' Ctrl+Alt+A
-        (("11", 97, CONTROL_ALT_MOD, 38), True,),
+        (("edit_terminal_title", 97, CONTROL_ALT_MOD, 38), True,),
         # 3) 'edit_window_title' F11
-        (("12", 65480, Gdk.ModifierType(0), 95), True,),
-        # 4) 'zoom_in' Shift+Ctrl+Z
-        (("71", 122, CONTROL_SHIFT_MOD, 52), True,),
-        # 5) 'close_terminal' Ctrl+Alt+{
-        (("3", 123, CONTROL_ALT_SHIFT_MOD, 34), False,),
-        # 6) 'zoom_in' Shift+Ctrl+B
-        (("71", 98, CONTROL_SHIFT_MOD, 56), False,),
+        (("edit_window_title", 65480, Gdk.ModifierType(0), 95), True,),
+        # 4) 'switch_to_tab_4' Shift+Ctrl+Z
+        (("switch_to_tab_4", 122, CONTROL_SHIFT_MOD, 52), True,),
+        # 5) 'close_term' Ctrl+Alt+{
+        (("close_term", 123, CONTROL_ALT_SHIFT_MOD, 34), False,),
+        # 6) 'switch_to_tab_4' Shift+Ctrl+J
+        (("switch_to_tab_4", 106, CONTROL_SHIFT_MOD, 44), False,),
     ],
 )
 def test_message_dialog_is_shown_on_duplicate_accel_assignment(
@@ -92,7 +102,7 @@ def test_message_dialog_is_shown_on_duplicate_accel_assignment(
     from terminatorlib import terminal
     from terminatorlib import prefseditor
 
-    path, key, mods, code = accel_params
+    action, key, mods, code = accel_params
 
     term = terminal.Terminal()
     prefs_editor = prefseditor.PrefsEditor(term=term)
@@ -105,6 +115,7 @@ def test_message_dialog_is_shown_on_duplicate_accel_assignment(
     widget = prefs_editor.builder.get_object("keybindingtreeview")
     treemodelfilter = widget.get_model()
     liststore = treemodelfilter.get_model()
+    path = _path_of(liststore, action)
 
     # Replace default accelerator with a test one
     prefs_editor.on_cellrenderer_accel_edited(
@@ -120,13 +131,13 @@ def test_message_dialog_is_shown_on_duplicate_accel_assignment(
     "accel_params",
     [
         # 1) 'edit_tab_title' Ctrl+Alt+A
-        ("10", 97, CONTROL_ALT_MOD, 38),
+        ("edit_tab_title", 97, CONTROL_ALT_MOD, 38),
         # 2) 'edit_terminal_title' Ctrl+Alt+A
-        ("11", 97, CONTROL_ALT_MOD, 38),
+        ("edit_terminal_title", 97, CONTROL_ALT_MOD, 38),
         # 3) 'edit_window_title' F11
-        ("12", 65480, Gdk.ModifierType(0), 95),
-        # 4) 'zoom_in' Shift+Ctrl+Z
-        ("71", 122, CONTROL_SHIFT_MOD, 52),
+        ("edit_window_title", 65480, Gdk.ModifierType(0), 95),
+        # 4) 'switch_to_tab_4' Shift+Ctrl+Z
+        ("switch_to_tab_4", 122, CONTROL_SHIFT_MOD, 52),
     ],
 )
 def test_duplicate_accels_not_possible_to_set(accel_params):
@@ -139,7 +150,7 @@ def test_duplicate_accels_not_possible_to_set(accel_params):
     from terminatorlib import terminal
     from terminatorlib import prefseditor
 
-    path, key, mods, code = accel_params
+    binding, key, mods, code = accel_params
 
     term = terminal.Terminal()
     prefs_editor = prefseditor.PrefsEditor(term=term)
@@ -153,7 +164,7 @@ def test_duplicate_accels_not_possible_to_set(accel_params):
     widget = prefs_editor.builder.get_object("keybindingtreeview")
     treemodelfilter = widget.get_model()
     liststore = treemodelfilter.get_model()
-    binding = liststore.get_value(liststore.get_iter(path), 0)
+    path = _path_of(liststore, binding)
 
     all_default_accelerators = {
         tuple(Gtk.accelerator_parse(accel))
@@ -261,11 +272,11 @@ def test_keybinding_edit_produce_expected_accels(
 @pytest.mark.parametrize(
     "accel_params",
     [
-        # Format: (path, key, mods, hardware_keycode)
+        # Format: (action, key, mods, hardware_keycode)
         # 1) 'broadcast_all' 1
-        ("0", Gdk.KEY_1, Gdk.ModifierType(0), 10),
+        ("broadcast_all", Gdk.KEY_1, Gdk.ModifierType(0), 10),
         # 2) 'broadcast_group' Ctrl+Alt+Shift+Up
-        ("1", Gdk.KEY_Up, CONTROL_ALT_SHIFT_MOD, 111),
+        ("broadcast_group", Gdk.KEY_Up, CONTROL_ALT_SHIFT_MOD, 111),
     ],
 )
 def test_keybinding_successfully_reassigned_after_clearing(accel_params):
@@ -283,7 +294,8 @@ def test_keybinding_successfully_reassigned_after_clearing(accel_params):
     treemodelfilter = widget.get_model()
     liststore = treemodelfilter.get_model()
 
-    path, key, mods, hardware_keycode = accel_params
+    action, key, mods, hardware_keycode = accel_params
+    path = _path_of(liststore, action)
     # Assign a key binding
     prefs_editor.on_cellrenderer_accel_edited(
         liststore=liststore,
@@ -304,3 +316,98 @@ def test_keybinding_successfully_reassigned_after_clearing(accel_params):
     )
 
     reset_config_keybindings()
+
+
+def _visible_actions(editor):
+    model = editor.builder.get_object('keybindingtreeview').get_model()
+    actions = []
+    row = model.get_iter_first()
+    while row is not None:
+        actions.append(model.get_value(row, 0))
+        row = model.iter_next(row)
+    return actions
+
+
+def _child_rows(editor):
+    model = editor.builder.get_object('keybindingtreeview').get_model()
+    child = model.get_model()
+    rows = []
+    row = child.get_iter_first()
+    while row is not None:
+        rows.append((
+            child.get_value(row, 0),
+            child.get_value(row, 1),
+            child.get_value(row, 2),
+            child.get_value(row, 3),
+        ))
+        row = child.iter_next(row)
+    return rows
+
+
+def _search_blob(act, desc, kval, mask, keys_map):
+    keys = keys_map[act] if act in keys_map else ''
+    if keys is None:
+        keys = ''
+    label = act
+    if not (len(keys) and kval and mask):
+        label = 'Disabled'
+    return (label + ' ' + str(keys) + ' ' + desc).lower()
+
+
+def test_keybinding_search_uses_full_entry_text(tmp_path, monkeypatch):
+    from types import SimpleNamespace
+    from terminatorlib.borg import Borg
+    from terminatorlib import optionparse
+    from terminatorlib.plugin import KeyBindUtil
+
+    monkeypatch.setenv('XDG_CONFIG_HOME', str(tmp_path / 'config'))
+    monkeypatch.setenv('XDG_STATE_HOME', str(tmp_path / 'state'))
+    monkeypatch.setenv('XDG_CACHE_HOME', str(tmp_path / 'cache'))
+    state = Borg._Borg__shared_state
+    saved = state.get('ConfigBase')
+    state.pop('ConfigBase', None)
+    old = optionparse.options
+    optionparse.options = SimpleNamespace(
+        config=str(tmp_path / 'config-file'), profile=None, layout=None,
+        command=None, execute=None, working_directory=None,
+        forcedtitle=None, forcedicon=None, role=None, geometry=None)
+    editor = None
+    try:
+        from terminatorlib import terminal, prefseditor
+        editor = prefseditor.PrefsEditor(term=terminal.Terminal())
+        entry = editor.builder.get_object('keybindingsearchentry')
+        keys_map = dict(KeyBindUtil.map_all_act_to_keys)
+        rows = {act: (desc, kval, mask)
+                for act, desc, kval, mask in _child_rows(editor)}
+
+        def blob(act):
+            return _search_blob(act, *rows[act], keys_map)
+
+        def expect(needle):
+            return sorted(act for act in rows if needle in blob(act))
+
+        entry.set_text('q')
+        visible = _visible_actions(editor)
+        assert visible == expect('q')
+        assert visible
+        assert len(visible) < len(rows)
+
+        entry.set_text('')
+        assert len(_visible_actions(editor)) == len(rows)
+        entry.set_text('split_horiz')
+        visible = _visible_actions(editor)
+        assert visible == expect('split_horiz')
+        assert 'split_horiz' in visible
+        assert len(visible) < len(rows)
+
+        entry.set_text('split_horiz_not_a_real_action')
+        assert _visible_actions(editor) == []
+        entry.set_text('split_horiz')
+        assert _visible_actions(editor) == expect('split_horiz')
+    finally:
+        if editor is not None and editor.window is not None:
+            editor.window.destroy()
+        optionparse.options = old
+        state.pop('ConfigBase', None)
+        if saved is not None:
+            state['ConfigBase'] = saved

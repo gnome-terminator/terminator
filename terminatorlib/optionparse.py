@@ -28,6 +28,12 @@ from .translation import _
 
 options = None
 
+def debug_level_with_filters(debug, debug_classes, debug_methods):
+    """Return 1 when a debug filter is set and no debug level was given."""
+    if (debug_classes or debug_methods) and (debug is None or debug == 0):
+        return 1
+    return debug
+
 class ExecuteCallback(argparse.Action):
     def __call__(self, lparser, namespace, values, option_string=None):
         """Callback for use in parsing execute options"""
@@ -107,6 +113,12 @@ icon for the window (by file or name)'))
             help=_('List all profiles'))
     parser.add_argument('--list-layouts', action='store_true', dest='list_layouts',
             help=_('List all layouts'))
+    parser.add_argument('--no-restore', action='store_true', dest='no_restore',
+            help=_('Do not restore the last session'))
+    parser.add_argument('--restore', action='store_true', dest='restore',
+            help=_('Force restore the last session'))
+    parser.add_argument('--clear-session', action='store_true', dest='clear_session',
+            help=_('Clear the saved session and scrollback cache before starting'))
 
     for item in ['--sm-client-id', '--sm-config-prefix', '--screen', '-n',
                  '--no-gconf' ]:
@@ -129,9 +141,8 @@ icon for the window (by file or name)'))
             print(l)
         sys.exit(0)
 
-    if options.debug_classes or options.debug_methods:
-        if not options.debug > 0:
-            options.debug = 1
+    options.debug = debug_level_with_filters(
+            options.debug, options.debug_classes, options.debug_methods)
 
     if options.debug:
         util.DEBUG = True
@@ -157,6 +168,9 @@ icon for the window (by file or name)'))
 
     if options.layout is None:
         options.layout = 'default'
+        options.layout_from_default = True
+    else:
+        options.layout_from_default = False
 
     configobj = config.Config()
     if options.profile and options.profile not in configobj.list_profiles():
