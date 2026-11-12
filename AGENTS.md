@@ -1,9 +1,9 @@
 # TerminatorX 开发约束
 
-TerminatorX 在一个窗口里放多个终端。命令名仍是 `terminator`。桌面名、关于页和默认窗口标题用 TerminatorX。许可是 GPL v2 only。
+TerminatorX 在一个窗口里放多个终端。命令名仍是 `terminator`。桌面名、关于页和默认窗口标题用 TerminatorX。关于页的开发与问题链接指向 https://github.com/TIIEHenry/TerminatorX 。许可是 GPL v2 only。
 
 - `docs/` 是当前需求、原则和设计。`dev/` 是计划、审查和待处理项。`archive/` 是已结束的过程材料和失效文档，不能直接当作当前规则。2026-09-07 的设计稿和 2026-10-15 的审查在归档里，其中的行号对应当时的提交，不能当作现行代码位置。
-- 本 fork 新增的会话恢复、关闭确认、回滚缓存、窗格标题栏、浮层最大化、自动字号、备用屏幕隐藏滚动条，默认都开着。关掉某一项要改配置或首选项，不要在代码里把默认改成关。依据见 [默认开启](docs/decisions/defaults-on.md)。
+- 本 fork 新增的会话恢复、关闭确认、回滚缓存、窗格标题栏、浮层最大化、自动字号、备用屏幕隐藏滚动条、分割后均分，默认都开着。关掉某一项要改配置或首选项，不要在代码里把默认改成关。依据见 [默认开启](docs/decisions/defaults-on.md)。
 - 会话恢复布局、工作目录、锁定状态和回滚缓存，不恢复正在运行的程序，也不重连 ssh。正常退出写入的会话只保留锁定的标签；没有标签列表的窗口仍保留。进程被杀死时，磁盘上仍是退出前的完整布局。依据见 [锁定标签](docs/decisions/locked-tabs.md)。
 - 走布局父子关系时用 `terminatorlib.util.logical_parent`，不要用 `get_parent()` 把暂时插入的 `Gtk.Overlay`、窗格框或左侧标签列表外壳当成布局节点。浮层只在窗格最大化期间插入。依据见 [逻辑父节点](docs/decisions/logical-parent.md)。
 - 会话文件里的布局叶子写成字符串。恢复代码用字符串比较，例如 `'True'`。不要写入 JSON 原生布尔值。

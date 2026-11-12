@@ -37,6 +37,12 @@ def _restore_overlay_before_collapse(paned, closing):
         return False
 
 
+def even_sizes(total, count):
+    """Split total pixels into count whole sizes differing by at most one."""
+    base, extra = divmod(max(int(total), 0), count)
+    return [base + 1] * extra + [base] * (count - extra)
+
+
 def _schedule_auto_font_on_widget(widget):
     """Ask terminals under widget to re-evaluate auto font scale (E)."""
     if widget is None:
@@ -198,11 +204,7 @@ class Paned(Container):
                 # One double-click balances once. Without this reset, any
                 # release within a second (the next drag) balanced again.
                 self.last_balance_time = 0
-                # Dumb loop still needed, or some terms get squished on a Super rebalance
-                for i in range(3):
-                    while Gtk.events_pending():
-                        Gtk.main_iteration_do(False)
-                    self.do_redistribute(*self.last_balance_args)
+                self.redistribute_settled(*self.last_balance_args)
             _schedule_auto_font_on_widget(self)
             # m33 review: a divider drag must mark the session dirty
             # explicitly so the idle periodic skip can never delay it.
@@ -242,8 +244,43 @@ class Paned(Container):
                 grandfather.do_redistribute(recurse_up, recurse_down)
 
         highest_ancestor._do_redistribute(recurse_up, recurse_down)
+        highest_ancestor._restore_autoresize_after_allocate()
 
-        GLib.idle_add(highest_ancestor.set_autoresize, True)
+    def _restore_autoresize_after_allocate(self):
+        """Turn autoresize back on once the new positions are allocated.
+
+        Nested positions only survive their own resize while child2 absorbs
+        it. An idle restore can run before that allocation, and the nested
+        dividers then scale proportionally away from even."""
+        self._cancel_autoresize_restore()
+
+        def restore(from_timeout):
+            if from_timeout:
+                self._autoresize_timeout_id = None
+            self._cancel_autoresize_restore()
+            try:
+                self.set_autoresize(True)
+            except (TypeError, IndexError) as ex:
+                dbg('autoresize restore skipped: %s' % ex)
+            return False
+
+        self._autoresize_alloc_id = self.connect(
+            'size-allocate', lambda *_a: restore(False))
+        self._autoresize_timeout_id = GLib.timeout_add(
+            500, lambda: restore(True))
+
+    def _cancel_autoresize_restore(self):
+        sid = getattr(self, '_autoresize_alloc_id', None)
+        if sid:
+            try:
+                self.disconnect(sid)
+            except Exception:
+                pass
+        tid = getattr(self, '_autoresize_timeout_id', None)
+        if tid:
+            GLib.source_remove(tid)
+        self._autoresize_alloc_id = None
+        self._autoresize_timeout_id = None
     
     def _do_redistribute(self, recurse_up=False, recurse_down=False):
         maker = Factory()
@@ -274,20 +311,44 @@ class Paned(Container):
         #3 Get ancestor x/y => a, and handle size => hs
         avail_pixels=self.get_length()
         handle_size = self.get_handlesize()
-        #4 Math! eek (a - (n * hs)) / (n + 1) = single size => s
-        single_size = (avail_pixels - (number_splits * handle_size)) / (number_splits + 1)
-        arr_sizes = [single_size]*(number_splits+1)
-        for i in range(avail_pixels % (number_splits + 1)):
-            arr_sizes[i] = arr_sizes[i] + 1
-        #5 Descend down setting the handle position to s
-        #  (Has to handle nesting properly)
-        toproc = [tree]
+        #4 Whole-pixel pane sizes; the remainder goes one pixel each to the
+        #  first panes so no single pane absorbs all the rounding.
+        sizes = even_sizes(avail_pixels - (number_splits * handle_size),
+                           number_splits + 1)
+        #5 Descend, carrying the index of each node's first pane. A handle
+        #  sits after the panes of its first child.
+        toproc = [(tree, 0)]
         while toproc:
-            curr = toproc.pop(0)
-            for child in curr[1]:
-                toproc.append(child)
-                if curr[1].index(child) == 0:
-                    curr[0].set_position((child[2]*single_size)+((child[2]-1)*handle_size))
+            curr, first = toproc.pop(0)
+            for index, child in enumerate(curr[1]):
+                if child[0] is not None:
+                    toproc.append((child, first))
+                if index == 0:
+                    span = child[2]
+                    curr[0].set_position(sum(sizes[first:first + span]) +
+                                         (span - 1) * handle_size)
+                first += child[2]
+
+    def redistribute_settled(self, recurse_up=False, recurse_down=False):
+        """Balance, letting GTK allocate between passes.
+
+        A nested split of the same orientation under a different one is
+        measured before its parent is resized, so one pass leaves it sized
+        for the old width."""
+        for _ in range(3):
+            while Gtk.events_pending():
+                Gtk.main_iteration_do(False)
+            self.do_redistribute(recurse_up, recurse_down)
+
+    def balance_tree(self):
+        """Evenly divide every split under this Paned."""
+        self.redistribute_settled(False, True)
+        _schedule_auto_font_on_widget(self)
+        try:
+            from .session import try_mark_dirty
+            try_mark_dirty('paned.balance')
+        except Exception:
+            pass
 
     def remove(self, widget):
         """Remove a widget from the container"""
@@ -368,13 +429,25 @@ class Paned(Container):
         metadata['had_focus'] = widget.has_focus()
 
     def get_handlesize(self):
-        """Why oh why, gtk3?"""
+        """Width of the divider as drawn.
+
+        The handle-size style property is deprecated since GTK 3.20 and
+        reports 5 whatever the separator CSS says. Both children are packed
+        with shrink=True, so max-position is the length minus the divider."""
+        length = self.get_length()
         try:
-            value = GObject.Value(int)
-            self.style_get_property('handle-size',  value)
-            return(value.get_int())
-        except:
-            return 0
+            max_position = self.get_property('max-position')
+        except TypeError:
+            max_position = None
+        if length > 1 and max_position is not None:
+            size = length - max_position
+            if 0 <= size <= 20:
+                return size
+        try:
+            size = int(self.config['handle_size'])
+        except (TypeError, ValueError):
+            size = 1
+        return size if 0 <= size <= 20 else 1
 
     def terminal_signals(self, top_window, widget):
         """Signal table for a Terminal child (add and swap_child)."""

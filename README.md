@@ -19,10 +19,13 @@ TerminatorX 在一个窗口里放多个终端。标签和窗格排在左侧，�
 | 回滚缓存在 `~/.cache/terminator/scrollback/`，恢复后再放出来 | 首选项 > 会话，`scrollback_cache = False` |
 | 窗格标题栏上的菜单、最大化和关闭 | 首选项 > 窗格，`titlebar_buttons = False` |
 | 单个窗格盖住其余窗格（Ctrl+Shift+Return，Shift+Esc 收回，或双击标题栏） | 首选项 > 窗格，`pane_overlay_maximise = False` |
-| 窗格变窄时，字体按 100% / 90% / 80% 缩小 | 首选项 > 窗格，`auto_font_scale = False`，或点标题栏上的比例 |
+| 窗格变窄时，字体按 100% / 90% / 80% 缩小 | 菜单里的「自动字号」（关掉后这项还在），或首选项 > 窗格，`auto_font_scale = False` |
+| 同方向连续分割时窗格等分，两次分割就是三等分；Ctrl+Shift+B 把整个标签的分割都等分 | 首选项 > 窗格，`balance_on_split = False` |
 | 全屏程序（vim、less、htop、tmux）运行时藏起滚动条，并保持终端列数稳定 | 首选项 > 配置文件 > 滚动，`scrollbar_hide_in_alt_screen = False` |
 
 完整菜单里可以勾选「下次启动不恢复」：先退出，再启动，下一次普通启动会开一个新窗口。外接屏拔掉以后，落在已经不存在的屏幕上的窗口会回到主显示器。
+
+响铃默认只在标题栏上亮一下。要让窗格、标签和左侧列表一直留着标记，在首选项的配置文件页打开「窗格和标签保持标记」，或设置 `attention_on_bell = True`。本机的 agent 可以用 `remotinator set_agent_state` 报告正在等待、出错或已经做完。这项默认关着，重开时也不会把程序拉起来。
 
 ## 文档
 

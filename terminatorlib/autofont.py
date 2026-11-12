@@ -96,14 +96,16 @@ def same_content_size(a, b, tol_px=16, tol_frac=0.04):
     return abs(aw - bw) <= tol_w and abs(ah - bh) <= tol_h
 
 
-def base_cell_stale(base, measured, scale, tol_px=1, tol_frac=0.06):
+def base_cell_stale(base, measured, scale, tol_px=2, tol_frac=0.12):
     """m40: True when the cached base cell (cw, ch at font_scale 1.0) no
     longer matches what VTE measures now at ``scale``.
 
     VTE re-measures its cell when the font, Xft DPI or text scaling
     factor changes; our own set_font_scale() also changes the cell, so at
-    scale != 1.0 a small rounding tolerance is allowed and only a real
-    font metric change counts.  At scale 1.0 the comparison is exact.
+    scale != 1.0 a hinting tolerance (a couple of pixels, or 12%) is
+    allowed and only a real font metric change counts.  At scale 1.0 the
+    comparison is exact.  Treating hinting as a new font drops the base
+    cell, the tier flips, and the vertical scroll offset jitters.
 
     >>> base_cell_stale((10, 20), (10, 20), 1.0)
     False

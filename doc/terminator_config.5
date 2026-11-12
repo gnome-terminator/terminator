@@ -330,7 +330,10 @@ reading\-measure thresholds. Tiers are discrete (never continuous) and
 never exceed 100%. A terminal that takes at least 45% of its window or
 tab area (for example either pane of a two\-pane split, side by side or
 stacked) always stays at 100%; smaller panes of 2x2 grids and three\-way
-or larger splits step down.
+or larger splits step down. The terminal menu and the full menu (window
+header, pane titlebar and gear) keep an Auto font size check for this
+key. The check stays when the value is False. The Panes page in
+Preferences uses the same name.
 .br
 Default value: \fBTrue\fP
 .RE
@@ -388,6 +391,17 @@ Debounce delay in milliseconds after size\-allocate before re\-evaluating
 the scale tier.
 .br
 Default value: \fB150\fP
+.RE
+.sp
+\fBbalance_on_split\fP = \fIboolean\fP
+.RS 4
+If set to True, splitting a terminal evenly divides the run of panes
+that are split in the same direction, so two splits side by side give
+three equal panes. Panes split the other way keep their sizes. Loading a
+layout or restoring a session keeps the saved ratios. If set to False,
+only the split terminal is halved.
+.br
+Default value: \fBTrue\fP
 .RE
 .sp
 \fBwindow_decoration_style\fP = \fIstring\fP
@@ -687,6 +701,15 @@ Default value: \fB<Ctrl><Shift>E\fP
 Split the current terminal automatically, along the longer side.
 .br
 Default value: \fB<Ctrl><Shift>A\fP
+.RE
+.sp
+\fBbalance_panes\fP
+.RS 4
+Evenly divide every split in the current tab or window, in both
+directions. Double\-clicking a divider still balances only the panes
+along that divider\(cqs direction.
+.br
+Default value: \fB<Ctrl><Shift>B\fP
 .RE
 .sp
 \fBnew_tab\fP
@@ -1334,6 +1357,22 @@ If set to True, a small icon will be shown on the terminal titlebar when
 an application writes the escape sequence for the terminal bell.
 .br
 Default value: \fBTrue\fP
+.RE
+.sp
+\fBattention_on_bell\fP = \fIboolean\fP
+.RS 4
+If set to True, a bell leaves a mark on that pane, its tab and the tab
+list until the pane gains keyboard focus or a key is pressed there.
+The mark only means the pane needs a look.
+A desktop notification is sent while the window is unfocused, at most
+once every 8 seconds for the same mark; a more urgent mark does not wait.
+.br
+Default value: \fBFalse\fP
+.br
+\fBremotinator set_agent_state\fP sets a finer state on one pane
+(\fIidle\fP, \fIworking\fP, \fIblocked\fP, \fIdone\fP, \fIerror\fP or
+\fIclear\fP) and does not use this key.
+\fBforce_no_bell = True\fP disconnects the bell, so this key does nothing.
 .RE
 .sp
 \fBforce_no_bell\fP = \fIboolean\fP

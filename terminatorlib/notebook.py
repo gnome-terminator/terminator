@@ -17,6 +17,7 @@ from .container import Container
 from .editablelabel import EditableLabel
 from .translation import _
 from .util import err, dbg, enumerate_descendants, make_uuid, logical_parent
+from . import agentstate
 
 
 def folder_basename(path):
@@ -1003,20 +1004,46 @@ class Notebook(Container, Gtk.Notebook):
             label = self.get_tab_label(page)
             panes = self._ordered_panes(page)
             pane_titles = []
+            plain_titles = []
+            snapshots = []
             for term in panes:
                 fallback = ''
                 try:
                     fallback = term.get_window_title() or ''
                 except Exception:
                     fallback = ''
-                pane_titles.append(pane_row_title(self._pane_cwd(term), fallback))
+                attention = getattr(term, '_attention', False)
+                state = getattr(term, '_agent_state', None)
+                snapshots.append((
+                    attention, state, getattr(term, '_agent_message', '')))
+                base = pane_row_title(self._pane_cwd(term), fallback)
+                plain_titles.append(base)
+                pane_titles.append(agentstate.with_glyph(
+                    base, agentstate.display_kind(attention, state)))
             title = ''
             if hasattr(label, 'get_label'):
                 title = label.get_label() or ''
-            if not title and pane_titles:
-                title = pane_titles[0]
+            if not title and plain_titles:
+                title = plain_titles[0]
+            kind, _message = agentstate.winning(snapshots)
+            title = agentstate.with_glyph(title, kind)
             pages.append((title, pane_titles))
         return pages
+
+    def refresh_agent_marks(self):
+        """Show the most urgent pane mark on each tab, then the sidebar."""
+        for index in range(self.get_n_pages()):
+            page = self.get_nth_page(index)
+            label = self.get_tab_label(page)
+            panes = self._terminals_in_page(page)
+            kind, message = agentstate.winning(
+                (getattr(term, '_attention', False),
+                 getattr(term, '_agent_state', None),
+                 getattr(term, '_agent_message', ''))
+                for term in panes)
+            if label is not None and hasattr(label, 'set_agent_mark'):
+                label.set_agent_mark(kind, message)
+        self._queue_sidebar_refresh()
 
     def _queue_sidebar_refresh(self):
         if getattr(self, '_tab_tree', None) is None:
@@ -2537,6 +2564,9 @@ class TabLabel(Gtk.HBox):
         self.connect("button-press-event", self.on_button_pressed)
 
         self.label = EditableLabel(title)
+        self.agent_mark = Gtk.Label()
+        self.agent_mark.set_no_show_all(True)
+        self.agent_mark.get_style_context().add_class('titlebar-agent-mark')
         # Two lines, like Cursor's two-level row: the name, then the folder.
         self._lines = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=0)
         self.folder_label = Gtk.Label(xalign=0, halign=Gtk.Align.START)
@@ -2547,6 +2577,7 @@ class TabLabel(Gtk.HBox):
         self._lines.pack_start(self.folder_label, False, False, 0)
         self.update_angle()
 
+        self.pack_start(self.agent_mark, False, False, 4)
         self.pack_start(self._lines, True, True, 0)
 
         self.update_button()
@@ -2560,6 +2591,10 @@ class TabLabel(Gtk.HBox):
         """Update the text of our label"""
         self.label.set_text(text)
         self._fit_label_width()
+
+    def set_agent_mark(self, kind, message=''):
+        """Glyph for the most urgent pane in this tab. Not part of the saved title."""
+        agentstate.apply_mark(self.agent_mark, kind, message)
 
     def set_folder_name(self, cwd):
         """First line is the folder name, unless the user renamed the tab.

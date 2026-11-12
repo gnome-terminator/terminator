@@ -9,7 +9,9 @@ import os
 import gi
 
 gi.require_version('Gtk', '3.0')
+gi.require_version('Gdk', '3.0')
 gi.require_version('Vte', '2.91')
+from gi.repository import Gdk, Gtk  # noqa: F401  Gdk 3 before ipc imports it
 
 import dbus
 
@@ -61,6 +63,10 @@ class _Proxy(object):
     def set_tab_title(self, uuid, options):
         self.calls.append(('set_tab_title', uuid, options))
         return 'ignored'
+
+    def set_agent_state(self, uuid, state, message):
+        self.calls.append(('set_agent_state', uuid, state, message))
+        return 'OK'
 
 
 def _patch_bus(monkeypatch, proxy):
@@ -250,6 +256,44 @@ def test_set_tab_title_writes_the_page_that_holds_the_terminal(monkeypatch):
         _svc_for({'first': outsider}), 'first', {'tab-title': 'Skip'})
     assert bare.child_reads == 0
     assert second.label.calls == [('Logs', True)]
+
+
+class _ReportTerm(object):
+    def __init__(self):
+        self.calls = []
+        self.fail = None
+
+    def set_agent_report(self, state, message):
+        self.calls.append((state, message))
+        return self.fail
+
+
+def test_set_agent_state_reaches_one_terminal():
+    """TX-11.3 The DBus method names a pane and does not invent a terminal."""
+    term = _ReportTerm()
+    svc = _svc_for({'urn:pane': term})
+    assert DBusService.set_agent_state(
+        svc, 'urn:pane', 'blocked', 'approve') == 'OK'
+    assert term.calls == [('blocked', 'approve')]
+    assert DBusService.set_agent_state(svc, '', 'done', '') == (
+        'ERROR: missing uuid')
+    assert DBusService.set_agent_state(svc, 'missing', 'done', '') == (
+        'ERROR: no terminal')
+    term.fail = 'rate limited'
+    assert DBusService.set_agent_state(svc, 'urn:pane', 'done', '') == (
+        'ERROR: rate limited')
+
+
+def test_set_agent_state_client_forwards_the_hook_fields(monkeypatch):
+    """TX-11.3 remotinator passes the state and the short message."""
+    from terminatorlib import ipc
+    proxy = _Proxy()
+    _patch_bus(monkeypatch, proxy)
+    assert ipc.set_agent_state(
+        'urn:once', {'state': 'blocked', 'message': 'approve'}) == 'OK'
+    assert proxy.calls[-1] == (
+        'set_agent_state', 'urn:once', 'blocked', 'approve')
+    assert ipc.set_agent_state('urn:once', {}) == 'ERROR: missing state'
 
 
 def _pump():

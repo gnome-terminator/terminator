@@ -175,6 +175,7 @@ class PrefsEditor:
                         'split_auto'       : _('Split automatically'),
                         'split_horiz'      : _('Split horizontally'),
                         'split_vert'       : _('Split vertically'),
+                        'balance_panes'    : _('Balance all panes evenly'),
                         'close_term'       : _('Close terminal'),
                         'copy'             : _('Copy selected text'),
                         'paste'            : _('Paste clipboard'),
@@ -605,6 +606,9 @@ class PrefsEditor:
             int(self.config['reading_measure_min_cols']))
         self._sync_auto_font_sensitivity()
 
+        widget = guiget('balance_on_split_checkbutton')
+        widget.set_active(bool(self.config['balance_on_split']))
+
         ## Session tab (modules A + B)
         self.set_session_values()
 
@@ -794,6 +798,8 @@ class PrefsEditor:
         # WM_URGENT terminal bell
         widget = guiget('urgent_bell_checkbutton')
         widget.set_active(self.config['urgent_bell'])
+        widget = guiget('attention_bell_checkbutton')
+        widget.set_active(self.config['attention_on_bell'])
         # Show titlebar
         widget = guiget('show_titlebar')
         widget.set_active(self.config['show_titlebar'])
@@ -1229,6 +1235,11 @@ class PrefsEditor:
     def on_urgent_bell_checkbutton_toggled(self, widget):
         """Window manager bell setting changed"""
         self.config['urgent_bell'] = widget.get_active()
+        self.config.save()
+
+    def on_attention_bell_checkbutton_toggled(self, widget):
+        """Persistent pane mark after a bell. Off by default."""
+        self.config['attention_on_bell'] = widget.get_active()
         self.config.save()
 
     def on_login_shell_checkbutton_toggled(self, widget):
@@ -1804,6 +1815,11 @@ class PrefsEditor:
     def on_pane_overlay_maximise_checkbutton_toggled(self, widget):
         """Overlay maximise on/off (off = classic reparent zoom)"""
         self.config['pane_overlay_maximise'] = widget.get_active()
+        self.config.save()
+
+    def on_balance_on_split_checkbutton_toggled(self, widget):
+        """Evenly divide same-direction panes after each split"""
+        self.config['balance_on_split'] = widget.get_active()
         self.config.save()
 
     def on_reduce_motion_combo_changed(self, widget):

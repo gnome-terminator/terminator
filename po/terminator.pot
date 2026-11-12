@@ -1473,13 +1473,12 @@ msgid ""
 "The goal of this project is to produce a useful tool for arranging "
 "terminals. It is inspired by programs such as gnome-multi-term, quadkonsole, "
 "etc. in that the main focus is arranging terminals in grids (tabs is the "
-"most common default method, which Terminator also supports).\n"
+"most common default method, which TerminatorX also supports).\n"
 "\n"
-"Much of the behavior of Terminator is based on GNOME Terminal, and we are "
+"Much of the behavior of TerminatorX is based on GNOME Terminal, and we are "
 "adding more features from that as time goes by, but we also want to extend "
 "out in different directions with useful features for sysadmins and other "
-"users. If you have any suggestions, please file wishlist bugs! (see left for "
-"the Development link)"
+"users. Suggestions and bug reports go to the project links on the left."
 msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:228
@@ -1488,8 +1487,8 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:229
 msgid ""
-"<a href=\"https://github.com/gnome-terminator/terminator\">Development</a>\n"
-"<a href=\"https://github.com/gnome-terminator/terminator/issues\">Bugs / "
+"<a href=\"https://github.com/TIIEHenry/TerminatorX\">Development</a>\n"
+"<a href=\"https://github.com/TIIEHenry/TerminatorX/issues\">Bugs / "
 "Enhancements</a>"
 msgstr ""
 

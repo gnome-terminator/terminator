@@ -585,9 +585,14 @@ class AltScreenScrollbar(object):
             if self.detector.undecided():
                 return
             deferred = self.sync_deferred
+            pending = self.pending_hidden
             self.pending_hidden = False
             self.pending_hide_width = 0
             self.sync_deferred = False
+            if pending:
+                # Before the deferred show, so a bar that comes back
+                # takes the slot's pixels in the same allocation.
+                self._release_slot()
             if deferred:
                 self._sync_after_decision()
 
@@ -644,6 +649,12 @@ class AltScreenScrollbar(object):
         later apply() would otherwise see an invisible bar with no width
         and a single scrollable-looking redraw could show it again,
         resizing the grid under the program.
+
+        The slot is held from here, not from the later latch. A program
+        that clears its scrollback on every column change (cursor-agent
+        does ``ESC[3J`` and reprints) collapses the adjustment the same
+        way. Growing the VTE now and shrinking it at the latch are two
+        more column changes, each answered by another clear.
         """
         if self.auto_hidden or self.user_override or not self.enabled():
             return False
@@ -665,6 +676,7 @@ class AltScreenScrollbar(object):
         self.pending_hidden = True
         self.pending_hide_width = width
         self.sync_deferred = False
+        self._hold_slot(width)
         return True
 
     def _cursor_beyond(self):
@@ -698,13 +710,35 @@ class AltScreenScrollbar(object):
             return None, None
 
     def _restore_scroll(self, pin):
-        """Hiding the bar must not move the view. A value change here is
-        the vertical jump inside a fullscreen program."""
+        """Put back a scroll offset that hiding the bar clamped to zero.
+
+        Only when that offset still lies in the adjustment. A collapsed
+        alternate screen has no other legal value; writing the old offset
+        back makes VTE pull it to zero on the next update, so the view
+        jitters for as long as the two keep disagreeing.
+        """
         adj, value = pin
         if adj is None or value is None:
             return
         try:
-            if abs(float(adj.get_value()) - value) > 0.01:
+            current = float(adj.get_value())
+            value = float(value)
+        except (TypeError, ValueError, AttributeError):
+            return
+        try:
+            lower = float(adj.get_lower())
+            limit = float(adj.get_upper()) - float(adj.get_page_size())
+            if limit < lower:
+                limit = lower
+            # Same slop as adjustment_collapsed: a value the range cannot
+            # hold is the alternate screen's pin at zero, not a position
+            # we should put back.
+            if value > limit + 0.5 or value < lower - 0.5:
+                return
+        except (TypeError, ValueError, AttributeError):
+            pass
+        try:
+            if abs(current - value) > 0.01:
                 adj.set_value(value)
         except Exception:
             pass
@@ -714,7 +748,7 @@ class AltScreenScrollbar(object):
         if callable(note):
             note()
 
-    def _hold_slot(self):
+    def _hold_slot(self, width=None):
         """Keep the hidden bar's width allocated to avoid a VTE resize.
 
         Hiding a Gtk widget normally gives its pixels to the VTE. That
@@ -722,9 +756,11 @@ class AltScreenScrollbar(object):
         terminal supplies a same-width, non-drawing slot for the duration
         of the alternate-screen episode; the slot is released on exit.
         """
+        if width is None:
+            width = self.hidden_width
         hold = getattr(self.terminal, 'hold_scrollbar_slot', None)
-        if callable(hold) and self.hidden_width > 0:
-            hold(self.hidden_width)
+        if callable(hold) and width > 0:
+            hold(width)
         else:
             self._release_slot()
 

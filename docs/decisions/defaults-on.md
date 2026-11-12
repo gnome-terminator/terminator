@@ -1,6 +1,6 @@
 # 决策：本 fork 的新增能力默认开启
 
-状态：当前有效。范围：会话、关闭确认、回滚缓存、窗格标题栏、浮层最大化、自动字号、备用屏幕滚动条。
+状态：当前有效。范围：会话、关闭确认、回滚缓存、窗格标题栏、浮层最大化、自动字号、备用屏幕滚动条、分割后均分。
 
 ## 问题与约束
 
@@ -20,4 +20,4 @@
 
 ## 现行约束与入口
 
-需求见 [TX-01 至 TX-07](../requirements/terminatorx.md)。原则见 [产品原则](../principles/product.md)。默认值的代码在 `terminatorlib/config.py`。
+需求见 [TX-01 至 TX-07 和 TX-10](../requirements/terminatorx.md)。原则见 [产品原则](../principles/product.md)。默认值的代码在 `terminatorlib/config.py`。

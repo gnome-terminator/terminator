@@ -39,6 +39,16 @@ def test_glade_loads_with_new_widgets():
     assert labels.index('Session') == labels.index('Layouts') + 1
     assert labels.index('Keybindings') == 5
     assert labels.index('Panes') == labels.index('Global') + 1
+    links = builder.get_object('label29').get_label()
+    assert links == (
+        '<a href="https://github.com/TIIEHenry/TerminatorX">Development</a>\n'
+        '<a href="https://github.com/TIIEHenry/TerminatorX/issues">'
+        'Bugs / Enhancements</a>')
+    about = builder.get_object('label27').get_label()
+    assert 'TerminatorX' in about
+    assert 'project links on the left' in about
+    assert 'gnome-terminator' not in about
+    assert 'Development link' not in about
 
 
 def test_prefs_editor_reflects_defaults_and_writes(xdg):

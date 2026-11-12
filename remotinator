@@ -57,6 +57,7 @@ COMMANDS={
     'get_tab':              [True,  _('Get the UUID of a parent tab')],
     'get_tab_title':        [True,  _('Get the title of a parent tab')],
     'set_tab_title':        [True,  _('Set the title of a parent tab')],
+    'set_agent_state':      [True,  _('Set an agent state on a terminal')],
     'bg_img':               [True,  _('Set the background image')],
     'bg_img_all':           [False, _('Set the background image for all terminals')],
     'switch_profile':       [True,  _('Switch current terminal profile')],
@@ -97,6 +98,12 @@ if __name__ == '__main__':
 
     parser.add_argument('-t', '--tab-title', dest='tab-title', type=str, default="Missing Tab Title! Use -t argument!",
                 help=_('Tab name to set. Only used with "set_tab_title" command.'))
+
+    parser.add_argument('-s', '--state', dest='state', type=str, default=argparse.SUPPRESS,
+                help=_('Agent state: idle, working, blocked, done, error, or clear'))
+
+    parser.add_argument('-m', '--message', dest='message', type=str, default=argparse.SUPPRESS,
+                help=_('Short message shown with that state'))
 
     parser.add_argument('-T', '--title', dest='title', type=str, default=argparse.SUPPRESS,
                 help=_('Tab name to set.'))

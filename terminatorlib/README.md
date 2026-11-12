@@ -16,6 +16,7 @@
 | 默认值和配置文件 | `config.py`；界面在 `prefseditor.py` | `tests/test_prefs_session_titlebar.py` 等 |
 | 标签树、分屏比例 | `notebook.py`、`paned.py`、`window.py` | `tests/test_notebook_split.py`、`tests/test_paned_ratio.py` |
 | 终端和 VTE | `terminal.py` | `tests/` 中对应 `test_*.py` |
+| 窗格注意标记和 agent 状态 | `agentstate.py`；终端、标题栏、标签和 `ipc.py` | `tests/test_agent_state.py` |
 
 `util.py` 提供配置目录、状态目录、缓存目录和 `logical_parent`。状态目录是会话文件的默认位置，缓存目录是回滚缓存的位置。
 

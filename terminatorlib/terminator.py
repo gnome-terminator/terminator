@@ -738,6 +738,18 @@ class Terminator(Borg):
                 min-width: 24px; min-height: 24px; }
             .titlebar-density-compact button.titlebar-btn {
                 min-width: 20px; min-height: 20px; }
+
+            .terminator-terminal-window .titlebar-agent-mark {
+                font-weight: bold;
+                padding: 0 4px; }
+            .terminator-terminal-window .titlebar-agent-blocked,
+            .terminator-terminal-window .titlebar-agent-error {
+                color: #b42318; }
+            .terminator-terminal-window .titlebar-agent-attention,
+            .terminator-terminal-window .titlebar-agent-done {
+                color: #9a6700; }
+            .terminator-terminal-window .titlebar-agent-working {
+                color: #0969da; }
             """ % {'accent': accent}
 
     def reconfigure(self):

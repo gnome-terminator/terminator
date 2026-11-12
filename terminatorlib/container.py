@@ -122,16 +122,36 @@ class Container(object):
             self.split_axis(widget, False, cwd)
         else:
             self.split_axis(widget, True , cwd)
+        self._balance_after_split(widget)
 
     def split_horiz(self, widget, cwd=None):
         """Split this container horizontally"""
         self._note_user_split(widget)
-        return(self.split_axis(widget, True, cwd))
+        result = self.split_axis(widget, True, cwd)
+        self._balance_after_split(widget)
+        return(result)
 
     def split_vert(self, widget, cwd=None):
         """Split this container vertically"""
         self._note_user_split(widget)
-        return(self.split_axis(widget, False, cwd))
+        result = self.split_axis(widget, False, cwd)
+        self._balance_after_split(widget)
+        return(result)
+
+    def _balance_after_split(self, widget):
+        """Evenly divide the run of same-direction splits that just grew.
+
+        Only user splits come here. Layout and session restore call
+        split_axis directly and must keep their saved ratios."""
+        if not self.config['balance_on_split']:
+            return
+        from .terminator import Terminator
+        if Terminator().doing_layout:
+            return
+        from .util import logical_parent
+        parent = logical_parent(widget)
+        if hasattr(parent, 'do_redistribute'):
+            parent.do_redistribute()
 
     def split_axis(self, widget, vertical=True, cwd=None, sibling=None, siblinglast=None):
         """Default axis splitter. This should be implemented by subclasses"""

@@ -9,7 +9,8 @@ from gi.repository import Gtk, Gdk
 from .version import APP_NAME
 from .translation import _
 from .terminator import Terminator
-from .util import err, dbg, spawn_new_terminator
+from .factory import Factory
+from .util import err, dbg, spawn_new_terminator, logical_parent
 from .config import Config
 from .prefseditor import PrefsEditor
 from . import plugin
@@ -347,6 +348,13 @@ class TerminalPopupMenu(object):
                 self.terminal.get_cwd()))
             menu.append(item)
 
+            if chrome and Factory().isinstance(logical_parent(terminal),
+                                               'Paned'):
+                item = self.menu_item(Gtk.MenuItem, 'balance_panes',
+                                                    _('_Balance Panes'))
+                item.connect('activate', lambda x: terminal.balance_panes())
+                menu.append(item)
+
             item = self.menu_item(Gtk.MenuItem, 'new_tab', _('Open _Tab'))
             item.connect('activate', lambda x: terminal.emit('tab-new', False,
                 terminal))
@@ -423,6 +431,7 @@ class TerminalPopupMenu(object):
             item.connect('toggled', lambda x: terminal.do_readonly_toggle())
             menu.append(item)
 
+            self.add_auto_font_item(menu)
             self.add_font_lock_item(menu)
 
             item = self.menu_item(Gtk.CheckMenuItem, 'toggle_scrollbar',
@@ -438,6 +447,10 @@ class TerminalPopupMenu(object):
                                                     _('_Preferences'))
                 item.connect('activate', lambda x: PrefsEditor(self.terminal))
                 menu.append(item)
+        else:
+            # TX-06.3: the badge and the lock item both go away once this is
+            # off. The terminal menu keeps the check so it can come back on.
+            self.add_auto_font_item(menu)
 
         if chrome:
             self._append_appearance_items(menu, terminal)
@@ -533,6 +546,38 @@ class TerminalPopupMenu(object):
                 submenu.append(item)
 
         self.add_layout_launcher(menu)
+
+    def add_auto_font_item(self, menu):
+        """Global auto-font check. Stays in the menu when the feature is off."""
+        terminal = self.terminal
+        if not callable(getattr(terminal, 'set_auto_font_scale_enabled', None)):
+            return None
+        try:
+            enabled = bool(self.config['auto_font_scale'])
+        except Exception:
+            enabled = False
+        item = Gtk.CheckMenuItem.new_with_mnemonic(_('Auto _font size'))
+        item.set_tooltip_text(_(
+            'Narrow panes step down to a smaller font. '
+            'Uncheck to keep the profile font size.'))
+        item.set_active(enabled)
+
+        def _toggled(check):
+            if getattr(check, '_auto_font_updating', False):
+                return
+            terminal.set_auto_font_scale_enabled(check.get_active())
+            try:
+                now = bool(self.config['auto_font_scale'])
+            except Exception:
+                now = False
+            if now != bool(check.get_active()):
+                check._auto_font_updating = True
+                check.set_active(now)
+                check._auto_font_updating = False
+
+        item.connect('toggled', _toggled)
+        menu.append(item)
+        return item
 
     def add_font_lock_item(self, menu):
         """'Lock font size for this terminal' (hook for auto font scale, E).

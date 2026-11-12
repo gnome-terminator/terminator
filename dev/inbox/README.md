@@ -6,4 +6,4 @@
 
 处理完时写明去向：转成了哪份计划、写回了哪篇知识、和哪条重复，或者为什么不做。状态改为「已完成」，再用 `python3 scripts/wiki/wiki.py archive <路径> --root .` 预览并归档。
 
-当前没有待分诊的条目。
+还没决定的是 [重开时是否恢复 agent 会话](question/agent-session-resume.md)。其余四条已经完成并归档，结论在 [调研](../research/agent-harness-integration.md#可选方向)。这条也处理完后，再归档那份调研。

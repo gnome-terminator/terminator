@@ -1,4 +1,4 @@
-# 验收：TX-04.1、TX-04.3。
+# 验收：TX-04.1、TX-04.3、TX-06.3。
 """Tests for terminal context menu actions."""
 
 import os
@@ -613,3 +613,246 @@ def test_add_regex_stores_the_pattern_and_match_remove_drops_it():
     term.match_remove('email')
     assert 'email' not in term.matches
     assert 'email' not in term.match_patterns
+
+
+def test_set_auto_font_scale_enabled_writes_config_and_notifies():
+    """TX-06.3: one switch updates every terminal and can be turned back on."""
+    from terminatorlib.terminal import Terminal
+    term = Terminal.__new__(Terminal)
+    saved = []
+
+    class Cfg(dict):
+        def save(self):
+            saved.append(self['auto_font_scale'])
+
+    term.config = Cfg(auto_font_scale=False)
+    seen = []
+
+    def hook():
+        seen.append(term.config['auto_font_scale'])
+
+    term.on_auto_font_config_changed = hook
+    other_seen = []
+
+    class Other(object):
+        def on_auto_font_config_changed(self):
+            other_seen.append(term.config['auto_font_scale'])
+
+    term.terminator = type('App', (), {'terminals': [Other()]})()
+    term.set_auto_font_scale_enabled(True)
+    assert term.config['auto_font_scale'] is True
+    assert saved == [True]
+    assert seen == [True]
+    assert other_seen == [True]
+    term.set_auto_font_scale_enabled(True)
+    assert saved == [True]
+    term.set_auto_font_scale_enabled(False)
+    assert saved == [True, False]
+    assert seen == [True, False]
+    assert other_seen == [True, False]
+
+
+def test_set_auto_font_scale_enabled_leaves_config_when_assignment_fails():
+    """A refused write does not tell terminals the switch moved."""
+    from terminatorlib.terminal import Terminal
+    term = Terminal.__new__(Terminal)
+
+    class Cfg(object):
+        def __init__(self):
+            self.value = True
+
+        def __getitem__(self, key):
+            assert key == 'auto_font_scale'
+            return self.value
+
+        def __setitem__(self, key, value):
+            raise RuntimeError('refused')
+
+    term.config = Cfg()
+    calls = []
+    term.on_auto_font_config_changed = lambda: calls.append('hook')
+    term.terminator = type('App', (), {'terminals': []})()
+    term.set_auto_font_scale_enabled(False)
+    assert calls == []
+    assert term.config['auto_font_scale'] is True
+
+
+def test_set_auto_font_scale_enabled_still_notifies_when_save_fails():
+    """The in-memory switch is what open terminals follow."""
+    from terminatorlib.terminal import Terminal
+    term = Terminal.__new__(Terminal)
+
+    class Cfg(dict):
+        def save(self):
+            raise OSError('disk')
+
+    term.config = Cfg(auto_font_scale=True)
+    seen = []
+    term.on_auto_font_config_changed = lambda: seen.append(
+        term.config['auto_font_scale'])
+    term.terminator = type('App', (), {'terminals': []})()
+    term.set_auto_font_scale_enabled(False)
+    assert term.config['auto_font_scale'] is False
+    assert seen == [False]
+
+
+def test_auto_font_menu_item_stays_when_disabled():
+    """TX-06.3: the check remains after auto font size is turned off."""
+    class Term(object):
+        def __init__(self):
+            self.calls = []
+
+        def set_auto_font_scale_enabled(self, enabled):
+            self.calls.append(bool(enabled))
+            popup.config['auto_font_scale'] = bool(enabled)
+
+        def get_auto_font_locked(self):
+            return False
+
+        def set_auto_font_locked(self, value):
+            self.locked = value
+
+    term = Term()
+    popup = popup_for(term)
+    popup.config = {'auto_font_scale': False}
+    menu = Gtk.Menu()
+    bare = popup_for(object())
+    bare.config = {'auto_font_scale': True}
+    assert bare.add_auto_font_item(Gtk.Menu()) is None
+
+    item = popup.add_auto_font_item(menu)
+    assert isinstance(item, Gtk.CheckMenuItem)
+    assert item.get_active() is False
+    assert popup.add_font_lock_item(Gtk.Menu()) is None
+    item.set_active(True)
+    assert term.calls == [True]
+    assert item.get_active() is True
+    assert popup.add_font_lock_item(Gtk.Menu()) is not None
+
+
+def _capture_popup(term, skip_link_check):
+    captured = []
+    original_pointer = Gtk.Menu.popup_at_pointer
+    original_widget = Gtk.Menu.popup_at_widget
+    Gtk.Menu.popup_at_pointer = lambda self, *_args: captured.append(self)
+    Gtk.Menu.popup_at_widget = lambda self, *_args: captured.append(self)
+    try:
+        TerminalPopupMenu(term).show(
+            term, None, skip_link_check=skip_link_check)
+    finally:
+        Gtk.Menu.popup_at_pointer = original_pointer
+        Gtk.Menu.popup_at_widget = original_widget
+    assert captured
+    return captured[-1]
+
+
+def test_auto_font_check_is_on_the_terminal_menu_and_the_full_menu():
+    """TX-06.3: right-click and the full menu can turn auto font size back on."""
+    from terminatorlib.config import Config
+    from terminatorlib.translation import _
+
+    class Vte(object):
+        def get_has_selection(self):
+            return False
+
+        def get_input_enabled(self):
+            return True
+
+    class Bar(object):
+        def get_property(self, _name):
+            return False
+
+    class Titlebar(object):
+        @staticmethod
+        def get_visible():
+            return True
+
+    class Top(object):
+        def get_child(self):
+            return None
+
+        def has_multiple_terms(self):
+            return True
+
+    class Term(object):
+        is_held_open = False
+        matches = {}
+        vte = Vte()
+        scrollbar = Bar()
+        titlebar = Titlebar()
+
+        def __init__(self):
+            self.calls = []
+
+        def set_auto_font_scale_enabled(self, enabled):
+            self.calls.append(bool(enabled))
+            Config()['auto_font_scale'] = bool(enabled)
+
+        def get_auto_font_locked(self):
+            return False
+
+        def set_auto_font_locked(self, _value):
+            pass
+
+        def is_zoomed(self):
+            return False
+
+        def get_profile(self):
+            return 'default'
+
+        def get_cwd(self):
+            return '/tmp'
+
+        def get_parent(self):
+            return None
+
+        def emit(self, *_args):
+            pass
+
+        def get_toplevel(self):
+            return Top()
+
+        def maximise(self, *_args):
+            pass
+
+        def zoom(self, *_args):
+            pass
+
+        def force_set_profile(self, *_args):
+            pass
+
+    cfg = Config()
+    keys = ('auto_font_scale', 'show_titlebar', 'titlebar_show_icon')
+    old = {key: cfg[key] for key in keys}
+    label = _('Auto _font size')
+    lock = _('_Lock font size for this terminal')
+    try:
+        cfg['show_titlebar'] = True
+        cfg['titlebar_show_icon'] = True
+        cfg['auto_font_scale'] = False
+        term = Term()
+        short = _capture_popup(term, False)
+        full = _capture_popup(term, True)
+        for menu in (short, full):
+            item = _item_with_label(menu, label)
+            assert item is not None
+            assert item.get_active() is False
+            assert _item_with_label(menu, lock) is None
+        _item_with_label(short, label).set_active(True)
+        assert term.calls == [True]
+        assert cfg['auto_font_scale'] is True
+
+        cfg['auto_font_scale'] = True
+        short = _capture_popup(term, False)
+        full = _capture_popup(term, True)
+        for menu, want_lock in ((short, False), (full, True)):
+            item = _item_with_label(menu, label)
+            assert item is not None
+            assert item.get_active() is True
+            assert (_item_with_label(menu, lock) is not None) is want_lock
+        _item_with_label(full, label).set_active(False)
+        assert term.calls[-1] is False
+        assert cfg['auto_font_scale'] is False
+    finally:
+        for key, value in old.items():
+            cfg[key] = value

@@ -482,7 +482,13 @@ def vte_size_for_rect(terminal, rect, frame_chrome=None):
         # The gap between Terminal and VTE already includes a held slot.
         # Subtract only when the bar was hidden and the VTE actually grew.
         hidden = 0
-        if alt is not None and not slot_held:
+        inset = getattr(terminal, '_auto_font_scrollbar_inset', None)
+        if callable(inset):
+            try:
+                hidden = int(inset() or 0)
+            except (TypeError, ValueError):
+                hidden = 0
+        elif alt is not None and not slot_held:
             effective = getattr(alt, 'effective_hidden_width', None)
             if callable(effective):
                 hidden = effective()

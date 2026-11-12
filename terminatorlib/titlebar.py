@@ -12,6 +12,7 @@ from .util import dbg, err, text_scale
 from .terminator import Terminator
 from .editablelabel import EditableLabel
 from .translation import _
+from . import agentstate
 
 _BTN_FG_PROVIDERS = {}
 
@@ -147,6 +148,9 @@ class Titlebar(Gtk.EventBox):
             'titlebar-broadcast')
         self.bellicon = Gtk.Image()
         self.bellicon.set_no_show_all(True)
+        self.agent_mark = Gtk.Label()
+        self.agent_mark.set_no_show_all(True)
+        self.agent_mark.get_style_context().add_class('titlebar-agent-mark')
 
         self.groupentry = Gtk.Entry()
         self.groupentry.set_no_show_all(True)
@@ -238,6 +242,7 @@ class Titlebar(Gtk.EventBox):
         hbox.pack_end(self.btn_gear, False, False, 0)
         hbox.pack_end(self.scale_badge, False, False, 2)
         hbox.pack_end(self.bellicon, False, False, 2)
+        hbox.pack_end(self.agent_mark, False, False, 2)
 
         self.add(hbox)
         hbox.show_all()
@@ -1203,6 +1208,10 @@ class Titlebar(Gtk.EventBox):
         self._bell_timer = None
         self.bellicon.hide()
         return False
+
+    def set_agent_mark(self, kind, message=''):
+        """Persistent attention glyph. The one-second bell icon is separate."""
+        agentstate.apply_mark(self.agent_mark, kind, message)
 
     def get_custom_string(self):
         """If we have a custom string set, return it, otherwise None"""

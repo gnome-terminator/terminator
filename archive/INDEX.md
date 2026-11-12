@@ -8,6 +8,8 @@
 | [子方案 A–E](docs/sub/A-session-and-close-confirm.md) | 同一基线上的分册。入口是 A，B–E 在同一目录 |
 | [2026-10-15 审查](docs/reviews/review-2026-10-15.md) | 按模块分路的审查和方案。发现稿保持原样 |
 | [需求编号与测试对照](dev/plans/requirement-coverage.md) | 需求编号与现有测试的对照 |
+| [idea](dev/inbox/idea/) | 持续提醒、DBus 状态入口和 OSC 7501 状态名已并入 TX-11 |
+| [command_notify 插件在上游 VTE 上永远不加载](dev/inbox/bug/command-notify-never-loads.md) | command_notify 在上游 VTE 上不加载，只补充说明，不改写 |
 
 2026-09-07 的设计稿保留当时的方案，其中的行号不是现行代码位置。需求对照说明编号怎样对上当时的测试。现行行为看 `docs/`。
 

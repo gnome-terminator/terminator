@@ -342,6 +342,32 @@ class DBusService(Borg, dbus.service.Object):
                     tab_title, force=True)
                 return
 
+    @dbus.service.method(BUS_NAME, in_signature='sss', out_signature='s')
+    def set_agent_state(self, uuid, state, message):
+        """Set a hook-reported state on one terminal.
+
+        States are idle, working, blocked, done, error and clear.
+        This does not type into the terminal or read its screen.
+        """
+        uuid = uuid or ''
+        state = state or ''
+        message = message or ''
+        if not uuid:
+            return 'ERROR: missing uuid'
+        terminal = self.terminator.find_terminal_by_uuid(uuid)
+        if terminal is None:
+            return 'ERROR: no terminal'
+        report = getattr(terminal, 'set_agent_report', None)
+        if report is None:
+            return 'ERROR: unsupported'
+        try:
+            error = report(state, message)
+        except Exception as ex:
+            return 'ERROR: %s' % ex
+        if error:
+            return 'ERROR: %s' % error
+        return 'OK'
+
     @dbus.service.method(BUS_NAME)
     def switch_profile(self, uuid=None, options=dbus.Dictionary()):
         """Switch profile of a given terminal"""
@@ -450,6 +476,15 @@ def get_tab_title(session, uuid, options):
 def set_tab_title(session, uuid, options):
     """Call the dbus method to set the title of a tab"""
     session.set_tab_title(uuid, options)
+
+@with_proxy
+def set_agent_state(session, uuid, options):
+    """Call the dbus method to set one pane's agent state."""
+    state = options.get('state') or ''
+    if not state:
+        return 'ERROR: missing state'
+    message = options.get('message') or ''
+    return session.set_agent_state(uuid, state, message)
 
 @with_proxy
 def switch_profile(session, uuid, options):

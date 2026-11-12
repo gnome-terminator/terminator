@@ -1841,7 +1841,7 @@
                         <property name="column-spacing">12</property>
                         <child>
                           <object class="GtkCheckButton" id="auto_font_scale_checkbutton">
-                            <property name="label" translatable="yes">Automatically shrink font in small panes</property>
+                            <property name="label" translatable="yes">Auto font size</property>
                             <property name="visible">True</property>
                             <property name="can-focus">True</property>
                             <property name="receives-default">False</property>
@@ -1911,6 +1911,64 @@
                     <property name="expand">False</property>
                     <property name="fill">False</property>
                     <property name="position">2</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkBox" id="panes_split_box">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="orientation">vertical</property>
+                    <child>
+                      <object class="GtkLabel" id="panes_split_label">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="label" translatable="yes">&lt;b&gt;Splitting&lt;/b&gt;</property>
+                        <property name="use-markup">True</property>
+                        <property name="xalign">0</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkGrid" id="panes_split_grid">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="margin-start">12</property>
+                        <property name="margin-top">6</property>
+                        <property name="row-spacing">8</property>
+                        <property name="column-spacing">12</property>
+                        <child>
+                          <object class="GtkCheckButton" id="balance_on_split_checkbutton">
+                            <property name="label" translatable="yes">Divide panes evenly after splitting</property>
+                            <property name="visible">True</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">False</property>
+                            <property name="xalign">0</property>
+                            <property name="draw-indicator">True</property>
+                            <property name="tooltip-text" translatable="yes">Two splits in the same direction give three equal panes; off halves only the pane that was split</property>
+                            <signal name="toggled" handler="on_balance_on_split_checkbutton_toggled" swapped="no"/>
+                          </object>
+                          <packing>
+                            <property name="left-attach">0</property>
+                            <property name="top-attach">0</property>
+                            <property name="width">2</property>
+                          </packing>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">3</property>
                   </packing>
                 </child>
               </object>
@@ -2546,6 +2604,24 @@
                                             <property name="expand">False</property>
                                             <property name="fill">False</property>
                                             <property name="position">3</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkCheckButton" id="attention_bell_checkbutton">
+                                            <property name="label" translatable="yes">Persistent pane and tab mark</property>
+                                            <property name="use-action-appearance">False</property>
+                                            <property name="visible">True</property>
+                                            <property name="can-focus">True</property>
+                                            <property name="receives-default">False</property>
+                                            <property name="use-underline">True</property>
+                                            <property name="xalign">0.5</property>
+                                            <property name="draw-indicator">True</property>
+                                            <signal name="toggled" handler="on_attention_bell_checkbutton_toggled" swapped="no"/>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">False</property>
+                                            <property name="position">4</property>
                                           </packing>
                                         </child>
                                       </object>
@@ -5206,9 +5282,9 @@
                   <object class="GtkLabel" id="label27">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
-                    <property name="label" translatable="yes">The goal of this project is to produce a useful tool for arranging terminals. It is inspired by programs such as gnome-multi-term, quadkonsole, etc. in that the main focus is arranging terminals in grids (tabs is the most common default method, which Terminator also supports).
+                    <property name="label" translatable="yes">The goal of this project is to produce a useful tool for arranging terminals. It is inspired by programs such as gnome-multi-term, quadkonsole, etc. in that the main focus is arranging terminals in grids (tabs is the most common default method, which TerminatorX also supports).
 
-Much of the behavior of Terminator is based on GNOME Terminal, and we are adding more features from that as time goes by, but we also want to extend out in different directions with useful features for sysadmins and other users. If you have any suggestions, please file wishlist bugs! (see left for the Development link)</property>
+Much of the behavior of TerminatorX is based on GNOME Terminal, and we are adding more features from that as time goes by, but we also want to extend out in different directions with useful features for sysadmins and other users. Suggestions and bug reports go to the project links on the left.</property>
                     <property name="wrap">True</property>
                     <property name="width-chars">55</property>
                     <property name="max-width-chars">55</property>
@@ -5247,8 +5323,8 @@ Much of the behavior of Terminator is based on GNOME Terminal, and we are adding
                       <object class="GtkLabel" id="label29">
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
-                        <property name="label" translatable="yes">&lt;a href="https://github.com/gnome-terminator/terminator"&gt;Development&lt;/a&gt;
-&lt;a href="https://github.com/gnome-terminator/terminator/issues"&gt;Bugs / Enhancements&lt;/a&gt;</property>
+                        <property name="label" translatable="yes">&lt;a href="https://github.com/TIIEHenry/TerminatorX"&gt;Development&lt;/a&gt;
+&lt;a href="https://github.com/TIIEHenry/TerminatorX/issues"&gt;Bugs / Enhancements&lt;/a&gt;</property>
                         <property name="use-markup">True</property>
                         <property name="justify">center</property>
                         <property name="yalign">0</property>

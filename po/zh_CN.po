@@ -1102,8 +1102,8 @@ msgid "<b>Font scaling</b>"
 msgstr "<b>字号缩放</b>"
 
 #: ../terminatorlib/preferences.glade.h:115
-msgid "Automatically shrink font in small panes"
-msgstr "在较小的窗格中自动缩小字体"
+msgid "Auto font size"
+msgstr "自动字号"
 
 #: ../terminatorlib/preferences.glade.h:117
 #, no-c-format
@@ -1124,6 +1124,20 @@ msgstr "窗格缩放到 100% 以下或字号被锁定时显示百分比标记"
 #: ../terminatorlib/preferences.glade.h:121
 msgid "Reading measure (min columns):"
 msgstr "阅读列宽（最少列数）："
+
+#: terminatorlib/preferences.glade
+msgid "<b>Splitting</b>"
+msgstr "<b>分割</b>"
+
+#: terminatorlib/preferences.glade
+msgid "Divide panes evenly after splitting"
+msgstr "分割后均分窗格"
+
+#: terminatorlib/preferences.glade
+msgid ""
+"Two splits in the same direction give three equal panes; off halves only "
+"the pane that was split"
+msgstr "同一方向分割两次得到三个等宽的窗格；关闭后只把被分割的窗格对半分"
 
 #: ../terminatorlib/preferences.glade.h:122
 msgid "Panes"
@@ -1209,6 +1223,33 @@ msgstr "发出哔声"
 #: ../terminatorlib/preferences.glade.h:142
 msgid "Window list flash"
 msgstr "闪烁窗口列表"
+
+msgid "Persistent pane and tab mark"
+msgstr "窗格和标签保持标记"
+
+msgid "Waiting for approval"
+msgstr "正在等待批准"
+
+msgid "Reported an error"
+msgstr "报告了错误"
+
+msgid "Needs attention"
+msgstr "需要看一眼"
+
+msgid "Busy"
+msgstr "正在忙碌"
+
+msgid "Finished"
+msgstr "已经完成"
+
+msgid "Set an agent state on a terminal"
+msgstr "设置终端的 agent 状态"
+
+msgid "Agent state: idle, working, blocked, done, error, or clear"
+msgstr "agent 状态：idle、working、blocked、done、error 或 clear"
+
+msgid "Short message shown with that state"
+msgstr "随该状态显示的短消息"
 
 #: ../terminatorlib/preferences.glade.h:143
 msgid "General"
@@ -1556,20 +1597,18 @@ msgid ""
 "The goal of this project is to produce a useful tool for arranging "
 "terminals. It is inspired by programs such as gnome-multi-term, quadkonsole, "
 "etc. in that the main focus is arranging terminals in grids (tabs is the "
-"most common default method, which Terminator also supports).\n"
+"most common default method, which TerminatorX also supports).\n"
 "\n"
-"Much of the behavior of Terminator is based on GNOME Terminal, and we are "
+"Much of the behavior of TerminatorX is based on GNOME Terminal, and we are "
 "adding more features from that as time goes by, but we also want to extend "
 "out in different directions with useful features for sysadmins and other "
-"users. If you have any suggestions, please file wishlist bugs! (see left for "
-"the Development link)"
+"users. Suggestions and bug reports go to the project links on the left."
 msgstr ""
-"一个用来管理终端的高级用户工具。它的灵感来自于gnome-multi-term，quadkonsole等"
-"程序。它致力于用格子来管理终端（最普遍的方法是用标签页，Terminator也支"
-"持）。\n"
-"Terminator的大部分行为基于GNOME Terminal，我们还在从中集成更多特性。但我们同"
-"时也希望向扩展更多不同方面的实用特性从而服务于系统管理员和其他用户。如果你有"
-"任何建议，请向wishlist中提交！（看左边的开发者链接）"
+"本项目的目标是做一个用来排布终端的工具。它受 gnome-multi-term、quadkonsole "
+"等程序启发，重点是用网格排布终端（最常见的默认方式是标签页，TerminatorX 也支持）。\n"
+"\n"
+"TerminatorX 的大部分行为基于 GNOME Terminal，以后还会从中继续增加功能，同时也"
+"想朝系统管理员和其他用户需要的方向扩展。建议和问题请用左边的项目链接。"
 
 #: ../terminatorlib/preferences.glade.h:228
 msgid "The Manual"
@@ -1577,13 +1616,12 @@ msgstr "手册"
 
 #: ../terminatorlib/preferences.glade.h:229
 msgid ""
-"<a href=\"https://github.com/gnome-terminator/terminator\">Development</a>\n"
-"<a href=\"https://github.com/gnome-terminator/terminator/issues\">Bugs / "
+"<a href=\"https://github.com/TIIEHenry/TerminatorX\">Development</a>\n"
+"<a href=\"https://github.com/TIIEHenry/TerminatorX/issues\">Bugs / "
 "Enhancements</a>"
 msgstr ""
-"<a href=\"https://github.com/gnome-terminator/terminator\">开发</a>\n"
-"<a href=\"https://github.com/gnome-terminator/terminator/issues\">提交 Bug 或"
-"改进意见</a>"
+"<a href=\"https://github.com/TIIEHenry/TerminatorX\">开发</a>\n"
+"<a href=\"https://github.com/TIIEHenry/TerminatorX/issues\">问题与改进</a>"
 
 #: ../terminatorlib/preferences.glade.h:231
 msgid "About"
@@ -1714,6 +1752,10 @@ msgstr "水平分割"
 #: ../terminatorlib/prefseditor.py:161
 msgid "Split vertically"
 msgstr "垂直分割"
+
+#: terminatorlib/prefseditor.py
+msgid "Balance all panes evenly"
+msgstr "均分所有窗格"
 
 #: ../terminatorlib/prefseditor.py:162 ../terminatorlib/titlebar.py:659
 #: ../terminatorlib/titlebar.py:660
@@ -2134,6 +2176,10 @@ msgstr "水平分割(_H)"
 msgid "Split V_ertically"
 msgstr "垂直分割(_V)"
 
+#: terminatorlib/terminal_popup_menu.py
+msgid "_Balance Panes"
+msgstr "均分窗格(_B)"
+
 #: ../terminatorlib/terminal_popup_menu.py:254
 msgid "Open _Tab"
 msgstr "打开标签(_T)"
@@ -2186,6 +2232,16 @@ msgstr "自定义(_C)..."
 #: ../terminatorlib/terminal.py:2673
 msgid "_Lock font size for this terminal"
 msgstr "锁定此终端的字号(_L)"
+
+#: terminatorlib/terminal_popup_menu.py
+msgid "Auto _font size"
+msgstr "自动字号(_F)"
+
+#: terminatorlib/terminal_popup_menu.py
+msgid ""
+"Narrow panes step down to a smaller font. Uncheck to keep the profile "
+"font size."
+msgstr "窄窗格会改用更小的字号。取消勾选后保持配置里的字号。"
 
 #: ../terminatorlib/terminal_popup_menu.py:450
 msgid "Pick Terminal Colors"

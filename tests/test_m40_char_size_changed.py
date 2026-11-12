@@ -30,6 +30,12 @@ def test_stale_tolerates_rounding_at_tier_scale():
     assert base_cell_stale((10, 20), (10, 20), 0.8)
 
 
+def test_hinting_at_tier_is_not_a_new_font():
+    """TX-06.1. A 0.9 cell that hints a couple of pixels off is still the
+    same font. Dropping the base cell flips the tier and moves scroll Y."""
+    assert not base_cell_stale((9, 18), (8, 18), 0.9)
+
+
 def test_stale_bad_input_is_not_stale():
     assert not base_cell_stale(None, (10, 20), 1.0)
     assert not base_cell_stale((10, 20), None, 1.0)
@@ -72,6 +78,18 @@ def test_own_tier_change_keeps_base():
     t = _term((10, 20), 0.8)
     _call(t, 8, 16)
     assert t._base_cell == (10, 20)
+    t.schedule_auto_font_scale.assert_not_called()
+
+
+def test_applying_tier_does_not_drop_base_on_a_hinted_cell():
+    """TX-06.1. The char-size signal from our own set_font_scale must not
+    schedule another tier."""
+    t = _term((9, 18), 0.9)
+    t._auto_font_applying = True
+    t.vte.get_char_width.return_value = 8
+    t.vte.get_char_height.return_value = 18
+    terminal_mod.Terminal._on_vte_char_size_changed(t, t.vte, 8, 18)
+    assert t._base_cell == (9, 18)
     t.schedule_auto_font_scale.assert_not_called()
 
 

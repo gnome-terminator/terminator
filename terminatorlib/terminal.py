@@ -35,6 +35,7 @@ from .scrollback import ScrollbackCache
 from . import clipboard_image
 from .altscreen import (AltScreenScrollbar, adjustment_scrollable,
                        scrollbar_should_show)
+from . import agentstate
 
 _AUTOFONT_TOAST_CSS = None
 
@@ -248,9 +249,21 @@ class Terminal(Gtk.VBox):
         self._base_cell = None
         self._base_cell_probe_idle = None
         self._auto_font_disabled = False
+        self._auto_font_applying = False
+        # Width of the scrollbar last time it was on screen. While it is
+        # hidden and the VTE has absorbed those pixels, the font tier
+        # still counts them, so hiding the bar cannot step the font up.
+        self._scrollbar_gutter = 0
         self._pane_maximise_handler = None
         self._session_custom_title = None
         self._pane_maximise_window = None
+        # Bell mark and hook state. Not saved in the session.
+        self._attention = False
+        self._agent_state = None
+        self._agent_message = ''
+        self._agent_gate = agentstate.CallGate()
+        self._agent_notified_at = None
+        self._agent_notified_kind = None
 
         self.titlebar = Titlebar(self)
         self.titlebar.connect_icon(self.on_group_button_press)
@@ -1154,7 +1167,8 @@ class Terminal(Gtk.VBox):
             self.cnxids.remove_signal(self.vte, 'bell')
             if self.config['urgent_bell'] == True or \
                self.config['icon_bell'] == True or \
-               self.config['visible_bell'] == True:
+               self.config['visible_bell'] == True or \
+               self.config['attention_on_bell'] == True:
                 try:
                     self.cnxids.new(self.vte, 'bell', self.on_bell)
                 except TypeError:
@@ -1366,6 +1380,11 @@ class Terminal(Gtk.VBox):
         if not event:
             dbg('Called on %s with no event' % widget)
             return False
+
+        # A key in this pane means the user is looking at it. Broadcast
+        # re-emits the same event to other panes; those are not focused.
+        if self._pane_has_focus():
+            self.acknowledge_agent_attention()
 
         if event.keyval in (Gdk.KEY_Return, Gdk.KEY_KP_Enter):
             # Snapshot shell history before the command runs: if it is a
@@ -1833,6 +1852,58 @@ class Terminal(Gtk.VBox):
         except Exception:
             return False
 
+    def _auto_font_scrollbar_inset(self):
+        """Pixels a hidden scrollbar gave the VTE, which the font tier ignores.
+
+        The tier follows the width the pane has while the bar is on screen.
+        Counting the extra pixels steps the font up, the page gets shorter,
+        and the bar comes back. Each of those steps rewrites the vertical
+        scroll offset. A held alternate-screen slot never gave the pixels
+        to the VTE, and a manual or configured hide is not coming back, so
+        neither is subtracted.
+        """
+        if self._scrollbar_slot_held():
+            return 0
+        if getattr(self, '_scrollbar_forced', None) is not None:
+            return 0
+        try:
+            position = self.config['scrollbar_position']
+        except Exception:
+            position = 'right'
+        if position in ('disabled', 'hidden'):
+            return 0
+        sb = getattr(self, 'scrollbar', None)
+        if sb is not None:
+            try:
+                if sb.get_visible():
+                    width = int(sb.get_allocated_width())
+                    if width > 0:
+                        self._scrollbar_gutter = width
+                    return 0
+            except (TypeError, ValueError, AttributeError):
+                return 0
+        alt = getattr(self, 'altscreen', None)
+        if alt is not None:
+            effective = getattr(alt, 'effective_hidden_width', None)
+            if callable(effective):
+                try:
+                    hidden = int(effective() or 0)
+                except (TypeError, ValueError):
+                    hidden = 0
+                if hidden > 0:
+                    return hidden
+            elif getattr(alt, 'auto_hidden', False):
+                try:
+                    hidden = int(getattr(alt, 'hidden_width', 0) or 0)
+                except (TypeError, ValueError):
+                    hidden = 0
+                if hidden > 0:
+                    return hidden
+        try:
+            return max(0, int(getattr(self, '_scrollbar_gutter', 0) or 0))
+        except (TypeError, ValueError):
+            return 0
+
     def _place_scrollbar(self):
         """Pack the scrollbar on the configured side.  Does not show it."""
         if getattr(self, 'scrollbar', None) is None:
@@ -1927,6 +1998,13 @@ class Terminal(Gtk.VBox):
                 # content): let the debounced detector decide instead of
                 # hiding on a guess.
                 return
+            if was_visible:
+                try:
+                    gutter = int(sb.get_allocated_width())
+                except (TypeError, ValueError):
+                    gutter = 0
+                if gutter > 0:
+                    self._scrollbar_gutter = gutter
             sb.hide()
             if was_visible and pin[0] is not None:
                 alt._restore_scroll(pin)
@@ -2280,6 +2358,7 @@ class Terminal(Gtk.VBox):
                 self.get_toplevel().last_active_term = None
             else:
                 self.get_toplevel().last_active_term = self.uuid
+            self.acknowledge_agent_attention()
         self.refresh_visible_focus_chrome(focused=self)
         self.refresh_titlebars_maximise_state()
         self.emit('focus-in')
@@ -2382,6 +2461,11 @@ class Terminal(Gtk.VBox):
         # wait for the emission that matches the live metrics, so a stale
         # emission can never bounce us into a probe/invalidate loop.
         if cw and ch and (int(cw), int(ch)) != measured:
+            return
+        # This emission is the tier we just applied. The scaled cell is
+        # not a new font; dropping the base here schedules another tier
+        # and the scroll offset moves again.
+        if getattr(self, '_auto_font_applying', False):
             return
         if not base_cell_stale(self._base_cell, measured, scale):
             return
@@ -2979,17 +3063,10 @@ class Terminal(Gtk.VBox):
                 h = self.vte.get_allocated_height()
             except Exception:
                 return
-            # The alternate-screen controller keeps the bar's width in an
-            # invisible slot. A held slot keeps the VTE allocation stable,
-            # so do not subtract that width from the font calculation.
-            alt = getattr(self, 'altscreen', None)
-            hidden = 0
-            if alt is not None and not self._scrollbar_slot_held():
-                effective = getattr(alt, 'effective_hidden_width', None)
-                if callable(effective):
-                    hidden = effective()
-                elif getattr(alt, 'auto_hidden', False):
-                    hidden = getattr(alt, 'hidden_width', 0)
+            # A hidden scrollbar hands its pixels to the VTE. Counting
+            # them steps the font up, the page gets shorter, the bar
+            # comes back, and the vertical scroll offset is rewritten.
+            hidden = self._auto_font_scrollbar_inset()
             if hidden > 0:
                 w = max(1, w - hidden)
         cols0, rows0 = cols_rows_from_base(w, h, *self._base_cell)
@@ -3090,11 +3167,14 @@ class Terminal(Gtk.VBox):
         scale = tiers[index]
         self._font_tier = index
         if hasattr(self.vte, 'set_font_scale'):
+            self._auto_font_applying = True
             try:
                 self.vte.set_font_scale(scale)
             except Exception as ex:
                 dbg('set_font_scale failed: %s' % ex)
                 return
+            finally:
+                self._auto_font_applying = False
         self._auto_font_last_change_ms = self._monotonic_ms()
         self.refresh_badge()
         show_badge = True
@@ -3330,14 +3410,7 @@ class Terminal(Gtk.VBox):
         disable = Gtk.Button.new_with_mnemonic(_('_Disable auto font size'))
 
         def _on_disable(_button):
-            try:
-                self.config['auto_font_scale'] = False
-                self.config.save()
-            except Exception as ex:
-                dbg('disable auto_font_scale save: %s' % ex)
-            for term in list(self.terminator.terminals):
-                if hasattr(term, 'on_auto_font_globally_disabled'):
-                    term.on_auto_font_globally_disabled()
+            self.set_auto_font_scale_enabled(False)
             try:
                 pop.popdown()
             except Exception:
@@ -3377,6 +3450,47 @@ class Terminal(Gtk.VBox):
         btn.connect('clicked', _on_badge_clicked)
         self._scale_popover = pop
         self._scale_popover_lock = lock
+
+    def set_auto_font_scale_enabled(self, enabled):
+        """Turn automatic font scaling on or off for every terminal.
+
+        The titlebar badge and the per-terminal lock item both disappear
+        when this is off. The menu check stays, so this is also how it is
+        turned back on.
+        """
+        enabled = bool(enabled)
+        try:
+            current = bool(self.config['auto_font_scale'])
+        except Exception:
+            current = False
+        if current == enabled:
+            return
+        try:
+            self.config['auto_font_scale'] = enabled
+        except Exception as ex:
+            dbg('set auto_font_scale: %s' % ex)
+            return
+        save = getattr(self.config, 'save', None)
+        if callable(save):
+            try:
+                save()
+            except Exception as ex:
+                dbg('set auto_font_scale save: %s' % ex)
+        terms = []
+        try:
+            terms = list(self.terminator.terminals)
+        except Exception:
+            terms = []
+        if self not in terms:
+            terms.append(self)
+        for term in terms:
+            hook = getattr(term, 'on_auto_font_config_changed', None)
+            if not callable(hook):
+                continue
+            try:
+                hook()
+            except Exception as ex:
+                dbg('auto font config change: %s' % ex)
 
     def on_auto_font_config_changed(self):
         """Re-apply auto font after prefs changed (toggle/badge/measure)."""
@@ -3471,6 +3585,7 @@ class Terminal(Gtk.VBox):
                 window.set_urgency_hint(True)
         if self.config['icon_bell']:
             self.titlebar.icon_bell()
+        self.note_bell_attention()
         if self.config['visible_bell']:
             # Repurposed the code used for drag and drop overlay to provide a visual terminal flash
             alloc = widget.get_allocation()
@@ -3501,6 +3616,129 @@ class Terminal(Gtk.VBox):
         widget.queue_draw_area(0, 0, alloc.width, alloc.height)
         widget.get_window().process_updates(True)
         return False
+
+    def _window_has_focus(self):
+        try:
+            top = self.get_toplevel()
+            return bool(isinstance(top, Gtk.Window) and top.has_toplevel_focus())
+        except Exception:
+            return False
+
+    def _pane_has_focus(self):
+        vte = getattr(self, 'vte', None)
+        if vte is None:
+            return False
+        try:
+            return bool(vte.is_focus())
+        except Exception:
+            return False
+
+    def _owning_notebook(self):
+        from .util import logical_parent
+        widget = self
+        seen = set()
+        while widget is not None and id(widget) not in seen:
+            seen.add(id(widget))
+            try:
+                parent = logical_parent(widget)
+            except Exception:
+                return None
+            if parent is None:
+                return None
+            try:
+                if Factory().isinstance(parent, 'Notebook'):
+                    return parent
+            except Exception:
+                return None
+            widget = parent
+        return None
+
+    def note_bell_attention(self, now=None):
+        """Leave a persistent mark when this profile asked for one."""
+        if not agentstate.bell_marks(
+                bool(self.config['attention_on_bell']),
+                self._window_has_focus(), self._pane_has_focus()):
+            return
+        self._attention = True
+        self._show_agent_mark(notify=True, now=now)
+
+    def set_agent_report(self, state, message, now=None):
+        """Hook update. Returns an error string, or None on success."""
+        if now is None:
+            now = time.monotonic()
+        if agentstate.normalise_state(state) is None:
+            return 'unknown state'
+        if not self._agent_gate.allow(now):
+            return 'rate limited'
+        updated = agentstate.apply_report(
+            self._attention, self._agent_state, self._agent_message,
+            state, message)
+        if updated is None:
+            return 'unknown state'
+        self._attention, self._agent_state, self._agent_message = updated
+        self._show_agent_mark(notify=True, now=now)
+        return None
+
+    def acknowledge_agent_attention(self):
+        """The user focused this pane or typed in it."""
+        updated = agentstate.seen(
+            self._attention, self._agent_state, self._agent_message)
+        if updated == (self._attention, self._agent_state, self._agent_message):
+            return
+        self._attention, self._agent_state, self._agent_message = updated
+        self._show_agent_mark(notify=False)
+
+    def _show_agent_mark(self, notify, now=None):
+        kind = agentstate.display_kind(self._attention, self._agent_state)
+        try:
+            self.titlebar.set_agent_mark(kind, self._agent_message)
+        except Exception as ex:
+            dbg('agent mark: %s' % ex)
+        notebook = self._owning_notebook()
+        if notebook is not None and hasattr(notebook, 'refresh_agent_marks'):
+            try:
+                notebook.refresh_agent_marks()
+            except Exception as ex:
+                dbg('agent tab mark: %s' % ex)
+        if notify:
+            self._notify_agent(kind, now)
+
+    def _notify_agent(self, kind, now):
+        if now is None:
+            now = time.monotonic()
+        if not agentstate.notify_allowed(
+                self._agent_notified_at, self._agent_notified_kind, now, kind,
+                self._window_has_focus()):
+            return
+        if not self._desktop_notify(kind):
+            return
+        self._agent_notified_at = now
+        self._agent_notified_kind = kind
+
+    def _desktop_notify(self, kind):
+        """Best-effort notification. A failure leaves the pane mark in place."""
+        summary = agentstate.user_text(kind)
+        if not summary:
+            return False
+        try:
+            title = self.get_window_title() or ''
+        except Exception:
+            title = ''
+        body = self._agent_message or ''
+        if title and body:
+            body = '%s\n%s' % (title, body)
+        else:
+            body = title or body
+        try:
+            gi.require_version('Notify', '0.7')
+            from gi.repository import Notify
+            if not Notify.is_initted():
+                Notify.init('TerminatorX')
+            Notify.Notification.new(summary, body or None, 'terminator').show()
+            return True
+        except Exception as ex:
+            dbg('agent notify failed: %s' % ex)
+            return False
 
     def describe_layout(self, count, parent, global_layout, child_order, save_cwd = False):
         """Describe our layout"""
@@ -3704,6 +3942,25 @@ class Terminal(Gtk.VBox):
 
     def key_split_vert(self):
         self.emit('split-vert', self.get_cwd())
+
+    def key_balance_panes(self):
+        self.balance_panes()
+
+    def balance_panes(self):
+        """Evenly divide every split in this terminal's tab or window."""
+        window = self.get_toplevel()
+        if self.is_zoomed() or bool(getattr(window, 'is_overlay_maximised',
+                                            lambda: False)()):
+            return
+        from .util import logical_parent
+        maker = Factory()
+        top = None
+        node = logical_parent(self)
+        while maker.isinstance(node, 'Paned'):
+            top = node
+            node = logical_parent(node)
+        if top is not None:
+            top.balance_tree()
 
     def key_rotate_cw(self):
         self.emit('rotate-cw')

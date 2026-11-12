@@ -273,6 +273,8 @@ def test_divider_balance_runs_once_per_double_click(monkeypatch):
     fake = types.SimpleNamespace(
         last_balance_time=time.time(), last_balance_args=(False, False),
         do_redistribute=lambda *a: calls.append(a))
+    fake.redistribute_settled = (
+        lambda *a: paned.Paned.redistribute_settled(fake, *a))
     ev = types.SimpleNamespace(button=1)
     paned.Paned.on_button_release(fake, None, ev)
     n = len(calls)

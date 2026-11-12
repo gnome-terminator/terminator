@@ -296,8 +296,12 @@ def test_restore_asks_terminal_when_it_syncs(monkeypatch):
 
 
 def test_hide_does_not_move_the_view(monkeypatch):
-    """Hiding the bar must put the scroll position back. That shift is the
-    vertical jump inside a fullscreen program."""
+    """Hiding the bar puts a still-legal offset back.
+
+    TX-07.1. The clamp to zero is the jump. A collapsed alternate screen
+    has no other legal value, so the offset from before the collapse is
+    not written back: VTE would pull it to zero and the view would jitter.
+    """
     term, ctl, _ = _ctl(monkeypatch)
     term.adj.value = 12.0
 
@@ -316,10 +320,15 @@ def test_hide_does_not_move_the_view(monkeypatch):
         term.adj.value = 0.0
 
     term.scrollbar.hide = hide
-    ctl.evaluate()
-    term.adj.upper = 24
-    ctl.evaluate()
+    ctl.detector.active = True
+    ctl.apply()
     assert term.adj.value == 12.0
+    term.scrollbar.visible = True
+    term.adj.value = 12.0
+    term.adj.upper = 24
+    ctl.auto_hidden = False
+    ctl.apply()
+    assert term.adj.value == 0.0
 
 
 def test_leaving_fullscreen_notifies_terminal(monkeypatch):
@@ -714,6 +723,36 @@ def test_pending_hide_released_when_a_command_scrolls(monkeypatch):
     assert ctl.effective_hidden_width() == 0
 
 
+def test_provisional_hide_holds_the_slot_until_the_latch(monkeypatch):
+    """TX-07.1: a program that clears its scrollback on every column
+    change (cursor-agent) collapses the adjustment like a TUI. Growing
+    the VTE at the provisional hide and shrinking it at the latch are
+    two more column changes, and each one makes it clear again."""
+    term, ctl, _ = _ctl(monkeypatch)
+    held = []
+    term.hold_scrollbar_slot = lambda width: held.append(width)
+    term.release_scrollbar_slot = lambda: held.append('release')
+    assert ctl.note_bar_hidden(14)
+    assert held == [14]
+    term.adj.upper = 24
+    ctl.evaluate()
+    assert ctl.auto_hidden and ctl.hidden_width == 14
+    assert 'release' not in held
+
+
+def test_provisional_slot_released_when_not_a_tui(monkeypatch):
+    term, ctl, state = _ctl(monkeypatch)
+    held = []
+    term.hold_scrollbar_slot = lambda width: held.append(width)
+    term.release_scrollbar_slot = lambda: held.append('release')
+    assert ctl.note_bar_hidden(14)
+    state['raw'] = False
+    term.adj.upper = 51                  # canonical command output
+    ctl.evaluate()
+    assert not ctl.pending_hidden
+    assert held == [14, 'release']
+
+
 def test_controller_child_exit_restores(monkeypatch):
     term, ctl, _ = _ctl(monkeypatch)
     ctl.evaluate()
@@ -952,3 +991,110 @@ def test_terminal_close_detaches_altscreen():
     src = inspect.getsource(Terminal.close)
     assert 'altscreen' in src and 'detach()' in src
     assert src.index('detach()') < src.index('del(self.vte)')
+
+
+class _Bar(object):
+    def __init__(self, visible, width):
+        self.visible = visible
+        self.width = width
+
+    def get_visible(self):
+        return self.visible
+
+    def get_allocated_width(self):
+        return self.width
+
+
+def _font_term():
+    """Terminal shell for the font/scrollbar inset. No GTK widget."""
+    from terminatorlib.terminal import Terminal
+    term = Terminal.__new__(Terminal)
+    term.config = {'scrollbar_position': 'right'}
+    term._scrollbar_forced = None
+    term._scrollbar_slot = None
+    term._scrollbar_gutter = 0
+    term.altscreen = None
+    term.scrollbar = _Bar(True, 14)
+    return term
+
+
+def test_font_inset_ignores_a_held_slot_and_a_visible_bar():
+    """TX-06.1, TX-07.1. The tier subtracts a hidden bar's width only when
+    the VTE actually absorbed those pixels."""
+    from terminatorlib.terminal import Terminal
+    term = _font_term()
+    assert Terminal._auto_font_scrollbar_inset(term) == 0
+    assert term._scrollbar_gutter == 14
+    term.scrollbar = _Bar(False, 0)
+    assert Terminal._auto_font_scrollbar_inset(term) == 14
+
+    class Slot(object):
+        def get_visible(self):
+            return True
+    term._scrollbar_slot = Slot()
+    assert Terminal._auto_font_scrollbar_inset(term) == 0
+    term._scrollbar_slot = None
+    term._scrollbar_forced = False
+    assert Terminal._auto_font_scrollbar_inset(term) == 0
+
+
+def test_hidden_scrollbar_width_does_not_raise_font_tier():
+    """TX-06.1. 614px with a 20px hidden bar is the same 594px pane the
+    tier saw while the bar was on screen, so it stays stepped down."""
+    from terminatorlib.terminal import Terminal
+    term = Terminal.__new__(Terminal)
+    term._auto_font_disabled = False
+    term._auto_font_mode = 'run'
+    term._auto_font_locked = False
+    term._auto_font_ever_allocated = True
+    term._auto_font_last_change_ms = 0
+    term._font_tier = 0
+    term._base_cell = (10, 20)
+    term._scrollbar_gutter = 20
+    term._scrollbar_forced = None
+    term._scrollbar_slot = None
+    term._auto_font_applying = False
+    term.altscreen = None
+    term.scrollbar = _Bar(False, 0)
+    term.config = {
+        'auto_font_scale': True,
+        'auto_font_scale_tiers': ['1.0', '0.9', '0.8'],
+        'reading_measure_min_cols': 60,
+        'auto_font_scale_min_rows': 8,
+        'auto_font_scale_hysteresis': 0.08,
+        'reading_measure_ideal_cols': 0,
+        'scrollbar_position': 'right',
+        'auto_font_scale_show_badge': False,
+    }
+
+    class Vte(object):
+        def __init__(self):
+            self.scale = 1.0
+
+        def get_allocated_width(self):
+            return 614
+
+        def get_allocated_height(self):
+            return 400
+
+        def get_font_scale(self):
+            return self.scale
+
+        def get_char_width(self):
+            return 10
+
+        def get_char_height(self):
+            return 20
+
+        def set_font_scale(self, scale):
+            self.scale = scale
+
+    term.vte = Vte()
+    term._auto_font_keeps_full_size = lambda *a, **k: False
+    term._same_size_font_peer = lambda *a, **k: None
+    term.refresh_badge = lambda: None
+    term._monotonic_ms = lambda: 10000
+    term._autofont_toast_wanted = lambda: False
+    Terminal.update_auto_font_scale(term, force=True)
+    assert term._font_tier == 1
+    assert abs(term.vte.scale - 0.9) < 1e-6
