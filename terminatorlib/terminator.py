@@ -304,6 +304,12 @@ class Terminator(Borg):
                 else:
                     window.isfullscreen = False
                 window.set_fullscreen(window.isfullscreen)
+            if 'borderless' in layout[windef]:
+                if layout[windef]['borderless'] == 'True':
+                   window.isborderless = True
+                else:
+                   window.isborderless = False
+                window.set_borderless(window.isborderless)
             window.create_layout(layout[windef])
 
         self.layoutname = layoutname
@@ -352,7 +358,7 @@ class Terminator(Borg):
             window.get_window().focus(t)
 
         # Going by the docs, this should be all that's needed to ensure that the
-        # last_active_window is focussed. 
+        # last_active_window is focussed.
         if self.last_active_window:
             window = self.find_window_by_uuid(self.last_active_window.urn)
             window.present_with_time(t)
@@ -478,7 +484,7 @@ class Terminator(Borg):
             css += """
                 .terminator-terminal-window separator {
                     min-height: %spx;
-                    min-width: %spx; 
+                    min-width: %spx;
                 }
                 """ % (self.config['handle_size'],self.config['handle_size'])
         style_provider = Gtk.CssProvider()
@@ -648,11 +654,11 @@ class Terminator(Borg):
     def zoom_in_all(self):
         for term in self.terminals:
             term.zoom_in()
-    
+
     def zoom_out_all(self):
         for term in self.terminals:
             term.zoom_out()
-    
+
     def zoom_orig_all(self):
         for term in self.terminals:
             term.zoom_orig()
