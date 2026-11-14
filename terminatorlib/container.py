@@ -37,7 +37,7 @@ class Container(object):
                 dbg('Container:: skipping signal %s for %s, already exists' % (
                         signal['name'], widget))
             else:
-                dbg('Container:: registering signal for %s on %s' % 
+                dbg('Container:: registering signal for %s on %s' %
                         (signal['name'], widget))
                 try:
                     GObject.signal_new(signal['name'],
@@ -189,27 +189,27 @@ the tab will also close all terminals within it.')
         # dialog GUI
         dialog = Gtk.Dialog(_('Close?'), window, Gtk.DialogFlags.MODAL)
         dialog.set_resizable(False)
-    
+
         dialog.add_button(Gtk.STOCK_CANCEL, Gtk.ResponseType.REJECT)
         c_all = dialog.add_button(Gtk.STOCK_CLOSE, Gtk.ResponseType.ACCEPT)
         c_all.get_children()[0].get_children()[0].get_children()[1].set_label(
                 confirm_button_text)
-    
+
         primary = Gtk.Label(label=_('<big><b>' + big_label_text + '</b></big>'))
         primary.set_use_markup(True)
         primary.set_alignment(0, 0.5)
 
         secondary = Gtk.Label(label=description_text)
         secondary.set_line_wrap(True)
-                    
+
         labels = Gtk.VBox()
         labels.pack_start(primary, False, False, 6)
         labels.pack_start(secondary, False, False, 6)
-    
+
         image = Gtk.Image.new_from_stock(Gtk.STOCK_DIALOG_WARNING,
                                          Gtk.IconSize.DIALOG)
         image.set_alignment(0.5, 0)
-    
+
         box = Gtk.HBox()
         box.pack_start(image, False, False, 6)
         box.pack_start(labels, False, False, 6)
@@ -217,11 +217,11 @@ the tab will also close all terminals within it.')
 
         checkbox = Gtk.CheckButton(_("Do not show this message next time"))
         dialog.vbox.pack_end(checkbox, True, True, 0)
-    
+
         dialog.show_all()
 
         result = dialog.run()
-        
+
         # set configuration
         self.config.base.reload()
         if checkbox.get_active():
@@ -229,7 +229,7 @@ the tab will also close all terminals within it.')
         self.config.save()
 
         dialog.destroy()
-                
+
         return(result)
 
     def propagate_title_change(self, widget, title):
@@ -284,13 +284,16 @@ the tab will also close all terminals within it.')
             if hasattr(position, '__iter__'):
                 position = ':'.join([str(x) for x in position])
             layout['position'] = position
-        
+
         if hasattr(self, 'ismaximised'):
             layout['maximised'] = self.ismaximised
-        
+
         if hasattr(self, 'isfullscreen'):
             layout['fullscreen'] = self.isfullscreen
-        
+
+        if hasattr(self, 'isborderless'):
+            layout['borderless'] = self.borderless
+
         if hasattr(self, 'ratio'):
             layout['ratio'] = self.ratio
 
