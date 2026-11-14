@@ -154,7 +154,7 @@ class Window(Container, Gtk.Window):
         maximise = self.config['window_state'] == 'maximise'
         fullscreen = self.config['window_state'] == 'fullscreen'
         hidden = self.config['window_state'] == 'hidden'
-        borderless = self.config['borderless'] == 'borderless'
+        borderless = self.config['borderless']
         skiptaskbar = self.config['hide_from_taskbar']
         alwaysontop = self.config['always_on_top']
         sticky = self.config['sticky']
