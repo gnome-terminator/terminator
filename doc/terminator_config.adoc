@@ -139,6 +139,10 @@ Specify whether splits/tabs will continue to use the profile of their
 peer terminal. If set to False, they will always use the default profile. +
 Default value: *False*
 
+*disable_links* = boolean_::
+If set to True, link recognition and click action will be disabled. +
+Default value: *False*
+
 *link_single_click* = _boolean_::
 If set to True, clicking a link will open it even if *Ctrl* is not
 pressed. +
