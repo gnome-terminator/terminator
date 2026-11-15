@@ -148,7 +148,8 @@ class Terminal(Gtk.VBox):
         self.pending_on_vte_size_allocate = False
 
         self.vte = Vte.Terminal()
-        self.vte.set_allow_hyperlink(True)
+        if not self.config['disable_links']:
+            self.vte.set_allow_hyperlink(True)
         self.vte._draw_data = None
         if not hasattr(self.vte, "set_opacity") or \
            not hasattr(self.vte, "is_composited"):
@@ -168,7 +169,8 @@ class Terminal(Gtk.VBox):
 
         self.load_plugins(force = True)
 
-        self.update_url_matches()
+        if not self.config['disable_links']:
+            self.update_url_matches()
 
         self.terminalbox = self.create_terminalbox()
 
@@ -206,7 +208,7 @@ class Terminal(Gtk.VBox):
         self.vte.set_size(80, 24)
 
     def set_background_image(self,image):
-        try: 
+        try:
             bg_pixbuf = GdkPixbuf.Pixbuf.new_from_file(image)
             self.background_image = Gdk.cairo_surface_create_from_pixbuf(bg_pixbuf, 1, None)
             self.vte.set_clear_background(False)
@@ -472,12 +474,12 @@ class Terminal(Gtk.VBox):
         The following should work, but on my system it corrupts the returned
         TargetEntry's in the newdstargets with binary crap, causing "Segmentation
         fault (core dumped)" when the later drag_dest_set gets called.
-        
+
         dsttargetlist = Gtk.TargetList.new([])
         dsttargetlist.add_text_targets(0)
         dsttargetlist.add_uri_targets(0)
         dsttargetlist.add_table(dsttargets)
-        
+
         newdsttargets = Gtk.target_table_new_from_list(dsttargetlist)
         '''
         # FIXME: Temporary workaround for the problems with the correct way of doing things
@@ -674,7 +676,7 @@ class Terminal(Gtk.VBox):
         self.terminator.group_hoover()
 
     def create_group(self, _item):
-        """Trigger the creation of a group via the titlebar (because popup 
+        """Trigger the creation of a group via the titlebar (because popup
         windows are really lame)"""
         self.titlebar.create_group()
 
@@ -781,7 +783,7 @@ class Terminal(Gtk.VBox):
             except:
                 pass
         self.vte.set_allow_bold(self.config['allow_bold'])
-        if hasattr(self.vte,'set_cell_height_scale'): 
+        if hasattr(self.vte,'set_cell_height_scale'):
             self.vte.set_cell_height_scale(self.config['cell_height'])
         if hasattr(self.vte,'set_cell_width_scale'):
             self.vte.set_cell_width_scale(self.config['cell_width'])
@@ -1488,7 +1490,7 @@ class Terminal(Gtk.VBox):
         try:
             topchild = window.get_children()[0]
         except IndexError:
-            dbg('unable to get top child')    
+            dbg('unable to get top child')
             return
         maker = Factory()
 
@@ -1734,7 +1736,7 @@ class Terminal(Gtk.VBox):
             dbg('Flatpak detected')
             args = util.get_flatpak_args(args, envv, self.cwd)
             dbg('Forking shell: "%s" with args: %s via flatpak-spawn' % (shell, args))
-        
+
             self.pid = self.vte.spawn_async(
                 Vte.PtyFlags.NO_CTTY,
                 self.cwd,
@@ -2055,7 +2057,7 @@ class Terminal(Gtk.VBox):
 
     def key_zoom_out_all(self):
         self.terminator.zoom_out_all()
-        
+
     def key_zoom_normal_all(self):
         self.terminator.zoom_orig_all()
 

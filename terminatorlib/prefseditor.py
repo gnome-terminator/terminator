@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Preferences Editor for Terminator. 
+"""Preferences Editor for Terminator.
 
 Load a UIBuilder config file, display it,
 populate it with our current config, then optionally read that back out and
@@ -105,56 +105,74 @@ class PrefsEditor:
 #458588:#b16286:#689d6a:#a89984:#928374:#fb4934:#b8bb26:#fabd2f:\
 #83a598:#d3869b:#8ec07c:#ebdbb2'}
     keybindingnames = {
-                        'zoom'             : _('Zoom terminal'),
-                        'unzoom'           : _('Restore all terminals'),
-                        'maximise'         : _('Maximize terminal'),
-                        'open_debug_tab'   : _('Open Debug Tab'),
-                        'zoom_in'          : _('Increase font size'),
-                        'zoom_out'         : _('Decrease font size'),
-                        'zoom_normal'      : _('Restore original font size'),
-						'zoom_in_all'	   : _('Increase font size on all terminals'),
-						'zoom_out_all'	   : _('Decrease font size on all terminals'),
-						'zoom_normal_all'  : _('Restore original font size on all terminals'),
-                        'new_tab'          : _('Create a new tab'),
+                        'broadcast_all'    : _('Broadcast key events to all'),
+                        'broadcast_group'  : _('Broadcast key presses to group'),
+                        'broadcast_off'    : _('Don\'t broadcast key presses'),
+                        'close_term'       : _('Close terminal'),
+                        'close_window'     : _('Close window'),
+                        'copy'             : _('Copy selected text'),
+                        'create_group'     : _('Create new group'),
                         'cycle_next'       : _('Focus the next terminal'),
                         'cycle_prev'       : _('Focus the previous terminal'),
-                        'go_next'          : _('Focus the next terminal'),
-                        'go_prev'          : _('Focus the previous terminal'),
-                        'go_up'            : _('Focus the terminal above'),
+                        'detach_tab'       : _('Detach the tab into a new window'),
+                        'edit_tab_title'   : _('Edit tab title'),
+                        'edit_terminal_title': _('Edit terminal title'),
+                        'edit_window_title': _('Edit window title'),
+                        'full_screen'      : _('Toggle fullscreen'),
                         'go_down'          : _('Focus the terminal below'),
                         'go_left'          : _('Focus the terminal left'),
+                        'go_next'          : _('Focus the next terminal'),
+                        'go_prev'          : _('Focus the previous terminal'),
                         'go_right'         : _('Focus the terminal right'),
-                        'rotate_cw'        : _('Rotate terminals clockwise'),
-                        'rotate_ccw'       : _('Rotate terminals counter-clockwise'),
-                        'split_auto'       : _('Split automatically'),
-                        'split_horiz'      : _('Split horizontally'),
-                        'split_vert'       : _('Split vertically'),
-                        'close_term'       : _('Close terminal'),
-                        'copy'             : _('Copy selected text'),
+                        'go_up'            : _('Focus the terminal above'),
+                        'group_all'        : _('Group all terminals'),
+                        'group_all_toggle' : _('Group/Ungroup all terminals'),
+                        'group_tab'        : _('Group terminals in tab'),
+                        'group_tab_toggle' : _('Group/Ungroup terminals in tab'),
+                        'group_win'        : _('Group terminals in window'),
+                        'group_win_toggle' : _('Group/Ungroup terminals in window'),
+                        'help'             : _('Open the manual'),
+                        'hide_window'      : _('Toggle window visibility'),
+                        'insert_number'    : _('Insert terminal number'),
+                        'insert_padded'    : _('Insert zero padded terminal number'),
+                        'layout_launcher'  : _('Open layout launcher window'),
+                        'line_down'        : _('Scroll downwards one line'),
+                        'line_up'          : _('Scroll upwards one line'),
+                        'maximise'         : _('Maximize terminal'),
+                        'move_tab_left'    : _('Move the tab left'),
+                        'move_tab_right'   : _('Move the tab right'),
+                        'new_tab'          : _('Create a new tab'),
+                        'new_terminator'   : _('Spawn a new Terminator process'),
+                        'new_window'       : _('Create a new window'),
+                        'next_profile'     : _('Switch to next profile'),
+                        'next_tab'         : _('Switch to the next tab'),
+                        'open_debug_tab'   : _('Open Debug Tab'),
+                        'page_down'        : _('Scroll downwards one page'),
+                        'page_down_half'   : _('Scroll downwards half a page'),
+                        'page_up'          : _('Scroll upwards one page'),
+                        'page_up_half'     : _('Scroll upwards half a page'),
                         'paste'            : _('Paste clipboard'),
                         'paste_selection'  : _('Paste primary selection'),
-                        'send_newline'     : _('Send a newline to the terminal'),
-                        'toggle_scrollbar' : _('Show/Hide the scrollbar'),
-                        'search'           : _('Search terminal scrollback'),
-                        'page_up'          : _('Scroll upwards one page'),
-                        'page_down'        : _('Scroll downwards one page'),
-                        'page_up_half'     : _('Scroll upwards half a page'),
-                        'page_down_half'   : _('Scroll downwards half a page'),
-                        'line_up'          : _('Scroll upwards one line'),
-                        'line_down'        : _('Scroll downwards one line'),
-                        'close_window'     : _('Close window'),
-                        'resize_up'        : _('Resize the terminal up'),
+                        'preferences'	   : _('Open the Preferences window'),
+                        'preferences_keybindings' : _('Open the Preferences-Keybindings window'),
+                        'prev_tab'         : _('Switch to the previous tab'),
+                        'previous_profile' : _('Switch to previous profile'),
+                        'reset'            : _('Reset the terminal'),
+                        'reset_clear'      : _('Reset and clear the terminal'),
                         'resize_down'      : _('Resize the terminal down'),
                         'resize_left'      : _('Resize the terminal left'),
                         'resize_right'     : _('Resize the terminal right'),
-                        'move_tab_right'   : _('Move the tab right'),
-                        'move_tab_left'    : _('Move the tab left'),
-                        'detach_tab'       : _('Detach the tab into a new window'),
-                        'toggle_zoom'      : _('Maximize terminal'),
+                        'resize_up'        : _('Resize the terminal up'),
+                        'rotate_ccw'       : _('Rotate terminals counter-clockwise'),
+                        'rotate_cw'        : _('Rotate terminals clockwise'),
                         'scaled_zoom'      : _('Zoom terminal'),
-                        'next_tab'         : _('Switch to the next tab'),
-                        'prev_tab'         : _('Switch to the previous tab'),
+                        'search'           : _('Search terminal scrollback'),
+                        'send_newline'     : _('Send a newline to the terminal'),
+                        'split_auto'       : _('Split automatically'),
+                        'split_horiz'      : _('Split horizontally'),
+                        'split_vert'       : _('Split vertically'),
                         'switch_to_tab_1'  : _('Switch to the first tab'),
+                        'switch_to_tab_10' : _('Switch to the tenth tab'),
                         'switch_to_tab_2'  : _('Switch to the second tab'),
                         'switch_to_tab_3'  : _('Switch to the third tab'),
                         'switch_to_tab_4'  : _('Switch to the fourth tab'),
@@ -163,37 +181,19 @@ class PrefsEditor:
                         'switch_to_tab_7'  : _('Switch to the seventh tab'),
                         'switch_to_tab_8'  : _('Switch to the eighth tab'),
                         'switch_to_tab_9'  : _('Switch to the ninth tab'),
-                        'switch_to_tab_10' : _('Switch to the tenth tab'),
-                        'full_screen'      : _('Toggle fullscreen'),
-                        'reset'            : _('Reset the terminal'),
-                        'reset_clear'      : _('Reset and clear the terminal'),
-                        'hide_window'      : _('Toggle window visibility'),
-                        'create_group'     : _('Create new group'),
-                        'group_all'        : _('Group all terminals'),
-                        'group_all_toggle' : _('Group/Ungroup all terminals'),
+                        'toggle_scrollbar' : _('Show/Hide the scrollbar'),
+                        'toggle_zoom'      : _('Maximize terminal'),
                         'ungroup_all'      : _('Ungroup all terminals'),
-                        'group_win'        : _('Group terminals in window'),
-                        'group_win_toggle' : _('Group/Ungroup terminals in window'),
-                        'ungroup_win'      : _('Ungroup terminals in window'),
-                        'group_tab'        : _('Group terminals in tab'),
-                        'group_tab_toggle' : _('Group/Ungroup terminals in tab'),
                         'ungroup_tab'      : _('Ungroup terminals in tab'),
-                        'new_window'       : _('Create a new window'),
-                        'new_terminator'   : _('Spawn a new Terminator process'),
-                        'broadcast_off'    : _('Don\'t broadcast key presses'),
-                        'broadcast_group'  : _('Broadcast key presses to group'),
-                        'broadcast_all'    : _('Broadcast key events to all'),
-                        'insert_number'    : _('Insert terminal number'),
-                        'insert_padded'    : _('Insert zero padded terminal number'),
-                        'edit_window_title': _('Edit window title'),
-                        'edit_terminal_title': _('Edit terminal title'),
-                        'edit_tab_title'   : _('Edit tab title'),
-                        'layout_launcher'  : _('Open layout launcher window'),
-                        'next_profile'     : _('Switch to next profile'),
-                        'previous_profile' : _('Switch to previous profile'), 
-                        'preferences'	   : _('Open the Preferences window'),
-                        'preferences_keybindings' : _('Open the Preferences-Keybindings window'),
-                        'help'             : _('Open the manual')
+                        'ungroup_win'      : _('Ungroup terminals in window'),
+                        'unzoom'           : _('Restore all terminals'),
+                        'zoom'             : _('Zoom terminal'),
+                        'zoom_in'          : _('Increase font size'),
+                        'zoom_in_all'      : _('Increase font size on all terminals'),
+                        'zoom_normal'      : _('Restore original font size'),
+                        'zoom_normal_all'  : _('Restore original font size on all terminals'),
+                        'zoom_out'         : _('Decrease font size'),
+                        'zoom_out_all'     : _('Decrease font size on all terminals'),
             }
 
     def __init__ (self, term, cur_page=0):
@@ -329,7 +329,7 @@ class PrefsEditor:
         elif option == 'always':
             active = 2
         else:
-            active = 1 
+            active = 1
         widget = guiget('askbeforeclose')
         widget.set_active(active)
         # Window borders
@@ -736,6 +736,9 @@ class PrefsEditor:
         widget.set_value(float(self.config['inactive_bg_color_offset']))
         widget = guiget('inactive_bg_color_offset_value_label')
         widget.set_text('%d%%' % (int(float(self.config['inactive_bg_color_offset'])*100)))
+        # Disable links
+        widget = guiget('disable_links')
+        widget.set_active(self.config['disable_links'])
         # Open links with a single click (instead of a Ctrl-left click)
         widget = guiget('link_single_click')
         widget.set_active(self.config['link_single_click'])
@@ -1564,7 +1567,7 @@ class PrefsEditor:
             value = 'Never'
         elif selected == 1:
             value = 'Multiple Terminals'
-        elif selected == 2: 
+        elif selected == 2:
             value = 'Always'
         else:
             value = 'Multiple Terminals'
@@ -1700,6 +1703,20 @@ class PrefsEditor:
         selection.select_iter(model.get_iter_first())
         self.config.save()
 
+    def on_disable_links_toggled(self, checkbox):
+        """Disable links."""
+        guiget = self.builder.get_object
+        widget = guiget('disable_links')
+        self.config['disable_links'] = widget.get_active()
+        # disable relevant other widgets to avoid unexpected behaviour
+        widget_link_single_click = guiget('link_single_click')
+        if self.config['disable_links'] == True:
+            widget_link_single_click.set_sensitive(False)
+            widget_link_single_click.set_active(False)
+        else:
+            widget_link_single_click.set_sensitive(True)
+        self.config.save()
+
     def on_link_single_click_toggled(self, checkbox):
         """Configure link_single_click option from checkbox."""
         guiget = self.builder.get_object
@@ -1739,7 +1756,7 @@ class PrefsEditor:
         widget.set_sensitive(not value)
         self.config['use_system_font'] = value
         self.config.save()
-        
+
         if self.config['use_system_font'] == True:
             fontname = self.config.get_system_mono_font()
             if fontname is not None:
