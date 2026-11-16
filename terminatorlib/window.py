@@ -1327,7 +1327,11 @@ class Window(Container, Gtk.Window):
         old_parent = self.zoom_data['old_parent']
         if maker.isinstance(old_parent, 'Notebook'):
             self.zoom_data['notebook_tabnum'] = old_parent.page_num(widget)
-            self.zoom_data['notebook_label'] = old_parent.get_tab_label(widget).get_label()
+            tab_label = old_parent.get_tab_label(widget)
+            self.zoom_data['notebook_label'] = tab_label.get_label()
+            getter = getattr(tab_label, 'get_locked', None)
+            self.zoom_data['notebook_locked'] = (
+                bool(getter()) if callable(getter) else False)
 
         self.remove(self.zoom_data['old_child'])
         old_parent.remove(widget)
@@ -1372,7 +1376,8 @@ class Window(Container, Gtk.Window):
         if maker.isinstance(self.zoom_data['old_parent'], 'Notebook'):
             self.zoom_data['old_parent'].newtab(widget=widget, metadata={
                 'tabnum': self.zoom_data['notebook_tabnum'],
-                'label':  self.zoom_data['notebook_label']
+                'label':  self.zoom_data['notebook_label'],
+                'locked': self.zoom_data.get('notebook_locked', False),
             })
         else:
             self.zoom_data['old_parent'].add(widget)

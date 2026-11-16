@@ -515,8 +515,18 @@ class AltScreenScrollbar(object):
         was = self.detector.active
         now = self.detector.update(collapsed, busy, raw, beyond)
         if was != now:
-            dbg('altscreen: %s -> %s (busy=%s raw=%s beyond=%s)'
-                % (was, now, busy, raw, beyond))
+            def _metric(name, default=0.0):
+                try:
+                    return float(getattr(adj, name)())
+                except (TypeError, ValueError, AttributeError):
+                    return default
+            dbg('altscreen: %s -> %s (collapsed=%s busy=%s raw=%s beyond=%s '
+                'value=%.2f range=[%.2f, %.2f] page=%.2f auto_hidden=%s '
+                'pending_hidden=%s)'
+                % (was, now, collapsed, busy, raw, beyond,
+                   _metric('get_value'), _metric('get_lower'),
+                   _metric('get_upper'), _metric('get_page_size'),
+                   self.auto_hidden, self.pending_hidden))
         if not now:
             self.user_override = False
         self.apply()
@@ -562,7 +572,17 @@ class AltScreenScrollbar(object):
                 sb.hide()
             self._hold_slot()
             self._restore_scroll(scroll)
-            dbg('altscreen: scrollbar visible=%s' % sb.get_visible())
+            try:
+                adj = self.terminal.vte.get_vadjustment()
+                dbg('altscreen: hide scrollbar pin=%s visible=%s value=%.2f '
+                    'range=[%.2f, %.2f] page=%.2f slot=%s'
+                    % (scroll[1], sb.get_visible(),
+                       float(adj.get_value()), float(adj.get_lower()),
+                       float(adj.get_upper()), float(adj.get_page_size()),
+                       self.hidden_width))
+            except (TypeError, ValueError, AttributeError):
+                dbg('altscreen: hide scrollbar pin=%s visible=%s slot=%s'
+                    % (scroll[1], sb.get_visible(), self.hidden_width))
         elif not hide and self.auto_hidden:
             self._release_slot()
             self.auto_hidden = False
@@ -577,7 +597,16 @@ class AltScreenScrollbar(object):
             elif position not in ('disabled', 'hidden'):
                 sb.show()
             self._restore_scroll(scroll)
-            dbg('altscreen: scrollbar visible=%s' % sb.get_visible())
+            try:
+                adj = self.terminal.vte.get_vadjustment()
+                dbg('altscreen: show scrollbar pin=%s visible=%s value=%.2f '
+                    'range=[%.2f, %.2f] page=%.2f'
+                    % (scroll[1], sb.get_visible(),
+                       float(adj.get_value()), float(adj.get_lower()),
+                       float(adj.get_upper()), float(adj.get_page_size())))
+            except (TypeError, ValueError, AttributeError):
+                dbg('altscreen: show scrollbar pin=%s visible=%s'
+                    % (scroll[1], sb.get_visible()))
         elif not hide:
             # The detector decided this is not a TUI (a canonical command
             # cleared the screen, for example). Drop the provisional hide

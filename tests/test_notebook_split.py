@@ -202,6 +202,17 @@ def test_promote_original_pane_close_after_focus_in(win):
         win.config['ask_before_closing'] = old_ask
 
 
+def test_promote_pane_preserves_tab_lock(win):
+    """Promoting a pane must keep the source tab's launch lock."""
+    nb, original = _three_page_notebook(win)
+    _split_without_draining_idle(nb, original)
+    page = nb.find_tab_root(original)
+    nb.get_tab_label(page).set_locked(True)
+
+    assert nb._promote_terminal(nb, original, 0) is True
+    assert nb.get_tab_label(original).get_locked() is True
+
+
 def _scroll(nb, direction, dx=0.0, dy=0.0):
     from gi.repository import Gdk
     event = Gdk.Event.new(Gdk.EventType.SCROLL)

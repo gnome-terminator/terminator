@@ -521,12 +521,37 @@ class Terminal(Gtk.VBox):
         self.scrollbar = Gtk.Scrollbar.new(Gtk.Orientation.VERTICAL, adjustment=self._vadjustment)
         self.scrollbar.set_no_show_all(True)
         self.cnxids.new(self._vadjustment, 'changed', self.sync_scrollbar)
+        self._debug_last_vadjustment = None
+        self.cnxids.new(self._vadjustment, 'value-changed',
+                        self._on_vadjustment_value_changed)
 
         terminalbox.pack_start(self.vte, True, True, 0)
         terminalbox.pack_start(self.scrollbar, False, True, 0)
         terminalbox.show_all()
 
         return(terminalbox)
+
+    def _on_vadjustment_value_changed(self, adjustment):
+        """Trace actual viewport moves without changing their behavior."""
+        try:
+            state = (float(adjustment.get_value()),
+                     float(adjustment.get_lower()),
+                     float(adjustment.get_upper()),
+                     float(adjustment.get_page_size()))
+        except (TypeError, ValueError, AttributeError):
+            return
+        previous = getattr(self, '_debug_last_vadjustment', None)
+        self._debug_last_vadjustment = state
+        if previous is None or abs(previous[0] - state[0]) > 0.01:
+            alt = getattr(self, 'altscreen', None)
+            dbg('vadj value %.2f -> %.2f range=[%.2f, %.2f] page=%.2f '
+                'alt=%s auto_hidden=%s pending_hidden=%s scrollbar=%s'
+                % (previous[0] if previous is not None else state[0],
+                   state[0], state[1], state[2], state[3],
+                   bool(alt is not None and alt.detector.active),
+                   bool(alt is not None and alt.auto_hidden),
+                   bool(alt is not None and alt.pending_hidden),
+                   bool(self.scrollbar is not None and self.scrollbar.get_visible())))
 
     def load_plugins(self, force = False):
         registry = plugin.PluginRegistry()
@@ -1439,6 +1464,17 @@ class Terminal(Gtk.VBox):
 
     def on_buttonpress(self, widget, event):
         """Handler for mouse events"""
+        try:
+            adj = self.vte.get_vadjustment()
+            dbg('button press widget=%s button=%s type=%s vadj=%.2f '
+                'range=[%.2f, %.2f] page=%.2f'
+                % (type(widget).__name__, event.button,
+                   event.type.value_nick if hasattr(event.type, 'value_nick')
+                   else event.type, float(adj.get_value()),
+                   float(adj.get_lower()), float(adj.get_upper()),
+                   float(adj.get_page_size())))
+        except (TypeError, ValueError, AttributeError):
+            pass
         # Any button event should grab focus
         widget.grab_focus()
 
@@ -1958,6 +1994,7 @@ class Terminal(Gtk.VBox):
             user_override=bool(alt is not None and alt.user_override))
         if want is None:
             return
+        old_visible = bool(sb.get_visible())
         if want:
             # A raw-mode redraw can look scrollable for the one signal
             # where VTE has updated upper and not yet page_size. Showing
@@ -2008,6 +2045,17 @@ class Terminal(Gtk.VBox):
             sb.hide()
             if was_visible and pin[0] is not None:
                 alt._restore_scroll(pin)
+        if old_visible != bool(sb.get_visible()):
+            adj = self._vadjustment
+            dbg('scrollbar visibility %s -> %s; vadj value=%.2f '
+                'range=[%.2f, %.2f] page=%.2f alt=%s auto_hidden=%s '
+                'pending_hidden=%s'
+                % (old_visible, bool(sb.get_visible()),
+                   float(adj.get_value()), float(adj.get_lower()),
+                   float(adj.get_upper()), float(adj.get_page_size()),
+                   bool(alt is not None and alt.detector.active),
+                   bool(alt is not None and alt.auto_hidden),
+                   bool(alt is not None and alt.pending_hidden)))
 
     def toggle_widget_visibility(self, widget):
         """Show or hide a widget"""
@@ -3166,6 +3214,15 @@ class Terminal(Gtk.VBox):
         index = max(0, min(int(index), len(tiers) - 1))
         scale = tiers[index]
         self._font_tier = index
+        try:
+            adj = self.vte.get_vadjustment()
+            dbg('auto-font apply tier=%s scale=%.3f reason=%s '
+                'before vadj value=%.2f range=[%.2f, %.2f] page=%.2f'
+                % (index, scale, reason, float(adj.get_value()),
+                   float(adj.get_lower()), float(adj.get_upper()),
+                   float(adj.get_page_size())))
+        except (TypeError, ValueError, AttributeError):
+            adj = None
         if hasattr(self.vte, 'set_font_scale'):
             self._auto_font_applying = True
             try:
@@ -3175,6 +3232,15 @@ class Terminal(Gtk.VBox):
                 return
             finally:
                 self._auto_font_applying = False
+            if adj is not None:
+                try:
+                    dbg('auto-font applied tier=%s after vadj value=%.2f '
+                        'range=[%.2f, %.2f] page=%.2f'
+                        % (index, float(adj.get_value()),
+                           float(adj.get_lower()), float(adj.get_upper()),
+                           float(adj.get_page_size())))
+                except (TypeError, ValueError, AttributeError):
+                    pass
         self._auto_font_last_change_ms = self._monotonic_ms()
         self.refresh_badge()
         show_badge = True

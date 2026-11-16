@@ -1588,6 +1588,17 @@ class Notebook(Container, Gtk.Notebook):
             if page is not None:
                 return self._take_dropped_tab(source, page, index)
             return False
+        # A tab lock belongs to the logical tab, so a pane promoted out of a
+        # locked split must carry that keep-for-next-launch choice with it.
+        page_locked = False
+        if page is not None:
+            label = source.get_tab_label(page)
+            getter = getattr(label, 'get_locked', None)
+            if callable(getter):
+                try:
+                    page_locked = bool(getter())
+                except Exception:
+                    page_locked = False
         try:
             self._lift_terminal(term)
             if term.get_parent() is not None:
@@ -1596,7 +1607,10 @@ class Notebook(Container, Gtk.Notebook):
                 index = 0
             if index > self.get_n_pages():
                 index = self.get_n_pages()
-            self.newtab(widget=term, metadata={'tabnum': index})
+            self.newtab(widget=term, metadata={
+                'tabnum': index,
+                'locked': page_locked,
+            })
         except Exception:
             self._ensure_parented(term)
             raise
@@ -1705,21 +1719,47 @@ class Notebook(Container, Gtk.Notebook):
         target = self.get_nth_page(page_index)
         if target is None or target is page:
             return False
+        target_label = self.get_tab_label(target)
+        target_locked = False
+        target_getter = getattr(target_label, 'get_locked', None)
+        if callable(target_getter):
+            try:
+                target_locked = bool(target_getter())
+            except Exception:
+                target_locked = False
         self._leave_zoom_for(source, self)
         src_index = source.page_num(page)
         if source is self and src_index < page_index:
             page_index -= 1
         maker = Factory()
         terminal_page = maker.isinstance(page, 'Terminal')
+        label = source.get_tab_label(page)
+        page_metadata = {}
+        custom = getattr(label, 'get_custom_label', lambda: None)()
+        if custom:
+            page_metadata['label'] = custom
+        getter = getattr(label, 'get_locked', None)
+        if callable(getter):
+            try:
+                page_metadata['locked'] = bool(getter())
+            except Exception:
+                page_metadata['locked'] = False
         if terminal_page:
             source.disconnect_child(page)
         try:
             source.detach_tab(page)
             target = self.get_nth_page(page_index)
             if target is None:
-                self.newtab(widget=page)
+                self.newtab(widget=page, metadata=page_metadata)
             else:
                 self._insert_widget_beside(target, page, pane_index, False)
+                # The source page is being removed as a tab. Preserve its
+                # keep-for-next-launch choice on the surviving destination
+                # tab; a lock must not disappear merely because pages merge.
+                if page_metadata.get('locked') or target_locked:
+                    new_label = self.get_tab_label(target)
+                    if new_label is not None and hasattr(new_label, 'set_locked'):
+                        new_label.set_locked(True)
             if not terminal_page:
                 self._rewire_moved_terminals(page)
         except Exception:
@@ -2008,6 +2048,8 @@ class Notebook(Container, Gtk.Notebook):
         if metadata and 'label' in metadata:
             dbg('creating TabLabel with text: %s' % metadata['label'])
             label.set_custom_label(metadata['label'])
+        if metadata and str(metadata.get('locked', '')).strip().lower() == 'true':
+            label.set_locked(True)
         label.connect('close-clicked', self.closetab)
 
         label.show_all()
