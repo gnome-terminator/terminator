@@ -2046,16 +2046,24 @@ class Terminal(Gtk.VBox):
             if was_visible and pin[0] is not None:
                 alt._restore_scroll(pin)
         if old_visible != bool(sb.get_visible()):
-            adj = self._vadjustment
-            dbg('scrollbar visibility %s -> %s; vadj value=%.2f '
-                'range=[%.2f, %.2f] page=%.2f alt=%s auto_hidden=%s '
-                'pending_hidden=%s'
-                % (old_visible, bool(sb.get_visible()),
-                   float(adj.get_value()), float(adj.get_lower()),
-                   float(adj.get_upper()), float(adj.get_page_size()),
-                   bool(alt is not None and alt.detector.active),
-                   bool(alt is not None and alt.auto_hidden),
-                   bool(alt is not None and alt.pending_hidden)))
+            try:
+                adj = getattr(self, '_vadjustment', None)
+                dbg('scrollbar visibility %s -> %s; vadj value=%.2f '
+                    'range=[%.2f, %.2f] page=%.2f alt=%s auto_hidden=%s '
+                    'pending_hidden=%s'
+                    % (old_visible, bool(sb.get_visible()),
+                       float(adj.get_value()), float(adj.get_lower()),
+                       float(adj.get_upper()), float(adj.get_page_size()),
+                       bool(alt is not None and alt.detector.active),
+                       bool(alt is not None and alt.auto_hidden),
+                       bool(alt is not None and alt.pending_hidden)))
+            except (TypeError, ValueError, AttributeError):
+                dbg('scrollbar visibility %s -> %s; alt=%s auto_hidden=%s '
+                    'pending_hidden=%s'
+                    % (old_visible, bool(sb.get_visible()),
+                       bool(alt is not None and alt.detector.active),
+                       bool(alt is not None and alt.auto_hidden),
+                       bool(alt is not None and alt.pending_hidden)))
 
     def toggle_widget_visibility(self, widget):
         """Show or hide a widget"""
