@@ -16,6 +16,8 @@
 | 默认值和配置文件 | `config.py`；界面在 `prefseditor.py` | `tests/test_prefs_session_titlebar.py` 等 |
 | 标签树、分屏比例 | `notebook.py`、`paned.py`、`window.py` | `tests/test_notebook_split.py`、`tests/test_paned_ratio.py` |
 | 终端和 VTE | `terminal.py` | `tests/` 中对应 `test_*.py` |
+| 回滚顶满后变窄，视口被扔到最旧一行 | `terminal.py` 按离底部的距离放回；判断在 `altscreen.py` 的 `scroll_value_after_reflow` | `tests/test_scroll_reflow.py` |
+| TUI 换档后缩在左上角 | `terminal.py` 的 `_Vte.do_size_allocate` 在公布格子前换档；`_tui_holds_the_grid` 挡住定时器 | `tests/test_tui_font_grid.py` |
 | 窗格注意标记和 agent 状态 | `agentstate.py`；终端、标题栏、标签和 `ipc.py` | `tests/test_agent_state.py` |
 
 `util.py` 提供配置目录、状态目录、缓存目录和 `logical_parent`。状态目录是会话文件的默认位置，缓存目录是回滚缓存的位置。

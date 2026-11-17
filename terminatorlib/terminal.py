@@ -34,7 +34,7 @@ from . import regex
 from .scrollback import ScrollbackCache
 from . import clipboard_image
 from .altscreen import (AltScreenScrollbar, adjustment_scrollable,
-                       scrollbar_should_show)
+                       scrollbar_should_show, scroll_value_after_reflow)
 from . import agentstate
 
 _AUTOFONT_TOAST_CSS = None
@@ -80,6 +80,28 @@ def zoom_font_scale_factor(old_w, old_h, new_w, new_h):
     # Stay just under the fit so the cell size does not round up and
     # clip a row or a column. Cap a bogus 1px snapshot.
     return min(8.0, grown * 0.97)
+
+
+class _Vte(Vte.Terminal):
+    """VTE that picks the font tier before publishing a new grid.
+
+    The tier used to be applied on a timer after the allocation. A TUI
+    that had already drawn then kept the old column count, and the
+    smaller cells left that drawing in the corner of the pane.
+    """
+
+    def do_size_allocate(self, allocation):
+        term = getattr(self, '_terminator_term', None)
+        if term is not None:
+            try:
+                width = allocation.width
+                height = allocation.height
+            except AttributeError:
+                width, height = allocation[2], allocation[3]
+            term._auto_font_before_allocate(width, height)
+        Vte.Terminal.do_size_allocate(self, allocation)
+        if term is not None:
+            term._schedule_pty_grid_assert()
 
 
 # pylint: disable-msg=R0904
@@ -201,7 +223,8 @@ class Terminal(Gtk.VBox):
 
         self.pending_on_vte_size_allocate = False
 
-        self.vte = Vte.Terminal()
+        self.vte = _Vte()
+        self.vte._terminator_term = self
         self.vte.set_allow_hyperlink(True)
         self.vte._draw_data = None
         if not hasattr(self.vte, "set_opacity") or \
@@ -250,6 +273,8 @@ class Terminal(Gtk.VBox):
         self._base_cell_probe_idle = None
         self._auto_font_disabled = False
         self._auto_font_applying = False
+        self._auto_font_in_allocate = False
+        self._pty_grid_assert_idle = None
         # Width of the scrollbar last time it was on screen. While it is
         # hidden and the VTE has absorbed those pixels, the font tier
         # still counts them, so hiding the bar cannot step the font up.
@@ -409,7 +434,9 @@ class Terminal(Gtk.VBox):
         dbg('close: called')
         # UI review P2-2: no GLib source may fire on a closed terminal
         for attr in ('_cwd_probe_timer', '_auto_font_timer',
-                     '_autofont_toast_timer', '_base_cell_probe_idle'):
+                     '_autofont_toast_timer', '_base_cell_probe_idle',
+                     '_scroll_restore_idle', '_scroll_settle_timer',
+                     '_pty_grid_assert_idle'):
             sid = getattr(self, attr, None)
             if sid:
                 try:
@@ -524,6 +551,15 @@ class Terminal(Gtk.VBox):
         self._debug_last_vadjustment = None
         self.cnxids.new(self._vadjustment, 'value-changed',
                         self._on_vadjustment_value_changed)
+        self.cnxids.new(self._vadjustment, 'value-changed',
+                        self._on_scroll_value_changed)
+        self.cnxids.new(self.scrollbar, 'change-value',
+                        self._on_scrollbar_user_scroll)
+        self._scroll_sample = None
+        self._scroll_restore_idle = None
+        self._scroll_restore_value = None
+        self._scroll_settle_timer = None
+        self._scroll_user_drag = False
 
         terminalbox.pack_start(self.vte, True, True, 0)
         terminalbox.pack_start(self.scrollbar, False, True, 0)
@@ -1952,6 +1988,113 @@ class Terminal(Gtk.VBox):
         elif position == 'right':
             self.terminalbox.reorder_child(self.vte, 0)
 
+    def _on_scrollbar_user_scroll(self, *_args):
+        """A drag or click on the bar is a request, not a reflow.
+
+        ``change-value`` is the scrollbar's own signal. VTE writes the
+        adjustment directly and does not emit it, so a reflow that lands
+        on the top row is still corrected.
+        """
+        self._scroll_user_drag = True
+        return False
+
+    def _on_scroll_value_changed(self, adj):
+        """Keep a full scrollback from being thrown to the top on reflow.
+
+        VTE applies the new value while ``m_changing_scroll_position`` is
+        set, and ignores adjustment writes made from inside that signal.
+        The correction is scheduled, then applied once that flag is clear.
+        """
+        value = adj.get_value()
+        lower = adj.get_lower()
+        upper = adj.get_upper()
+        page = adj.get_page_size()
+        vte = getattr(self, 'vte', None)
+        cols = vte.get_column_count() if vte is not None else 0
+        sample = getattr(self, '_scroll_sample', None)
+        restored = None
+        if sample is not None and not getattr(self, '_scroll_user_drag', False):
+            old_value, old_lower, old_upper, old_page, old_cols = sample
+            restored = scroll_value_after_reflow(
+                old_value, old_lower, old_upper, old_page,
+                value, lower, upper, page, cols != old_cols)
+        self._scroll_user_drag = False
+        self._scroll_sample = (value, lower, upper, page, cols)
+        if restored is not None:
+            self._schedule_scroll_restore(restored)
+
+    def _schedule_scroll_restore(self, value):
+        self._scroll_restore_value = value
+        if getattr(self, '_scroll_restore_idle', None):
+            return
+        self._scroll_restore_idle = GLib.idle_add(
+            self._apply_scroll_restore, priority=GLib.PRIORITY_DEFAULT)
+
+    def _apply_scroll_restore(self):
+        self._scroll_restore_idle = None
+        adj = getattr(self, '_vadjustment', None)
+        target = getattr(self, '_scroll_restore_value', None)
+        self._scroll_restore_value = None
+        vte = getattr(self, 'vte', None)
+        if adj is None or target is None or vte is None:
+            return False
+        lower = adj.get_lower()
+        upper = adj.get_upper()
+        page = adj.get_page_size()
+        bottom = upper - page
+        value = adj.get_value()
+        # A real scroll landed after the reflow. Keep it.
+        if value > lower + 0.5 or bottom <= lower + 0.5:
+            return False
+        if target < lower:
+            target = lower
+        if target > bottom:
+            target = bottom
+        if abs(target - value) <= 0.5:
+            return False
+        adj.set_value(target)
+        return False
+
+    def _schedule_scroll_column_settle(self):
+        """Record the new column count once the reflow value has arrived.
+
+        VTE emits the adjustment change on a short timeout after
+        size-allocate. Writing the new column count down before that
+        timeout makes the jump to the top look like a user scroll.
+        """
+        sid = getattr(self, '_scroll_settle_timer', None)
+        if sid:
+            try:
+                GLib.source_remove(sid)
+            except Exception:
+                pass
+        self._scroll_settle_timer = GLib.timeout_add(
+            40, self._settle_scroll_columns,
+            priority=GLib.PRIORITY_DEFAULT_IDLE)
+
+    def _settle_scroll_columns(self):
+        self._scroll_settle_timer = None
+        vte = getattr(self, 'vte', None)
+        adj = getattr(self, '_vadjustment', None)
+        if vte is None or adj is None:
+            return False
+        if getattr(self, '_scroll_restore_idle', None):
+            return False
+        cols = vte.get_column_count()
+        value = adj.get_value()
+        sample = getattr(self, '_scroll_sample', None)
+        if sample is None:
+            self._scroll_sample = (
+                value, adj.get_lower(), adj.get_upper(),
+                adj.get_page_size(), cols)
+            return False
+        if abs(value - sample[0]) > 0.5:
+            return False
+        if cols != sample[4]:
+            self._scroll_sample = (
+                sample[0], sample[1], sample[2], sample[3], cols)
+        return False
+
     def sync_scrollbar(self, *_args):
         """Show the scrollbar only while there is something to scroll.
 
@@ -2455,7 +2598,10 @@ class Terminal(Gtk.VBox):
 
     def deferred_on_vte_size_allocate(self, widget, allocation):
         # widget & allocation are not used in on_vte_size_allocate, so we
-        # can use the on_vte_size_allocate instead of duplicating the code
+        # can use the on_vte_size_allocate instead of duplicating the code.
+        # VTE has already reflowed. Its adjustment update is still pending,
+        # so the column count used by the scroll-position fix settles later.
+        self._schedule_scroll_column_settle()
         if self.pending_on_vte_size_allocate:
             return
         self.pending_on_vte_size_allocate = True
@@ -3086,8 +3232,96 @@ class Terminal(Gtk.VBox):
         self._base_cell = cell
         return True
 
-    def update_auto_font_scale(self, force=False, avail=None):
-        """Recompute and maybe apply a tier. avail=(w,h) for D sync path."""
+    def _auto_font_before_allocate(self, width, height):
+        """Choose the tier for this allocation before VTE builds the grid."""
+        if self._auto_font_in_allocate:
+            return
+        if not self._auto_font_enabled():
+            return
+        if self._auto_font_mode != 'run':
+            return
+        try:
+            width = int(width)
+            height = int(height)
+        except (TypeError, ValueError):
+            return
+        if width <= 1 or height <= 1:
+            return
+        hidden = self._auto_font_scrollbar_inset()
+        if hidden > 0:
+            width = max(1, width - hidden)
+        self._auto_font_in_allocate = True
+        try:
+            self.update_auto_font_scale(avail=(width, height), immediate=True)
+        finally:
+            self._auto_font_in_allocate = False
+
+    def _tui_holds_the_grid(self):
+        """True when a fullscreen program has already read this grid.
+
+        A font change that is not part of a resize then leaves the
+        program drawing the old cell count in the corner.
+        """
+        vte = getattr(self, 'vte', None)
+        if vte is None:
+            return False
+        try:
+            pty = vte.get_pty()
+            fd = pty.get_fd() if pty is not None else -1
+        except Exception:
+            return False
+        from .altscreen import foreground_busy, tty_raw
+        if tty_raw(fd) is not True:
+            return False
+        return foreground_busy(fd, getattr(self, 'pid', None)) is True
+
+    def _schedule_pty_grid_assert(self):
+        """Correct a PTY that is still on the previous row and column count."""
+        if getattr(self, '_pty_grid_assert_idle', None):
+            return
+        self._pty_grid_assert_idle = GLib.idle_add(
+            self._assert_pty_grid, priority=GLib.PRIORITY_DEFAULT_IDLE)
+
+    def _assert_pty_grid(self):
+        self._pty_grid_assert_idle = None
+        vte = getattr(self, 'vte', None)
+        if vte is None:
+            return False
+        try:
+            pty = vte.get_pty()
+            if pty is None:
+                return False
+            fd = pty.get_fd()
+            rows = int(vte.get_row_count())
+            cols = int(vte.get_column_count())
+        except Exception:
+            return False
+        if rows < 1 or cols < 1 or fd < 0:
+            return False
+        import fcntl
+        import struct
+        import termios
+        try:
+            current = struct.unpack(
+                'HHHH', fcntl.ioctl(fd, termios.TIOCGWINSZ, b'\0' * 8))
+        except Exception:
+            return False
+        if current[0] == rows and current[1] == cols:
+            return False
+        try:
+            fcntl.ioctl(fd, termios.TIOCSWINSZ,
+                        struct.pack('HHHH', rows, cols, 0, 0))
+        except Exception:
+            return False
+        return False
+
+    def update_auto_font_scale(self, force=False, avail=None, immediate=False):
+        """Recompute and maybe apply a tier. avail=(w,h) for D sync path.
+
+        ``immediate`` is the size-allocate path: the tier has to be in
+        place before VTE publishes the grid. A timer is not immediate,
+        and it leaves the previous tier alone while a TUI holds the grid.
+        """
         from .autofont import cols_rows_from_base, select_font_tier
         if not self._auto_font_enabled():
             return
@@ -3099,10 +3333,12 @@ class Terminal(Gtk.VBox):
             else:
                 self.refresh_badge()
             return
-        # Font used to stay frozen for the whole TUI. After a split drag
-        # the narrow pane kept 100% and clipped the program, while the
-        # wide pane stayed at a smaller tier. Follow the current size.
-        # An idle TUI whose tier is already right never calls set_font_scale.
+        # A split drag used to leave the narrow pane at 100% (the text
+        # clipped) because the font stayed frozen for the whole TUI.
+        # The tier now follows the allocation itself, before VTE tells
+        # the program the new grid. A timer that fires with no resize
+        # does not change it while a TUI is in the foreground: that
+        # second change is what left the old drawing in the corner.
         if not self._auto_font_ever_allocated and avail is None:
             return
         params = self._auto_font_load_params()
@@ -3141,10 +3377,11 @@ class Terminal(Gtk.VBox):
         else:
             # Same-sized panes share the tier a fresh pane would pick.
             # Hysteresis would otherwise leave one at 90% and one at 100%.
-            # avail= is a destination rect, not the live split: don't look
-            # for a peer of the current allocation.
+            # avail= on the overlay path is a destination rect, not the
+            # live split. A size-allocate is the live size.
             cur = self._font_tier
-            if avail is None and self._same_size_font_peer(w, h) is not None:
+            if ((avail is None or immediate) and
+                    self._same_size_font_peer(w, h) is not None):
                 cur = 0
             new = select_font_tier(
                 cols0, rows0, cur, tiers,
@@ -3152,7 +3389,12 @@ class Terminal(Gtk.VBox):
         if new == self._font_tier and not force:
             self.refresh_badge()
             return
-        if not force and (self._monotonic_ms() - self._auto_font_last_change_ms) < 500:
+        if (not force and not immediate and new != self._font_tier
+                and self._tui_holds_the_grid()):
+            self.refresh_badge()
+            return
+        if (not force and not immediate and
+                (self._monotonic_ms() - self._auto_font_last_change_ms) < 500):
             self.schedule_auto_font_scale()
             return
         self.apply_tier(new, reason='update', toast=not force)

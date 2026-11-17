@@ -148,6 +148,49 @@ def adjustment_scrollable(lower, upper, page_size):
     return (upper - lower) > page_size + 0.5
 
 
+def scroll_value_after_reflow(old_value, old_lower, old_upper, old_page,
+                               new_value, new_lower, new_upper, new_page,
+                               columns_changed):
+    """Value to put back after a column change, or None to keep VTE's.
+
+    A scrollback ring that is already at its cap reflows onto the top row
+    when the grid gets narrower and the viewport was not already there.
+    The history is still in the ring. Put back the same distance from the
+    bottom.
+
+    Leave these alone: a scroll that did not change the column count, a
+    viewport that was already at the top, a reflow that kept a real
+    offset, and a range that collapsed (alternate screen, or a clear that
+    threw the history away).
+    """
+    if not columns_changed:
+        return None
+    if old_page <= 0 or new_page <= 0:
+        return None
+    old_bottom = old_upper - old_page
+    new_bottom = new_upper - new_page
+    if old_bottom <= old_lower + 0.5 or new_bottom <= new_lower + 0.5:
+        return None
+    if old_value <= old_lower + 0.5:
+        return None
+    if new_value > new_lower + 0.5:
+        return None
+    old_span = old_bottom - old_lower
+    new_span = new_bottom - new_lower
+    # A clear or an alternate screen drops most of the range. The cap-full
+    # reflow keeps it.
+    if new_span + 0.5 < old_span * 0.5:
+        return None
+    restored = new_bottom - (old_bottom - old_value)
+    if restored < new_lower:
+        restored = new_lower
+    if restored > new_bottom:
+        restored = new_bottom
+    if abs(restored - new_value) <= 0.5:
+        return None
+    return restored
+
+
 def scrollbar_should_show(position, scrollable, forced=None,
                           alt_auto_hidden=False, user_override=False):
     """Whether the scrollbar widget should be visible.

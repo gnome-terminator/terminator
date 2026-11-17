@@ -65,6 +65,8 @@ The five new features below are **on by default**. Each one can be turned off in
 
 **Fixes**
 
+- **Scroll position.** Narrowing a pane, or any other column change, no longer throws a full scrollback to the oldest line. The view stays the same distance from the latest line. Scrolling to the top yourself still does, and a program that clears the screen still starts at the top.
+- **TUI size.** Stepping a pane down to 90% or 80% now happens in the same allocation that publishes the grid, so a fullscreen program is told the column count the pane is actually drawing. A later timer no longer changes the font while that program still holds the grid. A program already drawn in the corner fills the pane the next time it starts, or when the split is dragged.
 - **Auto font size switch.** Turning it off from the titlebar badge hid the badge and the font-lock item, and neither the terminal menu nor the full menu had a way to turn it back on. Both menus now keep an Auto font size check. Uncheck turns it off for every terminal; check turns it back on. Preferences > Panes uses the same name. The per-terminal lock item still appears only while the switch is on.
 - **About page.** Preferences > About opens this repository for development and for bugs (`https://github.com/TIIEHenry/TerminatorX`). The text points at those project links. It used to open the upstream Terminator project and tell you to look for a Development link.
 - **Maximising and restoring a pane.** A full-screen program no longer changes its row count a moment after the pane maximises or returns to its slot.

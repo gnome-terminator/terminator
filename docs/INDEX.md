@@ -7,7 +7,7 @@
 | 改会话、窗格、配置或关窗确认 | [架构与契约](design/architecture.md) |
 | 改某个源码文件之前 | [terminatorlib](../terminatorlib/README.md)、[插件](../terminatorlib/plugins/README.md) |
 | 准备修改、验证或交接 | [开发规范](standards/development.md) |
-| 普通启动没有恢复、标签丢了、字号变了、关窗没有询问 | [故障维护](guides/maintenance.md) |
+| 普通启动没有恢复、标签丢了、字号变了、TUI 缩在左上角、视口跳到顶部、关窗没有询问 | [故障维护](guides/maintenance.md) |
 | 查为什么默认开启、为什么用逻辑父节点、为什么正常退出只留锁定标签 | [默认开启](decisions/defaults-on.md)、[逻辑父节点](decisions/logical-parent.md)、[锁定标签](decisions/locked-tabs.md) |
 | 安装、翻译、发布 | [安装](../INSTALL.md)、[翻译](../TRANSLATION.md)、[发布](../RELEASE.md) |
 | 看用户能感知的变化 | [变更日志](../CHANGELOG.md) |
