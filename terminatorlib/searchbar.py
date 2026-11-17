@@ -1,271 +1,313 @@
 # Terminator by Chris Jones <cmsj@tenshu.net>
 # GPL v2 only
-"""searchbar.py - classes necessary to provide a terminal search bar"""
+"""searchbar.py - Find dialog for a terminal's scrollback"""
+
+import re
 
 import gi
-from gi.repository import Gtk, Gdk
+gi.require_version('Gtk', '3.0')
 gi.require_version('Vte', '2.91')  # vte-0.38 (gnome-3.14)
-from gi.repository import Vte
-from gi.repository import GObject
-from gi.repository import GLib
+from gi.repository import Gtk, Gdk, Vte, GObject, GLib
 
 from .translation import _
 from .config import Config
 from . import regex
 from .util import dbg
 
-# pylint: disable-msg=R0904
-class Searchbar(Gtk.HBox):
-    """Class implementing the Searchbar widget"""
+
+def build_search_pattern(text, whole_word, as_regex):
+    """Turn the Find entry into a VTE search pattern.
+
+    With *as_regex* off the text is matched literally. *whole_word* adds
+    a word boundary on each side. An empty entry is not a pattern.
+    """
+    if not text:
+        return None
+    if as_regex:
+        body = text
+    else:
+        body = re.escape(text)
+    if whole_word:
+        return '\\b(?:%s)\\b' % body
+    return body
+
+
+class Searchbar(GObject.GObject):
+    """Find dialog. Ctrl+Shift+F opens it; Escape or the close button ends it."""
 
     __gsignals__ = {
         'end-search': (GObject.SignalFlags.RUN_LAST, None, ()),
     }
 
-    entry = None
-    next = None
-    prev = None
-    wrap = None
-
-    vte = None
-    config = None
-
-    searchstring = None
-    searchre = None
-
-    def __init__(self):
-        """Class initialiser"""
+    def __init__(self, terminal):
         GObject.GObject.__init__(self)
-
-        # default regex flags are not CASELESS
+        self.terminal = terminal
+        self.vte = None
+        self.dialog = None
+        self.config = Config()
+        self._last = ''
+        self._closing = False
         self.regex_flags_pcre2 = regex.FLAGS_PCRE2
         self.regex_flags_glib = regex.FLAGS_GLIB
 
-        self.config = Config()
-
-        if not self.config.base.get_item('case_sensitive'):
-            self.regex_flags_pcre2 |= regex.PCRE2_CASELESS
-            self.regex_flags_glib |= regex.GLIB_CASELESS
-
-        self.get_style_context().add_class("terminator-terminal-searchbar")
-
-        # Search text
-        self.entry = Gtk.Entry()
-        self.entry.set_activates_default(True)
-        self.entry.show()
-        self.entry.connect('activate', self.do_search)
-        self.entry.connect('key-press-event', self.search_keypress)
-
-        # Label
-        label = Gtk.Label(label=_('Search:'))
-        label.show()
-        label.set_margin_start(10)
-        label.set_margin_end(5)
-
-        # Close Button
-        close = Gtk.Button()
-        close.set_relief(Gtk.ReliefStyle.NONE)
-        close.set_focus_on_click(False)
-        icon = Gtk.Image()
-        icon.set_from_stock(Gtk.STOCK_CLOSE, Gtk.IconSize.MENU)
-        close.add(icon)
-        close.set_name('terminator-search-close-button')
-        if hasattr(close, 'set_tooltip_text'):
-            close.set_tooltip_text(_('Close Search bar'))
-        close.connect('clicked', self.end_search)
-        close.show_all()
-
-        # Next Button
-        self.next = Gtk.Button.new_with_label('Next')
-        self.next.show()
-        self.next.set_sensitive(False)
-        self.next.connect('clicked', self.next_search)
-
-        # Previous Button
-        self.prev = Gtk.Button.new_with_label('Prev')
-        self.prev.show()
-        self.prev.set_sensitive(False)
-        self.prev.connect('clicked', self.prev_search)
-
-        # Match Case checkbox
-        self.match_case = Gtk.CheckButton.new_with_label('Match Case')
-        self.match_case.show()
-        self.match_case.set_sensitive(True)
-        self.match_case.set_active(self.config.base.get_item('case_sensitive'))
-        self.match_case.connect('toggled', self.match_case_toggled)
-
-        # Wrap checkbox
-        self.wrap = Gtk.CheckButton.new_with_label('Wrap')
-        self.wrap.show()
-        self.wrap.set_sensitive(True)
-        self.wrap.set_active(True)
-        self.wrap.connect('toggled', self.wrap_toggled)
-
-        # Invert Search checkbox
-        self.invert_search = Gtk.CheckButton.new_with_label('Invert Search')
-        self.invert_search.show()
-        self.search_is_inverted = self.config.base.get_item('invert_search')
-        self.invert_search.set_active(self.search_is_inverted)
-        self.invert_search.connect('toggled', self.wrap_invert_search)
-
-        self.pack_start(label, False, True, 0)
-        self.pack_start(self.entry, True, True, 0)
-        self.pack_start(self.prev, False, False, 0)
-        self.pack_start(self.next, False, False, 0)
-        self.pack_start(self.wrap, False, False, 0)
-        self.pack_start(self.match_case, False, False, 0)
-        self.pack_start(self.invert_search, False, False, 0)
-        self.pack_end(close, False, False, 0)
-
-        self.hide()
-        self.set_no_show_all(True)
-
-    def wrap_invert_search(self, toggled):
-        self.search_is_inverted = toggled.get_active()
-        self.invert_search.set_active(toggled.get_active())
-        self.config.base.set_item('invert_search', toggled.get_active())
-        self.config.save()
-
-    def wrap_toggled(self, toggled):
-        toggled_state = toggled.get_active()
-        self.vte.search_set_wrap_around(toggled_state)
-        if toggled_state:
-            self.prev.set_sensitive(True)
-            self.next.set_sensitive(True)
-
-    def match_case_toggled(self, toggled):
-        """Handles Match Case checkbox toggles"""
-
-        toggled_state = toggled.get_active()
-        if not toggled_state:
-            #  Add the CASELESS regex flags when the checkbox is not checked.
-            try:
-                self.regex_flags_pcre2 = (regex.FLAGS_PCRE2 | regex.PCRE2_CASELESS)
-            except TypeError:
-                # if PCRE2 support is not available
-                pass
-
-            # The code will fall back to use this GLib regex when PCRE2 is not available
-            self.regex_flags_glib = (regex.FLAGS_GLIB | regex.GLIB_CASELESS)
-        else:
-            # Default state of the check box is unchecked. CASELESS regex flags are not added.
-            self.regex_flags_pcre2 = regex.FLAGS_PCRE2
-            self.regex_flags_glib = regex.FLAGS_GLIB
-        
-        self.config.base.set_item('case_sensitive', toggled_state)
-        self.config.save()
-        self.do_search(self.entry) #  Start a new search every time the check box is toggled.    
-
-    def get_vte(self):
-        """Find our parent widget"""
-        parent = self.get_parent()
-        if parent:
-            self.vte = parent.vte
-            #turn on wrap by default
-            self.vte.search_set_wrap_around(True)
-
-    # pylint: disable-msg=W0613
-    def search_keypress(self, widget, event):
-        """Handle keypress events"""
-        key = Gdk.keyval_name(event.keyval)
-        if key == 'Escape':
-            self.end_search()
-        elif (event.state & Gdk.ModifierType.SHIFT_MASK)\
-                and (event.keyval == Gdk.KEY_Return or event.keyval == Gdk.KEY_KP_Enter):
-            if self.search_is_inverted:
-                self.next_search(None)
-            else:
-                self.prev_search(None)
-            return True
+    def hide(self):
+        if self.dialog is not None:
+            self.dialog.hide()
 
     def start_search(self):
-        """Show ourselves"""
-        if not self.vte:
-            self.get_vte()
-
-        self.show()
+        """Present the Find dialog for this terminal."""
+        if self.vte is None:
+            self.vte = self.terminal.vte
+        self._ensure_dialog()
+        parent = self.terminal.get_toplevel()
+        if isinstance(parent, Gtk.Window):
+            self.dialog.set_transient_for(parent)
+        text = self.entry.get_text()
+        if text:
+            self._last = text
+        self._apply(jump=False)
+        self.dialog.present()
         self.entry.grab_focus()
+        self.entry.select_region(0, -1)
 
-    def do_search(self, widget):
-        """Trap and re-emit the clicked signal"""
-        dbg('entered do_search')
-        searchtext = self.entry.get_text()
-        dbg('searchtext: %s' % searchtext)
-        if searchtext == '':
+    def end_search(self, widget=None):
+        """Hide the dialog, drop the highlight, and tell the terminal."""
+        if self._closing:
             return
+        self._closing = True
+        try:
+            self._clear_highlight()
+            self.hide()
+            self._last = ''
+            self.emit('end-search')
+        finally:
+            self._closing = False
 
+    def _ensure_dialog(self):
+        if self.dialog is not None:
+            return
+        dialog = Gtk.Dialog(title=_('Find'), use_header_bar=True)
+        dialog.set_destroy_with_parent(True)
+        dialog.set_modal(False)
+        dialog.set_resizable(False)
+        dialog.set_default_size(380, -1)
+        dialog.connect('delete-event', self._on_delete)
+        dialog.connect('key-press-event', self._on_dialog_key)
+
+        area = dialog.get_content_area()
+        area.set_border_width(18)
+        area.set_spacing(10)
+
+        self.entry = Gtk.Entry()
+        self.entry.set_activates_default(True)
+        try:
+            self.entry.set_icon_from_icon_name(
+                Gtk.EntryIconPosition.PRIMARY, 'edit-find-symbolic')
+        except Exception:
+            pass
+        self.entry.connect('changed', self._on_changed)
+        self.entry.connect('activate', self._on_activate)
+        self.entry.connect('key-press-event', self._on_entry_key)
+
+        self.prev = self._arrow_button(
+            'go-up-symbolic', _('Find previous'))
+        self.next = self._arrow_button(
+            'go-down-symbolic', _('Find next'))
+        self.prev.connect('clicked', self.prev_search)
+        self.next.connect('clicked', self.next_search)
+        self.prev.set_sensitive(False)
+        self.next.set_sensitive(False)
+
+        row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+        row.get_style_context().add_class('linked')
+        row.pack_start(self.entry, True, True, 0)
+        row.pack_start(self.prev, False, False, 0)
+        row.pack_start(self.next, False, False, 0)
+        area.pack_start(row, False, False, 0)
+
+        self.match_case = Gtk.CheckButton.new_with_mnemonic(_('_Match case'))
+        self.whole_word = Gtk.CheckButton.new_with_mnemonic(
+            _('Match _entire word'))
+        self.as_regex = Gtk.CheckButton.new_with_mnemonic(
+            _('Match as _regular expression'))
+        self.wrap = Gtk.CheckButton.new_with_mnemonic(_('_Wrap around'))
+
+        self.match_case.set_active(
+            bool(self.config.base.get_item('case_sensitive')))
+        self.whole_word.set_active(
+            bool(self.config.base.get_item('search_whole_word')))
+        self.as_regex.set_active(
+            bool(self.config.base.get_item('search_regex')))
+        wrap = self.config.base.get_item('search_wrap')
+        self.wrap.set_active(True if wrap is None else bool(wrap))
+
+        for box in (self.match_case, self.whole_word, self.as_regex, self.wrap):
+            box.connect('toggled', self._on_option)
+            area.pack_start(box, False, False, 0)
+
+        area.show_all()
+        self.dialog = dialog
+
+    def _arrow_button(self, icon_name, tooltip):
+        button = Gtk.Button()
+        button.set_relief(Gtk.ReliefStyle.NONE)
+        button.set_focus_on_click(False)
+        image = Gtk.Image.new_from_icon_name(icon_name, Gtk.IconSize.BUTTON)
+        button.add(image)
+        button.set_tooltip_text(tooltip)
+        return button
+
+    def _on_delete(self, _dialog, _event):
+        self.end_search()
+        return True
+
+    def _on_dialog_key(self, _dialog, event):
+        if Gdk.keyval_name(event.keyval) == 'Escape':
+            self.end_search()
+            return True
+        return False
+
+    def _on_entry_key(self, _widget, event):
+        if (event.state & Gdk.ModifierType.SHIFT_MASK) and \
+                event.keyval in (Gdk.KEY_Return, Gdk.KEY_KP_Enter):
+            self.prev_search()
+            return True
+        return False
+
+    def _on_changed(self, _entry):
+        self._apply(jump=False)
+
+    def _on_activate(self, _entry):
+        if self._inverted():
+            self.prev_search()
+        else:
+            self.next_search()
+
+    def _on_option(self, _button):
+        self._save_options()
+        self._last = ''
+        self._apply(jump=False)
+
+    def _save_options(self):
+        base = self.config.base
+        base.set_item('case_sensitive', self.match_case.get_active())
+        base.set_item('search_whole_word', self.whole_word.get_active())
+        base.set_item('search_regex', self.as_regex.get_active())
+        base.set_item('search_wrap', self.wrap.get_active())
+        self.config.save()
+
+    def _inverted(self):
+        try:
+            return bool(self.config.base.get_item('invert_search'))
+        except Exception:
+            return False
+
+    def _apply(self, jump):
+        """Install the pattern. Jump to a hit unless the text only grew."""
+        if self.vte is None:
+            return
+        text = self.entry.get_text()
+        pattern = build_search_pattern(
+            text, self.whole_word.get_active(), self.as_regex.get_active())
+        try:
+            self.vte.search_set_wrap_around(self.wrap.get_active())
+        except Exception:
+            pass
+        if not pattern:
+            self._clear_highlight()
+            self._set_nav(False)
+            self._mark_entry(False)
+            self._last = ''
+            return
+        if not self._install_pattern(pattern):
+            self._clear_highlight()
+            self._set_nav(False)
+            self._mark_entry(True)
+            return
+        self._mark_entry(False)
+        self._set_nav(True)
+        extended = bool(self._last) and text.startswith(self._last)
+        self._last = text
+        if jump or not extended:
+            if self._inverted():
+                self.prev_search()
+            else:
+                self.next_search()
+
+    def _install_pattern(self, pattern):
+        caseless = not self.match_case.get_active()
         self.searchre = None
-        regex_error = False
-
         if regex.FLAGS_PCRE2:
+            flags = regex.FLAGS_PCRE2
+            if caseless:
+                flags |= regex.PCRE2_CASELESS
             try:
-                self.searchre = Vte.Regex.new_for_search(searchtext, len(searchtext), self.regex_flags_pcre2)
-                dbg('search RE: %s' % self.searchre)
-                self.vte.search_set_regex(self.searchre, 0)
+                # API length is UTF-8 bytes, or -1 for the whole string.
+                # len() is code points and can accept a shorter valid pattern.
+                compiled = Vte.Regex.new_for_search(pattern, -1, flags)
+                self.vte.search_set_regex(compiled, 0)
+                self.searchre = compiled
+                return True
             except GLib.Error as error:
-                # happens when PCRE2 support is not builtin (Ubuntu < 19.10)
-                # or when the regex pattern is invalid
                 dbg('PCRE2 regex error: %s' % error)
+        flags = regex.FLAGS_GLIB
+        if caseless:
+            flags |= regex.GLIB_CASELESS
+        try:
+            compiled = GLib.Regex(pattern, flags, 0)
+            self.vte.search_set_gregex(compiled, 0)
+            self.searchre = compiled
+            return True
+        except GLib.Error as error:
+            dbg('GLib regex error: %s' % error)
+            return False
+
+    def _mark_entry(self, invalid):
+        context = self.entry.get_style_context()
+        if invalid:
+            context.add_class('error')
+        else:
+            context.remove_class('error')
+
+    def _set_nav(self, enabled):
+        self.next.set_sensitive(enabled)
+        self.prev.set_sensitive(enabled)
+
+    def _clear_highlight(self):
+        if self.vte is None:
+            return
+        try:
+            self.vte.search_set_regex(None, 0)
+        except Exception:
+            try:
+                self.vte.search_set_gregex(None, 0)
+            except Exception:
                 pass
 
-        if not self.searchre:
-            # fall back to old GLib regex
-            try:
-                self.searchre = GLib.Regex(searchtext, self.regex_flags_glib, 0)
-                dbg('search RE: %s' % self.searchre)
-                self.vte.search_set_gregex(self.searchre, 0)
-            except GLib.Error as error:
-                # Invalid regex pattern - handle gracefully
-                dbg('GLib regex error: %s' % error)
-                regex_error = True
-                # Set entry background to indicate error
-                self.entry.get_style_context().add_class("error")
-
-        if regex_error:
-            # Don't enable search buttons for invalid regex
-            self.next.set_sensitive(False)
-            self.prev.set_sensitive(False)
+    def next_search(self, widget=None):
+        if self.vte is None or self.entry.get_text() == '':
             return
-
-        # Clear any error styling on successful regex compilation
-        self.entry.get_style_context().remove_class("error")
-
-        self.next.set_sensitive(True)
-        self.prev.set_sensitive(True)
-        # switch search direction based on the inversion checkbox
-        if not self.search_is_inverted:
-            self.next_search(None)
-        else:
-            self.prev_search(None)
-
-    def next_search(self, widget):
-        """Search forwards and jump to the next result, if any"""
-        found_result = self.vte.search_find_next()
+        found = self.vte.search_find_next()
         if not self.wrap.get_active():
-            self.next.set_sensitive(found_result)
+            self.next.set_sensitive(bool(found))
         else:
             self.next.set_sensitive(True)
         self.prev.set_sensitive(True)
-        return
 
-    def prev_search(self, widget):
-        """Jump back to the previous search"""
-        found_result = self.vte.search_find_previous()
+    def prev_search(self, widget=None):
+        if self.vte is None or self.entry.get_text() == '':
+            return
+        found = self.vte.search_find_previous()
         if not self.wrap.get_active():
-            self.prev.set_sensitive(found_result)
+            self.prev.set_sensitive(bool(found))
         else:
             self.prev.set_sensitive(True)
         self.next.set_sensitive(True)
-        return
-
-    def end_search(self, widget=None):
-        """Trap and re-emit the end-search signal"""
-        self.searchstring = None
-        self.searchre = None
-        self.emit('end-search')
 
     def get_search_term(self):
-        """Return the currently set search term"""
-        return(self.entry.get_text())
+        if self.dialog is None:
+            return ''
+        return self.entry.get_text()
+
 
 GObject.type_register(Searchbar)

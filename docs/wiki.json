@@ -1,0 +1,145 @@
+{
+  "version": 1,
+  "project_name": "TerminatorX",
+  "roots": [
+    {
+      "path": "docs",
+      "role": "knowledge"
+    },
+    {
+      "path": "dev",
+      "role": "process"
+    },
+    {
+      "path": "archive",
+      "role": "archive"
+    }
+  ],
+  "modules": [
+    {
+      "name": "terminatorlib",
+      "path": "terminatorlib",
+      "entry": "terminatorlib/README.md"
+    },
+    {
+      "name": "plugins",
+      "path": "terminatorlib/plugins",
+      "entry": "terminatorlib/plugins/README.md"
+    }
+  ],
+  "entrypoints": [
+    "README.md",
+    "AGENTS.md",
+    "docs/INDEX.md",
+    "dev/INDEX.md"
+  ],
+  "pages": [
+    {
+      "path": "AGENTS.md",
+      "role": "entry",
+      "max_chars": 8000
+    },
+    {
+      "path": "docs/INDEX.md",
+      "role": "entry",
+      "max_chars": 5000
+    },
+    {
+      "path": "dev/INDEX.md",
+      "role": "entry",
+      "max_chars": 4000
+    },
+    {
+      "path": "terminatorlib/README.md",
+      "role": "entry",
+      "max_chars": 8000
+    },
+    {
+      "path": "terminatorlib/plugins/README.md",
+      "role": "entry",
+      "max_chars": 4000
+    }
+  ],
+  "exclude": [
+    ".git/**",
+    "**/__pycache__/**",
+    ".venv-test/**",
+    ".pytest_cache/**",
+    "build/**",
+    "dist/**",
+    "**/*.egg-info/**"
+  ],
+  "dir_budgets": {
+    "dev/plans": 30,
+    "dev/inbox/*": 30,
+    "dev/reviews/*": 20
+  },
+  "remind": {
+    "watch": [
+      {
+        "name": "terminatorlib",
+        "code": [
+          "terminatorlib/*",
+          "terminator"
+        ],
+        "docs": [
+          "terminatorlib/README.md",
+          "docs/design/architecture.md",
+          "docs/requirements/terminatorx.md"
+        ]
+      }
+    ],
+    "threshold": {
+      "commits": 10,
+      "lines": 300
+    },
+    "block_at": {
+      "commits": 30
+    },
+    "ask_user": [
+      "docs/requirements/*",
+      "docs/principles/*",
+      "docs/decisions/*"
+    ]
+  },
+  "requirements": {
+    "files": [
+      "docs/requirements/*.md"
+    ],
+    "tests": [
+      "tests/*.py",
+      "tests/e2e/*.py"
+    ]
+  },
+  "verification": {
+    "review_by_required": [
+      "docs/guides/*"
+    ]
+  },
+  "verify": {
+    "commands": [
+      {
+        "name": "check",
+        "run": [
+          "python3",
+          "scripts/wiki/wiki.py",
+          "check",
+          "--root",
+          "."
+        ],
+        "summary_lines": 1,
+        "summary_from": "start"
+      },
+      {
+        "name": "tests",
+        "run": [
+          "tests/run_tests.sh",
+          "-q"
+        ],
+        "timeout": 1800,
+        "summary_lines": 8,
+        "summary_from": "end"
+      }
+    ]
+  }
+}

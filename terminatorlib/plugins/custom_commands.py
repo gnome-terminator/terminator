@@ -9,7 +9,7 @@
 """custom_commands.py - Terminator Plugin to add custom command menu entries"""
 import sys
 import os
-import time
+import shlex, tempfile
 
 # Fix imports when testing this file directly
 if __name__ == '__main__':
@@ -17,6 +17,7 @@ if __name__ == '__main__':
 
 from gi.repository import Gtk
 from gi.repository import GObject
+from gi.repository import GLib
 import terminatorlib.plugin as plugin
 from terminatorlib.config import Config
 from terminatorlib.translation import _
@@ -36,6 +37,89 @@ PluginBmkDesc = "Plugin Open Bookmark Preferences"
 # Every plugin you want Terminator to load *must* be listed in 'AVAILABLE'
 AVAILABLE = ['CustomCommandsMenu']
 
+LAST_CMD_POLL_MS = 100
+LAST_CMD_TIMEOUT_MS = 2000
+
+def last_cmd_directory():
+    """Private dir for the last-command capture. Never /tmp/term_cmd."""
+    runtime = os.environ.get('XDG_RUNTIME_DIR')
+    if runtime and os.path.isdir(runtime) and os.access(runtime, os.W_OK):
+        return runtime
+    return get_config_dir()
+
+def last_cmd_shell_command(path):
+    """fc redirect. shlex.quote keeps the path a single target."""
+    return 'fc -n -l -1 -1 > ' + shlex.quote(path) + '; #bookmark last cmd\n'
+
+def make_last_cmd_path():
+    directory = last_cmd_directory()
+    fd, path = tempfile.mkstemp(prefix='term_cmd_', dir=directory)
+    os.close(fd)
+    return path
+
+def last_cmd_poll_action(size, previous_size, elapsed_ms):
+    """One poll: 'read', 'timeout', or 'wait'. Zero size is not finished."""
+    if size > 0 and size == previous_size:
+        return 'read'
+    if elapsed_ms >= LAST_CMD_TIMEOUT_MS:
+        return 'timeout'
+    return 'wait'
+
+def read_last_cmd_text(path):
+    """Read, rstrip, and delete this capture file. Failure is ''."""
+    text = ''
+    try:
+        with open(path, 'r') as file:
+            text = file.read().rstrip()
+    except Exception as ex:
+        err('Unable to open ‘%s’ ex: (%s)' % (path, ex))
+        text = ''
+    if path and os.path.exists(path):
+        try:
+            os.remove(path)
+        except OSError:
+            pass
+    if not isinstance(text, str):
+        return ''
+    return text
+
+def last_exe_cmd_dialog_vars(last_exe_cmd):
+    if not isinstance(last_exe_cmd, str):
+        last_exe_cmd = ''
+    return {'enabled'   : True,
+            'name'      : last_exe_cmd,
+            'name_parse': False,
+            'command'   : last_exe_cmd}
+
+def build_custom_cmd_list(sections):
+    """Fresh command map. Unpositioned entries fill the lowest free keys."""
+    cmd_list = {}
+    noord_cmds = []
+    for part in sections:
+        s = sections[part]
+        if not ("name" in s and "command" in s):
+            print("CustomCommandsMenu: Ignoring section %s" % s)
+            continue
+        name = s["name"]
+        name_parse = s.get("name_parse", "True")
+        command = s["command"]
+        enabled = s["enabled"] and s["enabled"] or False
+        entry = {'enabled' : enabled,
+                 'name' : name,
+                 'name_parse' : name_parse,
+                 'command' : command
+                }
+        if "position" in s:
+            cmd_list[int(s["position"])] = entry
+        else:
+            noord_cmds.append(entry)
+    for cmd in noord_cmds:
+        n = 0
+        while n in cmd_list:
+            n += 1
+        cmd_list[n] = cmd
+    return cmd_list
+
 class CustomCommandsMenu(plugin.MenuItem):
     """Add custom commands to the terminal menu"""
     capabilities = ['terminal_menu']
@@ -50,6 +134,10 @@ class CustomCommandsMenu(plugin.MenuItem):
       # _create_command_dialog without calling configure func, like in quick
       # bookmark add then we need to check.
       self.dbox = None
+      self._last_cmd_source = None
+      self._last_cmd_path = None
+      self._last_cmd_prev_size = None
+      self._last_cmd_elapsed_ms = 0
 
       config = Config()
       sections = config.plugin_get_config(self.__class__.__name__)
@@ -64,36 +152,26 @@ class CustomCommandsMenu(plugin.MenuItem):
 
       if not isinstance(sections, dict):
           return
-      noord_cmds = []
-      for part in sections:
-        s = sections[part]
-        if not ("name" in s and "command" in s):
-          print("CustomCommandsMenu: Ignoring section %s" % s)
-          continue
-        name = s["name"]
-        name_parse = s.get("name_parse", "True")
-        command = s["command"]
-        enabled = s["enabled"] and s["enabled"] or False
-        if "position" in s:
-          self.cmd_list[int(s["position"])] = {'enabled' : enabled,
-                                               'name' : name,
-                                               'name_parse' : name_parse,
-                                               'command' : command
-                                              }
-        else:
-          noord_cmds.append(
-                              {'enabled' : enabled,
-                                'name' : name,
-                                'name_parse' : name_parse,
-                                'command' : command
-                              }
-                            )
-        for cmd in noord_cmds:
-            self.cmd_list[len(self.cmd_list)] = cmd
+      # force=True rebuilds this plugin; start from an empty map.
+      self.cmd_list = build_custom_cmd_list(sections)
 
+
+    def _cancel_last_cmd_watch(self):
+        source = getattr(self, '_last_cmd_source', None)
+        self._last_cmd_source = None
+        if source is not None:
+            GLib.source_remove(source)
+        path = getattr(self, '_last_cmd_path', None)
+        self._last_cmd_path = None
+        if path and os.path.exists(path):
+            try:
+                os.remove(path)
+            except OSError:
+                pass
 
     def unload(self):
       dbg("unloading")
+      self._cancel_last_cmd_watch()
       for window in self.windows:
           try:
               window.disconnect_by_func(self.on_keypress)
@@ -110,47 +188,72 @@ class CustomCommandsMenu(plugin.MenuItem):
       for window in self.windows:
         window.connect('key-press-event', self.on_keypress)
 
-    def get_last_exe_cmd(self):
-        cur_win  = Terminator().last_focused_term.get_toplevel()
-
-        #TODO: there has to be a better way to get the last command executed
-        focus_term = cur_win.get_focussed_terminal()
-        tmp_file   = os.path.join(os.sep, 'tmp', 'term_cmd')
-        command    = 'fc -n -l -1 -1 > ' + tmp_file + '; #bookmark last cmd\n'
-        focus_term.vte.feed_child(str(command).encode("utf-8"))
-
-        fsz     = 0
-        count   = 0
-        while not (count == 2 or fsz):
-            time.sleep(0.1)
-            if os.path.exists(tmp_file):
-                fsz = os.path.getsize(tmp_file)
-                count += 1
-
-        last_cmd   = None
+    def get_last_exe_cmd(self, on_done):
+        self._cancel_last_cmd_watch()
         try:
-            with open(tmp_file, 'r') as file:
-                last_cmd = file.read()
-                file.close()
-        except Exception as ex:
-             err('Unable to open ‘%s’ ex: (%s)' % (tmp_file, ex))
+            path = make_last_cmd_path()
+        except Exception:
+            on_done('')
+            return
 
-        if os.path.exists(tmp_file):
-            os.remove(tmp_file)
+        self._last_cmd_path = path
+        self._last_cmd_prev_size = None
+        self._last_cmd_elapsed_ms = 0
 
-        if last_cmd:
-            last_cmd = last_cmd.rstrip()
-        dbg('last exec cmd: (%s)' % last_cmd)
-        return last_cmd
+        try:
+            cur_win = Terminator().last_focused_term.get_toplevel()
+            focus_term = cur_win.get_focussed_terminal()
+            command = last_cmd_shell_command(path)
+            focus_term.vte.feed_child(str(command).encode("utf-8"))
+        except Exception:
+            self._last_cmd_path = None
+            if os.path.exists(path):
+                try:
+                    os.remove(path)
+                except OSError:
+                    pass
+            on_done('')
+            return
 
-    def get_last_exe_cmd_dialog_vars(self):
-      last_exe_cmd = self.get_last_exe_cmd()
+        def poll():
+            if self._last_cmd_source is None:
+                return False
+            self._last_cmd_elapsed_ms += LAST_CMD_POLL_MS
+            watched = self._last_cmd_path
+            size = 0
+            if watched and os.path.exists(watched):
+                try:
+                    size = os.path.getsize(watched)
+                except OSError:
+                    size = 0
+            action = last_cmd_poll_action(
+                size, self._last_cmd_prev_size, self._last_cmd_elapsed_ms)
+            self._last_cmd_prev_size = size
+            if action == 'wait':
+                return True
+            # Drop the id before on_done opens a dialog. Returning False
+            # removes the source; unload must not remove it twice.
+            self._last_cmd_source = None
+            self._last_cmd_path = None
+            if action == 'read':
+                text = read_last_cmd_text(watched)
+            else:
+                text = ''
+                if watched and os.path.exists(watched):
+                    try:
+                        os.remove(watched)
+                    except OSError:
+                        pass
+            if not isinstance(text, str):
+                text = ''
+            dbg('last exec cmd: (%s)' % text)
+            on_done(text)
+            return False
 
-      dialog_vars = { 'enabled'   : True,
-                      'name'      : last_exe_cmd,
-                      'name_parse': False,
-                      'command'   : last_exe_cmd }
-      return dialog_vars
+        self._last_cmd_source = GLib.timeout_add(LAST_CMD_POLL_MS, poll)
+
+    def get_last_exe_cmd_dialog_vars(self, last_exe_cmd):
+        return last_exe_cmd_dialog_vars(last_exe_cmd)
 
 
     def on_keypress(self, widget, event):
@@ -161,10 +264,12 @@ class CustomCommandsMenu(plugin.MenuItem):
           dbg("add bookmark")
 
           self.setup_store()
-          dialog_vars = self.get_last_exe_cmd_dialog_vars()
-          self.on_new(None, {'dialog_vars' : dialog_vars })
-          self.update_cmd_list(self.store)
-          self._save_config()
+          def on_done(last_exe_cmd):
+              dialog_vars = self.get_last_exe_cmd_dialog_vars(last_exe_cmd)
+              self.on_new(None, {'dialog_vars' : dialog_vars })
+              self.update_cmd_list(self.store)
+              self._save_config()
+          self.get_last_exe_cmd(on_done)
           return True
 
       if act == PluginActBmk:
@@ -473,9 +578,11 @@ class CustomCommandsMenu(plugin.MenuItem):
       return (dialog,enabled,name,name_parse,command)
 
     def on_last_exe_cmd(self, button, data):
-        new_data = data.copy()
-        new_data['dialog_vars'] =  self.get_last_exe_cmd_dialog_vars()
-        self.on_new(button, new_data)
+        def on_done(last_exe_cmd):
+            new_data = data.copy()
+            new_data['dialog_vars'] = self.get_last_exe_cmd_dialog_vars(last_exe_cmd)
+            self.on_new(button, new_data)
+        self.get_last_exe_cmd(on_done)
 
     def on_new(self, button, data):
 

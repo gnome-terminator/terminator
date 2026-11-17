@@ -36,6 +36,7 @@ sys.path.insert(0, os.path.realpath(os.path.join(os.path.dirname(__file__), ".."
 from terminatorlib.signalman import Signalman
 
 class TestWidget():
+    __test__ = False
     signals = None
     count = None
 

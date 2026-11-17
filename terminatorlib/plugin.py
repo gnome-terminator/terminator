@@ -151,6 +151,7 @@ for %s' % (len(self.instances), capability))
         """Enable a plugin"""
         if plugin in self.instances:
             err("Cannot enable plugin %s, already enabled" % plugin)
+            return
         dbg("Enabling %s" % plugin)
         self.instances[plugin] = self.available_plugins[plugin]()
 

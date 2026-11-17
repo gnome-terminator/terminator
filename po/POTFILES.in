@@ -6,7 +6,10 @@ remotinator.py
 terminator.py
 data/terminator.desktop.in
 data/terminator.appdata.xml.in
+terminatorlib/altscreen.py
+terminatorlib/autofont.py
 terminatorlib/borg.py
+terminatorlib/close_confirm.py
 terminatorlib/config.py
 terminatorlib/container.py
 terminatorlib/cwd.py
@@ -20,6 +23,7 @@ terminatorlib/layoutlauncher.py
 terminatorlib/notebook.py
 terminatorlib/optionparse.py
 terminatorlib/paned.py
+terminatorlib/paneoverlay.py
 terminatorlib/plugin.py
 terminatorlib/plugins/activitywatch.py
 terminatorlib/plugins/custom_commands.py
@@ -31,7 +35,10 @@ terminatorlib/plugins/testplugin.py
 terminatorlib/plugins/url_handlers.py
 terminatorlib/preferences.glade
 terminatorlib/prefseditor.py
+terminatorlib/scrollback.py
+terminatorlib/scrollback_text.py
 terminatorlib/searchbar.py
+terminatorlib/session.py
 terminatorlib/signalman.py
 terminatorlib/terminal_popup_menu.py
 terminatorlib/terminal.py

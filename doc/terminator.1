@@ -1,7 +1,7 @@
 '\" t
 .\"     Title: terminator
 .\"    Author: [see the "AUTHOR(S)" section]
-.\" Generator: Asciidoctor 2.0.18
+.\" Generator: Asciidoctor 2.0.23
 .\"      Date: 2023-04-01
 .\"    Manual: Manual for Terminator
 .\"    Source: Terminator
@@ -68,7 +68,7 @@ Start with a fullscreen window.
 .sp
 \fB\-b\fP, \fB\-\-borderless\fP
 .RS 4
-Instruct the window manager not to render borders/decorations on the
+Instruct the window manager not to render borders/decoration on the
 Terminator window (this works well with \-\-maximise).
 .RE
 .sp
@@ -177,6 +177,28 @@ used to spawn a new tab in the first Terminator window.
 If this is specified and Terminator is already running, DBus will be
 used to toggle Terminator window visibility. Usable under Wayland to
 replace hide keyboad shortcut.
+.RE
+.sp
+\fB\-\-restore\fP
+.RS 4
+Restore the last saved session even if \fBrestore_last_session\fP is
+disabled in the configuration. As with the automatic restore, this has
+no effect together with \fB\-l\fP, \fB\-e\fP, \fB\-x\fP, \fB\-\-working\-directory\fP or
+\fB\-j\fP, or when another Terminator process already owns the session.
+.RE
+.sp
+\fB\-\-no\-restore\fP
+.RS 4
+Do not restore the last session for this launch; start with the default
+layout instead. This run still saves the session automatically, so the
+previously saved session is replaced.
+.RE
+.sp
+\fB\-\-clear\-session\fP
+.RS 4
+Delete the saved session (including its backups) and the scrollback
+cache before starting. Terminator then continues to start normally,
+with the default layout.
 .RE
 .SH "KEYBINDINGS"
 .sp
@@ -340,10 +362,19 @@ The following items relate to helping to focus on a specific terminal.
 Toggle window to fullscreen.
 .RE
 .sp
-\fBCtrl+Shift+X\fP
+\fBCtrl+Shift+Return\fP or \fBCtrl+Shift+X\fP
 .RS 4
 Toggle between showing all terminals and only showing the current one
-(maximise).
+(maximise). By default the terminal is shown as an animated overlay
+above the dimmed layout (see \fBpane_overlay_maximise\fP in
+\fBterminator_config\fP(5)). Double\-clicking a terminal\(cqs titlebar or
+clicking its maximise button does the same.
+.RE
+.sp
+\fBShift+Escape\fP
+.RS 4
+Restore the maximised terminal. Only active while a terminal is
+maximised.
 .RE
 .sp
 \fBCtrl+Shift+Z\fP
@@ -409,7 +440,9 @@ Copy selected text to clipboard.
 .sp
 \fBCtrl+Shift+V\fP
 .RS 4
-Paste clipboard text.
+Paste clipboard text. If the clipboard holds only an image (a
+screenshot, or another program\(aqs \fBCopy image\fP), the image is saved as a
+PNG under the pasted\-images cache and its shell\-quoted path is pasted.
 .RE
 .sp
 \fBCtrl+Shift+S\fP
@@ -463,7 +496,9 @@ Rename tab title.
 .sp
 \fBCtrl+Alt+X\fP
 .RS 4
-Rename terminal title.
+Rename terminal title. (Double\-clicking the titlebar maximises the
+terminal; renaming is also available from the titlebar\(cqs right\-click
+menu.)
 .RE
 .sp
 \fBSuper+1\fP
@@ -474,6 +509,41 @@ Insert terminal number, i.e. 1 to 12.
 \fBSuper+0\fP
 .RS 4
 Insert padded terminal number, i.e. 01 to 12.
+.RE
+.SH "SESSIONS"
+.sp
+By default (\fBrestore_last_session\fP = True) Terminator saves its windows,
+tabs, splits, working directories and maximised terminal automatically
+while it runs. A plain \fBterminator\fP launch restores locked tabs, and any
+window that has no tab list. The lock is on each tab\(aqs row in the
+sidebar; the tab menu has the same switch, \fIKeep for next launch\fP. A
+normal exit forgets unlocked tabs. If Terminator is killed or crashes,
+the next launch restores every tab that was still open. Only the
+first Terminator process owns the session; launches with \fB\-l\fP, \fB\-e\fP,
+\fB\-x\fP, \fB\-\-working\-directory\fP or \fB\-j\fP do not restore it. Windows opened
+with \fB\-l\fP, \fB\-e\fP, \fB\-x\fP or \fB\-j\fP are left out of the saved session, and
+their scrollback is not cached, until you split them or open a tab in
+them. When the last terminal of a window with no tab list is closed or
+exits, the session keeps that window, so the next launch reopens it. The
+last lines of each terminal are cached and shown again after a restore
+(\fBscrollback_cache\fP). Closing a terminal, tab or window that still has
+programs running asks for confirmation.
+.SH "FILES"
+.sp
+\fI$XDG_STATE_HOME/terminator/session.json\fP (normally \fI~/.local/state/terminator/session.json\fP)
+.RS 4
+The saved session, with backups \fIsession.json.prev\fP and \fIsession.json.prev2\fP.
+.RE
+.sp
+\fI$XDG_CACHE_HOME/terminator/scrollback/\fP (normally \fI~/.cache/terminator/scrollback/\fP)
+.RS 4
+Scrollback cache, one file per terminal.
+.RE
+.sp
+\fI$XDG_CACHE_HOME/terminator/pasted\-images/\fP (normally \fI~/.cache/terminator/pasted\-images/\fP)
+.RS 4
+Images pasted from the clipboard, as PNG files. Older files are removed
+after seven days, and at most 100 are kept.
 .RE
 .SH "AUTHORS"
 .sp

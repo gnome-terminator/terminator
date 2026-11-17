@@ -1,0 +1,38 @@
+<schemalist>
+  <!-- m34: GTK3's Wayland backend reads these interface keys without
+       checking they exist (text-scaling-factor, font-* enums); a stub
+       missing them aborts every GTK app under GDK_BACKEND=wayland. -->
+  <enum id="org.terminator.test-stub.FontAntialiasingMode">
+    <value nick="none" value="0"/>
+    <value nick="grayscale" value="1"/>
+    <value nick="rgba" value="2"/>
+  </enum>
+  <enum id="org.terminator.test-stub.FontHinting">
+    <value nick="none" value="0"/>
+    <value nick="slight" value="1"/>
+    <value nick="medium" value="2"/>
+    <value nick="full" value="3"/>
+  </enum>
+  <enum id="org.terminator.test-stub.FontRgbaOrder">
+    <value nick="rgba" value="0"/>
+    <value nick="rgb" value="1"/>
+    <value nick="bgr" value="2"/>
+    <value nick="vrgb" value="3"/>
+    <value nick="vbgr" value="4"/>
+  </enum>
+  <schema id="org.gnome.desktop.interface" path="/org/gnome/desktop/interface/">
+    <key name="font-name" type="s"><default>'Sans 10'</default></key>
+    <key name="monospace-font-name" type="s"><default>'Monospace 10'</default></key>
+    <key name="text-scaling-factor" type="d"><default>1.0</default></key>
+    <key name="font-antialiasing" enum="org.terminator.test-stub.FontAntialiasingMode"><default>'grayscale'</default></key>
+    <key name="font-hinting" enum="org.terminator.test-stub.FontHinting"><default>'slight'</default></key>
+    <key name="font-rgba-order" enum="org.terminator.test-stub.FontRgbaOrder"><default>'rgb'</default></key>
+  </schema>
+  <schema id="org.gnome.desktop.wm.preferences" path="/org/gnome/desktop/wm/preferences/">
+    <key name="focus-mode" type="s"><default>'click'</default></key>
+    <key name="button-layout" type="s"><default>'appmenu:close'</default></key>
+    <key name="action-double-click-titlebar" type="s"><default>'toggle-maximize'</default></key>
+    <key name="action-middle-click-titlebar" type="s"><default>'none'</default></key>
+    <key name="action-right-click-titlebar" type="s"><default>'menu'</default></key>
+  </schema>
+</schemalist>
