@@ -212,7 +212,8 @@ DEFAULTS = {
             'preferences'      : '',
             'preferences_keybindings' : '<Control><Shift>k',
             'help'             : 'F1',
-            'detach_tab'       : '<Shift><Control>d'
+            'detach_tab'       : '<Shift><Control>d',
+            'move_to_new_tab'  : ''
         },
         'profiles': {
             'default':  {

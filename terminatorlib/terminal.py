@@ -1642,6 +1642,38 @@ class Terminal(Gtk.VBox):
         """Restore normal layout"""
         self.emit('unzoom')
 
+    def can_move_to_new_tab(self):
+        """Determine if this terminal can be moved to a new tab (must be in a split container)"""
+        maker = Factory()
+        return maker.isinstance(self.get_parent(), 'Paned')
+
+    def move_to_new_tab(self, widget=None):
+        """Move this terminal out of its current split container into a new tab"""
+        maker = Factory()
+        parent = self.get_parent()
+        if not maker.isinstance(parent, 'Paned'):
+            dbg('move_to_new_tab: Terminal is not in a Paned (parent=%s)' % parent)
+            return False
+
+        top_window = self.get_toplevel()
+        if top_window.is_zoomed():
+            top_window.unzoom()
+            parent = self.get_parent()
+            if not maker.isinstance(parent, 'Paned'):
+                return False
+
+        if not top_window.is_child_notebook():
+            dbg('move_to_new_tab: Creating a new Notebook for window')
+            notebook = maker.make('Notebook', window=top_window)
+        else:
+            notebook = top_window.get_child()
+
+        parent.remove(self)
+        notebook.newtab(widget=self)
+        parent.hoover()
+        self.ensure_visible_and_focussed()
+        return True
+
     def set_cwd(self, cwd=None):
         """Set our cwd"""
         if cwd is not None:
@@ -2212,6 +2244,9 @@ class Terminal(Gtk.VBox):
 
     def key_new_tab(self):
         self.get_toplevel().tab_new(self)
+
+    def key_move_to_new_tab(self):
+        self.move_to_new_tab()
 
     def key_new_terminator(self):
         spawn_new_terminator(self.origcwd, ['-u'])

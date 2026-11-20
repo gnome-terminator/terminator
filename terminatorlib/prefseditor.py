@@ -150,6 +150,7 @@ class PrefsEditor:
                         'move_tab_right'   : _('Move the tab right'),
                         'move_tab_left'    : _('Move the tab left'),
                         'detach_tab'       : _('Detach the tab into a new window'),
+                        'move_to_new_tab'  : _('Move terminal to a new tab'),
                         'toggle_zoom'      : _('Maximize terminal'),
                         'scaled_zoom'      : _('Zoom terminal'),
                         'next_tab'         : _('Switch to the next tab'),
