@@ -254,6 +254,12 @@ class TerminalPopupMenu(object):
                 terminal))
             menu.append(item)
 
+            item = self.menu_item(Gtk.MenuItem, 'move_to_new_tab',
+                                                 _('Move to _new tab'))
+            item.connect('activate', lambda x: terminal.move_to_new_tab())
+            item.set_sensitive(terminal.can_move_to_new_tab())
+            menu.append(item)
+
             if self.terminator.debug_address is not None:
                 item = Gtk.MenuItem.new_with_mnemonic(_('Open _Debug Tab'))
                 item.connect('activate', lambda x:

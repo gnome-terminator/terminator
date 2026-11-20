@@ -183,6 +183,8 @@ class Terminator(Borg):
         """Search our terminals for one matching the supplied UUID"""
         dbg('searching self.terminals for: %s' % uuid)
         for terminal in self.terminals:
+            if not getattr(terminal, 'uuid', None):
+                continue
             dbg('checking: %s (%s)' % (terminal.uuid.urn, terminal))
             if terminal.uuid.urn == uuid:
                 return terminal
