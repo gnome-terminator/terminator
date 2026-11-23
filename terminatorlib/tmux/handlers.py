@@ -14,6 +14,31 @@ from terminatorlib.tmux.layout import (
 ALTERNATE_SCREEN_ENTER = b'\x1b[?1049h'
 ALTERNATE_SCREEN_EXIT = b'\x1b[?1049l'
 
+# ESC k ... ST  (screen/tmux window-name escape).  VTE doesn't consume it,
+# so the name leaks onto the screen as visible text.
+_ESC_K_START = b'\x1bk'
+
+
+def _strip_esck(data: bytes) -> bytes:
+    """Remove ESC k <title> ST sequences that VTE doesn't understand."""
+    start = data.find(_ESC_K_START)
+    if start == -1:
+        return data
+    result = bytearray(data[:start])
+    i = start + 2  # skip ESC k
+    while i < len(data):
+        if data[i:i+2] == b'\x1b\\':
+            i += 2
+            break
+        if data[i:i+1] == b'\x07':
+            i += 1
+            break
+        i += 1
+    # Append anything after the terminator, recursing for multiple occurrences
+    if i < len(data):
+        result.extend(_strip_esck(data[i:]))
+    return bytes(result)
+
 SHELL_COMMANDS = {'bash', 'zsh', 'fish', 'sh', 'dash', 'csh', 'tcsh', 'ksh'}
 
 
@@ -60,6 +85,13 @@ class TmuxHandlers:
             dbg('TmuxHandlers: buffered %%output for unregistered '
                 'pane %s (%d chunks)' % (pane_id, len(buf[pane_id])))
             return
+
+        # Strip ESC k (screen/tmux window-name) sequences that VTE
+        # would render as visible text instead of consuming.
+        if _ESC_K_START in data:
+            data = _strip_esck(data)
+            if not data:
+                return
 
         # Track alternate screen state (vim, less, etc.)
         if ALTERNATE_SCREEN_ENTER in data:

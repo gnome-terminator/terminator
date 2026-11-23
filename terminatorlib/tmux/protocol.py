@@ -313,8 +313,9 @@ class PtyTmuxBridge:
     Used when the user runs 'tmux -CC' inside a Terminator terminal.
     We take over the PTY fd as the communication channel to tmux.
 
-    PTY raw mode produces lines with \\x00 prefixes and \\r\\n endings.
-    This bridge cleans those up before queuing lines.
+    The PTY is set to raw mode so the line discipline does not mangle
+    the control mode protocol.  NUL bytes from the PTY driver are
+    still stripped; any trailing \\r is stripped for compatibility.
     """
 
     def __init__(self, fd: int):
@@ -323,15 +324,15 @@ class PtyTmuxBridge:
         self._pipe_thread = None
         self._alive = True
         self._saved_termios = None
-        # Disable echo on the PTY so our commands aren't reflected back
+        # Put PTY in raw mode for clean protocol communication.
+        # Without this, ICANON line editing, ECHO, OPOST NL→CR-NL,
+        # and ICRNL CR→NL can mangle command/response framing.
         try:
-            import termios
+            import termios, tty
             self._saved_termios = termios.tcgetattr(fd)
-            attrs = list(self._saved_termios)
-            attrs[3] = attrs[3] & ~termios.ECHO  # lflags: disable ECHO
-            termios.tcsetattr(fd, termios.TCSANOW, attrs)
+            tty.setraw(fd, termios.TCSANOW)
         except Exception as e:
-            dbg('PtyTmuxBridge: could not disable echo: %s' % e)
+            dbg('PtyTmuxBridge: could not set raw mode: %s' % e)
 
     def start(self):
         """Start reading from the PTY fd."""

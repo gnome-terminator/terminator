@@ -21,16 +21,18 @@ def esc(seq):
     return '{}{}'.format(ESCAPE_CODE, seq)
 
 
-# Map Gdk keysyms to escape sequences for tmux send-keys
-# Standard xterm escape sequences for keys that Gdk.keyval_to_unicode
-# can't translate (returns 0). Everything else we get from Gdk directly.
+# Map Gdk keysyms to escape sequences for tmux send-keys.
+# Standard xterm escape sequences for special keys. BackSpace sends 0x7F
+# (matching xterm default) rather than 0x08 from keyval_to_unicode.
+# Delete sends ESC[3~ (forward-delete) rather than 0x7F from keyval_to_unicode.
+# Keys sent as raw bytes via send-keys -H.
 XTERM_KEYS = {
+    Gdk.KEY_BackSpace: b'\x7f',
+    Gdk.KEY_Delete: b'\x1b[3~',
     Gdk.KEY_Up: b'\x1b[A',
     Gdk.KEY_Down: b'\x1b[B',
     Gdk.KEY_Right: b'\x1b[C',
     Gdk.KEY_Left: b'\x1b[D',
-    Gdk.KEY_Home: b'\x1b[H',
-    Gdk.KEY_End: b'\x1b[F',
     Gdk.KEY_Insert: b'\x1b[2~',
     Gdk.KEY_Page_Up: b'\x1b[5~',
     Gdk.KEY_Page_Down: b'\x1b[6~',
@@ -47,6 +49,15 @@ XTERM_KEYS = {
     Gdk.KEY_F10: b'\x1b[21~',
     Gdk.KEY_F11: b'\x1b[23~',
     Gdk.KEY_F12: b'\x1b[24~',
+}
+
+# Keys sent as tmux key names via send-keys (no -H).  tmux translates the
+# name to the correct escape sequence for the pane's TERM.  This avoids
+# mismatches between xterm sequences (ESC[H/ESC[F) and what screen/tmux
+# terminal types actually expect (ESC[1~/ESC[4~).
+TMUX_NAMED_KEYS = {
+    Gdk.KEY_Home: 'Home',
+    Gdk.KEY_End: 'End',
 }
 
 ARROW_KEYS = {Gdk.KEY_Up, Gdk.KEY_Down, Gdk.KEY_Left, Gdk.KEY_Right}
@@ -273,7 +284,7 @@ class TmuxController:
             dbg('TmuxController: unregistered terminal for pane %s' % pane_id)
 
     def send_keypress(self, terminal, event):
-        """Translate a Gdk key event to raw bytes and send via send-keys -H."""
+        """Translate a Gdk key event and send via tmux send-keys."""
         pane_id = self.terminal_to_pane.get(terminal)
         if not pane_id:
             return
@@ -286,6 +297,14 @@ class TmuxController:
 
         # Skip Ctrl+Shift+Alt combos
         if alt and ctrl and shift:
+            return
+
+        # Keys sent by tmux name — tmux translates to the right escape
+        # sequence for the pane's terminal type.
+        if keyval in TMUX_NAMED_KEYS and not ctrl and not alt and not shift:
+            self.protocol.send_command(
+                'send-keys -t {} {}'.format(
+                    pane_id, TMUX_NAMED_KEYS[keyval]))
             return
 
         raw = None
