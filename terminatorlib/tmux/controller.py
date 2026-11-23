@@ -60,6 +60,19 @@ TMUX_NAMED_KEYS = {
     Gdk.KEY_End: 'End',
 }
 
+
+def tmux_key_name(name, ctrl=False, alt=False, shift=False):
+    """Build a tmux key name with modifier prefixes, e.g. 'C-M-Home'."""
+    prefix = ''
+    if ctrl:
+        prefix += 'C-'
+    if alt:
+        prefix += 'M-'
+    if shift:
+        prefix += 'S-'
+    return prefix + name
+
+
 ARROW_KEYS = {Gdk.KEY_Up, Gdk.KEY_Down, Gdk.KEY_Left, Gdk.KEY_Right}
 
 MOUSE_WHEEL = {
@@ -300,11 +313,14 @@ class TmuxController:
             return
 
         # Keys sent by tmux name — tmux translates to the right escape
-        # sequence for the pane's terminal type.
-        if keyval in TMUX_NAMED_KEYS and not ctrl and not alt and not shift:
+        # sequence for the pane's terminal type, including modifiers
+        # (e.g. C-Home -> ESC[1;5H).
+        if keyval in TMUX_NAMED_KEYS:
             self.protocol.send_command(
                 'send-keys -t {} {}'.format(
-                    pane_id, TMUX_NAMED_KEYS[keyval]))
+                    pane_id,
+                    tmux_key_name(TMUX_NAMED_KEYS[keyval],
+                                  ctrl, alt, shift)))
             return
 
         raw = None
