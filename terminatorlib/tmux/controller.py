@@ -120,6 +120,7 @@ class TmuxController:
         self.handlers = None
         self.active_window_id = None  # @id of tmux's active window
         self._pending_output = {}  # pane_id -> [data, ...] for pre-registration %output
+        self.esck_filters = {}  # pane_id -> EscKFilter (stateful across %output)
         self._origin_terminal = None  # terminal that ran tmux -CC (PTY takeover)
 
     def start(self, session_name, new_session=False):
@@ -293,6 +294,7 @@ class TmuxController:
         if pane_id:
             self.pane_to_terminal.pop(pane_id, None)
             self.pane_alternate.pop(pane_id, None)
+            self.esck_filters.pop(pane_id, None)
             terminal._tmux_controller = None
             dbg('TmuxController: unregistered terminal for pane %s' % pane_id)
 

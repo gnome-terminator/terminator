@@ -14,30 +14,81 @@ from terminatorlib.tmux.layout import (
 ALTERNATE_SCREEN_ENTER = b'\x1b[?1049h'
 ALTERNATE_SCREEN_EXIT = b'\x1b[?1049l'
 
-# ESC k ... ST  (screen/tmux window-name escape).  VTE doesn't consume it,
-# so the name leaks onto the screen as visible text.
+# ESC k <title> ST  (screen/tmux window-name escape).  VTE doesn't
+# consume it, so the name leaks onto the screen as visible text.
 _ESC_K_START = b'\x1bk'
+_ESC = b'\x1b'
+# Give up on an unterminated title after this many bytes so a stray
+# ESC k can't swallow pane output indefinitely.
+_ESC_K_MAX_TITLE = 512
 
 
-def _strip_esck(data: bytes) -> bytes:
-    """Remove ESC k <title> ST sequences that VTE doesn't understand."""
-    start = data.find(_ESC_K_START)
-    if start == -1:
-        return data
-    result = bytearray(data[:start])
-    i = start + 2  # skip ESC k
-    while i < len(data):
-        if data[i:i+2] == b'\x1b\\':
-            i += 2
-            break
-        if data[i:i+1] == b'\x07':
-            i += 1
-            break
-        i += 1
-    # Append anything after the terminator, recursing for multiple occurrences
-    if i < len(data):
-        result.extend(_strip_esck(data[i:]))
-    return bytes(result)
+class EscKFilter:
+    """Stateful per-pane filter that removes ESC k <title> ST sequences.
+
+    tmux splits pane output into %output chunks at arbitrary points, so
+    a sequence can straddle chunks (even between the ESC and the 'k').
+    The title ends at ST (ESC \\) or BEL; any other ESC also ends it
+    (and is kept) so a missing terminator can't eat real output.
+    """
+
+    def __init__(self):
+        self.in_title = False
+        self.title_len = 0
+        self.carry = b''
+
+    def feed(self, data: bytes) -> bytes:
+        if self.carry:
+            data = self.carry + data
+            self.carry = b''
+        if not self.in_title and _ESC_K_START not in data \
+                and not data.endswith(_ESC):
+            return data
+
+        out = bytearray()
+        i = 0
+        n = len(data)
+        while i < n:
+            if self.in_title:
+                bel = data.find(b'\x07', i)
+                esc = data.find(_ESC, i)
+                if bel != -1 and (esc == -1 or bel < esc):
+                    self._end_title()
+                    i = bel + 1
+                elif esc != -1:
+                    if esc == n - 1:
+                        # ESC at chunk end: can't tell yet if it's ST
+                        self.title_len += esc - i
+                        self.carry = _ESC
+                        return bytes(out)
+                    self._end_title()
+                    # ESC \ is the terminator; any other ESC is kept
+                    i = esc + 2 if data[esc + 1:esc + 2] == b'\\' else esc
+                else:
+                    self.title_len += n - i
+                    if self.title_len > _ESC_K_MAX_TITLE:
+                        self.in_title = False
+                    return bytes(out)
+            else:
+                k = data.find(_ESC_K_START, i)
+                if k == -1:
+                    if data.endswith(_ESC):
+                        # Could be the start of ESC k in the next chunk
+                        out += data[i:n - 1]
+                        self.carry = _ESC
+                    else:
+                        out += data[i:]
+                    return bytes(out)
+                out += data[i:k]
+                i = k + 2
+                self.in_title = True
+                self.title_len = 0
+        return bytes(out)
+
+    def _end_title(self):
+        self.in_title = False
+        self.title_len = 0
+
 
 SHELL_COMMANDS = {'bash', 'zsh', 'fish', 'sh', 'dash', 'csh', 'tcsh', 'ksh'}
 
@@ -74,6 +125,16 @@ class TmuxHandlers:
                 self.__class__._output_count,
                 pane_id, len(data)))
 
+        # Strip ESC k (screen/tmux window-name) sequences that VTE
+        # would render as visible text instead of consuming.  Done
+        # before buffering so replayed output is filtered too.
+        filt = self.controller.esck_filters.get(pane_id)
+        if filt is None:
+            filt = self.controller.esck_filters[pane_id] = EscKFilter()
+        data = filt.feed(data)
+        if not data:
+            return
+
         terminal = self.controller.pane_to_terminal.get(pane_id)
         if not terminal:
             # Buffer output for panes not yet registered (race: %output
@@ -85,13 +146,6 @@ class TmuxHandlers:
             dbg('TmuxHandlers: buffered %%output for unregistered '
                 'pane %s (%d chunks)' % (pane_id, len(buf[pane_id])))
             return
-
-        # Strip ESC k (screen/tmux window-name) sequences that VTE
-        # would render as visible text instead of consuming.
-        if _ESC_K_START in data:
-            data = _strip_esck(data)
-            if not data:
-                return
 
         # Track alternate screen state (vim, less, etc.)
         if ALTERNATE_SCREEN_ENTER in data:
