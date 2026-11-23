@@ -21,43 +21,42 @@ def esc(seq):
     return '{}{}'.format(ESCAPE_CODE, seq)
 
 
-# Map Gdk keysyms to escape sequences for tmux send-keys.
-# Standard xterm escape sequences for special keys. BackSpace sends 0x7F
-# (matching xterm default) rather than 0x08 from keyval_to_unicode.
-# Delete sends ESC[3~ (forward-delete) rather than 0x7F from keyval_to_unicode.
-# Keys sent as raw bytes via send-keys -H.
-XTERM_KEYS = {
-    Gdk.KEY_BackSpace: b'\x7f',
-    Gdk.KEY_Delete: b'\x1b[3~',
-    Gdk.KEY_Up: b'\x1b[A',
-    Gdk.KEY_Down: b'\x1b[B',
-    Gdk.KEY_Right: b'\x1b[C',
-    Gdk.KEY_Left: b'\x1b[D',
-    Gdk.KEY_Insert: b'\x1b[2~',
-    Gdk.KEY_Page_Up: b'\x1b[5~',
-    Gdk.KEY_Page_Down: b'\x1b[6~',
-    Gdk.KEY_ISO_Left_Tab: b'\x1b[Z',
-    Gdk.KEY_F1: b'\x1bOP',
-    Gdk.KEY_F2: b'\x1bOQ',
-    Gdk.KEY_F3: b'\x1bOR',
-    Gdk.KEY_F4: b'\x1bOS',
-    Gdk.KEY_F5: b'\x1b[15~',
-    Gdk.KEY_F6: b'\x1b[17~',
-    Gdk.KEY_F7: b'\x1b[18~',
-    Gdk.KEY_F8: b'\x1b[19~',
-    Gdk.KEY_F9: b'\x1b[20~',
-    Gdk.KEY_F10: b'\x1b[21~',
-    Gdk.KEY_F11: b'\x1b[23~',
-    Gdk.KEY_F12: b'\x1b[24~',
-}
-
-# Keys sent as tmux key names via send-keys (no -H).  tmux translates the
-# name to the correct escape sequence for the pane's TERM.  This avoids
-# mismatches between xterm sequences (ESC[H/ESC[F) and what screen/tmux
-# terminal types actually expect (ESC[1~/ESC[4~).
+# Special keys sent as tmux key names via send-keys (no -H).  tmux
+# translates each name to the right sequence for the pane's TERM and
+# mode (e.g. Home -> ESC[1~ for screen/tmux types, Up -> ESC OA in
+# application cursor mode) and encodes C-/M-/S- modifiers itself.
 TMUX_NAMED_KEYS = {
+    Gdk.KEY_Up: 'Up',
+    Gdk.KEY_Down: 'Down',
+    Gdk.KEY_Right: 'Right',
+    Gdk.KEY_Left: 'Left',
     Gdk.KEY_Home: 'Home',
     Gdk.KEY_End: 'End',
+    Gdk.KEY_Insert: 'IC',
+    Gdk.KEY_Page_Up: 'PPage',
+    Gdk.KEY_Page_Down: 'NPage',
+    Gdk.KEY_KP_Up: 'Up',
+    Gdk.KEY_KP_Down: 'Down',
+    Gdk.KEY_KP_Right: 'Right',
+    Gdk.KEY_KP_Left: 'Left',
+    Gdk.KEY_KP_Home: 'Home',
+    Gdk.KEY_KP_End: 'End',
+    Gdk.KEY_KP_Insert: 'IC',
+    Gdk.KEY_KP_Page_Up: 'PPage',
+    Gdk.KEY_KP_Page_Down: 'NPage',
+}
+for _n in range(1, 13):
+    TMUX_NAMED_KEYS[getattr(Gdk, 'KEY_F%d' % _n)] = 'F%d' % _n
+
+DELETE_KEYS = {Gdk.KEY_Delete, Gdk.KEY_KP_Delete}
+
+# Byte sequences for the profile's backspace_binding / delete_binding
+# values (same choices VTE offers).  'automatic' and 'tty' can't
+# consult the pane's tty from here, so they use the usual defaults.
+ERASE_BINDINGS = {
+    'ascii-del': b'\x7f',
+    'control-h': b'\x08',
+    'escape-sequence': b'\x1b[3~',
 }
 
 
@@ -72,8 +71,6 @@ def tmux_key_name(name, ctrl=False, alt=False, shift=False):
         prefix += 'S-'
     return prefix + name
 
-
-ARROW_KEYS = {Gdk.KEY_Up, Gdk.KEY_Down, Gdk.KEY_Left, Gdk.KEY_Right}
 
 MOUSE_WHEEL = {
     Gdk.ScrollDirection.UP: 'C-y C-y C-y',
@@ -314,35 +311,45 @@ class TmuxController:
         if alt and ctrl and shift:
             return
 
-        # Keys sent by tmux name — tmux translates to the right escape
+        # Shift+Tab arrives as ISO_Left_Tab with Shift held; BTab
+        # already implies Shift.
+        if keyval == Gdk.KEY_ISO_Left_Tab:
+            self._send_named(pane_id, 'BTab', ctrl, alt, False)
+            return
+
+        # Keys sent by tmux name: tmux translates to the right escape
         # sequence for the pane's terminal type, including modifiers
         # (e.g. C-Home -> ESC[1;5H).
         if keyval in TMUX_NAMED_KEYS:
-            self.protocol.send_command(
-                'send-keys -t {} {}'.format(
-                    pane_id,
-                    tmux_key_name(TMUX_NAMED_KEYS[keyval],
-                                  ctrl, alt, shift)))
+            self._send_named(pane_id, TMUX_NAMED_KEYS[keyval],
+                             ctrl, alt, shift)
             return
 
-        raw = None
-
-        if keyval in XTERM_KEYS:
-            raw = XTERM_KEYS[keyval]
-            # Ctrl+arrow: modify to CSI 1;5 X
-            if ctrl and keyval in ARROW_KEYS:
-                raw = b'\x1b[1;5' + raw[-1:]
-            elif shift and keyval in ARROW_KEYS:
-                raw = b'\x1b[1;2' + raw[-1:]
+        # BackSpace/Delete follow the profile's erase bindings, as VTE
+        # would for a normal terminal.
+        if keyval == Gdk.KEY_BackSpace:
+            binding = self._config_value(terminal, 'backspace_binding')
+            raw = ERASE_BINDINGS.get(binding, b'\x7f')
+            # VTE toggles ^? <-> ^H when Ctrl is held
+            if ctrl and raw == b'\x7f':
+                raw = b'\x08'
+            elif ctrl and raw == b'\x08':
+                raw = b'\x7f'
+        elif keyval in DELETE_KEYS:
+            binding = self._config_value(terminal, 'delete_binding')
+            raw = ERASE_BINDINGS.get(binding)
+            if raw is None or raw == b'\x1b[3~':
+                # escape-sequence/automatic/tty: let tmux encode it
+                self._send_named(pane_id, 'DC', ctrl, alt, shift)
+                return
         else:
+            raw = None
             # Use Gdk to get the unicode codepoint
             uc = Gdk.keyval_to_unicode(keyval)
             if uc:
                 if ctrl and not alt:
                     # Ctrl+letter: produce control character (e.g. Ctrl-U = 0x15)
                     if 0x40 <= uc <= 0x7e:
-                        raw = bytes([uc & 0x1f])
-                    elif 0x60 <= uc <= 0x7e:
                         raw = bytes([uc & 0x1f])
                     else:
                         raw = chr(uc).encode('utf-8')
@@ -362,6 +369,20 @@ class TmuxController:
         hex_str = ' '.join('%02x' % b for b in raw)
         self.protocol.send_command(
             'send-keys -H -t {} {}'.format(pane_id, hex_str))
+
+    def _send_named(self, pane_id, name, ctrl, alt, shift):
+        """Send a tmux named key (with modifier prefixes) to a pane."""
+        self.protocol.send_command(
+            'send-keys -t {} {}'.format(
+                pane_id, tmux_key_name(name, ctrl, alt, shift)))
+
+    @staticmethod
+    def _config_value(terminal, key):
+        """Read a profile setting from the terminal, or None."""
+        try:
+            return terminal.config[key]
+        except Exception:
+            return None
 
     def send_paste(self, terminal, text):
         """Send pasted text to tmux as hex-encoded bytes."""
