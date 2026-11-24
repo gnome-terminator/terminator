@@ -109,7 +109,7 @@ class Titlebar(Gtk.EventBox):
         if self.terminal.is_held_open:
             temp_heldtext_str = _('[INACTIVE: Right-Click for Relaunch option] ')
         if not self.config['title_hide_sizetext']:
-            temp_sizetext_str = " %s" % (self.sizetext)
+            temp_sizetext_str = " (%s)" % (self.sizetext)
         self.label.set_text("%s%s%s" % (temp_heldtext_str, self.termtext, temp_sizetext_str))
 
         if (not self.config['title_use_system_font']) and self.config['title_font']:
