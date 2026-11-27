@@ -278,19 +278,26 @@ class TerminalPopupMenu(object):
         if not terminal.is_zoomed():
             sensitive = not terminal.get_toplevel() == terminal.get_parent()
 
-            item = Gtk.MenuItem.new_with_mnemonic(_('_Zoom terminal'))
+            item = self.menu_item(Gtk.MenuItem, 'scaled_zoom',
+                                  _('_Zoom terminal'))
             item.connect('activate', terminal.zoom)
             item.set_sensitive(sensitive)
             menu.append(item)
 
-            item = Gtk.MenuItem.new_with_mnemonic(_('Ma_ximize terminal'))
+            item = self.menu_item(Gtk.MenuItem, 'toggle_zoom',
+                                  _('Ma_ximize terminal'))
             item.connect('activate', terminal.maximise)
             item.set_sensitive(sensitive)
             menu.append(item)
 
             menu.append(Gtk.SeparatorMenuItem())
         else:
-            item = Gtk.MenuItem.new_with_mnemonic(_('_Restore all terminals'))
+            # Both zoom bindings restore the layout; show the one that is set
+            restore_action = 'toggle_zoom'
+            if not self.config.base.get_item('keybindings').get('toggle_zoom'):
+                restore_action = 'scaled_zoom'
+            item = self.menu_item(Gtk.MenuItem, restore_action,
+                                  _('_Restore all terminals'))
             item.connect('activate', terminal.unzoom)
             menu.append(item)
 

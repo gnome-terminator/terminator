@@ -4,11 +4,13 @@ import os
 import sys
 
 import gi
+import pytest
 
 sys.path.insert(0, os.path.realpath(os.path.join(os.path.dirname(__file__), "..")))
+gi.require_version("Gdk", "3.0")
 gi.require_version("Gtk", "3.0")
 
-from gi.repository import Gtk
+from gi.repository import Gdk, Gtk
 
 from terminatorlib.terminal_popup_menu import TerminalPopupMenu
 
@@ -96,3 +98,86 @@ def test_close_terminal_finds_confirmation_container_above_parent_widget():
 
     assert terminal.closed
     assert container.confirmations == [(terminal.get_toplevel(), terminal)]
+
+
+@pytest.fixture
+def popup_with_keybindings():
+    """Factory of popups whose config holds only the given keybindings."""
+    popups = []
+
+    def make(keybindings):
+        class FakeBase:
+            def get_item(self, key, profile='default'):
+                assert key == 'keybindings'
+                return keybindings
+
+        class FakeConfig:
+            base = FakeBase()
+
+        popup = TerminalPopupMenu.__new__(TerminalPopupMenu)
+        popup.config = FakeConfig()
+        popup.accelgrp = Gtk.AccelGroup()
+        popup.items = []
+        popups.append(popup)
+        return popup
+
+    yield make
+
+    # Destroy the items while their accel group is still alive: a menu
+    # item's label disconnects from the group when the item goes away.
+    for popup in popups:
+        for item in popup.items:
+            item.destroy()
+
+
+def menu_item(popup, actstr, menustr):
+    """Build a menu item on the popup and keep it alive until teardown."""
+    item = popup.menu_item(Gtk.MenuItem, actstr, menustr)
+    popup.items.append(item)
+    return item
+
+
+def accelerators(popup):
+    """Sorted (keyval, modifiers) of the accelerators shown on the popup."""
+    found = []
+
+    def collect(key, closure):
+        assert key.accel_flags & Gtk.AccelFlags.VISIBLE
+        found.append((key.accel_key, key.accel_mods))
+        return False
+
+    popup.accelgrp.find(collect)
+    return sorted(found)
+
+
+def test_zoom_menu_items_show_their_keybindings(popup_with_keybindings):
+    """Zoom, maximize and restore items carry the configured shortcuts."""
+    popup = popup_with_keybindings({'scaled_zoom': '<Shift><Control>z',
+                                    'toggle_zoom': '<Shift><Control>x'})
+    mods = Gdk.ModifierType.SHIFT_MASK | Gdk.ModifierType.CONTROL_MASK
+
+    zoom = menu_item(popup, 'scaled_zoom', '_Zoom terminal')
+    maximize = menu_item(popup, 'toggle_zoom', 'Ma_ximize terminal')
+    restore = menu_item(popup, 'toggle_zoom', '_Restore all terminals')
+
+    assert zoom.get_name() == 'scaled_zoom'
+    assert maximize.get_name() == 'toggle_zoom'
+    assert restore.get_name() == 'toggle_zoom'
+    assert accelerators(popup) == sorted([
+        (Gdk.keyval_from_name('z'), mods),
+        (Gdk.keyval_from_name('x'), mods),
+        (Gdk.keyval_from_name('x'), mods)])
+
+
+@pytest.mark.parametrize('keybindings', [{}, {'scaled_zoom': ''},
+                                         {'scaled_zoom': None},
+                                         {'scaled_zoom': 'None'}])
+def test_menu_item_without_keybinding_has_no_accelerator(
+        popup_with_keybindings, keybindings):
+    """An unbound action still produces a plain menu item."""
+    popup = popup_with_keybindings(keybindings)
+
+    item = menu_item(popup, 'scaled_zoom', '_Zoom terminal')
+
+    assert item.get_name() == 'scaled_zoom'
+    assert accelerators(popup) == []
