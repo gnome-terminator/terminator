@@ -181,3 +181,26 @@ def test_menu_item_without_keybinding_has_no_accelerator(
 
     assert item.get_name() == 'scaled_zoom'
     assert accelerators(popup) == []
+
+
+def test_menu_item_shows_named_key_bindings(popup_with_keybindings):
+    """Bindings on named keys are shown as configured, not as the mnemonic."""
+    popup = popup_with_keybindings({'scaled_zoom': '<Control>F5',
+                                    'toggle_zoom': '<Super>x'})
+
+    menu_item(popup, 'scaled_zoom', '_Zoom terminal')
+    menu_item(popup, 'toggle_zoom', 'Ma_ximize terminal')
+
+    assert accelerators(popup) == sorted([
+        (Gdk.KEY_F5, Gdk.ModifierType.CONTROL_MASK),
+        (Gdk.keyval_from_name('x'), Gdk.ModifierType.SUPER_MASK)])
+
+
+def test_menu_item_ignores_unparsable_binding(popup_with_keybindings):
+    """A binding GTK cannot parse yields a plain menu item, no crash."""
+    popup = popup_with_keybindings({'scaled_zoom': '<Control>NotAKey'})
+
+    item = menu_item(popup, 'scaled_zoom', '_Zoom terminal')
+
+    assert item.get_name() == 'scaled_zoom'
+    assert accelerators(popup) == []

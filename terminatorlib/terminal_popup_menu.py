@@ -3,7 +3,7 @@
 """terminal_popup_menu.py - classes necessary to provide a terminal context
 menu"""
 
-from gi.repository import Gtk, Gdk
+from gi.repository import Gtk
 
 from .version import APP_NAME
 from .translation import _
@@ -27,61 +27,32 @@ class TerminalPopupMenu(object):
         self.config = Config()
         self.accelgrp = Gtk.AccelGroup()
 
-    def get_menu_item_mask(self, maskstr):
-        mask = 0
-        if maskstr is None:
-            return mask
-        maskstr = maskstr.lower()
-        if maskstr.find('<Shift>'.lower()) >= 0:
-            mask = mask | Gdk.ModifierType.SHIFT_MASK
-            dbg("adding mask <Shift> %s" % mask)
-
-        ctrl = (maskstr.find('<Control>'.lower()) >= 0 or
-                maskstr.find('<Primary>'.lower()) >= 0)
-        if ctrl:
-            mask = mask | Gdk.ModifierType.CONTROL_MASK
-            dbg("adding mask <Control> %s" % mask)
-
-        if maskstr.find('<Alt>'.lower()) >= 0:
-            mask = mask | Gdk.ModifierType.MOD1_MASK
-            dbg("adding mask <Alt> %s" % mask)
-
-        mask = Gdk.ModifierType(mask)
-        dbg("menu_item_mask :%d" % mask)
-        return mask
+    def keybinding(self, actstr):
+        """The configured keybinding of an action, or None if it is unbound"""
+        binding = self.config.base.get_item('keybindings').get(actstr)
+        if binding and binding != "None":
+            return binding
+        return None
 
     def menu_item(self, menutype, actstr, menustr):
-        act     = self.config.base.get_item('keybindings', actstr)
-        maskstr = act[actstr] if actstr in act else ""
-        mask    = self.get_menu_item_mask(maskstr)
-
-        accelchar = ""
-        pos = menustr.lower().find("_")
-        if (pos >= 0 and pos+1 < len(menustr)):
-            accelchar = menustr.lower()[pos+1]
-
-        #this may require tweak. what about shortcut function keys ?
-        if maskstr:
-            mpos = maskstr.rfind(">")
-            #can't have a char at 0 position as <> is len 2
-            if mpos >= 0 and mpos+1 < len(maskstr):
-                configaccelchar = maskstr[mpos+1:]
-                #ensure to take only 1 char else ignore
-                if len(configaccelchar) == 1:
-                    dbg("found accelchar in config:%s  override:%s"
-                                    %  (configaccelchar, accelchar))
-                    accelchar = configaccelchar
-
-        dbg("action from config:%s for item:%s with shortcut accelchar:(%s)"
-                                    % (maskstr, menustr, accelchar))
+        """Menu item for a keybinding action, showing its accelerator"""
         item = menutype.new_with_mnemonic(menustr)
         item.set_name(actstr)
-        if mask:
-            item.add_accelerator("activate",
-                                self.accelgrp,
-                                Gdk.keyval_from_name(accelchar),
-                                mask,
-                                Gtk.AccelFlags.VISIBLE)
+
+        binding = self.keybinding(actstr)
+        if binding:
+            keyval, mask = Gtk.accelerator_parse(binding)
+            dbg("binding from config:%s for item:%s parsed as (%s, %s)"
+                                        % (binding, menustr, keyval, mask))
+            if keyval:
+                item.add_accelerator("activate",
+                                    self.accelgrp,
+                                    keyval,
+                                    mask,
+                                    Gtk.AccelFlags.VISIBLE)
+            else:
+                dbg("could not parse binding:%s for item:%s"
+                                        % (binding, menustr))
         return item
 
     def close_terminal(self, _menuitem=None):
@@ -294,7 +265,7 @@ class TerminalPopupMenu(object):
         else:
             # Both zoom bindings restore the layout; show the one that is set
             restore_action = 'toggle_zoom'
-            if not self.config.base.get_item('keybindings').get('toggle_zoom'):
+            if not self.keybinding('toggle_zoom'):
                 restore_action = 'scaled_zoom'
             item = self.menu_item(Gtk.MenuItem, restore_action,
                                   _('_Restore all terminals'))
